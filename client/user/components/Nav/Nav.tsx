@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
+import '/public/nav.css'
 
 const Nav = () => {
   const navigate = useNavigate()
@@ -20,55 +21,32 @@ const Nav = () => {
   }
 
   return (
-    <nav
-      className="h-16 flex justify-between items-center px-6 md:px-12 lg:px-16"
-      style={{ background: '#323232' }}
-    >
-      <div className="flex space-x-6 text-white">
-        <button
-          className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('/')}
-        >
+    <nav className="nav">
+      <div className="flex-container">
+        <button onClick={() => goTo('/')} className="nav-button">
           Home
         </button>
-        <button
-          className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('/shop')}
-        >
+        <button onClick={() => goTo('/shop')} className="nav-button">
           Shop
         </button>
-        <button
-          className="hover:text-purple-700 transition-colors duration-300"
-          onClick={() => goTo('/cart')}
-        >
+        <button onClick={() => goTo('/cart')} className="nav-button">
           Cart
         </button>
       </div>
 
-      <div className="flex space-x-6 text-white">
-        <div className="group relative">
-          <button
-            className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-            onClick={handleProfileClick}
-          >
-            <img
-              src="/images/user.svg"
-              alt="Profile Icon"
-              className="h-5 w-5 "
-            />
+      <div className="group">
+        <div className="tooltip-container">
+          <button onClick={handleProfileClick} className="user-button">
+            <img src="/images/user.svg" alt="Profile Icon" className="icon" />
           </button>
-          <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-            Account
-          </span>
+          <span className="tooltip-text">Profile</span>
         </div>
 
-        <div className="group relative">
-          <button onClick={() => goTo('/wishlist')}>
-            <FontAwesomeIcon icon={faHeart} className="text-xl" />
+        <div className="tooltip-container">
+          <button onClick={() => goTo('/wishlist')} className="wishlist-button">
+            <FontAwesomeIcon icon={faHeart} className="icon" />
           </button>
-          <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-            Wishlist
-          </span>
+          <span className="tooltip-text">Wishlist</span>
         </div>
       </div>
     </nav>
