@@ -1,0 +1,62 @@
+/* home page */
+
+.background-div {
+  background: #FFC5C7;
+}
+
+.outer-div {
+  min-height: 100vh;
+  background-image: url('/images/ellipse1.svg'), url('/images/ellipse2.svg');
+  background-position: bottom left, top right;
+  background-repeat: no-repeat;
+}
+
+.welcome-card {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.inner-welcome-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+}
+
+.text-container {
+  display: flex;
+  flex-direction: column;
+  width: 35%;
+  color: white;
+  font-size: 1.5rem;
+  gap: 32px;
+  padding: 40px;
+}
+
+.home-logo {
+  max-width: 20%;
+  height: auto;
+  margin-right: 40px;
+  width: 65%;
+}
+
+.home-button {
+  width: 50%; 
+  background-color:#FFC5C7;
+  border: 2px solid white;
+  color: white;
+  padding: 8px 24px; 
+  border-radius: 16px; 
+  transition: all 0.3s; 
+  font-size: 1.5rem;
+}
+
+.home-button:hover {
+  background-color: white;
+  color: #FFC5C7; 
+  transition: all 0.3s;
+}
+
+
