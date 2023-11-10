@@ -1,15 +1,19 @@
 .nav {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
   height: 4rem;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 1.5rem;
   background: #323232;
   color: white;
   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .flex-container {
+  padding-left: 20px;
   display: flex;
   gap: 1rem;
 }
@@ -42,6 +46,10 @@
 .wishlist-button:hover {
   color: #d1b3ff;
   letter-spacing: 3px;
+}
+
+.icon-group {
+  margin-left: 84%;
 }
 
 .icon {

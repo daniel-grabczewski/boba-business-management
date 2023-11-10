@@ -34,7 +34,7 @@ const Nav = () => {
         </button>
       </div>
 
-      <div className="group">
+      <div className="icon-group">
         <div className="tooltip-container">
           <button onClick={handleProfileClick} className="user-button">
             <img src="/images/user.svg" alt="Profile Icon" className="icon" />
