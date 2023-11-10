@@ -20,7 +20,7 @@ function AppLayout() {
   )
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <>
       <LoadError status={statusIsAdmin} />
 
       {isAdmin ? <AdminNavBar /> : <Nav />}
@@ -31,7 +31,7 @@ function AppLayout() {
 
       {/* Footer */}
       {isAdmin ? <Footer /> : <Footer />}
-    </div>
+    </>
   )
 }
 
