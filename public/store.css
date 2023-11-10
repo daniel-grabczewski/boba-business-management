@@ -59,6 +59,39 @@
   transition: all 0.3s;
 }
 
+@media screen and (max-width: 768px) {
+  .background-div {
+    background: #9B99FF;
+  }
+  
+  .outer-div {
+    min-height: auto;
+    background: none;
+  }
+  
+  .inner-welcome-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20%;
+  }
+
+  .text-container {
+  
+  }
+
+  .home-logo {
+    max-width: 50%;
+    margin-right: 0;
+  }
+
+  .home-button {
+    width: 100%;
+    background-color:#9B99FF;
+  }
+}
+
 /* footer */
 
 .footer {
