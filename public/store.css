@@ -2,10 +2,7 @@
 
 .background-div {
   background: #FFC5C7;
-}
-
-.outer-div {
-  min-height: 100vh;
+  height: 100vh;
   background-image: url('/images/ellipse1.svg'), url('/images/ellipse2.svg');
   background-position: bottom left, top right;
   background-repeat: no-repeat;
@@ -43,7 +40,7 @@
 }
 
 .home-button {
-  width: 50%; 
+  width: 100%;
   background-color:#FFC5C7;
   border: 2px solid white;
   color: white;
@@ -59,16 +56,52 @@
   transition: all 0.3s;
 }
 
-@media screen and (max-width: 768px) {
-  .background-div {
-    background: #9B99FF;
+@media screen and (max-width: 1450px) {
+  .home-logo {
+    width: 100%;
+  }
+
+  .inner-welcome-card {
+    width: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
   }
   
+  .text-container {
+    display: flex;
+    flex-direction: column;
+    width: 40%;
+    color: white;
+    font-size: 1.5rem;
+    gap: 20px;
+    padding: 10px;
+  }
+  
+}
+
+@media screen and (max-width: 700px) {
+  .background-div {
+    background: #9B99FF;
+    height: 100%;
+  }
+
+  .home-logo {
+    height: auto;
+    margin-right: 40px;
+    width: 45%;
+  }
+
   .outer-div {
     min-height: auto;
     background: none;
   }
   
+  .welcome-card {
+    padding-bottom: 20px;
+  }
+
   .inner-welcome-card {
     display: flex;
     flex-direction: column;
@@ -78,7 +111,13 @@
   }
 
   .text-container {
-  
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    color: white;
+    font-size: 1.5rem;
+    gap: 32px;
+    padding: 40px;
   }
 
   .home-logo {
@@ -90,6 +129,18 @@
     width: 100%;
     background-color:#9B99FF;
   }
+
+  .footer {
+    position: relative;
+    text-align: center; 
+    width: 100%;
+    margin: 0 auto; 
+  }
+
+  .footer-button {
+    color: #9B99FF;
+  }
+  
 }
 
 /* footer */
