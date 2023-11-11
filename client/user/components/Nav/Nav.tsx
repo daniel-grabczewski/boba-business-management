@@ -22,17 +22,15 @@ const Nav = () => {
 
   return (
     <nav className="nav">
-      <div className="flex-container">
-        <button onClick={() => goTo('/')} className="nav-button">
-          Home
-        </button>
-        <button onClick={() => goTo('/shop')} className="nav-button">
-          Shop
-        </button>
-        <button onClick={() => goTo('/cart')} className="nav-button">
-          Cart
-        </button>
-      </div>
+      <button onClick={() => goTo('/')} className="nav-button">
+        Home
+      </button>
+      <button onClick={() => goTo('/shop')} className="nav-button">
+        Shop
+      </button>
+      <button onClick={() => goTo('/cart')} className="nav-button">
+        Cart
+      </button>
 
       <div className="icon-group">
         <div className="tooltip-container">
