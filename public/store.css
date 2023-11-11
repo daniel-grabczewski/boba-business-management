@@ -130,6 +130,12 @@
     background-color:#9B99FF;
   }
 
+  .home-button:hover {
+    background-color: white;
+    color: #9B99FF; 
+    transition: all 0.3s;
+  }
+
   .footer {
     position: relative;
     text-align: center; 
