@@ -20,7 +20,7 @@ const Shop = () => {
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
     async () => {
-      return await fetchAllProductsUser() 
+      return await fetchAllProductsUser()
     },
   )
 
@@ -78,12 +78,9 @@ const Shop = () => {
     <>
       <LoadError status={statusProducts} />
       {products && (
-        <div
-          className="flex flex-col items-center"
-          style={{ marginTop: '60px', marginBottom: '100px' }}
-        >
+        <div className="shop">
           <div>
-            <h1 className="text-4xl font-bold mt-2">Shop for Bubble Tea</h1>
+            <h1 className="shop-heading">Shop for Bubble Tea</h1>
             <SortFilterControls
               filter={filter}
               sort={sort}

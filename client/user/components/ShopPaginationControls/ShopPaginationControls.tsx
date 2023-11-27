@@ -10,31 +10,25 @@ const ShopPaginationControls = ({
   changePage,
 }: ShopPaginationControlsProps) => {
   return (
-    <div className="flex mt-4 justify-center" style={{ marginTop: '40px' }}>
+    <div className="pagination-container">
       <button
-        className={`${
-          page === 1
-            ? 'bg-gray-300 cursor-default'
-            : 'bg-blue-500 hover:bg-blue-700'
-        } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
+        className={`pagination-button prev-button ${
+          page === 1 ? 'disabled' : ''
+        }`}
         disabled={page === 1}
         onClick={() => changePage(page - 1)}
       >
-        Prev Page
+        Prev
       </button>
-      <div className="inline-block bg-gray-100 rounded-full px-3 py-2 text-l font-bold text-gray-700 mt-2 ml-2 mr-2 w-12 text-center">
-        {page}
-      </div>
+      <div className="page-indicator">{page}</div>
       <button
-        className={`${
-          page === totalPages
-            ? 'bg-gray-300 cursor-default'
-            : 'bg-blue-500 hover:bg-blue-700'
-        } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
+        className={`pagination-button next-button ${
+          page === totalPages ? 'disabled' : ''
+        }`}
         disabled={page === totalPages}
         onClick={() => changePage(page + 1)}
       >
-        Next Page
+        Next
       </button>
     </div>
   )
