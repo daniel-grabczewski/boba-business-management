@@ -12,5 +12,25 @@ body {
 }
 
 
+/* footer */
 
+.footer {
+  position: absolute;
+  padding: 10px;
+  bottom: 0;
+  left: 0;
+}
+
+.footer-button {
+  background: none;
+  border: none;
+  color: #ffd8d9;
+  font-size: 1rem;
+  transition: all 0.3s; 
+}
+
+.footer-button:hover {
+  color: white; 
+  transition: all 0.3s;
+}
 
