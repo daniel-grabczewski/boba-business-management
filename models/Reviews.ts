@@ -1,57 +1,48 @@
-import * as z from 'zod'
+export interface ProductReview {
+  productId: number
+  userName: string
+  rating: number
+  createdAt: string
+  description: string
+}
 
-export const productReviewSchema = z.object({
-  productId: z.number(),
-  userName: z.string(),
-  rating: z.number(),
-  createdAt: z.string(),
-  description: z.string(),
-})
+export interface UserReview {
+  productId: number
+  productName: string
+  productImage: string
+  reviewDescription: string
+  reviewerUserName: string
+  reviewRating: number
+  reviewCreatedAt: string
+}
 
-export const userReviewSchema = z.object({
-  productId: z.number(),
-  productName: z.string(),
-  productImage: z.string(),
-  reviewDescription: z.string(),
-  reviewerUserName: z.string(),
-  reviewRating: z.number(),
-  reviewCreatedAt: z.string(),
-})
+export interface ReviewForTable {
+  id: number
+  productName: string
+  rating: number
+  isEnabled: boolean
+  userName: string
+  createdAt: string
+}
 
-export const reviewForTableSchema = z.object({
-  id: z.number(),
-  productName: z.string(),
-  rating: z.number(),
-  isEnabled: z.boolean(),
-  userName: z.string(),
-  createdAt: z.string(),
-})
+export interface Review {
+  reviewId: number
+  productName: string
+  productImage: string
+  reviewDescription: string
+  reviewRating: number
+  reviewIsEnabled: boolean
+  reviewerUserName: string
+  reviewCreatedAt: string
+}
 
-export const reviewSchema = z.object({
-  reviewId: z.number(),
-  productName: z.string(),
-  productImage: z.string(),
-  reviewDescription: z.string(),
-  reviewRating: z.number(),
-  reviewIsEnabled: z.boolean(),
-  reviewerUserName: z.string(),
-  reviewCreatedAt: z.string(),
-})
+export interface NewReview {
+  productId: number
+  description: string
+  rating: number
+}
 
-export const newReviewSchema = z.object({
-  productId: z.number(),
-  description: z.string(),
-  rating: z.number(),
-})
-
-export const updatedReviewStatusSchema = z.object({
-  id: z.number(),
-  isEnabled: z.boolean(),
-})
-
-export type ProductReview = z.infer<typeof productReviewSchema>
-export type ReviewForTable = z.infer<typeof reviewForTableSchema>
-export type Review = z.infer<typeof reviewSchema>
-export type NewReview = z.infer<typeof newReviewSchema>
-export type UpdatedReviewStatus = z.infer<typeof updatedReviewStatusSchema>
-export type UserReview = z.infer<typeof userReviewSchema>
+export interface UpdatedReviewStatus {
+  id: number
+  isEnabled: boolean
+}
