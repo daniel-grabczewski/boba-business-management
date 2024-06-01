@@ -1,30 +1,23 @@
-import * as z from 'zod'
+export interface Cart {
+  image: string
+  name: string
+  quantity: number
+  price: number
+  totalPrice: number
+  productId: number
+}
 
-export const cartSchema = z.object({
-  image: z.string(),
-  name: z.string(),
-  quantity: z.number(),
-  price: z.number(),
-  totalPrice: z.number(),
-  productId: z.number(),
-})
+export interface CartClient extends Cart {
+  auth0Id: string
+}
 
-export const cartClientSchema = cartSchema.extend({
-  auth0Id: z.string(),
-})
+export interface CartItem {
+  userId: string
+  productId: number
+  quantity: number
+}
 
-export const cartItemSchema = z.object({
-  userId: z.string(),
-  productId: z.number(),
-  quantity: z.number(),
-})
-
-export const cartTransferInfoSchema = z.object({
-  userId: z.string(),
-  shippingId: z.number(),
-})
-
-export type Cart = z.infer<typeof cartSchema>
-export type CartItem = z.infer<typeof cartItemSchema>
-export type CartTransferInfo = z.infer<typeof cartTransferInfoSchema>
-export type CartClient = z.infer<typeof cartClientSchema>
+export interface CartTransferInfo {
+  userId: string
+  shippingId: number
+}
