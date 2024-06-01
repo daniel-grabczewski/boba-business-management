@@ -1,42 +1,26 @@
-import * as z from 'zod'
+export interface Email {
+  id: number
+  userName: string
+  isRead: boolean
+  title: string
+  description: string
+  createdAt: string
+}
 
-export const emailsSchema = z
-  .object({
-    id: z.number(),
-    userName: z.string(),
-    isRead: z.boolean(),
-    title: z.string(),
-    createdAt: z.string(),
-  })
-  .array()
+export interface NewEmail {
+  title: string
+  description: string
+}
 
-export const emailSchema = z.object({
-  id: z.number(),
-  userName: z.string(),
-  isRead: z.boolean(),
-  title: z.string(),
-  description: z.string(),
-  createdAt: z.string(),
-})
+export interface SentEmailToBackend {
+  user_id: string
+  title: string
+  description: string
+}
 
-export const newEmailSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-})
+export interface UpdateEmailReadStatus {
+  id: number
+  is_read: boolean
+}
 
-export const sentEmailToBackendSchema = z.object({
-  user_id: z.string(),
-  title: z.string(),
-  description: z.string(),
-})
-
-export const updateEmailReadStatusSchema = z.object({
-  id: z.number(),
-  is_read: z.boolean(),
-})
-
-export type Emails = z.infer<typeof emailsSchema>
-export type Email = z.infer<typeof emailSchema>
-export type NewEmail = z.infer<typeof newEmailSchema>
-export type SentEmailToBackend = z.infer<typeof sentEmailToBackendSchema>
-export type UpdateEmailReadStatus = z.infer<typeof updateEmailReadStatusSchema>
+export type Emails = Email[]
