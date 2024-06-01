@@ -1,42 +1,35 @@
-import * as z from 'zod'
+export interface UserProduct {
+  id: number
+  name: string
+  image: string
+  price: number
+  description: string
+  stock: number
+  averageRating: number
+}
 
-export const userProductSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  image: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
-  averageRating: z.number(),
-})
+export interface AdminProduct {
+  id: number
+  name: string
+  image: string
+  price: number
+  description: string
+  stock: number
+  isEnabled: boolean
+  averageRating: number
+}
 
-export const adminProductSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  image: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
-  isEnabled: z.boolean(),
-  averageRating: z.number(),
-})
+export interface LowStockProducts {
+  id: number
+  name: string
+  image: string
+}
 
-export const lowStockProductsSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  image: z.string(),
-})
-
-export const upsertProductSchema = z.object({
-  name: z.string(),
-  image: z.string(),
-  price: z.number(),
-  description: z.string(),
-  stock: z.number(),
-  isEnabled: z.boolean(),
-})
-
-export type UserProduct = z.infer<typeof userProductSchema>
-export type AdminProduct = z.infer<typeof adminProductSchema>
-export type LowStockProducts = z.infer<typeof lowStockProductsSchema>
-export type UpsertProduct = z.infer<typeof upsertProductSchema>
+export interface UpsertProduct {
+  name: string
+  image: string
+  price: number
+  description: string
+  stock: number
+  isEnabled: boolean
+}
