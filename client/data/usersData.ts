@@ -2,7 +2,7 @@ import { User } from '../../models/Users'
 
 const users: User[] = [
   {
-    auth0Id: 'auth0|abc12345',
+    userId: 'auth0|abc12345',
     firstName: 'Emma',
     lastName: 'Johnson',
     userName: 'emma.j',
@@ -14,7 +14,7 @@ const users: User[] = [
     emailAddress: 'emma.j@example.com',
   },
   {
-    auth0Id: 'auth0|def67890',
+    userId: 'auth0|def67890',
     firstName: 'Liam',
     lastName: 'Smith',
     userName: 'liam_smith',
@@ -26,7 +26,7 @@ const users: User[] = [
     emailAddress: 'liam.smith@example.com',
   },
   {
-    auth0Id: 'auth0|xyz45678',
+    userId: 'auth0|xyz45678',
     firstName: 'Olivia',
     lastName: 'Williams',
     userName: 'ollie_w',
@@ -38,7 +38,7 @@ const users: User[] = [
     emailAddress: 'olivia.w@example.com',
   },
   {
-    auth0Id: 'auth0|pqr98765',
+    userId: 'auth0|pqr98765',
     firstName: 'Noah',
     lastName: 'Jones',
     userName: 'noah_j',
@@ -50,7 +50,7 @@ const users: User[] = [
     emailAddress: 'noah.j@example.com',
   },
   {
-    auth0Id: 'auth0|lmn65432',
+    userId: 'auth0|lmn65432',
     firstName: 'Ava',
     lastName: 'Brown',
     userName: 'ava.b',
@@ -62,7 +62,7 @@ const users: User[] = [
     emailAddress: 'ava.b@example.com',
   },
   {
-    auth0Id: 'auth0|ghi32109',
+    userId: 'auth0|ghi32109',
     firstName: 'Oliver',
     lastName: 'Taylor',
     userName: 'olly_t',
@@ -74,7 +74,7 @@ const users: User[] = [
     emailAddress: 'oliver.t@example.com',
   },
   {
-    auth0Id: 'auth0|uvw54321',
+    userId: 'auth0|uvw54321',
     firstName: 'Isla',
     lastName: 'Davis',
     userName: 'isla.d',
@@ -86,7 +86,7 @@ const users: User[] = [
     emailAddress: 'isla.d@example.com',
   },
   {
-    auth0Id: 'auth0|hij23456',
+    userId: 'auth0|hij23456',
     firstName: 'Jack',
     lastName: 'Evans',
     userName: 'jack_e',
@@ -98,7 +98,7 @@ const users: User[] = [
     emailAddress: 'jack.evans@example.com',
   },
   {
-    auth0Id: 'auth0|klm78901',
+    userId: 'auth0|klm78901',
     firstName: 'Charlotte',
     lastName: 'Wilson',
     userName: 'char_w',
@@ -110,7 +110,7 @@ const users: User[] = [
     emailAddress: 'charlotte.w@example.com',
   },
   {
-    auth0Id: 'auth0|bcd34567',
+    userId: 'auth0|bcd34567',
     firstName: 'Leo',
     lastName: 'Moore',
     userName: 'leo_m',
@@ -122,7 +122,7 @@ const users: User[] = [
     emailAddress: 'leo.moore@example.com',
   },
   {
-    auth0Id: 'google-oauth2|116927637409288985519',
+    userId: 'google-oauth2|116927637409288985519',
     firstName: 'Daniel',
     lastName: 'Grabczewski',
     userName: 'daniel_g',
@@ -134,7 +134,7 @@ const users: User[] = [
     emailAddress: 'danielgrabczewski@gmail.com',
   },
   {
-    auth0Id: 'auth0|64ee7460c25b71c07e58a446',
+    userId: 'auth0|64ee7460c25b71c07e58a446',
     firstName: 'Sarah',
     lastName: 'Chung',
     userName: 'sarah_c',
