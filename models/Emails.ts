@@ -1,6 +1,6 @@
 export interface Email {
   id: number
-  userName: string
+  userId : string
   isRead: boolean
   title: string
   description: string
@@ -13,14 +13,14 @@ export interface NewEmail {
 }
 
 export interface SentEmailToBackend {
-  user_id: string
+  userId: string
   title: string
   description: string
 }
 
 export interface UpdateEmailReadStatus {
   id: number
-  is_read: boolean
+  isRead: boolean
 }
 
 export type Emails = Email[]
