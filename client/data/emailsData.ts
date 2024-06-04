@@ -3,7 +3,7 @@ import { Email } from '../../models/Emails'
 const emails: Email[] = [
   {
     id: 1,
-    userName: 'Emma',
+    userId: 'auth0|abc12345',
     isRead: false,
     title: 'Appreciation for Great Service',
     description:
@@ -12,7 +12,7 @@ const emails: Email[] = [
   },
   {
     id: 2,
-    userName: 'Customer Support',
+    userId: 'auth0|def67890',
     isRead: false,
     title: 'Great Customer Service',
     description:
@@ -21,7 +21,7 @@ const emails: Email[] = [
   },
   {
     id: 3,
-    userName: 'Olivia',
+    userId: 'auth0|xyz45678',
     isRead: false,
     title: 'Product Inquiry',
     description:
@@ -30,7 +30,7 @@ const emails: Email[] = [
   },
   {
     id: 4,
-    userName: 'Noah',
+    userId: 'auth0|pqr98765',
     isRead: false,
     title: 'Inquiry About Return',
     description:
@@ -39,7 +39,7 @@ const emails: Email[] = [
   },
   {
     id: 5,
-    userName: 'Ava',
+    userId: 'auth0|lmn65432',
     isRead: false,
     title: 'Order Delay',
     description:
@@ -48,7 +48,7 @@ const emails: Email[] = [
   },
   {
     id: 6,
-    userName: 'Oliver',
+    userId: 'auth0|ghi32109',
     isRead: false,
     title: 'Excellent Product Packaging',
     description:
@@ -57,7 +57,7 @@ const emails: Email[] = [
   },
   {
     id: 7,
-    userName: 'Isla',
+    userId: 'auth0|uvw54321',
     isRead: false,
     title: 'Feedback on Delivery',
     description:
@@ -66,7 +66,7 @@ const emails: Email[] = [
   },
   {
     id: 8,
-    userName: 'Jack',
+    userId: 'auth0|hij23456',
     isRead: false,
     title: 'Disappointed with Product',
     description:
@@ -75,7 +75,7 @@ const emails: Email[] = [
   },
   {
     id: 9,
-    userName: 'Charlotte',
+    userId: 'auth0|klm78901',
     isRead: false,
     title: 'Positive Feedback',
     description:
@@ -84,7 +84,7 @@ const emails: Email[] = [
   },
   {
     id: 10,
-    userName: 'Leo',
+    userId: 'auth0|bcd34567',
     isRead: false,
     title: 'Issue with Order',
     description:
@@ -93,7 +93,7 @@ const emails: Email[] = [
   },
   {
     id: 11,
-    userName: 'Emma',
+    userId: 'auth0|abc12345',
     isRead: false,
     title: 'Praise for Fast Shipping',
     description:
@@ -102,7 +102,7 @@ const emails: Email[] = [
   },
   {
     id: 12,
-    userName: 'Liam',
+    userId: 'auth0|def67890',
     isRead: false,
     title: 'Positive Review',
     description:
@@ -111,7 +111,7 @@ const emails: Email[] = [
   },
   {
     id: 13,
-    userName: 'Olivia',
+    userId: 'auth0|xyz45678',
     isRead: false,
     title: 'Complaint About Damaged Product',
     description:
@@ -120,7 +120,7 @@ const emails: Email[] = [
   },
   {
     id: 14,
-    userName: 'Isla',
+    userId: 'auth0|uvw54321',
     isRead: false,
     title: 'Issue with Payment',
     description:
@@ -129,7 +129,7 @@ const emails: Email[] = [
   },
   {
     id: 15,
-    userName: 'Jack',
+    userId: 'auth0|hij23456',
     isRead: false,
     title: 'Great Product Variety',
     description:
