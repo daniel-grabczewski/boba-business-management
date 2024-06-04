@@ -1,5 +1,5 @@
 export interface User {
-  auth0Id: string
+  userId: string
   firstName: string
   lastName: string
   userName: string
