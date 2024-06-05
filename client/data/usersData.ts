@@ -2,6 +2,18 @@ import { User } from '../../models/Users'
 
 const users: User[] = [
   {
+    userId: 'auth0|startingUser',
+    firstName: 'Demo',
+    lastName: 'User',
+    userName: 'demo.user',
+    phoneNumber: '64 12 1234567',
+    address: '123 Main St',
+    city: 'Auckland',
+    country: 'New Zealand',
+    zipCode: '1234',
+    emailAddress: 'demouser@example.com',
+  },
+  {
     userId: 'auth0|abc12345',
     firstName: 'Emma',
     lastName: 'Johnson',
