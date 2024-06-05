@@ -1,4 +1,4 @@
-export interface Cart {
+export interface CartItem {
   image: string
   name: string
   quantity: number
@@ -7,11 +7,8 @@ export interface Cart {
   productId: number
 }
 
-export interface CartClient extends Cart {
-  auth0Id: string
-}
-
-export interface CartItem {
+export interface CartItemInitial {
+  id : number
   userId: string
   productId: number
   quantity: number
