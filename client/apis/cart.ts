@@ -1,29 +1,46 @@
-import request from 'superagent'
-import { CartClient } from '../../models/Cart'
+import { CartItemInitial, CartItem } from '../../models/Cart'
+import products from '../data/productsData'
 
-const baseUrl = '/api/v1/cart'
+function getCartFromLocalStorage(): CartItem[] {
+  const cart = localStorage.getItem('cart')
+  return cart ? JSON.parse(cart) : []
+}
 
-export async function addProductToCart(
-  productId: number,
-  token: string,
-  quantity = 1,
-) {
-  try {
-    const response = await request
-      .post(`${baseUrl}/add-item`)
-      .send({ productId, quantity })
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
+function setCartInLocalStorage(cart: CartItem[]) {
+  localStorage.setItem('cart', JSON.stringify(cart))
+}
 
-    if (response.status === 200) {
-      console.log('Product added to the cart successfully.')
-    } else {
-      console.error('Failed to add the product to the cart.')
+export function getCartApi(): CartItem[] {
+  return getCartFromLocalStorage()
+}
+
+export function addProductToCartApi(productId: number, quantity = 1): void {}
+
+export function addProductToCartByIdApi(productId: number, quantity = 1): void {
+  const cart = getCartFromLocalStorage()
+  const index = cart.findIndex((item) => item.productId === productId)
+
+  if (index !== -1) {
+    // If the product is already in the cart, increase its quantity by the specified amount
+    cart[index].quantity += quantity
+  } else {
+    // If the product is not in the cart, add it with the specified quantity
+    const product = products.find((item) => item.id === productId) // Assuming 'products' is your product data array
+    if (product) {
+      const newItem: CartItem = {
+        id: productId,
+        productId: product.id,
+        name: product.name,
+        price: product.price,
+        quantity: quantity,
+        imgSrc: product.imgSrc,
+        weight: product.weight,
+      }
+      cart.push(newItem)
     }
-  } catch (error) {
-    console.error('An error occurred:', (error as Error).message)
-    return { error: (error as Error).message }
   }
+
+  setCartInLocalStorage(cart)
 }
 
 export async function fetchCart(token: string) {
@@ -63,7 +80,7 @@ export async function deleteCartItems(token: string) {
 export async function modifyCartProductQuantity(
   productId: number,
   token: string,
-  quantity: number,
+  quantity: number
 ) {
   try {
     await request
