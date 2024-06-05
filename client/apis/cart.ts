@@ -1,4 +1,4 @@
-import { CartItemInitial, CartItem } from '../../models/Cart'
+import { CartItem } from '../../models/Cart'
 import products from '../data/productsData'
 
 function getCartFromLocalStorage(): CartItem[] {
