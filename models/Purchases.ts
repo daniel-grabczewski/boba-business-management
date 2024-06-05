@@ -35,6 +35,16 @@ export interface Order {
   }[]
 }
 
+export interface PurchaseInitial {
+  id : number
+  userId : string
+  productId : number
+  quantity : number
+  purchasedAt : string
+  shippingId : number
+  orderId : number
+}
+
 export type TransferedCart = {
   productId: number
   quantity: number
