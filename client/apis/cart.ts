@@ -1,6 +1,15 @@
 import { CartItem } from '../../models/Cart'
 import products from '../data/productsData'
 
+/*
+Required APIs:
+addProductToCart
+getCart
+deleteProductFromCart
+clearCart
+modifyCartProductQuantity
+*/
+
 function getCartFromLocalStorage(): CartItem[] {
   const cart = localStorage.getItem('cart')
   return cart ? JSON.parse(cart) : []
