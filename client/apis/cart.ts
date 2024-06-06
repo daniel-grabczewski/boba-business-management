@@ -1,15 +1,6 @@
 import { CartItem } from '../../models/Cart'
 import products from '../data/productsData'
 
-/*
-Required APIs:
-addProductToCart
-getCart
-deleteProductFromCart
-clearCart
-modifyCartProductQuantity
-*/
-
 // Retrieve array of objects 'cart' from localStorage
 function getCartFromLocalStorage(): CartItem[] {
   const cart = localStorage.getItem('cart')
@@ -17,7 +8,7 @@ function getCartFromLocalStorage(): CartItem[] {
 }
 
 // Replace existing localStorage cart data with given cart data
-function setCartInLocalStorage(cart: CartItem[]) {
+function setCartInLocalStorage(cart: CartItem[]): void {
   localStorage.setItem('cart', JSON.stringify(cart))
 }
 
@@ -79,3 +70,24 @@ export function clearCartApi(): void {
   setCartInLocalStorage([])
 }
 
+//modifyCartProductQuantity
+export function modifyCartProductQuantityApi(
+  productId: number,
+  quantity: number
+): void {
+  // Retrieve cart from localStorage
+  const cart = getCartFromLocalStorage()
+
+  // Find index of cart array that matches given productId
+  const index = cart.findIndex((item) => item.productId === productId)
+
+  if (index !== -1) {
+    // If item in cart with given productId exists, update the quantity of it with given quantity
+    cart[index].quantity = quantity
+
+    // Replace cart in localStorage with new cart
+    setCartInLocalStorage(cart)
+  }
+
+  // If given productId isn't found in cart, then do nothing
+}
