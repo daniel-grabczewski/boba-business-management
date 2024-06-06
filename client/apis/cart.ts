@@ -72,3 +72,10 @@ export function deleteProductFromCartApi(productId: number): void {
   // Replace cart in localStorage with updatedCart
   setCartInLocalStorage(updatedCart)
 }
+
+//clearCart
+export function clearCartApi(): void {
+  // Set cart in localStorage to be an empty array, effectively clearing the cart
+  setCartInLocalStorage([])
+}
+
