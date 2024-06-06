@@ -23,8 +23,6 @@ export function getCartApi(): CartItem[] {
   return getCartFromLocalStorage()
 }
 
-export function addProductToCartApi(productId: number, quantity = 1): void {}
-
 export function addProductToCartByIdApi(productId: number, quantity = 1): void {
   const cart = getCartFromLocalStorage()
   const index = cart.findIndex((item) => item.productId === productId)
@@ -37,18 +35,16 @@ export function addProductToCartByIdApi(productId: number, quantity = 1): void {
     const product = products.find((item) => item.id === productId) // Assuming 'products' is your product data array
     if (product) {
       const newItem: CartItem = {
-        id: productId,
-        productId: product.id,
+        image: product.image,
         name: product.name,
-        price: product.price,
         quantity: quantity,
-        imgSrc: product.imgSrc,
-        weight: product.weight,
+        price: product.price,
+        totalPrice: product.price * quantity,
+        productId: product.id,
       }
       cart.push(newItem)
     }
   }
-
   setCartInLocalStorage(cart)
 }
 
