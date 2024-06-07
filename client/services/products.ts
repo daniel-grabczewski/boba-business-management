@@ -13,31 +13,35 @@ import initialProducts from '../data/productsData'
 //!createProduct(newProduct: UpsertProduct)
 //!deleteProduct(productId)
 
-// Retrieve array of objects 'products' from localStorage
-function getProductsFromLocalStorage(): AdminProduct[] {
-  const products = localStorage.getItem('products')
-  return products ? JSON.parse(products) : []
-}
-
-function getAllProductsAdmin() : AdminProduct[] {
-  return getProductsFromLocalStorage()
-}
-
-function getAllProductsShopper() : UserProduct[] {
-  const products = getProductsFromLocalStorage()
-  const enabledProducts = products.filter((product) => product.isEnabled)
-  const shopperProducts = enabledProducts.map(({ isEnabled, ...rest }) => rest)
-  return shopperProducts
-}
-
-// If localStorage is empty, initialize localStorage to be initialProducts
-function setProductsInLocalStorageInitial(): void {
+// If localStorage is empty, initialize localStorage to be equal to initialProducts
+export function setProductsInLocalStorageInitial(): void {
   const productsInStorage = localStorage.getItem('products')
 
   if (!productsInStorage) {
     localStorage.setItem('products', JSON.stringify(initialProducts))
   }
 }
+
+// Retrieve array of objects 'products' from localStorage
+function getProductsFromLocalStorage(): AdminProduct[] {
+  const products = localStorage.getItem('products')
+  return products ? JSON.parse(products) : []
+}
+
+// Get all products from localStorage for admin use, INCLUDING the isEnabled field
+export function getAllProductsAdmin() : AdminProduct[] {
+  return getProductsFromLocalStorage()
+}
+
+// Get all products from localStorage for shopper use, WITHOUT the isEnabled field
+export function getAllProductsShopper() : UserProduct[] {
+  const products = getProductsFromLocalStorage()
+  const enabledProducts = products.filter((product) => product.isEnabled)
+  const shopperProducts = enabledProducts.map(({ isEnabled, ...rest }) => rest)
+  return shopperProducts
+}
+
+
 
 //!fetchProductByIdAdmin
 function fetchProductByIdAdmin(id : number) : AdminProduct {
