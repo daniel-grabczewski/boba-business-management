@@ -1,4 +1,4 @@
-import { UserProduct, UpsertProduct, AdminProduct } from '../../models/Products'
+import { ShopperProduct, UpsertProduct, AdminProduct } from '../../models/Products'
 import initialProducts from '../data/productsData'
 
 //Needed apis:
@@ -42,9 +42,12 @@ export function getAllProductsShopper() : UserProduct[] {
 }
 
 
-//! Get product that matches given id
-export function fetchProductByIdAdmin(id : number) : AdminProduct {
+//! Get product that matches given id, for admin use
+export function getProductByIdAdmin(id : number) : AdminProduct {
   const products = getAllProductsAdmin()
   const [product] = products.filter((product) => product.id === id)
   return product
 }
+
+// Get product that matches given id, for shopper use
+export function getProductByIdShopper(id : number) : 

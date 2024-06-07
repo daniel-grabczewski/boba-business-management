@@ -1,4 +1,4 @@
-export interface UserProduct {
+export interface ShopperProduct {
   id: number
   name: string
   image: string
