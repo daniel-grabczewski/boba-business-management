@@ -34,7 +34,7 @@ export function getAllProductsAdmin() : AdminProduct[] {
 }
 
 // Get all products from localStorage for shopper use, WITHOUT the isEnabled field
-export function getAllProductsShopper() : UserProduct[] {
+export function getAllProductsShopper() : ShopperProduct[] {
   const products = getProductsFromLocalStorage()
   const enabledProducts = products.filter((product) => product.isEnabled)
   const shopperProducts = enabledProducts.map(({ isEnabled, ...rest }) => rest)
@@ -50,4 +50,8 @@ export function getProductByIdAdmin(id : number) : AdminProduct {
 }
 
 // Get product that matches given id, for shopper use
-export function getProductByIdShopper(id : number) : 
+export function getProductByIdShopper(id : number) : ShopperProduct {
+  const products = getAllProductsShopper()
+  const [product] = products.filter((product) => product.id === id)
+  return product
+}
