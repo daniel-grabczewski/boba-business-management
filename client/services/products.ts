@@ -19,6 +19,17 @@ function getProductsFromLocalStorage(): AdminProduct[] {
   return products ? JSON.parse(products) : []
 }
 
+function getAllProductsAdmin() : AdminProduct[] {
+  return getProductsFromLocalStorage()
+}
+
+function getAllProductsShopper() : UserProduct[] {
+  const products = getProductsFromLocalStorage()
+  const enabledProducts = products.filter((product) => product.isEnabled)
+  const shopperProducts = enabledProducts.map(({ isEnabled, ...rest }) => rest)
+  return shopperProducts
+}
+
 // If localStorage is empty, initialize localStorage to be initialProducts
 function setProductsInLocalStorageInitial(): void {
   const productsInStorage = localStorage.getItem('products')
@@ -27,3 +38,11 @@ function setProductsInLocalStorageInitial(): void {
     localStorage.setItem('products', JSON.stringify(initialProducts))
   }
 }
+
+//!fetchProductByIdAdmin
+function fetchProductByIdAdmin(id : number) : AdminProduct {
+
+
+  return 
+}
+
