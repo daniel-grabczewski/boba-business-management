@@ -64,3 +64,9 @@ export function getProductsBelowStockThreshold(stockThreshold : number) : LowSto
     .filter((product) => product.stock < stockThreshold)
     .map(({ id, name, image }) => ({ id, name, image }))
 }
+
+//! Get count of products that are below given stockThreshold
+export function countProductsBelowStockThrehol (stockThreshold : number) : number {
+  const products = getProductsBelowStockThreshold(stockThreshold)
+  return products.length
+}
