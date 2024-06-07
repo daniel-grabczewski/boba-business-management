@@ -1,4 +1,4 @@
-import { ShopperProduct, UpsertProduct, AdminProduct } from '../../models/Products'
+import { ShopperProduct, UpsertProduct, AdminProduct, LowStockProducts } from '../../models/Products'
 import initialProducts from '../data/productsData'
 
 //Needed apis:
@@ -8,6 +8,7 @@ import initialProducts from '../data/productsData'
 //fetchProductByIdShopper(id : number)
 //!fetchAllProductsAdmin()
 //fetchAllProductsShopper()
+//!getProductsBelowStockThreshold(stockThreshold : number)
 //!countProductsBelowStockThreshold(stockThreshold : number)
 //!modifyProductById(id: number, updatedProduct: UpsertProduct)
 //!createProduct(newProduct: UpsertProduct)
@@ -54,4 +55,12 @@ export function getProductByIdShopper(id : number) : ShopperProduct {
   const products = getAllProductsShopper()
   const [product] = products.filter((product) => product.id === id)
   return product
+}
+
+//! Get id, name and image of products below given stockThreshold
+export function getProductsBelowStockThreshold(stockThreshold : number) : LowStockProducts[] {
+  const products = getAllProductsAdmin()
+  return products
+    .filter((product) => product.stock < stockThreshold)
+    .map(({ id, name, image }) => ({ id, name, image }))
 }
