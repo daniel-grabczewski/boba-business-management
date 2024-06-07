@@ -28,7 +28,7 @@ function getProductsFromLocalStorage(): AdminProduct[] {
   return products ? JSON.parse(products) : []
 }
 
-// Get all products from localStorage for admin use, INCLUDING the isEnabled field
+//! Get all products from localStorage for admin use, INCLUDING the isEnabled field
 export function getAllProductsAdmin() : AdminProduct[] {
   return getProductsFromLocalStorage()
 }
@@ -42,11 +42,9 @@ export function getAllProductsShopper() : UserProduct[] {
 }
 
 
-
-//!fetchProductByIdAdmin
-function fetchProductByIdAdmin(id : number) : AdminProduct {
-
-
-  return 
+//! Get product that matches given id
+export function fetchProductByIdAdmin(id : number) : AdminProduct {
+  const products = getAllProductsAdmin()
+  const [product] = products.filter((product) => product.id === id)
+  return product
 }
-
