@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { UserProduct } from '../../../../models/Products'
-import { addProductToCart } from '../../../apis/cart'
+import { addProductToCart } from '../../../services/cart'
 import StarRating from '../StarRating/StarRating'
 import { useMutation } from 'react-query'
 import {
   addToWishlistByProductId,
   deleteFromWishlistByProductId,
-} from '../../../apis/wishlist'
+} from '../../../services/wishlist'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
@@ -25,7 +25,7 @@ function ViewProduct({
 }: ViewProductProps) {
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
-    'bg-blue-500 hover:bg-blue-700',
+    'bg-blue-500 hover:bg-blue-700'
   )
   const { getAccessTokenSilently } = useAuth0() // Use Auth0 to get the access token
 
@@ -44,9 +44,9 @@ function ViewProduct({
         }, 1000)
       },
       onError: (error) => {
-        console.error("An error occurred:", error)
-      }
-    },
+        console.error('An error occurred:', error)
+      },
+    }
   )
 
   const wishlistMutation = useMutation(
@@ -61,9 +61,9 @@ function ViewProduct({
     {
       onSuccess: () => refetchWishlistProductStatus(),
       onError: (error) => {
-        console.error("An error occurred:", error)
-      }
-    },
+        console.error('An error occurred:', error)
+      },
+    }
   )
 
   const handleAddToCart = () => {

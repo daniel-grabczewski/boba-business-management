@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { UpsertProduct } from '../../../../models/Products'
-import { createProduct } from '../../../apis/products'
+import { createProduct } from '../../../services/products'
 import { useMutation } from 'react-query'
 import React, { useEffect, useState } from 'react'
 import LoadError from '../../../user/components/LoadError/LoadError'
@@ -47,7 +47,7 @@ const AddProduct = () => {
           setButtonText('Add Product')
         }, 2000)
       },
-    },
+    }
   )
 
   useEffect(() => {
@@ -69,7 +69,7 @@ const AddProduct = () => {
   }, [newProduct])
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = event.target
 

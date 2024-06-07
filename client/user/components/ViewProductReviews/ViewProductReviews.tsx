@@ -4,7 +4,7 @@ import { NewReview, ProductReview } from '../../../../models/Reviews'
 import { UserProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
-import { addReview } from '../../../apis/reviews'
+import { addReview } from '../../../services/reviews'
 import { useAuth0 } from '@auth0/auth0-react'
 
 interface ProductReviewsProps {
@@ -34,9 +34,9 @@ function ViewProductReviews({
         refetchReviews()
       },
       onError: (error) => {
-        console.error("An error occurred:", error)
-      }
-    },
+        console.error('An error occurred:', error)
+      },
+    }
   )
 
   const handleAddReviewClick = () => {

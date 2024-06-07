@@ -1,6 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchIsUserAdmin } from '../apis/users'
+import { fetchIsUserAdmin } from '../services/users'
 import LoadError from '../user/components/LoadError/LoadError'
 
 interface Props {
@@ -16,7 +16,7 @@ export const AdminComponent = ({ component }: Props) => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchIsUserAdmin(token)
-    },
+    }
   )
 
   const Component = withAuthenticationRequired(component, {

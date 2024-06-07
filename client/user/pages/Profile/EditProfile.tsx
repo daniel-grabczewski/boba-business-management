@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { fetchUser, modifyUserDetails } from '../../../apis/users'
+import { fetchUser, modifyUserDetails } from '../../../services/users'
 import { UpdateUser } from '../../../../models/Users'
 import LoadError from '../../components/LoadError/LoadError'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -58,7 +58,7 @@ const EditProfile = () => {
         queryClient.invalidateQueries('user')
         navigate('/profile')
       },
-    },
+    }
   )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

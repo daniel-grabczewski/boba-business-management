@@ -8,7 +8,7 @@ import {
   deleteProductFromCart,
   fetchCart,
   modifyCartProductQuantity,
-} from '../../../apis/cart'
+} from '../../../services/cart'
 import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
@@ -38,7 +38,7 @@ const Cart = () => {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
       },
-    },
+    }
   )
 
   const deleteProductMutation = useMutation(
@@ -50,7 +50,7 @@ const Cart = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchCart')
       },
-    },
+    }
   )
 
   const deleteCartItemsMutation = useMutation(
@@ -62,7 +62,7 @@ const Cart = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchCart')
       },
-    },
+    }
   )
 
   return (
@@ -152,7 +152,7 @@ const Cart = () => {
                     {data
                       .reduce(
                         (total, item) => total + item.price * item.quantity,
-                        0,
+                        0
                       )
                       .toFixed(2)}
                   </span>

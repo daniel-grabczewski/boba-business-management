@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchCart } from '../../../apis/cart'
+import { fetchCart } from '../../../services/cart'
 import { CartClient } from '../../../../models/Cart'
-import { fetchAllShippingOptions } from '../../../apis/shipping'
+import { fetchAllShippingOptions } from '../../../services/shipping'
 import { ShippingOptions } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
-import { moveCartToPurchases } from '../../../apis/purchases'
+import { moveCartToPurchases } from '../../../services/purchases'
 import { UpdateUser } from '../../../../models/Users'
-import { modifyUserDetails } from '../../../apis/users'
+import { modifyUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
   PaymentInformation,
@@ -55,7 +55,7 @@ function Checkout() {
       onSuccess: (data: CartClient[]) => {
         setCartProduct(data)
       },
-    },
+    }
   )
 
   const statuses = [ShippingQuery.status, CartQuery.status]
@@ -70,7 +70,7 @@ function Checkout() {
         queryClient.invalidateQueries('fetchOrderByOrderId')
         queryClient.invalidateQueries('fetchAllOrders')
       },
-    },
+    }
   )
 
   const updateUserDataMutation = useMutation(
@@ -84,12 +84,12 @@ function Checkout() {
         queryClient.invalidateQueries('fetchUser')
         queryClient.invalidateQueries('fetchUserName')
       },
-    },
+    }
   )
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const shippingOption = ShippingQuery.data?.find(
-      (option: ShippingOptions) => option.id === Number(e.target.value),
+      (option: ShippingOptions) => option.id === Number(e.target.value)
     )
 
     if (shippingOption) {
@@ -111,7 +111,7 @@ function Checkout() {
 
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
-    0,
+    0
   )
   const total = subtotal + selectedShipping.price
 

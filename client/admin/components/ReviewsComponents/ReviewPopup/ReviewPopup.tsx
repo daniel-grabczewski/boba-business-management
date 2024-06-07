@@ -5,7 +5,7 @@ import { formatDateToDDMMYYYY } from '../../../../utils/formatDate/formatDate'
 import {
   fetchReviewById,
   modifyReviewStatusById,
-} from '../../../../apis/reviews'
+} from '../../../../services/reviews'
 import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../../user/components/LoadError/LoadError'
 
@@ -47,7 +47,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
     },
     {
       refetchOnWindowFocus: false,
-    },
+    }
   )
 
   const mutation = useMutation(
@@ -55,14 +55,14 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
       const token = await getAccessTokenSilently()
       return await modifyReviewStatusById(
         { id: data.reviewId, isEnabled: data.isEnabled },
-        token,
+        token
       )
     },
     {
       onSuccess: () => {
         refetch()
       },
-    },
+    }
   )
 
   const onToggle = async (reviewId: number, isEnabled: boolean) => {

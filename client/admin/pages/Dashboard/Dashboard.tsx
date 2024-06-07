@@ -1,10 +1,10 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAmountOfOrdersByDate } from '../../../apis/purchases'
-import { fetchUser } from '../../../apis/users'
-import { fetchAmountOfUnreadEmailsByToday } from '../../../apis/emails'
-import { fetchAmountOfReviewsByDate } from '../../../apis/reviews'
-import { fetchAmountOfProductsBelowStockLevel } from '../../../apis/products'
+import { fetchAmountOfOrdersByDate } from '../../../services/purchases'
+import { fetchUser } from '../../../services/users'
+import { fetchAmountOfUnreadEmailsByToday } from '../../../services/emails'
+import { fetchAmountOfReviewsByDate } from '../../../services/reviews'
+import { fetchAmountOfProductsBelowStockLevel } from '../../../services/products'
 import { AdminProduct } from '../../../../models/Products'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { useNavigate } from 'react-router-dom'
@@ -43,7 +43,7 @@ const Dashboard = () => {
       const token = await getAccessTokenSilently()
       const maxStock = 5
       return await fetchAmountOfProductsBelowStockLevel(maxStock, token)
-    },
+    }
   )
   const statuses = [
     orderAmountQuery.status,
@@ -87,7 +87,7 @@ const Dashboard = () => {
                       className="h-28"
                     />
                   </div>
-                ),
+                )
               )}
             </div>
           </div>

@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
-import { fetchUser } from '../../../apis/users'
+import { fetchUser } from '../../../services/users'
 import LoadError from '../../components/LoadError/LoadError'
-import { fetchLatestOrderId } from '../../../apis/purchases'
+import { fetchLatestOrderId } from '../../../services/purchases'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
@@ -19,7 +19,7 @@ const ThankYou = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchLatestOrderId(token)
-    },
+    }
   )
 
   return (

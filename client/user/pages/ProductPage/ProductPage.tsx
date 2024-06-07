@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { fetchProductByIdUser } from '../../../apis/products'
-import { fetchReviewsByProductId } from '../../../apis/reviews'
+import { fetchProductByIdUser } from '../../../services/products'
+import { fetchReviewsByProductId } from '../../../services/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
 import { ProductReview } from '../../../../models/Reviews'
-import { fetchWishlistStatusByProductId } from '../../../apis/wishlist'
+import { fetchWishlistStatusByProductId } from '../../../services/wishlist'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const ProductPage = () => {
@@ -18,7 +18,7 @@ const ProductPage = () => {
     ['getProduct', id],
     async () => {
       return await fetchProductByIdUser(id)
-    },
+    }
   )
 
   const {
@@ -26,9 +26,7 @@ const ProductPage = () => {
     refetch: refetchReviews,
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
-    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(
-      id
-    )
+    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(id)
     return fetchedReviews
   })
 
@@ -39,15 +37,14 @@ const ProductPage = () => {
   } = useQuery(['getWishlistStatus', id], async () => {
     try {
       const token = await getAccessTokenSilently()
-    const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
-      id,
-      token,
-    )
-    return wishlistStatus
+      const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
+        id,
+        token
+      )
+      return wishlistStatus
     } catch (error) {
-      console.error("An error occurred:", error)
+      console.error('An error occurred:', error)
     }
-    
   })
 
   return (

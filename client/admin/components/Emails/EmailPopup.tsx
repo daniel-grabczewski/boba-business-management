@@ -5,7 +5,7 @@ import {
   deleteEmailById,
   fetchEmailById,
   modifyEmailById,
-} from '../../../apis/emails'
+} from '../../../services/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Email } from '../../../../models/Emails'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
@@ -45,7 +45,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
     },
     {
       refetchOnWindowFocus: false,
-    },
+    }
   )
 
   const updateEmailStatusMutation = useMutation(
@@ -62,7 +62,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
         queryClient.invalidateQueries('fetchEmailById')
         queryClient.invalidateQueries('fetchEmails')
       },
-    },
+    }
   )
   const deleteEmailMutation = useMutation(
     async (emailId: number) => {
@@ -74,7 +74,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
         queryClient.invalidateQueries('fetchEmailById')
         queryClient.invalidateQueries('fetchEmails')
       },
-    },
+    }
   )
 
   const modifyEmailStatus = async (emailId: number, isRead: boolean) => {

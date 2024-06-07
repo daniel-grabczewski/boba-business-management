@@ -12,13 +12,13 @@ function setCartInLocalStorage(cart: CartItem[]): void {
   localStorage.setItem('cart', JSON.stringify(cart))
 }
 
-//getCart
-export function getCartApi(): CartItem[] {
+// Get cart from localStorage
+export function getCart(): CartItem[] {
   return getCartFromLocalStorage()
 }
 
-//addProductToCart
-export function addProductToCartByIdApi(productId: number, quantity = 1): void {
+// Add a product to the cart by given productId and given quantity (which has a default value of 1, should no quantity be given)
+export function addProductToCartById(productId: number, quantity = 1): void {
   // Retrieve cart from localStorage
   const cart = getCartFromLocalStorage()
 
@@ -52,8 +52,8 @@ export function addProductToCartByIdApi(productId: number, quantity = 1): void {
   setCartInLocalStorage(cart)
 }
 
-//deleteProductFromCart
-export function deleteProductFromCartApi(productId: number): void {
+// Delete a product from the cart by given productId
+export function deleteProductFromCart(productId: number): void {
   // Retrieve cart from localStorage
   const cart = getCartFromLocalStorage()
 
@@ -64,14 +64,14 @@ export function deleteProductFromCartApi(productId: number): void {
   setCartInLocalStorage(updatedCart)
 }
 
-//clearCart
-export function clearCartApi(): void {
+// Remove all the items in the cart
+export function clearCart(): void {
   // Set cart in localStorage to be an empty array, effectively clearing the cart
   setCartInLocalStorage([])
 }
 
-//modifyCartProductQuantity
-export function modifyCartProductQuantityApi(
+// Change quantity of a product in cart by given productId and given quantity
+export function modifyCartProductQuantity(
   productId: number,
   quantity: number
 ): void {

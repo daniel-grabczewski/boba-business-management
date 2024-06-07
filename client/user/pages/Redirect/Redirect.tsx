@@ -4,7 +4,7 @@ import {
   fetchCheckIfUserExists,
   fetchIsUserAdmin,
   insertUser,
-} from '../../../apis/users'
+} from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import { NewUser } from '../../../../models/Users'
 import { useEffect } from 'react'
@@ -21,7 +21,7 @@ const Redirect = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchCheckIfUserExists(token)
-    },
+    }
   )
 
   const { data: isAdmin, status: statusIsAdmin } = useQuery(
@@ -29,7 +29,7 @@ const Redirect = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchIsUserAdmin(token)
-    },
+    }
   )
 
   const addUserMutation = useMutation(async (newUser: NewUser) => {

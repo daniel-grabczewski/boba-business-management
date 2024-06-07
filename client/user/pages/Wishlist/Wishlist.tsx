@@ -4,10 +4,10 @@ import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   deleteFromWishlistByProductId,
   fetchWishlist,
-} from '../../../apis/wishlist'
+} from '../../../services/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
 import { WishlistProduct } from '../../../../models/Wishlist'
-import { fetchCart, modifyCartProductQuantity } from '../../../apis/cart'
+import { fetchCart, modifyCartProductQuantity } from '../../../services/cart'
 import { useAuth0 } from '@auth0/auth0-react'
 
 const Wishlist = () => {
@@ -32,7 +32,7 @@ const Wishlist = () => {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
       },
-    },
+    }
   )
 
   // remove from the wishList mutation
@@ -43,7 +43,7 @@ const Wishlist = () => {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchWishlist')
       },
-    },
+    }
   )
 
   function handleCartDetails(productId: number) {

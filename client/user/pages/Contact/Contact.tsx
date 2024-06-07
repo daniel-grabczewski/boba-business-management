@@ -1,7 +1,7 @@
 import { FormEvent, useState, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { NewEmail } from '../../../../models/Emails'
-import { createNewEmail } from '../../../apis/emails'
+import { createNewEmail } from '../../../services/emails'
 import { useAuth0 } from '@auth0/auth0-react'
 
 function Contact() {

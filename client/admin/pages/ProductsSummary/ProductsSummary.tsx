@@ -1,12 +1,11 @@
 import { useQuery } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
-import { fetchAllProductsAdmin } from '../../../apis/products'
+import { fetchAllProductsAdmin } from '../../../services/products'
 import { useEffect, useState } from 'react'
 import ShopPaginationControls from '../../../user/components/ShopPaginationControls/ShopPaginationControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductSearchBar from '../../components/ProductSearchBar/ProductSearchBar'
-
 
 const ProductsSummary = () => {
   const { getAccessTokenSilently } = useAuth0()
@@ -15,7 +14,7 @@ const ProductsSummary = () => {
   const [filter, setFilter] = useState('')
   const productsPerPage = 20
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
-  const [searchProductId, setSearchProductId] = useState<number | null>(null);
+  const [searchProductId, setSearchProductId] = useState<number | null>(null)
 
   useEffect(() => {
     setPage(1)
@@ -26,7 +25,7 @@ const ProductsSummary = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchAllProductsAdmin(token)
-    },
+    }
   )
 
   const changePage = (newPage: number) => {
@@ -36,19 +35,19 @@ const ProductsSummary = () => {
 
   const filteredProducts = products
     ? products.filter((product) => {
-      switch (filter) {
-        case 'Low Stock':
-          return product.stock < 5
-        case 'Enabled':
-          return product.isEnabled
-        case 'Disabled':
-          return !product.isEnabled
-        case 'All':
-          return true
-        default:
-          return true
-      }
-    })
+        switch (filter) {
+          case 'Low Stock':
+            return product.stock < 5
+          case 'Enabled':
+            return product.isEnabled
+          case 'Disabled':
+            return !product.isEnabled
+          case 'All':
+            return true
+          default:
+            return true
+        }
+      })
     : []
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
@@ -76,46 +75,49 @@ const ProductsSummary = () => {
 
   const getPaginatedProducts = () => {
     if (searchProductId) {
-      return filteredProducts.filter(p => p.id === searchProductId)
+      return filteredProducts.filter((p) => p.id === searchProductId)
     } else {
       const start = (page - 1) * productsPerPage
       const end = start + productsPerPage
       return sortedProducts.slice(start, end)
     }
-
   }
 
   const setSearchProductIdHandler = (id: number | null) => {
-    setSearchProductId(id);
+    setSearchProductId(id)
   }
-
 
   return (
     <>
       <LoadError status={statusProducts} />
-      {products && <div
-        className="flex flex-col items-center"
-        style={{ marginTop: '20px', marginBottom: '100px' }}
-      >
-        <ProductSearchBar setSearchProductIdHanlder={setSearchProductIdHandler} />
+      {products && (
+        <div
+          className="flex flex-col items-center"
+          style={{ marginTop: '20px', marginBottom: '100px' }}
+        >
+          <ProductSearchBar
+            setSearchProductIdHanlder={setSearchProductIdHandler}
+          />
 
-        <ViewProducts
-          hoveredProductId={hoveredProductId}
-          setHoveredProductId={setHoveredProductId}
-          getPaginatedProducts={getPaginatedProducts}
-          filter={filter}
-          sort={sort}
-          setFilter={setFilter}
-          setSort={setSort}
-          totalproducts={sortedProducts.length}
-        />
-        <ShopPaginationControls
-          page={page}
-          totalPages={totalPages}
-          changePage={changePage}
-        />
-      </div>}
-    </>);
+          <ViewProducts
+            hoveredProductId={hoveredProductId}
+            setHoveredProductId={setHoveredProductId}
+            getPaginatedProducts={getPaginatedProducts}
+            filter={filter}
+            sort={sort}
+            setFilter={setFilter}
+            setSort={setSort}
+            totalproducts={sortedProducts.length}
+          />
+          <ShopPaginationControls
+            page={page}
+            totalPages={totalPages}
+            changePage={changePage}
+          />
+        </div>
+      )}
+    </>
+  )
 }
 
 export default ProductsSummary

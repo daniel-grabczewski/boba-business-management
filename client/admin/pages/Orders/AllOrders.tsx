@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAllOrders, fetchOrderById } from '../../../apis/purchases'
+import { fetchAllOrders, fetchOrderById } from '../../../services/purchases'
 import { Order, Orders } from '../../../../models/Purchases'
 import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
@@ -23,7 +23,7 @@ function AllOrders() {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchAllOrders(token)
-    },
+    }
   )
 
   function formatCurrency(amount: number) {
@@ -52,7 +52,7 @@ function AllOrders() {
 
   const filteredAndSortedOrders = orders
     .filter((order: Orders) =>
-      order.orderId.toString().includes(search.toLowerCase()),
+      order.orderId.toString().includes(search.toLowerCase())
     )
     .sort((a: Orders, b: Orders) => {
       const dateA = new Date(a.purchasedAt)

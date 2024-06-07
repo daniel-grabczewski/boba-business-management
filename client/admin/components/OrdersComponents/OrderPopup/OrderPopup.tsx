@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../../user/components/LoadError/LoadError'
-import { fetchOrderById } from '../../../../apis/purchases'
+import { fetchOrderById } from '../../../../services/purchases'
 import { Order } from '../../../../../models/Purchases'
 
 interface OrderPopupProps {
@@ -48,7 +48,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
     },
     {
       refetchOnWindowFocus: false,
-    },
+    }
   )
 
   return (
@@ -124,8 +124,8 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                       {formatCurrency(
                         order.orderItems.reduce(
                           (total, item) => total + item.productSale,
-                          0,
-                        ) + order.shippingPrice,
+                          0
+                        ) + order.shippingPrice
                       )}
                     </td>
                   </tr>

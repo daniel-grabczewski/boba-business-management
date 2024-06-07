@@ -1,15 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { fetchUser } from '../../../apis/users'
+import { fetchUser } from '../../../services/users'
 import {
   deleteReviewByProductId,
   fetchUserReviews,
-} from '../../../apis/reviews'
+} from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
 import { UserOrders } from '../../../../models/Purchases'
-import { fetchUserOrders } from '../../../apis/purchases'
+import { fetchUserOrders } from '../../../services/purchases'
 import { useAuth0 } from '@auth0/auth0-react'
 import StarRating from '../../components/StarRating/StarRating'
 
@@ -30,7 +30,7 @@ const Profile = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchUserReviews(token)
-    },
+    }
   )
 
   const { data: orders, status: ordersStatus } = useQuery(
@@ -38,7 +38,7 @@ const Profile = () => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchUserOrders(token)
-    },
+    }
   )
 
   function formatCurrency(amount: number) {
@@ -58,7 +58,7 @@ const Profile = () => {
       onSuccess: () => {
         queryClient.invalidateQueries('fetchUserReviews')
       },
-    },
+    }
   )
 
   function handleLogout() {

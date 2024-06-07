@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { fetchProductByIdAdmin } from '../../../apis/products'
+import { fetchProductByIdAdmin } from '../../../services/products'
 import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import EditProduct from '../../components/EditProduct/EditProduct'
@@ -11,15 +11,14 @@ const IndividualProduct = () => {
   const params = useParams()
   const id = Number(params.id)
 
-  const { data: product, status: statusProduct, isLoading } = useQuery(
-    ['getProduct', id],
-    async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchProductByIdAdmin(id, token)
-    },
-  )
-
-
+  const {
+    data: product,
+    status: statusProduct,
+    isLoading,
+  } = useQuery(['getProduct', id], async () => {
+    const token = await getAccessTokenSilently()
+    return await fetchProductByIdAdmin(id, token)
+  })
 
   return (
     <>
@@ -29,9 +28,7 @@ const IndividualProduct = () => {
           className="flex flex-col items-center w-full"
           style={{ marginTop: '100px', marginBottom: '150px' }}
         >
-          <EditProduct key={product.id}
-            product={product}
-          />
+          <EditProduct key={product.id} product={product} />
         </div>
       )}
     </>

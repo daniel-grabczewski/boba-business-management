@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import { fetchAllReviews, fetchReviewById } from '../../../apis/reviews'
+import { fetchAllReviews, fetchReviewById } from '../../../services/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Review, ReviewForTable } from '../../../../models/Reviews'
 import { useAuth0 } from '@auth0/auth0-react'
@@ -70,7 +70,7 @@ const Reviews = () => {
   const firstIndex = lastIndex - reviewsPerPage
   const currentReviews = filteredAndSortedReviews?.slice(firstIndex, lastIndex)
   const totalPages = Math.ceil(
-    (filteredAndSortedReviews?.length ?? 0) / reviewsPerPage,
+    (filteredAndSortedReviews?.length ?? 0) / reviewsPerPage
   )
 
   const closeReviewPopup = () => {

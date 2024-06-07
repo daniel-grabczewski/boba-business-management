@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAllEmails, fetchEmailById } from '../../../apis/emails'
+import { fetchAllEmails, fetchEmailById } from '../../../services/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
@@ -65,7 +65,7 @@ const Emails = () => {
   const firstIndex = lastIndex - emailsPerPage
   const currentEmails = filteredAndSortedEmails?.slice(firstIndex, lastIndex)
   const totalPages = Math.ceil(
-    (filteredAndSortedEmails?.length ?? 0) / emailsPerPage,
+    (filteredAndSortedEmails?.length ?? 0) / emailsPerPage
   )
 
   const closeEmailPopup = () => {
@@ -82,33 +82,30 @@ const Emails = () => {
         />
       )}
 
-      {!isLoading &&
-        fetchedmails &&
-        currentEmails &&
-        filteredAndSortedEmails && (
-          <div className="flex justify-center overflow-x-auto">
-            <div className="p-4 w-full lg:w-11/12">
-              {/* SortingControl */}
-              <EmailsSortingControls
-                filter={filter}
-                setFilter={setFilter}
-                sort={sort}
-                setSort={setSort}
-                currentPage={currentPage}
-                setCurrentPage={setCurrentPage}
-                totalPages={totalPages}
-                totalEmails={filteredAndSortedEmails.length}
+      {!isLoading && fetchedmails && currentEmails && filteredAndSortedEmails && (
+        <div className="flex justify-center overflow-x-auto">
+          <div className="p-4 w-full lg:w-11/12">
+            {/* SortingControl */}
+            <EmailsSortingControls
+              filter={filter}
+              setFilter={setFilter}
+              sort={sort}
+              setSort={setSort}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+              totalPages={totalPages}
+              totalEmails={filteredAndSortedEmails.length}
+            />
+            <div className="w-full bg-white mt-4 border border-gray-300">
+              <EmailsColumnTitles />
+              <DisplayCurrentEmails
+                currentEmails={currentEmails}
+                fetchAndShowEmailDetails={fetchAndShowEmailDetails}
               />
-              <div className="w-full bg-white mt-4 border border-gray-300">
-                <EmailsColumnTitles />
-                <DisplayCurrentEmails
-                  currentEmails={currentEmails}
-                  fetchAndShowEmailDetails={fetchAndShowEmailDetails}
-                />
-              </div>
             </div>
           </div>
-        )}
+        </div>
+      )}
     </>
   )
 }

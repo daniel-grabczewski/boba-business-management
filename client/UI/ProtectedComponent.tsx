@@ -1,6 +1,6 @@
 import { useAuth0, withAuthenticationRequired } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchCheckIfUserExists } from '../apis/users'
+import { fetchCheckIfUserExists } from '../services/users'
 import LoadError from '../user/components/LoadError/LoadError'
 
 interface Props {
@@ -16,7 +16,7 @@ export const ProtectedComponent = ({ component }: Props) => {
     async () => {
       const token = await getAccessTokenSilently()
       return await fetchCheckIfUserExists(token)
-    },
+    }
   )
   const Component = withAuthenticationRequired(component, {
     onRedirecting: () => (
