@@ -2,7 +2,8 @@ import { ShopperProduct, UpsertProduct, AdminProduct, LowStockProducts } from '.
 import initialProducts from '../data/productsData'
 
 //Needed apis:
-//set products in localStorage
+//set products in localStorage initialize
+//set products in localStore
 //get products from localStorage
 //!fetchProductByIdAdmin(id : number)
 //fetchProductByIdShopper(id : number)
@@ -10,7 +11,7 @@ import initialProducts from '../data/productsData'
 //fetchAllProductsShopper()
 //!getProductsBelowStockThreshold(stockThreshold : number)
 //!countProductsBelowStockThreshold(stockThreshold : number)
-//!modifyProductById(id: number, updatedProduct: UpsertProduct)
+//!updateProductById(id: number, updatedProduct: UpsertProduct)
 //!createProduct(newProduct: UpsertProduct)
 //!deleteProduct(productId)
 
@@ -21,6 +22,11 @@ export function setProductsInLocalStorageInitial(): void {
   if (!productsInStorage) {
     localStorage.setItem('products', JSON.stringify(initialProducts))
   }
+}
+
+// Replace localStore products, with given products
+export function setProductsInLocalStorage(products : AdminProduct[]) : void {
+  localStorage.setItem('products', JSON.stringify(products))
 }
 
 // Retrieve array of objects 'products' from localStorage
@@ -70,3 +76,7 @@ export function countProductsBelowStockThrehol (stockThreshold : number) : numbe
   const products = getProductsBelowStockThreshold(stockThreshold)
   return products.length
 }
+//ADD FAIL/SUCCESS STATUS
+
+
+
