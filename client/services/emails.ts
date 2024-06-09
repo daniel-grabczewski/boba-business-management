@@ -1,13 +1,37 @@
-import request from 'superagent'
-import { NewEmail, UpdateEmailReadStatus } from '../../models/Emails'
+import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
+import initialEmails from '../data/emailsData'
 
-const rootUrl = '/api/v1'
 
-// export function fetchAllEmails() {
-//   return request.get(rootUrl + '/emails').then((res) => { return res.body })
-// }
+// get all emails from local storage
+// initial set emails
+// set emails
 
-// OR
+export function setEmailsInLocalStorageInitial(): void {
+  try {
+    const emailsInStorage = localStorage.getItem('emails')
+
+    if (!emailsInStorage) {
+      localStorage.setItem('emails', JSON.stringify(initialEmails))
+    }
+  } catch (error) {
+    console.error('Failed to initialize emails in localStorage:', error)
+  }
+}
+
+
+//! getAllEmails
+export function getAllEmails() : Email[] {
+
+}
+
+
+
+//! getEmailById
+//  sendEmailByUserIdShopper
+//! updateEmailReadStatusById
+//! deleteEmailById
+//! countUnreadEmailsSinceDate
+//! countTotalUnreadEmails
 
 export async function fetchAllEmails(token: string) {
   try {
