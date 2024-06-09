@@ -3,63 +3,95 @@ import products from '../data/productsData'
 
 // Retrieve array of objects 'cart' from localStorage
 function getCartFromLocalStorage(): CartItem[] {
-  const cart = localStorage.getItem('cart')
-  return cart ? JSON.parse(cart) : []
+  try {
+    const cart = localStorage.getItem('cart')
+    return cart ? JSON.parse(cart) : []
+  } catch (error) {
+    console.error('Failed to get cart from localStorage:', error)
+    return []
+  }
 }
 
 // Replace existing localStorage cart data with given cart data
 function setCartInLocalStorage(cart: CartItem[]): void {
-  localStorage.setItem('cart', JSON.stringify(cart))
+  try {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  } catch (error) {
+    console.error('Failed to set cart in localStorage:', error)
+  }
 }
 
 // Get cart from localStorage
 export function getCart(): CartItem[] {
-  return getCartFromLocalStorage()
+  try {
+    return getCartFromLocalStorage()
+  } catch (error) {
+    console.error('Failed to get cart:', error)
+    return []
+  }
 }
 
 // Add a product to the cart by given productId and given quantity
 export function addProductToCartById(productId: number, quantity = 1): void {
-  const cart = getCartFromLocalStorage()
-  const index = cart.findIndex((item) => item.productId === productId)
+  try {
+    const cart = getCartFromLocalStorage()
+    const index = cart.findIndex((item) => item.productId === productId)
 
-  if (index !== -1) {
-    cart[index].quantity += quantity
-  } else {
-    const product = products.find((item) => item.id === productId)
-    if (product) {
-      const newItem: CartItem = {
-        image: product.image,
-        name: product.name,
-        quantity: quantity,
-        price: product.price,
-        totalPrice: product.price * quantity,
-        productId: product.id,
+    if (index !== -1) {
+      cart[index].quantity += quantity
+    } else {
+      const product = products.find((item) => item.id === productId)
+      if (product) {
+        const newItem: CartItem = {
+          image: product.image,
+          name: product.name,
+          quantity: quantity,
+          price: product.price,
+          totalPrice: product.price * quantity,
+          productId: product.id,
+        }
+        cart.push(newItem)
       }
-      cart.push(newItem)
     }
+    setCartInLocalStorage(cart)
+  } catch (error) {
+    console.error('Failed to add product to cart:', error)
   }
-  setCartInLocalStorage(cart)
 }
 
 // Delete a product from the cart by given productId
 export function deleteProductFromCart(productId: number): void {
-  const cart = getCartFromLocalStorage()
-  const updatedCart = cart.filter((item) => item.productId !== productId)
-  setCartInLocalStorage(updatedCart)
+  try {
+    const cart = getCartFromLocalStorage()
+    const updatedCart = cart.filter((item) => item.productId !== productId)
+    setCartInLocalStorage(updatedCart)
+  } catch (error) {
+    console.error(`Failed to delete product from cart with ID: ${productId}`, error)
+  }
 }
 
 // Remove all the items in the cart
 export function clearCart(): void {
-  setCartInLocalStorage([])
+  try {
+    setCartInLocalStorage([])
+  } catch (error) {
+    console.error('Failed to clear cart:', error)
+  }
 }
 
 // Change quantity of a product in cart by given productId and quantity
 export function modifyCartProductQuantity(productId: number, quantity: number): void {
-  const cart = getCartFromLocalStorage()
-  const index = cart.findIndex((item) => item.productId === productId)
+  try {
+    const cart = getCartFromLocalStorage()
+    const index = cart.findIndex((item) => item.productId === productId)
 
-  if (index !== -1) {
-    cart[index].quantity = quantity
-    setCartInLocalStorage(cart)
+    if (index !== -1) {
+      cart[index].quantity = quantity
+      setCartInLocalStorage(cart)
+    } else {
+      console.error(`Product with ID: ${productId} not found in cart`)
+    }
+  } catch (error) {
+    console.error(`Failed to modify quantity of product in cart with ID: ${productId}`, error)
   }
 }
