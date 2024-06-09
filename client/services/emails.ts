@@ -6,6 +6,7 @@ import initialEmails from '../data/emailsData'
 // initial set emails
 // set emails
 
+// If localStorage 'emails' key doesn't exist, initialize new key 'emails' to be equal to value of initialEmails
 export function setEmailsInLocalStorageInitial(): void {
   try {
     const emailsInStorage = localStorage.getItem('emails')

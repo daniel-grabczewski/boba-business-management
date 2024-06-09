@@ -6,7 +6,7 @@ import {
 } from '../../models/Products'
 import initialProducts from '../data/productsData'
 
-// If localStorage is empty, initialize localStorage to be equal to initialProducts
+// If localStorage 'products' key doesn't exist, initialize new key 'products' to be equal to value of initialProducts
 export function setProductsInLocalStorageInitial(): void {
   try {
     const productsInStorage = localStorage.getItem('products')
