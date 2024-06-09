@@ -39,14 +39,12 @@ function getEmailsFromLocalStorage(): Email[] {
   }
 }
 
-
-//! getAllEmails
 // Get all emails from localStorage
 export function getAllEmails() : Email[] {
   try {
     return getEmailsFromLocalStorage()
   } catch (error) {
-    console.error('Failed to get all products for admin:', error)
+    console.error('Failed to get all emails:', error)
     return []
   }
 }
