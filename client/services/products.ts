@@ -6,20 +6,20 @@ import {
 } from '../../models/Products'
 import initialProducts from '../data/productsData'
 
-//ADD FAIL/SUCCESS STATUS LATER??
+//ADD FAIL/SUCCESS STATUS LATER?? USE TRY/CATCH?
 
 //Needed apis:
-//set products in localStorage initialize
-//set products in localStore
-//get products from localStorage
-//!fetchProductByIdAdmin(id : number)
-//fetchProductByIdShopper(id : number)
-//!fetchAllProductsAdmin()
-//fetchAllProductsShopper()
-//!getProductsBelowStockThreshold(stockThreshold : number)
-//!countProductsBelowStockThreshold(stockThreshold : number)
-//!updateProductById(id: number, updatedProduct: UpsertProduct)
-//!createProduct(newProduct: UpsertProduct)
+//  DONE set products in localStorage initialize
+//  DONE set products in localStore
+//  DONE get products from localStorage
+//! DONE fetchProductByIdAdmin(id : number)
+//  DONEfetchProductByIdShopper(id : number)
+//! DONE fetchAllProductsAdmin()
+//  DONE fetchAllProductsShopper()
+//! DONE getProductsBelowStockThreshold(stockThreshold : number)
+//! DONE countProductsBelowStockThreshold(stockThreshold : number)
+//! DONEupdateProductById(id: number, updatedProduct: UpsertProduct)
+//! DONE createProduct(newProduct: UpsertProduct)
 //!deleteProduct(productId)
 
 // If localStorage is empty, initialize localStorage to be equal to initialProducts
@@ -101,3 +101,21 @@ export function updateProductById(
     setProductsInLocalStorage(products)
   }
 }
+
+//! Create a new product, given its data
+export function createProduct(newProduct : UpsertProduct) : void {
+  const products = getAllProductsAdmin()
+
+  const newId = products.length > 0 ? Math.max(...products.map(product => product.id)) + 1 : 1
+
+  products.push({
+    id : newId,
+    ...newProduct,
+    averageRating : 0,
+  })
+
+  setProductsInLocalStorage(products)
+}
+
+
+//!deleteProduct(productId)
