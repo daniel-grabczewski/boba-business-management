@@ -19,6 +19,15 @@ export function setEmailsInLocalStorageInitial(): void {
   }
 }
 
+// Replace localStorage emails with given emails
+export function setEmailsInLocalStorage(emails: Email[]): void {
+  try {
+    localStorage.setItem('emails', JSON.stringify(emails))
+  } catch (error) {
+    console.error('Failed to set emails in localStorage:', error)
+  }
+}
+
 
 //! getAllEmails
 export function getAllEmails() : Email[] {
