@@ -1,4 +1,4 @@
-import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
+import { NewEmail, UpdateEmailReadStatus, Email, Emails } from '../../models/Emails'
 import initialEmails from '../data/emailsData'
 
 
@@ -25,6 +25,17 @@ export function setEmailsInLocalStorage(emails: Email[]): void {
     localStorage.setItem('emails', JSON.stringify(emails))
   } catch (error) {
     console.error('Failed to set emails in localStorage:', error)
+  }
+}
+
+// Retrieve array of objects 'emails' from localStorage
+function getEmailsFromLocalStorage(): Emails[] {
+  try {
+    const emails = localStorage.getItem('emails')
+    return emails ? JSON.parse(emails) : []
+  } catch (error) {
+    console.error('Failed to get emails from localStorage:', error)
+    return []
   }
 }
 
