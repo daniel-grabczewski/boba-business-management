@@ -22,5 +22,3 @@ export interface UpdateEmailReadStatus {
   id: number
   isRead: boolean
 }
-
-export type Emails = Email[]

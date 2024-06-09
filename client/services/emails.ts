@@ -1,4 +1,4 @@
-import { NewEmail, UpdateEmailReadStatus, Email, Emails } from '../../models/Emails'
+import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
 import initialEmails from '../data/emailsData'
 
 
@@ -29,7 +29,7 @@ export function setEmailsInLocalStorage(emails: Email[]): void {
 }
 
 // Retrieve array of objects 'emails' from localStorage
-function getEmailsFromLocalStorage(): Emails[] {
+function getEmailsFromLocalStorage(): Email[] {
   try {
     const emails = localStorage.getItem('emails')
     return emails ? JSON.parse(emails) : []
@@ -41,8 +41,14 @@ function getEmailsFromLocalStorage(): Emails[] {
 
 
 //! getAllEmails
+// Get all emails from localStorage
 export function getAllEmails() : Email[] {
-
+  try {
+    return getEmailsFromLocalStorage()
+  } catch (error) {
+    console.error('Failed to get all products for admin:', error)
+    return []
+  }
 }
 
 
