@@ -8,20 +8,6 @@ import initialProducts from '../data/productsData'
 
 //ADD FAIL/SUCCESS STATUS LATER?? USE TRY/CATCH?
 
-//Needed apis:
-//  DONE set products in localStorage initialize
-//  DONE set products in localStore
-//  DONE get products from localStorage
-//! DONE fetchProductByIdAdmin(id : number)
-//  DONEfetchProductByIdShopper(id : number)
-//! DONE fetchAllProductsAdmin()
-//  DONE fetchAllProductsShopper()
-//! DONE getProductsBelowStockThreshold(stockThreshold : number)
-//! DONE countProductsBelowStockThreshold(stockThreshold : number)
-//! DONEupdateProductById(id: number, updatedProduct: UpsertProduct)
-//! DONE createProduct(newProduct: UpsertProduct)
-//!deleteProduct(productId)
-
 // If localStorage is empty, initialize localStorage to be equal to initialProducts
 export function setProductsInLocalStorageInitial(): void {
   const productsInStorage = localStorage.getItem('products')
@@ -118,4 +104,11 @@ export function createProduct(newProduct : UpsertProduct) : void {
 }
 
 
-//!deleteProduct(productId)
+//! Delete a product, given its id
+export function deleteProduct(removeProductId : number) : void {
+  const products = getAllProductsAdmin()
+
+  const newProducts = products.filter(product => product.id !== removeProductId)
+
+  setProductsInLocalStorage(newProducts)
+}
