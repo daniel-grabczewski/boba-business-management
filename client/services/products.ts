@@ -161,10 +161,10 @@ export function createProduct(newProduct: UpsertProduct): void {
   try {
     const products = getAllProductsAdmin()
 
-    const newId = generateNewProductId()
+    const newProductId = generateNewProductId()
 
     products.push({
-      id: newId,
+      id: newProductId,
       ...newProduct,
       averageRating: 0,
     })
