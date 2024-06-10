@@ -1,6 +1,6 @@
 import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
+import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import initialEmails from '../data/emailsData'
-
 
 // get all emails from local storage
 // initial set emails
@@ -40,7 +40,7 @@ function getEmailsFromLocalStorage(): Email[] {
 }
 
 // Get all emails from localStorage
-export function getAllEmails() : Email[] {
+export function getAllEmails(): Email[] {
   try {
     return getEmailsFromLocalStorage()
   } catch (error) {
@@ -49,11 +49,22 @@ export function getAllEmails() : Email[] {
   }
 }
 
+// Returns new id, unique from every other email id
+export function generateNewEmailId() : number {
+  const emails = getAllEmails()
+  const newId =
+      emails.length > 0
+        ? Math.max(...emails.map((email) => email.id)) + 1
+        : 1
+  
+  return newId
+}
+
 // Get email that matches given id
 export function getEmailById(id: number): Email | undefined {
   try {
     const emails = getEmailsFromLocalStorage()
-    const email = emails.find(email => email.id === id)
+    const email = emails.find((email) => email.id === id)
     return email
   } catch (error) {
     console.error(`Failed to get email by ID: ${id}`, error)
@@ -62,12 +73,11 @@ export function getEmailById(id: number): Email | undefined {
 }
 
 
-//  sendEmailByUserIdShopper
+
 //! updateEmailReadStatusById
 //! deleteEmailById
 //! countUnreadEmailsSinceDate
 //! countTotalUnreadEmails
-
 
 export async function createNewEmail(newEmail: NewEmail, token: string) {
   try {
@@ -110,7 +120,7 @@ export async function fetchEmailById(token: string, emailId: number) {
   } catch (error) {
     console.error(
       'Error fetching user email by email id',
-      (error as Error).message,
+      (error as Error).message
     )
     throw { error: (error as Error).message }
   }
@@ -121,7 +131,7 @@ export async function fetchEmailById(token: string, emailId: number) {
 export async function modifyEmailById(
   token: string,
   emailId: number,
-  updatedEmailStatus: UpdateEmailReadStatus,
+  updatedEmailStatus: UpdateEmailReadStatus
 ) {
   try {
     const response = await request
@@ -134,7 +144,7 @@ export async function modifyEmailById(
   } catch (error) {
     console.error(
       'Error updating user email status by email id',
-      (error as Error).message,
+      (error as Error).message
     )
     throw { error: (error as Error).message }
   }
