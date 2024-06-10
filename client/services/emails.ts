@@ -49,27 +49,25 @@ export function getAllEmails() : Email[] {
   }
 }
 
+// Get email that matches given id
+export function getEmailById(id: number): Email | undefined {
+  try {
+    const emails = getEmailsFromLocalStorage()
+    const email = emails.find(email => email.id === id)
+    return email
+  } catch (error) {
+    console.error(`Failed to get email by ID: ${id}`, error)
+    return undefined
+  }
+}
 
 
-//! getEmailById
 //  sendEmailByUserIdShopper
 //! updateEmailReadStatusById
 //! deleteEmailById
 //! countUnreadEmailsSinceDate
 //! countTotalUnreadEmails
 
-export async function fetchAllEmails(token: string) {
-  try {
-    const res = await request
-      .get(rootUrl + '/emails')
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-    return res.body.emails
-  } catch (error) {
-    console.error('Error fetching all emails:', (error as Error).message)
-    return { error: (error as Error).message }
-  }
-}
 
 export async function createNewEmail(newEmail: NewEmail, token: string) {
   try {
