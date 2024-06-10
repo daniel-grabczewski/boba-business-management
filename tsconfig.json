@@ -6,7 +6,8 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     /* Projects */
     /* Language and Environment */
-    "target": "es2016" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "target": "es2017" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "lib": ["es2017", "dom"],
     "jsx": "react-jsx" /* Specify what JSX code is generated. */,
 
     /* Modules */
