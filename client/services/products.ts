@@ -175,17 +175,17 @@ export function createProduct(newProduct: UpsertProduct): void {
   }
 }
 
-// Delete a product, given its id
-export function deleteProduct(removeProductId: number): void {
+// Given an id, delete the product with the matching id
+export function deleteProduct(deleteProductId: number): void {
   try {
     const products = getAllProductsAdmin()
 
     const newProducts = products.filter(
-      (product) => product.id !== removeProductId
+      (product) => product.id !== deleteProductId
     )
 
     setProductsInLocalStorage(newProducts)
   } catch (error) {
-    console.error(`Failed to delete product with ID: ${removeProductId}`, error)
+    console.error(`Failed to delete product with ID: ${deleteProductId}`, error)
   }
 }
