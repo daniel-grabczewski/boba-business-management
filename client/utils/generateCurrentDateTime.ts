@@ -1,4 +1,4 @@
-// Returns the current date in 'YYYY-MM-DD HH:MM:SS' format
+// Returns the current date & time in 'YYYY-MM-DD HH:MM:SS' format
 export function generateCurrentDateTime(): string {
   const now = new Date()
 
