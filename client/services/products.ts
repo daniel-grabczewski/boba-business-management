@@ -64,6 +64,17 @@ export function getAllProductsShopper(): ShopperProduct[] {
   }
 }
 
+// Returns new product id, unique from every other product id
+export function generateNewProductId(): number {
+  const products = getAllProductsAdmin()
+  const newId =
+    products.length > 0
+      ? Math.max(...products.map((product) => product.id)) + 1
+      : 1
+
+  return newId
+}
+
 // Get product that matches given id, for admin use
 export function getProductByIdAdmin(id: number): AdminProduct | undefined {
   try {
@@ -150,10 +161,7 @@ export function createProduct(newProduct: UpsertProduct): void {
   try {
     const products = getAllProductsAdmin()
 
-    const newId =
-      products.length > 0
-        ? Math.max(...products.map((product) => product.id)) + 1
-        : 1
+    const newId = generateNewProductId()
 
     products.push({
       id: newId,
