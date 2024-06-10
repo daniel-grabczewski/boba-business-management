@@ -11,14 +11,3 @@ export interface NewEmail {
   title: string
   description: string
 }
-
-export interface SentEmailToBackend {
-  userId: string
-  title: string
-  description: string
-}
-
-export interface UpdateEmailReadStatus {
-  id: number
-  isRead: boolean
-}
