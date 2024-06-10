@@ -86,11 +86,25 @@ export function sendEmail(newEmail: NewEmail): void {
   }
 }
 
+// Given an id and a readStatus of true/false, update the email with the matching id with the new readStatus
+export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean): void {
+  try {
+    const emails = getEmailsFromLocalStorage()
+    const emailIndex = emails.findIndex(email => email.id === id)
+
+    if (emailIndex !== -1) {
+      emails[emailIndex].isRead = updatedReadStatus
+      setEmailsInLocalStorage(emails)
+    } else {
+      console.error(`Email with ID: ${id} not found`)
+    }
+  } catch (error) {
+    console.error(`Failed to update read status for email with ID: ${id}`, error)
+  }
+}
 
 
 
-
-//! updateEmailReadStatusById
 //! deleteEmailById
 //! countUnreadEmailsSinceDate
 //! countTotalUnreadEmails
