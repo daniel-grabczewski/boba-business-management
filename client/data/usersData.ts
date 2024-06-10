@@ -2,7 +2,7 @@ import { User } from '../../models/Users'
 
 const users: User[] = [
   {
-    userId: 'auth0|startingUser',
+    userId: 'auth0|demoUser',
     firstName: 'Demo',
     lastName: 'User',
     userName: 'demo.user',
@@ -11,7 +11,7 @@ const users: User[] = [
     city: 'Auckland',
     country: 'New Zealand',
     zipCode: '1234',
-    emailAddress: 'demouser@example.com',
+    emailAddress: 'DemoUser@example.com',
   },
   {
     userId: 'auth0|abc12345',
