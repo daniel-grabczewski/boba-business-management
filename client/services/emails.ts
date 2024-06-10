@@ -100,18 +100,18 @@ export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean
 }
 
 // Given an id, delete the email with the matching id
-export function deleteEmailById(deleteEmailId: number): void {
+export function deleteEmailById(id: number): void {
   try {
     const emails = getEmailsFromLocalStorage()
-    const newEmails = emails.filter(email => email.id !== deleteEmailId)
+    const newEmails = emails.filter(email => email.id !== id)
 
     if (emails.length === newEmails.length) {
-      console.warn(`Email with ID: ${deleteEmailId} not found`)
+      console.warn(`Email with ID: ${id} not found`)
     } else {
       setEmailsInLocalStorage(newEmails)
     }
   } catch (error) {
-    console.error(`Failed to delete email with ID: ${deleteEmailId}`, error)
+    console.error(`Failed to delete email with ID: ${id}`, error)
   }
 }
 
