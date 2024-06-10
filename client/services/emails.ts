@@ -39,19 +39,10 @@ function getEmailsFromLocalStorage(): Email[] {
   }
 }
 
-// Get all emails from localStorage
-export function getAllEmails(): Email[] {
-  try {
-    return getEmailsFromLocalStorage()
-  } catch (error) {
-    console.error('Failed to get all emails:', error)
-    return []
-  }
-}
 
 // Returns new id, unique from every other email id
 export function generateNewEmailId() : number {
-  const emails = getAllEmails()
+  const emails = getEmailsFromLocalStorage()
   const newId =
       emails.length > 0
         ? Math.max(...emails.map((email) => email.id)) + 1
