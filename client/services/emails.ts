@@ -1,6 +1,7 @@
 import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import initialEmails from '../data/emailsData'
+import { generateCurrentDateTime } from '../utils/generateCurrentDateTime'
 
 // get all emails from local storage
 // initial set emails
@@ -29,7 +30,7 @@ export function setEmailsInLocalStorage(emails: Email[]): void {
 }
 
 // Retrieve array of objects 'emails' from localStorage
-function getEmailsFromLocalStorage(): Email[] {
+export function getEmailsFromLocalStorage(): Email[] {
   try {
     const emails = localStorage.getItem('emails')
     return emails ? JSON.parse(emails) : []
@@ -40,7 +41,7 @@ function getEmailsFromLocalStorage(): Email[] {
 }
 
 
-// Returns new id, unique from every other email id
+// Returns new email id, unique from every other email id
 export function generateNewEmailId() : number {
   const emails = getEmailsFromLocalStorage()
   const newId =
@@ -62,6 +63,30 @@ export function getEmailById(id: number): Email | undefined {
     return undefined
   }
 }
+
+// Given Email data, send it to localStorage 'emails'
+export function sendEmail(newEmail: NewEmail): void {
+  try {
+    const emails = getEmailsFromLocalStorage()
+    const demoUser = getDemoUserDetails()
+    const newEmailId = generateNewEmailId()
+    const currentDateTime = generateCurrentDateTime()
+
+    emails.push({
+      id: newEmailId,
+      userId: demoUser.userId,
+      ...newEmail,
+      isRead: false,
+      createdAt: currentDateTime,
+    })
+
+    setEmailsInLocalStorage(emails)
+  } catch (error) {
+    console.error('Failed to send email:', error)
+  }
+}
+
+
 
 
 
