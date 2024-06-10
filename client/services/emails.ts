@@ -1,13 +1,10 @@
-import { NewEmail, UpdateEmailReadStatus, Email } from '../../models/Emails'
+import { NewEmail, Email } from '../../models/Emails'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import initialEmails from '../data/emailsData'
 import { generateCurrentDateTime } from '../utils/generateCurrentDateTime'
 
-// get all emails from local storage
-// initial set emails
-// set emails
 
-// If localStorage 'emails' key doesn't exist, initialize new key 'emails' to be equal to value of initialEmails
+// Initialize key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
 export function setEmailsInLocalStorageInitial(): void {
   try {
     const emailsInStorage = localStorage.getItem('emails')
@@ -39,7 +36,6 @@ export function getEmailsFromLocalStorage(): Email[] {
     return []
   }
 }
-
 
 // Returns new email id, unique from every other email id
 export function generateNewEmailId() : number {
@@ -105,90 +101,8 @@ export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean
 
 
 
+
 //! deleteEmailById
 //! countUnreadEmailsSinceDate
 //! countTotalUnreadEmails
 
-export async function createNewEmail(newEmail: NewEmail, token: string) {
-  try {
-    await request
-      .post(rootUrl + '/emails')
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-      .send(newEmail)
-  } catch (error) {
-    console.error('Error creating new email:', (error as Error).message)
-    return { error: (error as Error).message }
-  }
-}
-
-// fetchEmailbyToday
-
-export async function fetchAmountOfUnreadEmailsByToday(token: string) {
-  try {
-    const response = await request
-      .get(`${rootUrl}/emails/today`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-
-    return response.body.unreadEmailCount
-  } catch (error) {
-    console.error('Error fetching user email', (error as Error).message)
-    throw { error: (error as Error).message }
-  }
-}
-
-//fetchEmailbyId
-export async function fetchEmailById(token: string, emailId: number) {
-  try {
-    const response = await request
-      .get(`${rootUrl}/emails/${emailId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-
-    return response.body.email
-  } catch (error) {
-    console.error(
-      'Error fetching user email by email id',
-      (error as Error).message
-    )
-    throw { error: (error as Error).message }
-  }
-}
-
-//modifyEmailStatus
-
-export async function modifyEmailById(
-  token: string,
-  emailId: number,
-  updatedEmailStatus: UpdateEmailReadStatus
-) {
-  try {
-    const response = await request
-      .patch(`${rootUrl}/emails/${emailId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-      .send(updatedEmailStatus)
-
-    return response.body
-  } catch (error) {
-    console.error(
-      'Error updating user email status by email id',
-      (error as Error).message
-    )
-    throw { error: (error as Error).message }
-  }
-}
-
-//delete the email
-export async function deleteEmailById(emailId: number, token: string) {
-  try {
-    await request
-      .delete(`${rootUrl}/emails/${emailId}`)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-  } catch (error) {
-    console.error('Error deleting email:', (error as Error).message)
-    throw { error: (error as Error).message }
-  }
-}
