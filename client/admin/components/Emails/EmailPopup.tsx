@@ -8,7 +8,7 @@ import {
 } from '../../../services/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Email } from '../../../../models/Emails'
-import { formatDateToDDMMYYYY } from '../../../utils/formatDate/formatDate'
+import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 
 interface EmailPopupProps {
   emailId: number

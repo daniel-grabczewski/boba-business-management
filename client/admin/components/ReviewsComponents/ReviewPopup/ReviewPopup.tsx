@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useQuery, useMutation } from 'react-query'
 import StarRating from '../../../../user/components/StarRating/StarRating'
-import { formatDateToDDMMYYYY } from '../../../../utils/formatDate/formatDate'
+import { formatDateToDDMMYYYY } from '../../../../utils/formatDate'
 import {
   fetchReviewById,
   modifyReviewStatusById,

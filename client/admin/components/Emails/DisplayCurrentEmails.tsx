@@ -2,7 +2,7 @@ import { Email } from '../../../../models/Emails'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
-} from '../../../utils/formatDate/formatDate'
+} from '../../../utils/formatDate'
 import { faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
