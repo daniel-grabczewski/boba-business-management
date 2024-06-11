@@ -1,7 +1,8 @@
 import { NewEmail, Email } from '../../models/Emails'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import initialEmails from '../data/emailsData'
-import { generateCurrentDateTime } from '../utils/generateCurrentDateTime'
+import { generateCurrentDateTime } from '../utils/generateDate'
+import { formatDateToDDMMYYYY } from '../utils/formatDate'
 
 
 // Initialize key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
@@ -115,7 +116,19 @@ export function deleteEmailById(id: number): void {
   }
 }
 
+// Given a date in 'DD/MM/YYYY' format, return a count of the emails which are unread from that given date
+export function countUnreadEmailsFromDate(date: string): number {
+  const emails = getEmailsFromLocalStorage()
+  return emails.reduce((count, email) => {
+    // Format YYYY-MM-DD HH:MM:SS to DD/MM/YYYY
+    const emailDate = formatDateToDDMMYYYY(email.createdAt)
+    if (emailDate === date && !email.isRead) {
+      count++
+    }
+    return count
+  }, 0)
+}
 
-//! countUnreadEmailsSinceDate
+
 //! countTotalUnreadEmails
 
