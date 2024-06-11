@@ -5,7 +5,7 @@ import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 
 
-// Initialize key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
+// Initialize localStorage key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
 export function setEmailsInLocalStorageInitial(): void {
   try {
     const emailsInStorage = localStorage.getItem('emails')
@@ -129,6 +129,14 @@ export function countUnreadEmailsFromDate(date: string): number {
   }, 0)
 }
 
-
-//! countTotalUnreadEmails
+// Returns count of all emails that have false isRead status
+export function countTotalUnreadEmails() : number {
+  const emails = getEmailsFromLocalStorage()
+  return emails.reduce((count, email) => {
+    if (!email.isRead) {
+      count++
+    }
+    return count
+  }, 0)
+}
 
