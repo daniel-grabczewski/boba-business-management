@@ -1,9 +1,13 @@
 
 
-//NEEDED:
-// moveCartToPurchases
-// getLatestOrderId (returns the latest orderId from the order the user made)
-// addCartToPurchases
+//NEEDED: 
+//!(are some of these more appropriate to be written in the cart services?)
+// transferDemoUserCartToOrders (copies the demo user's cart into the orders data, then clears the cart of the demo user)
+// getLatestOrderIdOfDemoUser (returns the latest orderId from the order the demo user made)
+// getOrderCountFromDate (gets count of the amount of orders that were made on the given date 'DD/MM/YYYY' format)
+// getOrdersOfDemoUser (gets all orders of demo user, with interface of UserOrderSummary[])
+// getAllOrders (gets all orders as AdminOrderSummary[])
+// getOrderById (given order id, returns order as Order interface)
 
 export async function moveCartToPurchases(shippingId: number, token: string) {
   try {
