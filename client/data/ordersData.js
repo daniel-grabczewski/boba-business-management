@@ -1,11 +1,12 @@
 function transformOrders(orders) {
   const orderMap = {}
+  let newId = 1
 
   for (const order of orders) {
     const { orderId, productId, quantity, ...rest } = order
 
     if (!orderMap[orderId]) {
-      orderMap[orderId] = { ...rest, orderItems: [] }
+      orderMap[orderId] = { ...rest, id: newId++, orderItems: [] }
     }
 
     orderMap[orderId].orderItems.push({ productId, quantity })
