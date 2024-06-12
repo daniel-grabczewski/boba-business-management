@@ -1,5 +1,9 @@
-import request from 'superagent'
-const baseUrl = '/api/v1/purchases'
+
+
+//NEEDED:
+// moveCartToPurchases
+// getLatestOrderId (returns the latest orderId from the order the user made)
+// addCartToPurchases
 
 export async function moveCartToPurchases(shippingId: number, token: string) {
   try {

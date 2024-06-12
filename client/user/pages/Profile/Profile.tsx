@@ -8,8 +8,8 @@ import {
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { UserReview } from '../../../../models/Reviews'
-import { UserOrders } from '../../../../models/Purchases'
-import { fetchUserOrders } from '../../../services/purchases'
+import { UserOrders } from '../../../../models/Orders'
+import { fetchUserOrders } from '../../../services/orders'
 import { useAuth0 } from '@auth0/auth0-react'
 import StarRating from '../../components/StarRating/StarRating'
 

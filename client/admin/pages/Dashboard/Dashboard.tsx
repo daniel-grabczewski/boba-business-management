@@ -1,6 +1,6 @@
 import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAmountOfOrdersByDate } from '../../../services/purchases'
+import { fetchAmountOfOrdersByDate } from '../../../services/orders'
 import { fetchUser } from '../../../services/users'
 import { fetchAmountOfUnreadEmailsByToday } from '../../../services/emails'
 import { fetchAmountOfReviewsByDate } from '../../../services/reviews'

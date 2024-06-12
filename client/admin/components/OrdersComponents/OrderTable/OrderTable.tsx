@@ -1,4 +1,4 @@
-import { Orders } from '../../../../../models/Purchases'
+import { Orders } from '../../../../../models/Orders'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,

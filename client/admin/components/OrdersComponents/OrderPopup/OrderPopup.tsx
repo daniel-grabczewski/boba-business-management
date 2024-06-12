@@ -2,8 +2,8 @@ import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
 import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../../user/components/LoadError/LoadError'
-import { fetchOrderById } from '../../../../services/purchases'
-import { Order } from '../../../../../models/Purchases'
+import { fetchOrderById } from '../../../../services/orders'
+import { Order } from '../../../../../models/Orders'
 
 interface OrderPopupProps {
   orderId: number

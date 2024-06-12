@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { fetchUser } from '../../../services/users'
 import LoadError from '../../components/LoadError/LoadError'
-import { fetchLatestOrderId } from '../../../services/purchases'
+import { fetchLatestOrderId } from '../../../services/orders'
 import { useNavigate } from 'react-router-dom'
 import { useAuth0 } from '@auth0/auth0-react'
 
