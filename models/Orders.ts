@@ -1,16 +1,26 @@
-export interface UserOrder {
+// ***** Order Summary Interfaces ***** //
+
+export interface UserOrderSummary {
   orderId: number
   purchasedAt: string
   totalAmount: number
 }
 
-// Is this needed?
-export interface Orders {
+export interface AdminOrderSummary {
   userName: string
   orderId: number
   totalSale: number
   purchasedAt: string
   shippingPrice: number
+}
+
+// ***** Full Detail Order Interfaces ***** //
+
+interface OrderItem {
+  productName: string
+  productSale: number
+  productImage: string
+  itemQuantity: number
 }
 
 export interface Order {
@@ -28,15 +38,11 @@ export interface Order {
   orderDate: string
   shippingType: string
   shippingPrice: number
-  orderItems: {
-    productName: string
-    productSale: number
-    productImage: string
-    itemQuantity: number
-  }[]
+  orderItems: OrderItem[]
 }
 
-interface OrderItem {
+// ***** Initial Order Interfaces ***** //
+interface OrderItemInitial {
   productId: number
   quantity: number
 }
@@ -46,8 +52,10 @@ export interface OrderInitial {
   userId: string
   purchasedAt: string
   shippingId: number
-  orderItems: OrderItem[]
+  orderItems: OrderItemInitial[]
 }
+
+// ***** Cart Transfer Interfaces ***** //
 
 export type TransferedCart = {
   productId: number
