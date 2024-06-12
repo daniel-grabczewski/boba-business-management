@@ -62,7 +62,7 @@ export function getEmailById(id: number): Email | undefined {
 }
 
 // Given Email data, send it to localStorage 'emails'
-export function sendEmail(newEmail: NewEmail): void {
+export function sendEmailFromDemoUser(newEmail: NewEmail): void {
   try {
     const emails = getEmailsFromLocalStorage()
     const demoUser = getDemoUserDetails()
