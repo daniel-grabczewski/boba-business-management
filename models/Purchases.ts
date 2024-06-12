@@ -4,6 +4,7 @@ export interface UserOrders {
   totalAmount: number
 }
 
+// Is this needed?
 export interface Orders {
   userName: string
   orderId: number
@@ -35,18 +36,21 @@ export interface Order {
   }[]
 }
 
-export interface PurchaseInitial {
-  id : number
-  userId : string
-  productId : number
-  quantity : number
-  purchasedAt : string
-  shippingId : number
-  orderId : number
+interface OrderItem {
+  productId: number
+  quantity: number
+}
+
+export interface OrderInitial {
+  id: number
+  userId: string
+  purchasedAt: string
+  shippingId: number
+  orderItems: OrderItem[]
 }
 
 export type TransferedCart = {
   productId: number
   quantity: number
   shippingId: number
-}[]
+}
