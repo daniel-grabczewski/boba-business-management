@@ -1,4 +1,4 @@
-export interface UserOrders {
+export interface UserOrder {
   orderId: number
   purchasedAt: string
   totalAmount: number
