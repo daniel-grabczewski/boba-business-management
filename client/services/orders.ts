@@ -26,6 +26,7 @@ export function setOrdersInLocalStorageInitial(): void {
   }
 }
 
+// Retrieve array of objects 'orders' from localStorage
 export function setOrdersInLocalStorage(orders: OrderInitial[]): void {
   try {
     localStorage.setItem('orders', JSON.stringify(orders))
@@ -34,6 +35,16 @@ export function setOrdersInLocalStorage(orders: OrderInitial[]): void {
   }
 }
 
+// Retrieve array of objects 'orders' from localStorage
+export function getOrdersFromLocalStorage(): OrderInitial[] {
+  try {
+    const orders = localStorage.getItem('orders')
+    return orders ? JSON.parse(orders) : []
+  } catch (error) {
+    console.error('Failed to get orders from localStorage:', error)
+    return []
+  }
+}
 
 
 export async function moveCartToPurchases(shippingId: number, token: string) {
