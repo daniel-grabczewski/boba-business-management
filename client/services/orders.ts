@@ -1,3 +1,4 @@
+import { Order, OrderInitial } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 
 //NEEDED:
@@ -22,6 +23,14 @@ export function setOrdersInLocalStorageInitial(): void {
     }
   } catch (error) {
     console.error('Failed to initialize orders in localStorage:', error)
+  }
+}
+
+export function setOrdersInLocalStorage(orders: OrderInitial[]): void {
+  try {
+    localStorage.setItem('orders', JSON.stringify(orders))
+  } catch (error) {
+    console.error('Failed to set orders in localStorage:', error)
   }
 }
 
