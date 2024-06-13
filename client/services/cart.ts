@@ -2,7 +2,7 @@ import { CartItem } from '../../models/Cart'
 import products from '../data/productsData'
 
 // Retrieve array of objects 'cart' from localStorage
-function getCartFromLocalStorage(): CartItem[] {
+export function getCartFromLocalStorage(): CartItem[] {
   try {
     const cart = localStorage.getItem('cart')
     return cart ? JSON.parse(cart) : []
@@ -13,21 +13,11 @@ function getCartFromLocalStorage(): CartItem[] {
 }
 
 // Replace existing localStorage cart data with given cart data
-function setCartInLocalStorage(cart: CartItem[]): void {
+export function setCartInLocalStorage(cart: CartItem[]): void {
   try {
     localStorage.setItem('cart', JSON.stringify(cart))
   } catch (error) {
     console.error('Failed to set cart in localStorage:', error)
-  }
-}
-
-// Get cart from localStorage
-export function getCart(): CartItem[] {
-  try {
-    return getCartFromLocalStorage()
-  } catch (error) {
-    console.error('Failed to get cart:', error)
-    return []
   }
 }
 
