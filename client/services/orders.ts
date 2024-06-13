@@ -1,7 +1,7 @@
-import { Order, OrderInitial } from '../../models/Orders'
+import { Order } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
-import 
-  import { getCartFromLocalStorage } from './cart'
+import { getCartFromLocalStorage } from './cart'
+import { CartItem } from '../../models/Cart'
 
 //NEEDED:
 //!(are some of these more appropriate to be written in the cart services?)
@@ -26,7 +26,7 @@ export function setOrdersInLocalStorageInitial(): void {
 }
 
 // Retrieve array of objects 'orders' from localStorage
-export function setOrdersInLocalStorage(orders: OrderInitial[]): void {
+export function setOrdersInLocalStorage(orders: Order[]): void {
   try {
     localStorage.setItem('orders', JSON.stringify(orders))
   } catch (error) {
@@ -35,7 +35,7 @@ export function setOrdersInLocalStorage(orders: OrderInitial[]): void {
 }
 
 // Retrieve array of objects 'orders' from localStorage
-export function getOrdersFromLocalStorage(): OrderInitial[] {
+export function getOrdersFromLocalStorage(): Order[] {
   try {
     const orders = localStorage.getItem('orders')
     return orders ? JSON.parse(orders) : []

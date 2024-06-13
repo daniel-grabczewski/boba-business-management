@@ -16,14 +16,14 @@ export interface AdminOrderSummary {
 
 // ***** Full Detail Order Interfaces ***** //
 
-interface OrderItem {
+interface OrderItemExtraDetails {
   productName: string
   productSale: number
   productImage: string
   itemQuantity: number
 }
 
-export interface Order {
+export interface OrderExtraDetails {
   orderId: number
   userFirstName: string
   userLastName: string
@@ -38,21 +38,21 @@ export interface Order {
   orderDate: string
   shippingType: string
   shippingPrice: number
-  orderItems: OrderItem[]
+  orderItems: OrderItemExtraDetails[]
 }
 
 // ***** Initial Order Interfaces ***** //
-interface OrderItemInitial {
+interface OrderItem {
   productId: number
   quantity: number
 }
 
-export interface OrderInitial {
+export interface Order {
   id: number
   userId: string
   purchasedAt: string
   shippingId: number
-  orderItems: OrderItemInitial[]
+  orderItems: OrderItem[]
 }
 
 // ***** Cart Transfer Interfaces ***** //
