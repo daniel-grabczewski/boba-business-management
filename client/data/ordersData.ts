@@ -1,6 +1,6 @@
-import { OrderInitial } from '../../models/Orders'
+import { Order } from '../../models/Orders'
 
-const orders: OrderInitial[] = [
+const orders: Order[] = [
   {
     id: 1,
     userId: 'auth0|abc12345',
