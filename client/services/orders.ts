@@ -1,9 +1,11 @@
 import { Order, OrderInitial } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
+import 
+  import { getCartFromLocalStorage } from './cart'
 
 //NEEDED:
 //!(are some of these more appropriate to be written in the cart services?)
-// transferDemoUserCartToOrders(cart) (copies the demo user's cart into the orders data, then clears the cart of the demo user)
+// transferDemoUserCartToOrders() (copies the demo user's cart into the orders data, then clears the cart of the demo user)
 // getLatestOrderIdOfDemoUser (returns the latest orderId from the order the demo user made)
 // getOrderCountFromDate (gets count of the amount of orders that were made on the given date 'DD/MM/YYYY' format)
 // getOrdersOfDemoUser (gets all orders of demo user, with interface of UserOrderSummary[])
@@ -42,3 +44,15 @@ export function getOrdersFromLocalStorage(): OrderInitial[] {
     return []
   }
 }
+
+// Generate unique order id
+export function generateNewOrderId(): number {
+  const orders = getOrdersFromLocalStorage()
+  const newId =
+    orders.length > 0
+      ? Math.max(...orders.map((orders) => orders.id)) + 1
+      : 1
+
+  return newId
+}
+
