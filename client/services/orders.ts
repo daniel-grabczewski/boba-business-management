@@ -1,7 +1,9 @@
 import { Order } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
-import { getCartFromLocalStorage } from './cart'
+import { clearCart, getCartFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
+import { getDemoUserDetails } from '../utils/getDemoUserDetails'
+import { generateCurrentDateTime } from '../utils/generateDate'
 
 //NEEDED:
 //!(are some of these more appropriate to be written in the cart services?)
@@ -49,10 +51,57 @@ export function getOrdersFromLocalStorage(): Order[] {
 export function generateNewOrderId(): number {
   const orders = getOrdersFromLocalStorage()
   const newId =
-    orders.length > 0
-      ? Math.max(...orders.map((orders) => orders.id)) + 1
-      : 1
+    orders.length > 0 ? Math.max(...orders.map((orders) => orders.id)) + 1 : 1
 
   return newId
 }
 
+// Copy Demo User's cart to orders, then delete Demo User's cart.
+export function transferDemoUserCartToOrders(shippingId: number): void {
+  try {
+    const cart: CartItem[] = getCartFromLocalStorage()
+    if (cart.length === 0) {
+      console.log('Cart is empty. No order created.')
+      return
+    }
+
+    const orders = getOrdersFromLocalStorage()
+
+    const newOrderItems = cart.map(({ productId, quantity }) => ({
+      productId,
+      quantity,
+    }))
+
+    const newOrder: Order = {
+      id: generateNewOrderId(),
+      userId: getDemoUserDetails().userId,
+      purchasedAt: generateCurrentDateTime(),
+      shippingId: shippingId,
+      orderItems: newOrderItems,
+    }
+
+    orders.push(newOrder)
+
+    setOrdersInLocalStorage(orders)
+
+    clearCart()
+
+    console.log('Order created and cart cleared successfully.')
+  } catch (error) {
+    console.error('Failed to transfer demo user cart to orders:', error)
+  }
+}
+
+/*
+export interface Order {
+  id: number
+  userId: string
+  purchasedAt: string
+  shippingId: number
+  orderItems: OrderItem[]
+}
+interface OrderItem {
+  productId: number
+  quantity: number
+}
+*/
