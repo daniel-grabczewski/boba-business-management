@@ -8,8 +8,8 @@ export function formatDateToDDMMYYYY(dateString: string): string {
   return `${day}/${month}/${year}`
 }
 
-// Given a date in 'YYYY-MM-DD HH-MM-SS' format,
-export function format24HourTo12Hour(dateString: string) : string {
+// Given a date in 'YYYY-MM-DD HH-MM-SS' format, return it in 'HH:MMAMPM' format
+export function format24HourTo12Hour(dateString: string): string {
   const date = new Date(dateString)
 
   const hour = date.getHours()
@@ -20,7 +20,7 @@ export function format24HourTo12Hour(dateString: string) : string {
   const ampm = hour < 12 ? 'AM' : 'PM'
 
   // Pad the minute with a zero if it's less than 10
-  const minuteString = minute < 10 ? `0${minute}` : minute
+  const minuteString = String(minute).padStart(2, '0')
 
   // Return the formatted time
   return `${twelveHour}:${minuteString}${ampm}`
