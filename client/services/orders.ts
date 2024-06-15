@@ -6,8 +6,6 @@ import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
 
 //NEEDED:
-//!(are some of these more appropriate to be written in the cart services?)
-// transferDemoUserCartToOrders() (copies the demo user's cart into the orders data, then clears the cart of the demo user)
 // getLatestOrderIdOfDemoUser (returns the latest orderId from the order the demo user made)
 // getOrderCountFromDate (gets count of the amount of orders that were made on the given date 'DD/MM/YYYY' format)
 // getOrdersOfDemoUser (gets all orders of demo user, with interface of UserOrderSummary[])
@@ -92,16 +90,16 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
   }
 }
 
-/*
-export interface Order {
-  id: number
-  userId: string
-  purchasedAt: string
-  shippingId: number
-  orderItems: OrderItem[]
+// Get the id from the latest order the demo user made
+export function getIdOfLatestOrderDemoUser(): number {
+  const orders = getOrdersFromLocalStorage()
+  const demoUser = getDemoUserDetails()
+  const userOrders = orders.filter(order => order.userId === demoUser.userId)
+  if (userOrders.length === 0) {
+    console.log('No orders found for the demo user')
+    return -1 
+  }
+  const latestId = Math.max(...userOrders.map(({id}) => id))
+
+  return latestId
 }
-interface OrderItem {
-  productId: number
-  quantity: number
-}
-*/
