@@ -4,12 +4,12 @@ import { clearCart, getCartFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
+import { formatDateToDDMMYYYY } from '../utils/formatDate'
 
 //NEEDED:
-// getLatestOrderIdOfDemoUser (returns the latest orderId from the order the demo user made)
 // getOrderCountFromDate (gets count of the amount of orders that were made on the given date 'DD/MM/YYYY' format)
 // getOrdersOfDemoUser (gets all orders of demo user, with interface of UserOrderSummary[])
-// getAllOrders (gets all orders as AdminOrderSummary[])
+// getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
 // getOrderById (given order id, returns order as Order interface)
 
 // If localStorage 'orders' key doesn't exist, initialize new key 'orders' to be equal to value of initialOrders
@@ -102,4 +102,16 @@ export function getIdOfLatestOrderDemoUser(): number {
   const latestId = Math.max(...userOrders.map(({id}) => id))
 
   return latestId
+}
+
+// Get count of orders that were made on the given 'DD/MM/YYYY' date
+export function getOrderCountFromDate(date: string): number {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const orderCountFromDate = orders.filter(order => formatDateToDDMMYYYY(order.purchasedAt) === date).length
+    return orderCountFromDate
+  } catch (error) {
+    console.error('Failed to get order count from date:', error)
+    return 0
+  }
 }
