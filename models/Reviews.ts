@@ -16,16 +16,19 @@ export interface UserReview {
   reviewCreatedAt: string
 }
 
-export interface ReviewForTable {
+// ***** Initial Review Interface ***** //
+export interface Review {
   id: number
-  productName: string
+  productId: number
+  description : string
   rating: number
   isEnabled: boolean
-  userName: string
+  userId: string
   createdAt: string
 }
 
-export interface Review {
+// ***** Full Detail Review Interface ***** //
+export interface ReviewExtraDetails {
   reviewId: number
   productName: string
   productImage: string
