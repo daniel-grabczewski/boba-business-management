@@ -3,7 +3,7 @@
 export interface UserOrderSummary {
   orderId: number
   purchasedAt: string
-  totalAmount: number
+  totalSale: number
 }
 
 export interface AdminOrderSummary {
