@@ -1,14 +1,13 @@
-import { Order } from '../../models/Orders'
+import { Order, UserOrderSummary } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { clearCart, getCartFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
+import { getAllProductsAdmin } from './products'
 
 //NEEDED:
-// getOrderCountFromDate (gets count of the amount of orders that were made on the given date 'DD/MM/YYYY' format)
-// getOrdersOfDemoUser (gets all orders of demo user, with interface of UserOrderSummary[])
 // getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
 // getOrderById (given order id, returns order as Order interface)
 
@@ -115,3 +114,42 @@ export function getOrderCountFromDate(date: string): number {
     return 0
   }
 }
+
+// Gets all orders of demo user as UserOrderSummary[]
+export function getOrdersOfDemoUser(): UserOrderSummary[] {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const demoUser = getDemoUserDetails()
+    const products = getAllProductsAdmin()
+    const userOrders = orders.filter(order => order.userId === demoUser.userId)
+
+    const ordersSummary = userOrders.map(userOrder => {
+      const totalSale = userOrder.orderItems.reduce((total, orderItem) => {
+        const product = products.find(product => product.id === orderItem.productId)
+        if (product) {
+          return total + orderItem.quantity * product.price
+        }
+        return total
+      }, 0)
+
+      return {
+        orderId: userOrder.id,
+        purchasedAt: userOrder.purchasedAt,
+        totalSale
+      }
+    })
+
+    return ordersSummary
+  } catch (error) {
+    console.error('Failed to get orders of demo user:', error)
+    return []
+  }
+}
+
+/*
+export interface UserOrderSummary {
+  orderId: number
+  purchasedAt: string
+  totalSale: number
+}
+  */
