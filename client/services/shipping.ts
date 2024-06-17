@@ -24,3 +24,19 @@ export function getShippingOptionsFromLocalStorage(): ShippingOption[] {
     return []
   }
 }
+
+// Get shipping option details by given id
+export function getShippingOptionById(id: number): ShippingOption | null {
+  try {
+    const shippingOptions = getShippingOptionsFromLocalStorage()
+    const [shippingOption] = shippingOptions.filter(option => option.id === id)
+    if (!shippingOption) {
+      console.log(`Shipping option with id ${id} not found`)
+      return null
+    }
+    return shippingOption
+  } catch (error) {
+    console.error('Failed to get shipping option by id:', error)
+    return null
+  }
+}
