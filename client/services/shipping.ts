@@ -1,15 +1,14 @@
-import request from 'superagent'
-const baseUrl = '/api/v1/shipping-options'
+import shippingOptions from "../data/shippingOptionsData"
 
-export async function fetchAllShippingOptions(token: string) {
+// If localStorage 'shippingOptions' key doesn't exist, initialize new key 'shippingOptions' to be equal to value of shippingOptions
+export function setOrdersInLocalStorageInitial(): void {
   try {
-    const response = await request
-      .get(baseUrl)
-      .set('Authorization', `Bearer ${token}`)
-      .set('Content-Type', 'application/json')
-    return response.body.shippingOptions
+    const shippingOptionsInStorage = localStorage.getItem('shippingOptions')
+
+    if (!shippingOptionsInStorage) {
+      localStorage.setItem('shippingOptions', JSON.stringify(shippingOptions))
+    }
   } catch (error) {
-    console.error('Error fetching all products:', (error as Error).message)
-    throw { error: (error as Error).message }
+    console.error('Failed to initialize shippingOptions in localStorage:', error)
   }
 }
