@@ -35,6 +35,22 @@ export function getUsersFromLocalStorage(): User[] {
   }
 }
 
+// Get user details, given their user id
+export function getUserByUserId(userId: string): User | null {
+  try {
+    const users = getUsersFromLocalStorage()
+    const [user] = users.filter(user => user.userId === userId)
+    if (!user) {
+      console.log(`User with userId ${userId} not found`)
+      return null
+    }
+    return user
+  } catch (error) {
+    console.error('Failed to get user by userId:', error)
+    return null
+  }
+}
+
 
 /*
 export async function fetchUser(token: string) {
