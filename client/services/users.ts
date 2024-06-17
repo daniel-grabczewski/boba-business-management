@@ -15,6 +15,15 @@ export function setUsersInLocalStorageInitial(): void {
   }
 }
 
+// Retrieve array of objects 'users' from localStorage
+export function setUsersInLocalStorage(users: User[]): void {
+  try {
+    localStorage.setItem('users', JSON.stringify(users))
+  } catch (error) {
+    console.error('Failed to set users in localStorage:', error)
+  }
+}
+
 
 
 /*
