@@ -1,11 +1,11 @@
-import { Order, UserOrderSummary } from '../../models/Orders'
+import { AdminOrderSummary, Order, UserOrderSummary } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { clearCart, getCartFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { getAllProductsAdmin } from './products'
+import { getAllProductsAdmin, getProductByIdAdmin } from './products'
 
 //NEEDED:
 // getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
@@ -120,12 +120,11 @@ export function getOrdersOfDemoUser(): UserOrderSummary[] {
   try {
     const orders = getOrdersFromLocalStorage()
     const demoUser = getDemoUserDetails()
-    const products = getAllProductsAdmin()
-    const userOrders = orders.filter(order => order.userId === demoUser.userId)
+    const demoUserOrders = orders.filter(order => order.userId === demoUser.userId)
 
-    const ordersSummary = userOrders.map(userOrder => {
-      const totalSale = userOrder.orderItems.reduce((total, orderItem) => {
-        const product = products.find(product => product.id === orderItem.productId)
+    const ordersSummary = demoUserOrders.map(order => {
+      const totalSale = order.orderItems.reduce((total, orderItem) => {
+        const product = getProductByIdAdmin(orderItem.productId)
         if (product) {
           return total + orderItem.quantity * product.price
         }
@@ -133,8 +132,8 @@ export function getOrdersOfDemoUser(): UserOrderSummary[] {
       }, 0)
 
       return {
-        orderId: userOrder.id,
-        purchasedAt: userOrder.purchasedAt,
+        orderId: order.id,
+        purchasedAt: order.purchasedAt,
         totalSale
       }
     })
@@ -146,10 +145,4 @@ export function getOrdersOfDemoUser(): UserOrderSummary[] {
   }
 }
 
-/*
-export interface UserOrderSummary {
-  orderId: number
-  purchasedAt: string
-  totalSale: number
-}
-  */
+
