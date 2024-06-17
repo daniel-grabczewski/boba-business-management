@@ -24,6 +24,16 @@ export function setUsersInLocalStorage(users: User[]): void {
   }
 }
 
+// Retrieve array of objects 'users' from localStorage
+export function getUsersFromLocalStorage(): User[] {
+  try {
+    const users = localStorage.getItem('users')
+    return users ? JSON.parse(users) : []
+  } catch (error) {
+    console.error('Failed to get users from localStorage:', error)
+    return []
+  }
+}
 
 
 /*
