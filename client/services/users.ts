@@ -1,8 +1,23 @@
-import request from 'superagent'
+
 import { NewUser, UpdateUser, User } from '../../models/Users'
+import initialUsers from '../data/usersData'
 
-const baseUrl = '/api/v1/users'
+// If localStorage 'users' key doesn't exist, initialize new key 'users' to be equal to value of initialUsers
+export function setUsersInLocalStorageInitial(): void {
+  try {
+    const usersInStorage = localStorage.getItem('users')
 
+    if (!usersInStorage) {
+      localStorage.setItem('users', JSON.stringify(initialUsers))
+    }
+  } catch (error) {
+    console.error('Failed to initialize users in localStorage:', error)
+  }
+}
+
+
+
+/*
 export async function fetchUser(token: string) {
   try {
     const response = await request
@@ -72,3 +87,4 @@ export async function insertUser(
     return { error: (error as Error).message }
   }
 }
+  */
