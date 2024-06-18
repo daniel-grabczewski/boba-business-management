@@ -5,12 +5,9 @@ import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { getAllProductsAdmin, getProductByIdAdmin } from './products'
+import { getProductByIdAdmin } from './products'
 import { getShippingOptionById } from './shipping'
-
-//NEEDED:
-// getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
-
+import { getUserByUserId } from './users'
 
 // Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist
 export function setOrdersInLocalStorageInitial(): void {
@@ -25,7 +22,7 @@ export function setOrdersInLocalStorageInitial(): void {
   }
 }
 
-// Retrieve array of objects 'orders' from localStorage
+// Replace localStorage orders with given orders
 export function setOrdersInLocalStorage(orders: Order[]): void {
   try {
     localStorage.setItem('orders', JSON.stringify(orders))
@@ -49,10 +46,10 @@ export function getOrdersFromLocalStorage(): Order[] {
 export function getOrderById(id: number): Order | null {
   try {
     const orders = getOrdersFromLocalStorage()
-    const [order] = orders.filter(order => order.id === id)
+    const [order] = orders.filter((order) => order.id === id)
     if (!order) {
       console.log(`Order with id ${id} not found`)
-      return null 
+      return null
     }
     return order
   } catch (error) {
@@ -64,7 +61,7 @@ export function getOrderById(id: number): Order | null {
 export function getOrdersByUserId(userId: string): Order[] {
   try {
     const orders = getOrdersFromLocalStorage()
-    const userOrders = orders.filter(order => order.userId === userId)
+    const userOrders = orders.filter((order) => order.userId === userId)
     if (userOrders.length === 0) {
       console.log(`No orders found for user with id ${userId}`)
       return []
@@ -75,7 +72,6 @@ export function getOrdersByUserId(userId: string): Order[] {
     return []
   }
 }
-
 
 // Generate unique order id
 export function generateNewOrderId(): number {
@@ -128,9 +124,9 @@ export function getIdOfLatestOrderDemoUser(): number {
     const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
     if (demoUserOrders.length === 0) {
       console.log('No orders found for the demo user')
-      return -1 
+      return -1
     }
-    const latestId = Math.max(...demoUserOrders.map(({id}) => id))
+    const latestId = Math.max(...demoUserOrders.map(({ id }) => id))
 
     return latestId
   } catch (error) {
@@ -139,12 +135,13 @@ export function getIdOfLatestOrderDemoUser(): number {
   }
 }
 
-
 // Get count of orders that were made on the given 'DD/MM/YYYY' date
 export function getOrderCountFromDate(date: string): number {
   try {
     const orders = getOrdersFromLocalStorage()
-    const orderCountFromDate = orders.filter(order => formatDateToDDMMYYYY(order.purchasedAt) === date).length
+    const orderCountFromDate = orders.filter(
+      (order) => formatDateToDDMMYYYY(order.purchasedAt) === date
+    ).length
     return orderCountFromDate
   } catch (error) {
     console.error('Failed to get order count from date:', error)
@@ -170,7 +167,10 @@ export function getTotalSaleOfOrderById(id: number): number {
           console.log(`Product with id ${orderItem.productId} not found`)
         }
       } catch (productError) {
-        console.error(`Failed to get product by id ${orderItem.productId}:`, productError)
+        console.error(
+          `Failed to get product by id ${orderItem.productId}:`,
+          productError
+        )
       }
       return total
     }, 0)
@@ -182,7 +182,6 @@ export function getTotalSaleOfOrderById(id: number): number {
   }
 }
 
-
 // Gets all orders of demo user as UserOrderSummary[]
 export function getDemoUserOrdersSummary(): UserOrderSummary[] {
   try {
@@ -192,13 +191,13 @@ export function getDemoUserOrdersSummary(): UserOrderSummary[] {
       return []
     }
 
-    const ordersSummary = demoUserOrders.map(order => {
+    const ordersSummary = demoUserOrders.map((order) => {
       const totalSale = getTotalSaleOfOrderById(order.id)
 
       return {
         orderId: order.id,
         purchasedAt: order.purchasedAt,
-        totalSale
+        totalSale,
       }
     })
 
@@ -209,18 +208,30 @@ export function getDemoUserOrdersSummary(): UserOrderSummary[] {
   }
 }
 
+// Gets all orders as AdminOrderSummary[]
+export function getAllOrdersAdminSummary(): AdminOrderSummary[] {
+  try {
+    const orders = getOrdersFromLocalStorage()
 
+    const adminOrdersSummary = orders.map((order) => {
+      const user = getUserByUserId(order.userId)
+      const userName = user ? user.userName : 'Error retrieving username'
+      const shippingOption = getShippingOptionById(order.shippingId)
+      const shippingPrice = shippingOption ? shippingOption.price : 0
+      const totalSale = getTotalSaleOfOrderById(order.id)
 
+      return {
+        userName,
+        orderId: order.id,
+        totalSale,
+        purchasedAt: order.purchasedAt,
+        shippingPrice,
+      }
+    })
 
-/*
-export interface AdminOrderSummary {
-  userName: string
-  orderId: number
-  totalSale: number
-  purchasedAt: string
-  shippingPrice: number
+    return adminOrdersSummary
+  } catch (error) {
+    console.error('Failed to get all orders summary:', error)
+    return []
+  }
 }
-
-*/
-
-
