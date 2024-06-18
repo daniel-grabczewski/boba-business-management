@@ -176,7 +176,7 @@ export function createProduct(newProduct: UpsertProduct): void {
 }
 
 // Given an id, delete the product with the matching id
-export function deleteProduct(id: number): void {
+export function deleteProductById(id: number): void {
   try {
     const products = getAllProductsAdmin()
 
