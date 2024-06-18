@@ -123,17 +123,21 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
 
 // Get the id from the latest order the demo user made
 export function getIdOfLatestOrderDemoUser(): number {
-  const orders = getOrdersFromLocalStorage()
-  const demoUser = getDemoUserDetails()
-  const userOrders = orders.filter(order => order.userId === demoUser.userId)
-  if (userOrders.length === 0) {
-    console.log('No orders found for the demo user')
-    return -1 
-  }
-  const latestId = Math.max(...userOrders.map(({id}) => id))
+  try {
+    const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
+    if (demoUserOrders.length === 0) {
+      console.log('No orders found for the demo user')
+      return -1 
+    }
+    const latestId = Math.max(...demoUserOrders.map(({id}) => id))
 
-  return latestId
+    return latestId
+  } catch (error) {
+    console.error('Failed to get the latest order id for the demo user:', error)
+    return -1
+  }
 }
+
 
 // Get count of orders that were made on the given 'DD/MM/YYYY' date
 export function getOrderCountFromDate(date: string): number {
