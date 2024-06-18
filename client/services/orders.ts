@@ -183,11 +183,13 @@ export function getTotalSaleOfOrderById(id: number): number {
 
 
 // Gets all orders of demo user as UserOrderSummary[]
-export function getOrdersOfDemoUser(): UserOrderSummary[] {
+export function getOrdersSummaryOfDemoUser(): UserOrderSummary[] {
   try {
-    const orders = getOrdersFromLocalStorage()
-    const demoUser = getDemoUserDetails()
-    const demoUserOrders = orders.filter(order => order.userId === demoUser.userId)
+    const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
+    if (demoUserOrders.length === 0) {
+      console.log('No orders found for the demo user')
+      return []
+    }
 
     const ordersSummary = demoUserOrders.map(order => {
       const totalSale = getTotalSaleOfOrderById(order.id)
