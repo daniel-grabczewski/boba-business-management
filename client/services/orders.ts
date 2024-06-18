@@ -6,6 +6,7 @@ import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getAllProductsAdmin, getProductByIdAdmin } from './products'
+import { getShippingOptionById } from './shipping'
 
 //NEEDED:
 // getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
@@ -183,7 +184,7 @@ export function getTotalSaleOfOrderById(id: number): number {
 
 
 // Gets all orders of demo user as UserOrderSummary[]
-export function getOrdersSummaryOfDemoUser(): UserOrderSummary[] {
+export function getDemoUserOrdersSummary(): UserOrderSummary[] {
   try {
     const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
     if (demoUserOrders.length === 0) {
@@ -207,4 +208,19 @@ export function getOrdersSummaryOfDemoUser(): UserOrderSummary[] {
     return []
   }
 }
+
+
+
+
+/*
+export interface AdminOrderSummary {
+  userName: string
+  orderId: number
+  totalSale: number
+  purchasedAt: string
+  shippingPrice: number
+}
+
+*/
+
 
