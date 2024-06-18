@@ -44,6 +44,22 @@ export function getOrdersFromLocalStorage(): Order[] {
   }
 }
 
+// Get order by given order id
+export function getOrderById(id: number): Order | null {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const [order] = orders.filter(order => order.id === id)
+    if (!order) {
+      console.log(`Order with id ${id} not found`)
+      return null 
+    }
+    return order
+  } catch (error) {
+    console.error('Failed to get order by id:', error)
+    return null
+  }
+}
+
 
 // Generate unique order id
 export function generateNewOrderId(): number {
