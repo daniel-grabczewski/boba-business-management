@@ -9,9 +9,9 @@ import { getAllProductsAdmin, getProductByIdAdmin } from './products'
 
 //NEEDED:
 // getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
-// getOrderById (given order id, returns order as Order interface)
 
-// If localStorage 'orders' key doesn't exist, initialize new key 'orders' to be equal to value of initialOrders
+
+// Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist, 
 export function setOrdersInLocalStorageInitial(): void {
   try {
     const ordersInStorage = localStorage.getItem('orders')
@@ -43,6 +43,7 @@ export function getOrdersFromLocalStorage(): Order[] {
     return []
   }
 }
+
 
 // Generate unique order id
 export function generateNewOrderId(): number {
@@ -115,6 +116,11 @@ export function getOrderCountFromDate(date: string): number {
   }
 }
 
+// Gets total sale of an order by given order id
+export function getTotalSaleOfOrderById(id : number) : number {
+
+}
+
 // Gets all orders of demo user as UserOrderSummary[]
 export function getOrdersOfDemoUser(): UserOrderSummary[] {
   try {
@@ -144,5 +150,4 @@ export function getOrdersOfDemoUser(): UserOrderSummary[] {
     return []
   }
 }
-
 
