@@ -60,6 +60,21 @@ export function getOrderById(id: number): Order | null {
   }
 }
 
+export function getOrdersByUserId(userId: string): Order[] {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const userOrders = orders.filter(order => order.userId === userId)
+    if (userOrders.length === 0) {
+      console.log(`No orders found for user with id ${userId}`)
+      return []
+    }
+    return userOrders
+  } catch (error) {
+    console.error('Failed to get orders by user id:', error)
+    return []
+  }
+}
+
 
 // Generate unique order id
 export function generateNewOrderId(): number {
@@ -171,13 +186,7 @@ export function getOrdersOfDemoUser(): UserOrderSummary[] {
     const demoUserOrders = orders.filter(order => order.userId === demoUser.userId)
 
     const ordersSummary = demoUserOrders.map(order => {
-      const totalSale = order.orderItems.reduce((total, orderItem) => {
-        const product = getProductByIdAdmin(orderItem.productId)
-        if (product) {
-          return total + orderItem.quantity * product.price
-        }
-        return total
-      }, 0)
+      const totalSale = getTotalSaleOfOrderById(order.id)
 
       return {
         orderId: order.id,
