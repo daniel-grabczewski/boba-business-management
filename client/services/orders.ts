@@ -11,7 +11,7 @@ import { getAllProductsAdmin, getProductByIdAdmin } from './products'
 // getAllOrdersAdminSummary (gets all orders as AdminOrderSummary[])
 
 
-// Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist, 
+// Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist
 export function setOrdersInLocalStorageInitial(): void {
   try {
     const ordersInStorage = localStorage.getItem('orders')

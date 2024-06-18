@@ -1,7 +1,7 @@
 import { ShippingOption } from "../../models/ShippingOptions"
 import shippingOptions from "../data/shippingOptionsData"
 
-// If localStorage 'shippingOptions' key doesn't exist, initialize new key 'shippingOptions' to be equal to value of shippingOptions
+// Initialize new key 'shippingOptions' to be equal to value of shippingOptions IF localStorage 'shippingOptions' key doesn't exist
 export function setShippingOptionsInLocalStorageInitial(): void {
   try {
     const shippingOptionsInStorage = localStorage.getItem('shippingOptions')

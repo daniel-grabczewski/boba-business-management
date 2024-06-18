@@ -2,7 +2,7 @@
 import { NewUser, UpdateUser, User } from '../../models/Users'
 import initialUsers from '../data/usersData'
 
-// If localStorage 'users' key doesn't exist, initialize new key 'users' to be equal to value of initialUsers
+// Initialize new key 'users' to be equal to value of initialUsers IF localStorage 'users' key doesn't exist
 export function setUsersInLocalStorageInitial(): void {
   try {
     const usersInStorage = localStorage.getItem('users')
