@@ -1,7 +1,32 @@
-import request from 'superagent'
 import { NewReview, UpdatedReviewStatus } from '../../models/Reviews'
 
-const baseUrl = '/api/v1/reviews'
+//!What if we have a system where we add a bunch of reviews as soon as the user boots up the app, so they are each added with the current date, with a time that is before the current time. So that way, when the user goes into the admin dashboard, it isn't competely empty.
+
+//NEEDED SERVICE FUNCTIONS
+//localStorage initial set, set, get
+//getReviewsByProductId(productId) - Returns all reviews associated with given product id as ProductReview[]
+
+//getCountOfReviewsFromDate(DD/MM/YYYY) - Returns count of reviews that were made on given date.
+
+//getAllReviews() - replaced with getReviewsFromLocalStorage
+
+//getReviewById(id) - get review associated with given id as ReviewExtraDetails
+
+//recalculateAverageRatingOfProductById(productId) - get all products, recalculate average rating of the product associated with given product Id by averaging all ratings from all reviews associated with that product, then set modified products array back into products localStorage
+
+//getAverageRatingOfProductById(productId) - gets average rating of a product associated with given product id
+
+//getReviewsByUserId(userId) - gets all reviews associated with given userId as UserReview[]
+
+//addDemoUserReview(newReview : NewReview) - adds review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
+
+//updateReviewStatusById(id, status) - updates review isEnabled associated with given id to given status
+
+//deleteUserReviewByProductId(productId, userId) - removes review associated with given userId and productId, then recalculates average rating of the product of which the review was removed
+
+
+
+/*
 
 export async function fetchReviewsByProductId(
   productId: number
@@ -117,3 +142,5 @@ export async function deleteReviewByProductId(
     throw { error: (error as Error).message }
   }
 }
+
+*/
