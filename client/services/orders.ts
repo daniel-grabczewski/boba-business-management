@@ -133,9 +133,35 @@ export function getOrderCountFromDate(date: string): number {
 }
 
 // Gets total sale of an order by given order id
-export function getTotalSaleOfOrderById(id : number) : number {
+export function getTotalSaleOfOrderById(id: number): number {
+  try {
+    const order = getOrderById(id)
+    if (!order) {
+      console.log(`Order with id ${id} not found`)
+      return 0
+    }
 
+    const totalSale = order.orderItems.reduce((total, orderItem) => {
+      try {
+        const product = getProductByIdAdmin(orderItem.productId)
+        if (product) {
+          return total + orderItem.quantity * product.price
+        } else {
+          console.log(`Product with id ${orderItem.productId} not found`)
+        }
+      } catch (productError) {
+        console.error(`Failed to get product by id ${orderItem.productId}:`, productError)
+      }
+      return total
+    }, 0)
+
+    return totalSale
+  } catch (error) {
+    console.error('Failed to get total sale of order by id:', error)
+    return 0
+  }
 }
+
 
 // Gets all orders of demo user as UserOrderSummary[]
 export function getOrdersOfDemoUser(): UserOrderSummary[] {
