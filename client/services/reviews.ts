@@ -26,6 +26,16 @@ export function setReviewsInLocalStorage(reviews: Review[]): void {
   }
 }
 
+// Retrieve array of objects 'reviews' from localStorage
+export function getReviewsFromLocalStorage(): Review[] {
+  try {
+    const reviews = localStorage.getItem('reviews')
+    return reviews ? JSON.parse(reviews) : []
+  } catch (error) {
+    console.error('Failed to get reviews from localStorage:', error)
+    return []
+  }
+}
 
 //getReviewsByProductId(productId) - Returns all reviews associated with given product id as ProductReview[]
 
