@@ -17,7 +17,14 @@ export function setReviewsInLocalStorageInitial(): void {
   }
 }
 
-
+// Replace localStorage reviews with given reviews
+export function setReviewsInLocalStorage(reviews: Review[]): void {
+  try {
+    localStorage.setItem('reviews', JSON.stringify(reviews))
+  } catch (error) {
+    console.error('Failed to set reviews in localStorage:', error)
+  }
+}
 
 
 //getReviewsByProductId(productId) - Returns all reviews associated with given product id as ProductReview[]
