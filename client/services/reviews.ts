@@ -1,5 +1,6 @@
 import { NewReview, UpdatedReviewStatus, Review, ProductReview, ReviewExtraDetails } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
+import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getProductByIdAdmin } from './products'
 import { getUserByUserId } from './users'
 
@@ -90,8 +91,26 @@ export function getReviewById(id: number): ReviewExtraDetails | undefined {
   }
 }
 
+// get count of amount of reviews that were created on given date in DD/MM/YYYY format.
+export function getCountOfReviewsFromDate(date: string): number {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const count = reviews.reduce((accumulator, review) => {
+      const convertedDateOfReview = formatDateToDDMMYYYY(review.createdAt)
+      if (convertedDateOfReview === date) {
+        accumulator++
+      }
+      return accumulator
+    }, 0)
 
-//getCountOfReviewsFromDate(DD/MM/YYYY) - Returns count of reviews that were made on given date.
+    return count
+  } catch (error) {
+    console.error('Failed to get count of reviews from date:', error)
+    return 0
+  }
+}
+
+
 
 //recalculateAverageRatingOfProductById(productId) - get all products, recalculate average rating of the product associated with given product Id by averaging all ratings from all reviews associated with that product, then set modified products array back into products localStorage
 
