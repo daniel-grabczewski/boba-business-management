@@ -1,5 +1,6 @@
-import { NewReview, UpdatedReviewStatus, Review, ProductReview } from '../../models/Reviews'
+import { NewReview, UpdatedReviewStatus, Review, ProductReview, ReviewExtraDetails } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
+import { getProductByIdAdmin } from './products'
 import { getUserByUserId } from './users'
 
 //!What if we have a system where we add a bunch of reviews as soon as the user boots up the app, so they are each added with the current date, with a time that is before the current time. So that way, when the user goes into the admin dashboard, it isn't competely empty.
@@ -60,23 +61,37 @@ export function getReviewsByProductId(productId: number): ProductReview[] {
   }
 }
 
-/*
-export interface ProductReview {
-  productId: number
-  userName: string
-  rating: number
-  createdAt: string
-  description: string
-}
+// get review assosciated with given id as ReviewExtraDetails
+export function getReviewById(id: number): ReviewExtraDetails | undefined {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const review = reviews.find(review => review.id === id)
+    if (!review) {
+      console.log(`Review with id ${id} not found`)
+      return undefined
+    }
 
-*/
+    const userName = getUserByUserId(review.userId)?.userName || 'Error retrieving user'
+    const product = getProductByIdAdmin(review.productId)
+    
+    return {
+      reviewId: review.id,
+      productName: product?.name || 'Error retrieving product',
+      productImage: product?.image || 'Error retrieving product',
+      reviewDescription: review.description,
+      reviewRating: review.rating,
+      reviewIsEnabled: review.isEnabled,
+      reviewerUserName: userName,
+      reviewCreatedAt: review.createdAt,
+    }
+  } catch (error) {
+    console.error(`Failed to get review for id ${id}:`, error)
+    return undefined
+  }
+}
 
 
 //getCountOfReviewsFromDate(DD/MM/YYYY) - Returns count of reviews that were made on given date.
-
-//getAllReviews() - replaced with getReviewsFromLocalStorage
-
-//getReviewById(id) - get review associated with given id as ReviewExtraDetails
 
 //recalculateAverageRatingOfProductById(productId) - get all products, recalculate average rating of the product associated with given product Id by averaging all ratings from all reviews associated with that product, then set modified products array back into products localStorage
 
