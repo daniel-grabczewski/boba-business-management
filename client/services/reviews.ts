@@ -1,11 +1,20 @@
-import { NewReview, UpdatedReviewStatus, Review, ProductReview, ReviewExtraDetails } from '../../models/Reviews'
+import {
+  NewReview,
+  UpdatedReviewStatus,
+  Review,
+  ProductReview,
+  ReviewExtraDetails,
+} from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { getProductByIdAdmin } from './products'
+import {
+  getAllProductsAdmin,
+  getProductByIdAdmin,
+  setProductsInLocalStorage,
+} from './products'
 import { getUserByUserId } from './users'
 
 //!What if we have a system where we add a bunch of reviews as soon as the user boots up the app, so they are each added with the current date, with a time that is before the current time. So that way, when the user goes into the admin dashboard, it isn't competely empty.
-
 
 // Initialize new key 'reviews' to be equal to value of initialReviews IF localStorage 'reviews' key doesn't exist
 export function setReviewsInLocalStorageInitial(): void {
@@ -45,14 +54,24 @@ export function getReviewsByProductId(productId: number): ProductReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const reviewsForProduct = reviews
-      .filter(review => review.productId === productId)
+      .filter((review) => review.productId === productId)
       .map(({ productId, userId, rating, createdAt, description }) => {
         try {
-          const userName = getUserByUserId(userId)?.userName || 'Error Retrieving User'
+          const userName =
+            getUserByUserId(userId)?.userName || 'Error Retrieving User'
           return { productId, userName, rating, createdAt, description }
         } catch (userError) {
-          console.error(`Failed to retrieve user details for userId ${userId}:`, userError)
-          return { productId, userName: 'Error Retrieving User', rating, createdAt, description }
+          console.error(
+            `Failed to retrieve user details for userId ${userId}:`,
+            userError
+          )
+          return {
+            productId,
+            userName: 'Error Retrieving User',
+            rating,
+            createdAt,
+            description,
+          }
         }
       })
     return reviewsForProduct
@@ -66,15 +85,16 @@ export function getReviewsByProductId(productId: number): ProductReview[] {
 export function getReviewById(id: number): ReviewExtraDetails | undefined {
   try {
     const reviews = getReviewsFromLocalStorage()
-    const review = reviews.find(review => review.id === id)
+    const review = reviews.find((review) => review.id === id)
     if (!review) {
       console.log(`Review with id ${id} not found`)
       return undefined
     }
 
-    const userName = getUserByUserId(review.userId)?.userName || 'Error retrieving user'
+    const userName =
+      getUserByUserId(review.userId)?.userName || 'Error retrieving user'
     const product = getProductByIdAdmin(review.productId)
-    
+
     return {
       reviewId: review.id,
       productName: product?.name || 'Error retrieving product',
@@ -111,8 +131,45 @@ export function getCountOfReviewsFromDate(date: string): number {
 }
 
 
+// Recalculate rating of a product associated with the given product id
+export function recalculateAverageRatingOfProductById(productId: number): void {
+  try {
+    const reviews = getReviewsByProductId(productId) // Reviews are as ProductReview[]
+    const products = getAllProductsAdmin()
+    const productIndex = products.findIndex(
+      (product) => product.id === productId
+    )
 
-//recalculateAverageRatingOfProductById(productId) - get all products, recalculate average rating of the product associated with given product Id by averaging all ratings from all reviews associated with that product, then set modified products array back into products localStorage
+    if (productIndex === -1) {
+      console.log(`Product with id ${productId} not found`)
+      return
+    }
+
+    if (reviews.length === 0) {
+      console.log(`No reviews found for product with id ${productId}`)
+      products[productIndex].averageRating = 0
+    } else {
+      const sumOfRatings = reviews.reduce(
+        (accumulator, review) => review.rating + accumulator,
+        0
+      )
+
+      const newAverageRating = sumOfRatings / reviews.length
+      products[productIndex].averageRating = newAverageRating
+    }
+
+    setProductsInLocalStorage(products)
+  } catch (error) {
+    console.error(
+      'Failed to recalculate average rating for product id:',
+      productId,
+      error
+    )
+  }
+}
+
+
+//recalculateAllProductsAverageRating
 
 //getAverageRatingOfProductById(productId) - gets average rating of a product associated with given product id
 
@@ -123,5 +180,3 @@ export function getCountOfReviewsFromDate(date: string): number {
 //updateReviewStatusById(id, status) - updates review isEnabled associated with given id to given status
 
 //deleteUserReviewByProductId(productId, userId) - removes review associated with given userId and productId, then recalculates average rating of the product of which the review was removed
-
-
