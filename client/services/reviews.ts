@@ -81,7 +81,7 @@ export function getReviewsByProductId(productId: number): ProductReview[] {
   }
 }
 
-// get review assosciated with given id as ReviewExtraDetails
+// Get review assosciated with given id as ReviewExtraDetails
 export function getReviewById(id: number): ReviewExtraDetails | undefined {
   try {
     const reviews = getReviewsFromLocalStorage()
@@ -111,7 +111,7 @@ export function getReviewById(id: number): ReviewExtraDetails | undefined {
   }
 }
 
-// get count of amount of reviews that were created on given date in DD/MM/YYYY format.
+// Get count of amount of reviews that were created on given date in DD/MM/YYYY format.
 export function getCountOfReviewsFromDate(date: string): number {
   try {
     const reviews = getReviewsFromLocalStorage()
@@ -129,7 +129,6 @@ export function getCountOfReviewsFromDate(date: string): number {
     return 0
   }
 }
-
 
 // Recalculate rating of a product associated with the given product id
 export function recalculateAverageRatingOfProductById(productId: number): void {
@@ -169,9 +168,18 @@ export function recalculateAverageRatingOfProductById(productId: number): void {
 }
 
 
-//recalculateAllProductsAverageRating
+// Recalculate all products' average ratings
+export function recalculateAllProductsAverageRating(): void {
+  try {
+    const products = getAllProductsAdmin()
+    for (const product of products) {
+      recalculateAverageRatingOfProductById(product.id)
+    }
+  } catch (error) {
+    console.error('Failed to recalculate all products average ratings:', error)
+  }
+}
 
-//getAverageRatingOfProductById(productId) - gets average rating of a product associated with given product id
 
 //getReviewsByUserId(userId) - gets all reviews associated with given userId as UserReview[]
 
