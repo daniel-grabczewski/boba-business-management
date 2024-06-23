@@ -4,6 +4,7 @@ import {
   Review,
   ProductReview,
   ReviewExtraDetails,
+  UserReview,
 } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
@@ -180,8 +181,38 @@ export function recalculateAllProductsAverageRating(): void {
   }
 }
 
+// Get all reviews associated with given userId as UserReview[]
+export function getReviewsByUserId(userId: string): UserReview[] {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const userReviews = reviews
+      .filter(review => review.userId === userId)
+      .map(({ productId, description, rating, createdAt }) => {
+        const reviewProduct = getProductByIdAdmin(productId)
+        if (reviewProduct) {
+          return {
+            productId,
+            productName: reviewProduct.name,
+            productImage: reviewProduct.image,
+            reviewDescription: description,
+            reviewerUserName: userId,
+            reviewRating: rating,
+            reviewCreatedAt: createdAt
+          }
+        }
+        return undefined 
+      })
+      .filter(review => review !== undefined) 
 
-//getReviewsByUserId(userId) - gets all reviews associated with given userId as UserReview[]
+    return userReviews as UserReview[] 
+  } catch (error) {
+    console.error(`Failed to get user ${userId} reviews`, error)
+    return []
+  }
+}
+
+
+
 
 //addDemoUserReview(newReview : NewReview) - adds review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
 
