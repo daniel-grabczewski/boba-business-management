@@ -112,6 +112,17 @@ export function getReviewById(id: number): ReviewExtraDetails | undefined {
   }
 }
 
+// Returns new review id, unique from every other review id
+export function generateNewReviewId(): number {
+  const reviews = getReviewsFromLocalStorage()
+  const newId =
+    reviews.length > 0
+      ? Math.max(...reviews.map((review) => review.id)) + 1
+      : 1
+
+  return newId
+}
+
 // Get count of amount of reviews that were created on given date in DD/MM/YYYY format.
 export function getCountOfReviewsFromDate(date: string): number {
   try {
@@ -211,10 +222,9 @@ export function getReviewsByUserId(userId: string): UserReview[] {
   }
 }
 
+// Add review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
 
 
-
-//addDemoUserReview(newReview : NewReview) - adds review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
 
 //updateReviewStatusById(id, status) - updates review isEnabled associated with given id to given status
 
