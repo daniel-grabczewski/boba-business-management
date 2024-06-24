@@ -226,6 +226,7 @@ export function getReviewsByUserId(userId: string): UserReview[] {
 
 // Add review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
 export function addDemoUserReview(newReview : NewReview) : void  {
+  //! NEED TO ADD CHECK SO THAT USER CAN ONLY ADD A REVIEW IF THEY HAVEN'T ADDED ONE TO THE PRODUCT YET
   try {
     const reviews = getReviewsFromLocalStorage()
     const review = {
@@ -261,4 +262,15 @@ export function updateReviewStatusById(id : number, status : boolean) : void {
   }
 }
 
-//deleteUserReviewByProductId(productId, userId) - removes review associated with given userId and productId, then recalculates average rating of the product of which the review was removed
+// Delete review associated with given userId and productId, then recalculates average rating of the product associated with given productId
+export function deleteUserReviewByProductId(productId : number, userId : string) : void {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const newReviews = reviews.filter(review => !(review.productId === productId && review.userId === userId))
+    setReviewsInLocalStorage(newReviews)
+    recalculateAverageRatingOfProductById(productId)
+  } catch (error) {
+    console.error(`Error deleting review for product id ${productId} of user id ${userId}`, error)
+  }
+}
+
