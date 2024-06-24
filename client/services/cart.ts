@@ -1,5 +1,16 @@
-import { CartItem } from '../../models/Cart'
+import { CartItem, DisplayCartItem } from '../../models/Cart'
 import { getAllProductsAdmin } from './products'
+
+
+
+// Replace existing localStorage cart data with given cart data
+export function setCartInLocalStorage(cart: CartItem[]): void {
+  try {
+    localStorage.setItem('cart', JSON.stringify(cart))
+  } catch (error) {
+    console.error('Failed to set cart in localStorage:', error)
+  }
+}
 
 // Retrieve array of objects 'cart' from localStorage
 export function getCartFromLocalStorage(): CartItem[] {
@@ -12,14 +23,34 @@ export function getCartFromLocalStorage(): CartItem[] {
   }
 }
 
-// Replace existing localStorage cart data with given cart data
-export function setCartInLocalStorage(cart: CartItem[]): void {
+// Retrieve all the cart data, combine it with product data, and return DisplayCartItem[]
+export function getDisplayCartItems(): DisplayCartItem[] {
   try {
-    localStorage.setItem('cart', JSON.stringify(cart))
+    const cart = getCartFromLocalStorage()
+    const products = getAllProductsAdmin()
+    const displayCart = cart.map(cartItem => {
+      const product = products.find(product => product.id === cartItem.productId)
+      if (product) {
+        return {
+          id: cartItem.id,
+          image: product.image,
+          name: product.name,
+          quantity: cartItem.quantity,
+          price: product.price,
+          totalPrice: product.price * cartItem.quantity,
+          productId: product.id
+        }
+      }
+      return undefined
+    }).filter(item => item !== undefined) as DisplayCartItem[] 
+
+    return displayCart
   } catch (error) {
-    console.error('Failed to set cart in localStorage:', error)
+    console.error('Error retrieving display cart items:', error)
+    return []
   }
 }
+
 
 // Add a product to the cart by given productId and given quantity
 export function addProductToCartById(productId: number, quantity = 1): void {
