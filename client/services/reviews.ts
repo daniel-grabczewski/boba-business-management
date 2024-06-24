@@ -8,6 +8,8 @@ import {
 } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
+import { generateCurrentDateTime } from '../utils/generateDate'
+import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import {
   getAllProductsAdmin,
   getProductByIdAdmin,
@@ -223,7 +225,25 @@ export function getReviewsByUserId(userId: string): UserReview[] {
 }
 
 // Add review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
-
+export function addDemoUserReview(newReview : NewReview) : void  {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const review = {
+      id : generateNewReviewId(),
+      productId : newReview.productId,
+      description : newReview.description,
+      rating: newReview.rating,
+      isEnabled : true,
+      userId : getDemoUserDetails().userId,
+      createdAt : generateCurrentDateTime()
+    }
+    reviews.push(review)
+    setReviewsInLocalStorage(reviews)
+    recalculateAverageRatingOfProductById(newReview.productId)
+  } catch (error) {
+    console.error('Error adding new review', error)
+  }
+}
 
 
 //updateReviewStatusById(id, status) - updates review isEnabled associated with given id to given status
