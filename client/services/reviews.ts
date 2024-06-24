@@ -245,7 +245,20 @@ export function addDemoUserReview(newReview : NewReview) : void  {
   }
 }
 
-
-//updateReviewStatusById(id, status) - updates review isEnabled associated with given id to given status
+// Update isEnabled status of review associated with given id, to the given status
+export function updateReviewStatusById(id : number, status : boolean) : void {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const reviewIndex = reviews.findIndex(review => review.id === id)
+    if (reviewIndex !== -1) {
+      reviews[reviewIndex].isEnabled = status
+      setReviewsInLocalStorage(reviews)
+    } else {
+      console.log(`Review with id ${id} not found`)
+    }
+  } catch (error) {
+    console.error(`Error updating review of id ${id} isEnabled to status of ${status}`, error)
+  }
+}
 
 //deleteUserReviewByProductId(productId, userId) - removes review associated with given userId and productId, then recalculates average rating of the product of which the review was removed
