@@ -224,25 +224,33 @@ export function getReviewsByUserId(userId: string): UserReview[] {
   }
 }
 
-// Add review from demo user to reviews in localStorage. Then, recalculates average rating of the product they reviewed.
-export function addDemoUserReview(newReview : NewReview) : void  {
-  //! NEED TO ADD CHECK SO THAT USER CAN ONLY ADD A REVIEW IF THEY HAVEN'T ADDED ONE TO THE PRODUCT YET
+// Add review from demo user to reviews in localStorage. Only allow to add a review if the demo user hasn't reviewed the associated product yet Then, recalculates average rating of the product they reviewed.
+export function addDemoUserReview(newReview: NewReview): void {
   try {
     const reviews = getReviewsFromLocalStorage()
-    const review = {
-      id : generateNewReviewId(),
-      productId : newReview.productId,
-      description : newReview.description,
-      rating: newReview.rating,
-      isEnabled : true,
-      userId : getDemoUserDetails().userId,
-      createdAt : generateCurrentDateTime()
+    const demoUserId = getDemoUserDetails().userId
+    
+    // Check if the demo user has already reviewed this product
+    const alreadyReviewed = reviews.some(review => review.productId === newReview.productId && review.userId === demoUserId)
+    
+    if (!alreadyReviewed) {
+      const review = {
+        id: generateNewReviewId(),
+        productId: newReview.productId,
+        description: newReview.description,
+        rating: newReview.rating,
+        isEnabled: true,
+        userId: demoUserId,
+        createdAt: generateCurrentDateTime()
+      }
+      reviews.push(review)
+      setReviewsInLocalStorage(reviews)
+      recalculateAverageRatingOfProductById(newReview.productId)
+    } else {
+      console.log(`Cannot add review ${JSON.stringify(newReview)}, as ${demoUserId} already has a review associated with product id ${newReview.productId}`)
     }
-    reviews.push(review)
-    setReviewsInLocalStorage(reviews)
-    recalculateAverageRatingOfProductById(newReview.productId)
   } catch (error) {
-    console.error('Error adding new review', error)
+    console.error(`Error adding new review ${JSON.stringify(newReview)}`, error)
   }
 }
 
