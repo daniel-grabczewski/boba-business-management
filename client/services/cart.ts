@@ -1,5 +1,5 @@
 import { CartItem } from '../../models/Cart'
-import products from '../data/productsData'
+import { getAllProductsAdmin } from './products'
 
 // Retrieve array of objects 'cart' from localStorage
 export function getCartFromLocalStorage(): CartItem[] {
@@ -26,6 +26,7 @@ export function addProductToCartById(productId: number, quantity = 1): void {
   try {
     const cart = getCartFromLocalStorage()
     const index = cart.findIndex((item) => item.productId === productId)
+    const products = getAllProductsAdmin()
 
     if (index !== -1) {
       cart[index].quantity += quantity
