@@ -1,7 +1,6 @@
 import { WishlistItem, DisplayWishlistItem} from '../../models/Wishlist'
 import { getProductByIdAdmin } from './products'
 
-// getWishlistWithExtraDetails() get wishlist as WithlistExtraDetails[]
 // generateNewWishlistId()
 // isProductInWishlistByProductId (productId) Return true or false, depending on whether the product associated with given product id is in the demo user's wish list.
 // addProductToWishlistByProductId(productId) add product to wishlist
@@ -52,4 +51,13 @@ export function getDisplayWishlistItems(): DisplayWishlistItem[] {
     console.error('Failed to get display wishlist items:', error)
     return []
   }
+}
+
+// Generate unique wishlistItem id
+export function generateNewWishlistItemId() : number {
+  const wishlistItems = getWishlistItemsFromLocalStorage()
+  const newId =
+  wishlistItems.length > 0 ? Math.max(...wishlistItems.map((wishlistItems) => wishlistItems.id)) + 1 : 1
+
+  return newId
 }
