@@ -1,6 +1,6 @@
 import { AdminOrderSummary, Order, UserOrderSummary } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
-import { clearCart, getCartFromLocalStorage } from './cart'
+import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import { generateCurrentDateTime } from '../utils/generateDate'
@@ -85,7 +85,7 @@ export function generateNewOrderId(): number {
 // Copy Demo User's cart to orders, then delete Demo User's cart.
 export function transferDemoUserCartToOrders(shippingId: number): void {
   try {
-    const cart: CartItem[] = getCartFromLocalStorage()
+    const cart: CartItem[] = getCartItemsFromLocalStorage()
     if (cart.length === 0) {
       console.log('Cart is empty. No order created.')
       return
@@ -110,7 +110,7 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
 
     setOrdersInLocalStorage(orders)
 
-    clearCart()
+    deleteAllCartItems()
 
     console.log('Order created and cart cleared successfully.')
   } catch (error) {
