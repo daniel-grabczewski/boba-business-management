@@ -1,4 +1,4 @@
-export interface WishlistProductView {
+export interface DisplayWishlistItem {
   id: number
   productId: number
   productName: string
@@ -6,8 +6,7 @@ export interface WishlistProductView {
   productPrice: number
 }
 
-//Initial meaning that it is data before it is joined with other data files.
-export interface WishlistProductInitial {
+export interface WishlistItem {
   id: number
   userId: string
   productId: number
