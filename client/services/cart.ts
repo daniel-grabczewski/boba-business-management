@@ -94,7 +94,7 @@ export function addItemToCartByProductId(
   }
 }
 
-// Delete a product from the cart by given productId
+// Delete a cart item from the cart that is has the given productId
 export function deleteItemFromCartByProductId(productId: number): void {
   try {
     const cartItems = getCartItemsFromLocalStorage()
@@ -119,7 +119,7 @@ export function deleteAllCartItems(): void {
   }
 }
 
-// Update quantity of a product in cart by given productId and quantity
+// Update cart item quantity of product by given productId and quantity
 export function updateCartItemQuantityByProductId(
   productId: number,
   quantity: number
@@ -138,7 +138,7 @@ export function updateCartItemQuantityByProductId(
     }
   } catch (error) {
     console.error(
-      `Failed to modify cart item quantity associated with  product ID: ${productId}`,
+      `Failed to modify cart item quantity associated with product ID: ${productId}`,
       error
     )
   }
