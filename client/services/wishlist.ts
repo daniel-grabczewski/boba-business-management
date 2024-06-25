@@ -12,6 +12,17 @@ export function setWishlistItemsInLocalStorage(wishlistItems: WishlistItem[]): v
   try {
     localStorage.setItem('wishlistItems', JSON.stringify(wishlistItems))
   } catch (error) {
-    console.error('Failed to set wishlistItems in localStorage:', error)
+    console.error('Failed to set wishlist items in localStorage:', error)
+  }
+}
+
+// Retrieve array of objects 'wishlistItems' from localStorage
+export function getWishlistItemsFromLocalStorage(): WishlistItem[] {
+  try {
+    const wishlistItems = localStorage.getItem('wishlistItems')
+    return wishlistItems ? JSON.parse(wishlistItems) : []
+  } catch (error) {
+    console.error('Failed to get wishlist items from localStorage:', error)
+    return []
   }
 }
