@@ -8,6 +8,5 @@ export interface DisplayWishlistItem {
 
 export interface WishlistItem {
   id: number
-  userId: string
   productId: number
 }
