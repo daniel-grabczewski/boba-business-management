@@ -1,6 +1,6 @@
 import { WishlistItem, DisplayWishlistItem} from '../../models/Wishlist'
+import { getProductByIdAdmin } from './products'
 
-// localStorage set, get. Both as Wishlist[]
 // getWishlistWithExtraDetails() get wishlist as WithlistExtraDetails[]
 // generateNewWishlistId()
 // isProductInWishlistByProductId (productId) Return true or false, depending on whether the product associated with given product id is in the demo user's wish list.
@@ -23,6 +23,33 @@ export function getWishlistItemsFromLocalStorage(): WishlistItem[] {
     return wishlistItems ? JSON.parse(wishlistItems) : []
   } catch (error) {
     console.error('Failed to get wishlist items from localStorage:', error)
+    return []
+  }
+}
+
+// Get wishlist items as DisplayWishlistItem[]
+export function getDisplayWishlistItems(): DisplayWishlistItem[] {
+  try {
+    const wishlistItems = getWishlistItemsFromLocalStorage()
+    
+    const displayWishlistItems = wishlistItems.map(({productId, id}) => {
+      const product = getProductByIdAdmin(productId)
+      if (product) {
+        return {
+          id,
+          productId,
+          productName: product.name,
+          productImage: product.image ,
+          productPrice: product.price,
+        }
+      }
+      return undefined
+      
+    }).filter(wishlistItem => wishlistItem !== undefined) as DisplayWishlistItem[]
+
+    return displayWishlistItems
+  } catch (error) {
+    console.error('Failed to get display wishlist items:', error)
     return []
   }
 }
