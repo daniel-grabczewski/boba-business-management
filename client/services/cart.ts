@@ -3,22 +3,22 @@ import { getAllProductsAdmin } from './products'
 
 
 
-// Replace existing localStorage cart data with given cart data
-export function setCartInLocalStorage(cart: CartItem[]): void {
+// Replace existing localStorage cart items data with given cart items data
+export function setCartItemsInLocalStorage(cartItems: CartItem[]): void {
   try {
-    localStorage.setItem('cart', JSON.stringify(cart))
+    localStorage.setItem('cartItems', JSON.stringify(cartItems))
   } catch (error) {
-    console.error('Failed to set cart in localStorage:', error)
+    console.error('Failed to set cart items in localStorage:', error)
   }
 }
 
-// Retrieve array of objects 'cart' from localStorage
-export function getCartFromLocalStorage(): CartItem[] {
+// Retrieve array of objects 'cartItems' from localStorage
+export function getCartItemsFromLocalStorage(): CartItem[] {
   try {
-    const cart = localStorage.getItem('cart')
-    return cart ? JSON.parse(cart) : []
+    const cartItems = localStorage.getItem('cartItems')
+    return cartItems ? JSON.parse(cartItems) : []
   } catch (error) {
-    console.error('Failed to get cart from localStorage:', error)
+    console.error('Failed to get cart items from localStorage:', error)
     return []
   }
 }
@@ -26,9 +26,9 @@ export function getCartFromLocalStorage(): CartItem[] {
 // Retrieve all the cart data, combine it with product data, and return DisplayCartItem[]
 export function getDisplayCartItems(): DisplayCartItem[] {
   try {
-    const cart = getCartFromLocalStorage()
+    const cartItems = getCartItemsFromLocalStorage()
     const products = getAllProductsAdmin()
-    const displayCart = cart.map(cartItem => {
+    const displayCartItems = cartItems.map(cartItem => {
       const product = products.find(product => product.id === cartItem.productId)
       if (product) {
         return {
@@ -44,7 +44,7 @@ export function getDisplayCartItems(): DisplayCartItem[] {
       return undefined
     }).filter(item => item !== undefined) as DisplayCartItem[] 
 
-    return displayCart
+    return displayCartItems
   } catch (error) {
     console.error('Error retrieving display cart items:', error)
     return []
@@ -53,7 +53,7 @@ export function getDisplayCartItems(): DisplayCartItem[] {
 
 // Returns new cart id, unique from every other cart id
 export function generateNewCartItemId(): number {
-  const cartItems = getCartFromLocalStorage()
+  const cartItems = getCartItemsFromLocalStorage()
   const newId =
   cartItems.length > 0
       ? Math.max(...cartItems.map((cartItem) => cartItem.id)) + 1
@@ -64,14 +64,14 @@ export function generateNewCartItemId(): number {
 
 
 // Add a product to the cart by given productId and given quantity
-export function addProductToCartById(productId: number, quantity = 1): void {
+export function addItemToCartByProductId(productId: number, quantity = 1): void {
   try {
-    const cart = getCartFromLocalStorage()
-    const index = cart.findIndex((item) => item.productId === productId)
+    const cartItems = getCartItemsFromLocalStorage()
+    const index = cartItems.findIndex((cartItem) => cartItem.productId === productId)
     const products = getAllProductsAdmin()
 
     if (index !== -1) {
-      cart[index].quantity += quantity
+      cartItems[index].quantity += quantity
     } else {
       const product = products.find((item) => item.id === productId)
       if (product) {
@@ -83,48 +83,48 @@ export function addProductToCartById(productId: number, quantity = 1): void {
           totalPrice: product.price * quantity,
           productId: product.id,
         }
-        cart.push(newItem)
+        cartItems.push(newItem)
       }
     }
-    setCartInLocalStorage(cart)
+    setCartItemsInLocalStorage(cartItems)
   } catch (error) {
-    console.error('Failed to add product to cart:', error)
+    console.error(`Failed to add cart item with product ID : ${productId}`, error)
   }
 }
 
 // Delete a product from the cart by given productId
-export function deleteProductFromCart(productId: number): void {
+export function deleteItemFromCartByProductId(productId: number): void {
   try {
-    const cart = getCartFromLocalStorage()
-    const updatedCart = cart.filter((item) => item.productId !== productId)
-    setCartInLocalStorage(updatedCart)
+    const cartItems = getCartItemsFromLocalStorage()
+    const updatedCartItems = cartItems.filter((cartItem) => cartItem.productId !== productId)
+    setCartItemsInLocalStorage(updatedCartItems)
   } catch (error) {
-    console.error(`Failed to delete product from cart with ID: ${productId}`, error)
+    console.error(`Failed to delete cart item associated with product ID: ${productId}`, error)
   }
 }
 
-// Remove all the items in the cart
-export function clearCart(): void {
+// Delete all the items in the cart
+export function deleteAllCartItems(): void {
   try {
-    setCartInLocalStorage([])
+    setCartItemsInLocalStorage([])
   } catch (error) {
-    console.error('Failed to clear cart:', error)
+    console.error('Failed to delete all cart items:', error)
   }
 }
 
-// Change quantity of a product in cart by given productId and quantity
-export function modifyCartProductQuantity(productId: number, quantity: number): void {
+// Update quantity of a product in cart by given productId and quantity
+export function updateCartItemQuantityByProductId(productId: number, quantity: number): void {
   try {
-    const cart = getCartFromLocalStorage()
-    const index = cart.findIndex((item) => item.productId === productId)
+    const cartItems = getCartItemsFromLocalStorage()
+    const index = cartItems.findIndex((cartItem) => cartItem.productId === productId)
 
     if (index !== -1) {
-      cart[index].quantity = quantity
-      setCartInLocalStorage(cart)
+      cartItems[index].quantity = quantity
+      setCartItemsInLocalStorage(cartItems)
     } else {
-      console.error(`Product with ID: ${productId} not found in cart`)
+      console.error(`Product with ID: ${productId} not found in any cart items`)
     }
   } catch (error) {
-    console.error(`Failed to modify quantity of product in cart with ID: ${productId}`, error)
+    console.error(`Failed to modify cart item quantity associated with  product ID: ${productId}`, error)
   }
 }
