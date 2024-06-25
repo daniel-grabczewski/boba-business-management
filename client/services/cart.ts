@@ -1,5 +1,5 @@
 import { CartItem, DisplayCartItem } from '../../models/Cart'
-import { getAllProductsAdmin } from './products'
+import { getAllProductsAdmin, getProductByIdAdmin } from './products'
 
 // Replace existing localStorage cart items data with given cart items data
 export function setCartItemsInLocalStorage(cartItems: CartItem[]): void {
@@ -25,12 +25,9 @@ export function getCartItemsFromLocalStorage(): CartItem[] {
 export function getDisplayCartItems(): DisplayCartItem[] {
   try {
     const cartItems = getCartItemsFromLocalStorage()
-    const products = getAllProductsAdmin()
     const displayCartItems = cartItems
       .map((cartItem) => {
-        const product = products.find(
-          (product) => product.id === cartItem.productId
-        )
+        const product = getProductByIdAdmin(cartItem.productId)
         if (product) {
           return {
             id: cartItem.id,
