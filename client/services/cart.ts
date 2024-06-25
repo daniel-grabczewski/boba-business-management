@@ -51,6 +51,17 @@ export function getDisplayCartItems(): DisplayCartItem[] {
   }
 }
 
+// Returns new cart id, unique from every other cart id
+export function generateNewCartItemId(): number {
+  const cartItems = getCartFromLocalStorage()
+  const newId =
+  cartItems.length > 0
+      ? Math.max(...cartItems.map((cartItem) => cartItem.id)) + 1
+      : 1
+
+  return newId
+}
+
 
 // Add a product to the cart by given productId and given quantity
 export function addProductToCartById(productId: number, quantity = 1): void {
