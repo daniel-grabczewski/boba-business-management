@@ -1,8 +1,6 @@
 import { WishlistItem, DisplayWishlistItem } from '../../models/Wishlist'
 import { getProductByIdAdmin } from './products'
 
-// deleteProductFromWishlistByProductId(productId)
-
 // Replace localStorage wishlistItems with given wishlistItems
 export function setWishlistItemsInLocalStorage(
   wishlistItems: WishlistItem[]
@@ -85,8 +83,8 @@ export function isProductInWishlistItemsByProductId(
   }
 }
 
-// Add product to wishlist with given product ID
-export function addProductToWishlistItemsByProductId(productId: number) {
+// Add product to wishlist items with given product ID, AFTER checking if product already exists in wishlist items
+export function addProductToWishlistItemsByProductId(productId: number): void {
   try {
     if (isProductInWishlistItemsByProductId(productId)) {
       console.log(
@@ -100,6 +98,30 @@ export function addProductToWishlistItemsByProductId(productId: number) {
   } catch (error) {
     console.error(
       `Failed to add product with ID ${productId} to wishlist items`,
+      error
+    )
+  }
+}
+
+// Delete wishlist item associated with with ID, AFTER checking if product exists in wishlist items
+export function deleteProductFromWishlistItemsByProductId(
+  productId: number
+): void {
+  try {
+    if (!isProductInWishlistItemsByProductId(productId)) {
+      console.log(
+        `Product with ID of ${productId} doesn't exist in wishlistItems`
+      )
+    } else {
+      const wishlistItems = getWishlistItemsFromLocalStorage()
+      const newWishlistItems = wishlistItems.filter(
+        (wishlistItem) => wishlistItem.productId !== productId
+      )
+      setWishlistItemsInLocalStorage(newWishlistItems)
+    }
+  } catch (error) {
+    console.error(
+      `Failed to delete product with ID ${productId} from wishlist items`,
       error
     )
   }
