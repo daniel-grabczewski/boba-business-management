@@ -1,8 +1,7 @@
 import { FormEvent, useState } from 'react'
 import { AdminProduct, UpsertProduct } from '../../../../models/Products'
 import { useMutation, useQueryClient } from 'react-query'
-import { useAuth0 } from '@auth0/auth0-react'
-import { modifyProductById } from '../../../services/products'
+import { updateProductById } from '../../../services/products'
 import { useNavigate, useParams } from 'react-router-dom'
 
 interface EditProductProps {
@@ -19,7 +18,6 @@ function EditProduct({ product }: EditProductProps) {
     stock: product.stock,
   } as UpsertProduct)
 
-  const { getAccessTokenSilently } = useAuth0()
   const params = useParams()
   const id = Number(params.id)
   const queryClient = useQueryClient()
@@ -33,9 +31,8 @@ function EditProduct({ product }: EditProductProps) {
       id: number
       editedProduct: UpsertProduct
     }) => {
-      const token = await getAccessTokenSilently()
 
-      return modifyProductById(id, editedProduct, token)
+      return updateProductById(id, editedProduct)
     },
     {
       onSuccess: () => {

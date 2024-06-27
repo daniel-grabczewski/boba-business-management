@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { UpsertProduct } from '../../../../models/Products'
 import { createProduct } from '../../../services/products'
 import { useMutation } from 'react-query'
@@ -24,12 +23,10 @@ const AddProduct = () => {
 
   const [isFormComplete, setIsFormComplete] = useState(false)
 
-  const { getAccessTokenSilently } = useAuth0()
 
   const addProductMutation = useMutation(
     async (newProduct: UpsertProduct) => {
-      const token = await getAccessTokenSilently()
-      return createProduct(newProduct, token)
+      return createProduct(newProduct)
     },
     {
       onSuccess: () => {
