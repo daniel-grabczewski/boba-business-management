@@ -1,16 +1,15 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAmountOfOrdersByDate } from '../../../services/orders'
-import { fetchUser } from '../../../services/users'
-import { fetchAmountOfUnreadEmailsByToday } from '../../../services/emails'
-import { fetchAmountOfReviewsByDate } from '../../../services/reviews'
-import { fetchAmountOfProductsBelowStockLevel } from '../../../services/products'
-import { AdminProduct } from '../../../../models/Products'
+import { getOrderCountFromDate } from '../../../services/orders'
+import { getUserByUserId } from '../../../services/users'
+import { countUnreadEmailsFromDate } from '../../../services/emails'
+import { getCountOfReviewsFromDate } from '../../../services/reviews'
+import { countProductsBelowStockThreshold } from '../../../services/products'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { useNavigate } from 'react-router-dom'
+import { getDemoUserDetails } from '../../../utils/getDemoUserDetails'
+import { generateCurrentDate } from '../../../utils/generateDate'
 
 const Dashboard = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
@@ -18,31 +17,28 @@ const Dashboard = () => {
   const formattedDate = new Date().toISOString().split('T')[0]
 
   const orderAmountQuery = useQuery('fetchAmountOfOrdersByDate', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchAmountOfOrdersByDate(formattedDate, token)
+    return getOrderCountFromDate(formattedDate)
   })
 
   const profileQuery = useQuery('fetchUser', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchUser(token)
+    const demoUser = getDemoUserDetails()
+    return getUserByUserId(demoUser.userId)
   })
 
   const emailQuery = useQuery('fetchAmountOfUnreadEmailsByToday', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchAmountOfUnreadEmailsByToday(token)
+    const currentDate = generateCurrentDate()
+    return countUnreadEmailsFromDate(currentDate)
   })
 
   const reviewAmountQuery = useQuery('fetchAmountOfReviewsByDate', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchAmountOfReviewsByDate(formattedDate, token)
+    return getCountOfReviewsFromDate(formattedDate)
   })
 
   const lowStockQuery = useQuery(
     'fetchAmountOfProductsBelowStockLevel',
     async () => {
-      const token = await getAccessTokenSilently()
-      const maxStock = 5
-      return await fetchAmountOfProductsBelowStockLevel(maxStock, token)
+      const stockThreshold = 5
+      return countProductsBelowStockThreshold(stockThreshold)
     }
   )
   const statuses = [
@@ -78,7 +74,10 @@ const Dashboard = () => {
           <div>
             <h1 className="text-2xl mb-2 text-red-500">Low Stock Alert!</h1>
             <div className="flex flex-row justify-center gap-7">
-              {lowStockQuery.data?.lowStockProducts.map(
+
+              {
+              /* //!NEED ADDITIONAL FUNCTION TO GET THE LOW STOCK PRODUCTS THEMSELVES?
+              lowStockQuery.data?.lowStockProducts.map(
                 (product: AdminProduct) => (
                   <div key={product.id}>
                     <img
@@ -88,7 +87,9 @@ const Dashboard = () => {
                     />
                   </div>
                 )
-              )}
+              )
+              */  
+              }
             </div>
           </div>
           <button
@@ -118,7 +119,8 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {reviewAmountQuery.data?.reviewCount} reviews today
+              You have {/* //! I don't know why this following code is causing an error:
+               reviewAmountQuery.data?.reviewCount */} reviews today
             </h1>
           </div>
           <button
