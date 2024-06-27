@@ -28,7 +28,7 @@ export interface Review {
 }
 
 // ***** Full Detail Review Interface ***** //
-export interface ReviewExtraDetails {
+export interface AdminDisplayReview {
   reviewId: number
   productName: string
   productImage: string
