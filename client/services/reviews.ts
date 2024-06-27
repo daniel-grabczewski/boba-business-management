@@ -1,9 +1,8 @@
 import {
   NewReview,
-  UpdatedReviewStatus,
   Review,
   ProductReview,
-  ReviewExtraDetails,
+  AdminDisplayReview,
   UserReview,
 } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
@@ -84,8 +83,8 @@ export function getReviewsByProductId(productId: number): ProductReview[] {
   }
 }
 
-// Get review assosciated with given id as ReviewExtraDetails
-export function getReviewById(id: number): ReviewExtraDetails | undefined {
+// Get review associated with given id as AdminDisplayReview
+export function getAdminDisplayReviewById(id: number): AdminDisplayReview | undefined {
   try {
     const reviews = getReviewsFromLocalStorage()
     const review = reviews.find((review) => review.id === id)
@@ -109,8 +108,24 @@ export function getReviewById(id: number): ReviewExtraDetails | undefined {
       reviewCreatedAt: review.createdAt,
     }
   } catch (error) {
-    console.error(`Failed to get review for id ${id}:`, error)
+    console.error(`Failed to get admin display review for id ${id}:`, error)
     return undefined
+  }
+}
+
+// Get all reviews as AdminDisplayReview[]
+export function getAllAdminDisplayReviews(): AdminDisplayReview[] {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const adminDisplayReviews = reviews.map(({ id }) => {
+      const adminDisplayReview = getAdminDisplayReviewById(id)
+      return adminDisplayReview
+    }).filter(review => review !== undefined) as AdminDisplayReview[] 
+
+    return adminDisplayReviews
+  } catch (error) {
+    console.error('Failed to get all admin display reviews:', error)
+    return [] 
   }
 }
 
