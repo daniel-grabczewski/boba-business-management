@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
-import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../../user/components/LoadError/LoadError'
-import { fetchOrderById } from '../../../../services/orders'
+import { getOrderById } from '../../../../services/orders'
 import { Order } from '../../../../../models/Orders'
 
 interface OrderPopupProps {
@@ -20,7 +19,6 @@ function formatCurrency(amount: number) {
 }
 
 const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
-  const { getAccessTokenSilently } = useAuth0()
 
   const popupRef = useRef<HTMLDivElement>(null)
 
@@ -43,15 +41,17 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
   const { status } = useQuery(
     ['getOrderById', orderId],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchOrderById(orderId, token)
+      return getOrderById(orderId)
     },
     {
       refetchOnWindowFocus: false,
     }
   )
 
+  //!NEED ADDITIONAL FUNCTIONS HERE TO GET USER DETAILS AND ADDITIONAL PRODUCT DETAILS. MAYBE A NEW DISPLAY ORDER SERVICE FUNCTION IS NEEDED?
   return (
+    <> </>
+    /*
     <>
       <LoadError status={status} />
       {status === 'success' && order && (
@@ -61,7 +61,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
             className="bg-white p-8 w-[70%] max-w-full max-h-[80%] overflow-y-auto shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <div className="mb-4">
-              <h2 className="text-xl font-semibold">Order #{order.orderId}</h2>
+              <h2 className="text-xl font-semibold">Order #{order.id}</h2>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Information:</h3>
@@ -145,7 +145,9 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
           </div>
         </div>
       )}
+        
     </>
+    */
   )
 }
 

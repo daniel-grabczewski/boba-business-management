@@ -1,11 +1,11 @@
-import { Orders } from '../../../../../models/Orders'
+import { Order } from '../../../../../models/Orders'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../../utils/formatDate'
 
 interface OrderTableProps {
-  orders: Orders[]
+  orders: Order[]
   itemsPerPage: number
   handleOrderCellClick: (orderId: number) => void
   formatCurrency: (amount: number) => string
@@ -33,23 +33,30 @@ function OrderTable({
       </div>
 
       <div className="divBody text-gray-600 text-sm font-light">
-        {orders.slice(startIndex, endIndex).map((order: Orders) => (
+        {orders.slice(startIndex, endIndex).map((order: Order) => (
           <div
-            key={order.orderId}
+            key={order.id}
             className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-            onClick={() => handleOrderCellClick(order.orderId)}
+            onClick={() => handleOrderCellClick(order.id)}
           >
             <div className="divCell py-3 px-8 text-left whitespace-nowrap">
-              {order.orderId}
+              {order.id}
             </div>
-            <div className="divCell py-3 px-8 text-left">{order.userName}</div>
+            {/* //! NEED ADDITIONAL FUNCTIONS TO RETRIEVE USERNAME BASED ON USER ID? OR JUST GET ALL THAT INFO FROM DISPLAY ORDERS? A FUNCTION THAT RETRIEVES ORDERS AS DISPLAYORDER[] */}
+            <div className="divCell py-3 px-8 text-left">{order.userId}</div>
             <div className="divCell py-3 px-8 text-left">
               {format24HourTo12Hour(order.purchasedAt)}{' '}
               {formatDateToDDMMYYYY(order.purchasedAt)}
             </div>
-            <div className="divCell py-3 px-8 text-left">
+            
+            {
+              //NEED ADDITIONAL FUNCTION TO GET OTHER ORDER DETAILS
+              /*
+              <div className="divCell py-3 px-8 text-left">
               {formatCurrency(order.totalSale + order.shippingPrice)}
             </div>
+            */
+            }
           </div>
         ))}
       </div>
