@@ -40,7 +40,7 @@ const DisplayCurrentEmails = ({
           </div>
 
           <div className="flex-1 py-3 px-1 text-left whitespace-nowrap">
-            {email.userName}
+            {email.userId}
           </div>
           <div className="flex-1 py-3 text-left">{email.title}</div>
           <div className="flex-1 py-3 pl-6 text-left">

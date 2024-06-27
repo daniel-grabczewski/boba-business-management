@@ -1,10 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useQuery, useMutation, useQueryClient } from 'react-query'
-import { useAuth0 } from '@auth0/auth0-react'
 import {
   deleteEmailById,
-  fetchEmailById,
-  modifyEmailById,
+  getEmailById,
+  updateEmailReadStatusById,
 } from '../../../services/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { Email } from '../../../../models/Emails'
@@ -16,7 +15,6 @@ interface EmailPopupProps {
 }
 
 const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
-  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   const popupRef = useRef<HTMLDivElement>(null)
@@ -38,10 +36,9 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
   }, [closeEmailPopup])
 
   const { data: email, status } = useQuery(
-    ['fetchEmailById', emailId],
+    ['getEmailById', emailId],
     async () => {
-      const token = await getAccessTokenSilently()
-      return (await fetchEmailById(token, emailId)) as Email
+      return (getEmailById(emailId)) as Email
     },
     {
       refetchOnWindowFocus: false,
@@ -50,34 +47,29 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
 
   const updateEmailStatusMutation = useMutation(
     async (data: { emailId: number; isRead: boolean }) => {
-      const token = await getAccessTokenSilently()
-      return await modifyEmailById(token, data.emailId, {
-        id: data.emailId,
-        is_read: data.isRead,
-      })
+      return updateEmailReadStatusById(data.emailId, data.isRead)
     },
     {
       onSuccess: () => {
         //Need to check the api function
-        queryClient.invalidateQueries('fetchEmailById')
-        queryClient.invalidateQueries('fetchEmails')
+        queryClient.invalidateQueries('getEmailById')
+        queryClient.invalidateQueries('getEmailsFromLocalStorage')
       },
     }
   )
   const deleteEmailMutation = useMutation(
     async (emailId: number) => {
-      const token = await getAccessTokenSilently()
-      return await deleteEmailById(emailId, token)
+      return deleteEmailById(emailId)
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('fetchEmailById')
-        queryClient.invalidateQueries('fetchEmails')
+        queryClient.invalidateQueries('getEmailById')
+        queryClient.invalidateQueries('getEmailsFromLocalStorage')
       },
     }
   )
 
-  const modifyEmailStatus = async (emailId: number, isRead: boolean) => {
+  const updateEmailStatus = async (emailId: number, isRead: boolean) => {
     updateEmailStatusMutation.mutate({ emailId, isRead })
   }
 
@@ -87,7 +79,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
       {status === 'success' && email && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
-          onClick={() => modifyEmailStatus(email.id, !email.isRead)}
+          onClick={() => updateEmailStatus(email.id, !email.isRead)}
         >
           <div
             ref={popupRef}
@@ -111,7 +103,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
               <div className="flex justify-between text-lg">
                 <div>
                   <h2 className="font-bold">{email.title}</h2>
-                  <p className="text-md">From {email.userName}</p>
+                  <p className="text-md">From {email.userId}</p>
                 </div>
 
                 <p>{formatDateToDDMMYYYY(email.createdAt)}</p>
