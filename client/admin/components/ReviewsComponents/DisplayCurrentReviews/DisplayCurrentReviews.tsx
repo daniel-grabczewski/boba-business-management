@@ -1,11 +1,11 @@
-import { ReviewForTable } from '../../../../../models/Reviews'
+import { ReviewExtraDetails } from '../../../../../models/Reviews'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../../utils/formatDate'
-
+     //! RENAME ReviewExtraDetails to new convention with 'Display...'
 interface DisplayCurrentReviewsProps {
-  currentReviews: ReviewForTable[]
+  currentReviews: ReviewExtraDetails[]
   fetchAndShowReviewDetails: (reviewId: number) => void
 }
 
@@ -15,17 +15,18 @@ const DisplayCurrentReviews = ({
 }: DisplayCurrentReviewsProps) => {
   return (
     <div className="divBody text-gray-600 text-sm font-light">
+
       {currentReviews.map((review) => (
         <div
-          key={review.id}
+          key={review.reviewId}
           className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-          onClick={() => fetchAndShowReviewDetails(review.id)}
+          onClick={() => fetchAndShowReviewDetails(review.reviewId)}
         >
           <div
             className="divCell py-3 px-8 text-left whitespace-nowrap"
             style={{ minWidth: '200px' }}
           >
-            {review.userName}
+            {review.reviewerUserName}
           </div>
           <div
             className="divCell py-3 px-8 text-left"
@@ -37,20 +38,20 @@ const DisplayCurrentReviews = ({
             className="divCell py-3 px-8 text-left"
             style={{ minWidth: '100px' }}
           >
-            {review.rating}
+            {review.reviewRating}
           </div>
           <div
             className="divCell py-3 px-8 text-left"
             style={{ minWidth: '100px' }}
           >
-            {review.isEnabled ? 'Enabled' : 'Disabled'}
+            {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
           </div>
           <div
             className="divCell py-3 px-8 text-left"
             style={{ minWidth: '200px' }}
           >
-            {format24HourTo12Hour(review.createdAt)}{' '}
-            {formatDateToDDMMYYYY(review.createdAt)}
+            {format24HourTo12Hour(review.reviewCreatedAt)}{' '}
+            {formatDateToDDMMYYYY(review.reviewCreatedAt)}
           </div>
         </div>
       ))}

@@ -3,10 +3,9 @@ import { useQuery, useMutation } from 'react-query'
 import StarRating from '../../../../user/components/StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../../utils/formatDate'
 import {
-  fetchReviewById,
-  modifyReviewStatusById,
+  getReviewById,
+  updateReviewStatusById,
 } from '../../../../services/reviews'
-import { useAuth0 } from '@auth0/auth0-react'
 import LoadError from '../../../../user/components/LoadError/LoadError'
 
 interface ReviewPopupProps {
@@ -15,8 +14,6 @@ interface ReviewPopupProps {
 }
 
 const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
-  const { getAccessTokenSilently } = useAuth0()
-
   const popupRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -42,8 +39,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
   } = useQuery(
     ['getReviewById', reviewId],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchReviewById(reviewId, token)
+      return await getReviewById(reviewId)
     },
     {
       refetchOnWindowFocus: false,
@@ -52,11 +48,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
 
   const mutation = useMutation(
     async (data: { reviewId: number; isEnabled: boolean }) => {
-      const token = await getAccessTokenSilently()
-      return await modifyReviewStatusById(
-        { id: data.reviewId, isEnabled: data.isEnabled },
-        token
-      )
+      return updateReviewStatusById(data.reviewId, data.isEnabled)
     },
     {
       onSuccess: () => {
