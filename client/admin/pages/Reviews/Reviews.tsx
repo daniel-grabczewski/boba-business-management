@@ -1,17 +1,15 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import { fetchAllReviews, fetchReviewById } from '../../../services/reviews'
+import { getAllAdminDisplayReviews, getAdminDisplayReviewById } from '../../../services/reviews'
 import LoadError from '../../../user/components/LoadError/LoadError'
-import { Review, ReviewForTable } from '../../../../models/Reviews'
-import { useAuth0 } from '@auth0/auth0-react'
+import { AdminDisplayReview } from '../../../../models/Reviews'
 import ReviewPopup from '../../components/ReviewsComponents/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewsComponents/ReviewSortingControls/ReviewSortingControls'
 import ReviewColumnTitles from '../../components/ReviewsComponents/ReviewColumnTitles/ReviewColumnTitles'
 import DisplayCurrentReviews from '../../components/ReviewsComponents/DisplayCurrentReviews/DisplayCurrentReviews'
 
 const Reviews = () => {
-  const { getAccessTokenSilently } = useAuth0()
-  const [selectedReview, setSelectedReview] = useState<Review | null>(null)
+  const [selectedReview, setSelectedReview] = useState<AdminDisplayReview | undefined>(undefined)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
@@ -23,14 +21,12 @@ const Reviews = () => {
     status: statusReviews,
     refetch,
   } = useQuery(['getReviews'], async () => {
-    const token = await getAccessTokenSilently()
-    const fetchedReviews: ReviewForTable[] = await fetchAllReviews(token)
+    const fetchedReviews: AdminDisplayReview[] =  getAllAdminDisplayReviews()
     return fetchedReviews
   })
 
   const fetchAndShowReviewDetails = async (reviewId: number) => {
-    const token = await getAccessTokenSilently()
-    const review = await fetchReviewById(reviewId, token)
+    const review = getAdminDisplayReviewById(reviewId)
     setSelectedReview(review)
   }
 
@@ -40,27 +36,29 @@ const Reviews = () => {
 
   const filteredAndSortedReviews = reviews
     ?.filter((review) => {
-      if (filter === 'enabled') return review.isEnabled
-      if (filter === 'disabled') return !review.isEnabled
+      if (filter === 'enabled') return review.reviewIsEnabled
+      if (filter === 'disabled') return !review.reviewIsEnabled
       return true
     })
     .filter((review) => {
-      return review.productName.toLowerCase().includes(search.toLowerCase())
+   
+        return review.productName.toLowerCase().includes(search.toLowerCase())
+      
     })
     .sort((a, b) => {
       switch (sort) {
         case 'Newest first':
           return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            new Date(b.reviewCreatedAt).getTime() - new Date(a.reviewCreatedAt).getTime()
           )
         case 'Oldest first':
           return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            new Date(a.reviewCreatedAt).getTime() - new Date(b.reviewCreatedAt).getTime()
           )
         case 'High to low rating':
-          return b.rating - a.rating
+          return b.reviewRating - a.reviewRating
         case 'Low to high rating':
-          return a.rating - b.rating
+          return a.reviewRating - b.reviewRating
         default:
           return 0
       }
@@ -74,7 +72,7 @@ const Reviews = () => {
   )
 
   const closeReviewPopup = () => {
-    setSelectedReview(null)
+    setSelectedReview(undefined)
     refetch()
   }
 

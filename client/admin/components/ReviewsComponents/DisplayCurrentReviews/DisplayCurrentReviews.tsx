@@ -1,11 +1,11 @@
-import { ReviewExtraDetails } from '../../../../../models/Reviews'
+import { AdminDisplayReview } from '../../../../../models/Reviews'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../../utils/formatDate'
      //! RENAME ReviewExtraDetails to new convention with 'Display...'
 interface DisplayCurrentReviewsProps {
-  currentReviews: ReviewExtraDetails[]
+  currentReviews: AdminDisplayReview[]
   fetchAndShowReviewDetails: (reviewId: number) => void
 }
 
