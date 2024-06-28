@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query'
-import { useAuth0 } from '@auth0/auth0-react'
-import { fetchAllProductsAdmin } from '../../../services/products'
+import { getAllProductsAdmin } from '../../../services/products'
 import { useEffect, useState } from 'react'
 import ShopPaginationControls from '../../../user/components/ShopPaginationControls/ShopPaginationControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
@@ -8,7 +7,6 @@ import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductSearchBar from '../../components/ProductSearchBar/ProductSearchBar'
 
 const ProductsSummary = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const [page, setPage] = useState(1)
   const [sort, setSort] = useState('')
   const [filter, setFilter] = useState('')
@@ -23,8 +21,7 @@ const ProductsSummary = () => {
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchAllProductsAdmin(token)
+      return getAllProductsAdmin()
     }
   )
 
