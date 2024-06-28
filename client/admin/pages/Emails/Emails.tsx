@@ -1,6 +1,5 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAllEmails, fetchEmailById } from '../../../services/emails'
+import { getEmailsFromLocalStorage, getEmailById } from '../../../services/emails'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
@@ -10,10 +9,9 @@ import EmailsSortingControls from '../../components/Emails/EmailsSortingControls
 import EmailPopup from '../../components/Emails/EmailPopup'
 
 const Emails = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
-  const [selectedEmail, setSelectedEmail] = useState<Email | null>(null)
+  const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(undefined)
 
   const [currentPage, setCurrentPage] = useState(1)
   // the 10 just for testing if the filter work or not
@@ -26,13 +24,11 @@ const Emails = () => {
     isLoading,
     refetch,
   } = useQuery(['fetchEmails'], async () => {
-    const token = await getAccessTokenSilently()
-    return (await fetchAllEmails(token)) as Email[]
+    return ( getEmailsFromLocalStorage()) as Email[]
   })
 
   const fetchAndShowEmailDetails = async (emailId: number) => {
-    const token = await getAccessTokenSilently()
-    const email = await fetchEmailById(token, emailId)
+    const email = getEmailById(emailId)
     setSelectedEmail(email)
   }
 
@@ -69,7 +65,7 @@ const Emails = () => {
   )
 
   const closeEmailPopup = () => {
-    setSelectedEmail(null)
+    setSelectedEmail(undefined)
     refetch()
   }
   return (
