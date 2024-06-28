@@ -1,4 +1,5 @@
-export interface ProductReview {
+// Interface for review displayed the Product page
+export interface ProductPageDisplayReview {
   productId: number
   userName: string
   rating: number
@@ -6,7 +7,8 @@ export interface ProductReview {
   description: string
 }
 
-export interface UserReview {
+// Interface for review displayed for the Shopper's viewing in their profile
+export interface ShopperDisplayReview {
   productId: number
   productName: string
   productImage: string
@@ -16,7 +18,8 @@ export interface UserReview {
   reviewCreatedAt: string
 }
 
-// ***** Initial Review Interface ***** //
+
+// Interface for review stored in local storage
 export interface Review {
   id: number
   productId: number
@@ -27,7 +30,7 @@ export interface Review {
   createdAt: string
 }
 
-// ***** Full Detail Review Interface ***** //
+// Interface for displaying review for Admin's viewing
 export interface AdminDisplayReview {
   reviewId: number
   productName: string
@@ -39,13 +42,9 @@ export interface AdminDisplayReview {
   reviewCreatedAt: string
 }
 
-export interface NewReview {
+// Interface for creating a new review
+export interface CreateReview  {
   productId: number
   description: string
   rating: number
-}
-
-export interface UpdatedReviewStatus {
-  id: number
-  isEnabled: boolean
 }
