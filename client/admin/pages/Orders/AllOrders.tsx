@@ -1,8 +1,7 @@
 import { useState } from 'react'
-import { useAuth0 } from '@auth0/auth0-react'
 import { useQuery } from 'react-query'
-import { fetchAllOrders, fetchOrderById } from '../../../services/orders'
-import { Order, Orders } from '../../../../models/Orders'
+import { getOrdersFromLocalStorage, getOrderById } from '../../../services/orders'
+import { Order } from '../../../../models/Orders'
 import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
@@ -11,7 +10,6 @@ import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
 const itemsPerPage = 10
 
 function AllOrders() {
-  const { getAccessTokenSilently } = useAuth0()
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
@@ -21,8 +19,7 @@ function AllOrders() {
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchAllOrders',
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchAllOrders(token)
+      return  getOrdersFromLocalStorage()
     }
   )
 
@@ -36,8 +33,7 @@ function AllOrders() {
 
   const handleOrderCellClick = async (orderId: number) => {
     try {
-      const token = await getAccessTokenSilently()
-      const order = await fetchOrderById(orderId, token)
+      const order = getOrderById(orderId)
       setSelectedOrder(order)
     } catch (error) {
       console.error('Error fetching order details:', error)
@@ -51,10 +47,10 @@ function AllOrders() {
   }
 
   const filteredAndSortedOrders = orders
-    .filter((order: Orders) =>
-      order.orderId.toString().includes(search.toLowerCase())
+    .filter((order: Order) =>
+      order.id.toString().includes(search.toLowerCase())
     )
-    .sort((a: Orders, b: Orders) => {
+    .sort((a: Order, b: Order) => {
       const dateA = new Date(a.purchasedAt)
       const dateB = new Date(b.purchasedAt)
 
@@ -95,7 +91,7 @@ function AllOrders() {
         <div className="order-details-popup">
           <button onClick={() => setSelectedOrder(null)}>Close</button>
           <OrderPopup
-            orderId={selectedOrder.orderId}
+            orderId={selectedOrder.id}
             order={selectedOrder}
             closeOrderPopup={() => setSelectedOrder(null)}
           />
