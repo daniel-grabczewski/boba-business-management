@@ -1,9 +1,9 @@
 import {
-  NewReview,
+  CreateReview ,
   Review,
-  ProductReview,
+  ProductPageDisplayReview,
   AdminDisplayReview,
-  UserReview,
+  ShopperDisplayReview,
 } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
@@ -51,8 +51,8 @@ export function getReviewsFromLocalStorage(): Review[] {
   }
 }
 
-// Get all reviews associated with given product id as ProductReview[]
-export function getReviewsByProductId(productId: number): ProductReview[] {
+// Get all reviews associated with given product id as ProductPageDisplayReview[]
+export function getReviewsByProductId(productId: number): ProductPageDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const reviewsForProduct = reviews
@@ -209,8 +209,8 @@ export function recalculateAllProductsAverageRating(): void {
   }
 }
 
-// Get all reviews associated with given userId as UserReview[]
-export function getReviewsByUserId(userId: string): UserReview[] {
+// Get all reviews associated with given userId as ShopperDisplayReview[]
+export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const userReviews = reviews
@@ -232,15 +232,15 @@ export function getReviewsByUserId(userId: string): UserReview[] {
       })
       .filter(review => review !== undefined) 
 
-    return userReviews as UserReview[] 
+    return userReviews as ShopperDisplayReview[] 
   } catch (error) {
     console.error(`Failed to get user ${userId} reviews`, error)
     return []
   }
 }
 
-// Add review from demo user to reviews in localStorage. Only allow to add a review if the demo user hasn't reviewed the associated product yet Then, recalculates average rating of the product they reviewed.
-export function addDemoUserReview(newReview: NewReview): void {
+// Add review from demo user as CreateReview to reviews in localStorage. Only allow to add a review if the demo user hasn't reviewed the associated product yet Then, recalculates average rating of the product they reviewed.
+export function addDemoUserReview(newReview: CreateReview ): void {
   try {
     const reviews = getReviewsFromLocalStorage()
     const demoUserId = getDemoUserDetails().userId
