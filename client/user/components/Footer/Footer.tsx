@@ -1,4 +1,3 @@
-import { useAuth0 } from '@auth0/auth0-react'
 import { useNavigate } from 'react-router-dom'
 
 const Footer = () => {
@@ -7,15 +6,6 @@ const Footer = () => {
     navigate(link)
   }
 
-  const { loginWithRedirect } = useAuth0()
-
-  const handleLoginClick = () => {
-    loginWithRedirect({
-      authorizationParams: {
-        redirect_uri: `${window.location.origin}/redirect`,
-      },
-    })
-  }
 
   return (
     <footer className="text-white py-2" style={{ background: '#9B99FF' }}>
@@ -39,12 +29,6 @@ const Footer = () => {
               onClick={() => goTo('/contact')}
             >
               Contact
-            </button>
-            <button
-              className="hover:text-rose-200 transition-colors duration-300"
-              onClick={handleLoginClick}
-            >
-              Admin
             </button>
           </div>
         </div>
