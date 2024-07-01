@@ -1,5 +1,5 @@
 import { CartItem, DisplayCartItem } from '../../models/Cart'
-import { getAllProductsAdmin, getProductByIdAdmin } from './products'
+import { getProductByIdAdmin } from './products'
 
 // Replace existing localStorage cart items data with given cart items data
 export function setCartItemsInLocalStorage(cartItems: CartItem[]): void {
