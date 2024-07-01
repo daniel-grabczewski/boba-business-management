@@ -6,23 +6,24 @@
     /* Visit https://aka.ms/tsconfig to read more about this file */
     /* Projects */
     /* Language and Environment */
-    "target": "es2017" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
+    "target": "es2017",
     "types": ["node"],
     "lib": ["es2017", "dom"],
-    "jsx": "react-jsx" /* Specify what JSX code is generated. */,
+    "jsx": "react-jsx",
 
     /* Modules */
-    "module": "commonjs" /* Specify what module code is generated. */,
+    "module": "commonjs",
 
     /* Interop Constraints */
-    "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables 'allowSyntheticDefaultImports' for type compatibility. */,
-    "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "allowJs": true,
 
     /* Type Checking */
-    "strict": true /* Enable all strict
-    "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */,
+    "strict": true,
+    "skipLibCheck": true,
     "noEmit": true
   },
-  "include": ["server/**/*", "client/**/*"]
+  "include": ["server/**/*", "client/**/*"],
+  "exclude": ["node_modules"]
 }
