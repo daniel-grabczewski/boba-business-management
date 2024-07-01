@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { useMutation } from 'react-query'
-import { NewReview, ProductReview } from '../../../../models/Reviews'
-import { UserProduct } from '../../../../models/Products'
+import { CreateReview, ProductPageDisplayReview } from '../../../../models/Reviews'
+import { ShopperProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
-import { addReview } from '../../../services/reviews'
-import { useAuth0 } from '@auth0/auth0-react'
+import { addDemoUserReview } from '../../../services/reviews'
 
 interface ProductReviewsProps {
-  product: UserProduct
-  reviews: ProductReview[]
+  product: ShopperProduct
+  reviews: ProductPageDisplayReview[]
   refetchReviews: () => void
 }
 
@@ -22,12 +21,10 @@ function ViewProductReviews({
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(3)
 
-  const { getAccessTokenSilently } = useAuth0()
 
   const addReviewMutation = useMutation(
-    async (newReview: NewReview) => {
-      const token = await getAccessTokenSilently()
-      return addReview(newReview, token)
+    async (newReview: CreateReview) => {
+      return addDemoUserReview(newReview)
     },
     {
       onSuccess: () => {
