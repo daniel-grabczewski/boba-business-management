@@ -1,19 +1,18 @@
 import { useState } from 'react'
-import { UserProduct } from '../../../../models/Products'
-import { addProductToCart } from '../../../services/cart'
+import { ShopperProduct } from '../../../../models/Products'
+import { addItemToCartByProductId } from '../../../services/cart'
 import StarRating from '../StarRating/StarRating'
 import { useMutation } from 'react-query'
 import {
-  addToWishlistByProductId,
-  deleteFromWishlistByProductId,
+  addProductToWishlistItemsByProductId,
+  deleteProductFromWishlistItemsByProductId,
 } from '../../../services/wishlist'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
-import { useAuth0 } from '@auth0/auth0-react'
 
 interface ViewProductProps {
-  product: UserProduct
+  product: ShopperProduct
   wishlistStatus: boolean
   refetchWishlistProductStatus: () => void
 }
@@ -27,12 +26,10 @@ function ViewProduct({
   const [buttonColor, setButtonColor] = useState(
     'bg-blue-500 hover:bg-blue-700'
   )
-  const { getAccessTokenSilently } = useAuth0() // Use Auth0 to get the access token
 
   const cartMutation = useMutation(
     async (productId: number) => {
-      const token = await getAccessTokenSilently()
-      return addProductToCart(productId, token)
+      return addItemToCartByProductId(productId)
     },
     {
       onSuccess: () => {
@@ -51,11 +48,10 @@ function ViewProduct({
 
   const wishlistMutation = useMutation(
     async () => {
-      const token = await getAccessTokenSilently()
       if (wishlistStatus) {
-        return deleteFromWishlistByProductId(product.id, token)
+        return deleteProductFromWishlistItemsByProductId(product.id)
       } else {
-        return addToWishlistByProductId(product.id, token)
+        return addProductToWishlistItemsByProductId(product.id)
       }
     },
     {
