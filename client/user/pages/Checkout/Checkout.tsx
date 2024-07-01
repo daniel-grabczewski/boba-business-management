@@ -1,12 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
-import { fetchCart } from '../../../services/cart'
-import { CartClient } from '../../../../models/Cart'
-import { fetchAllShippingOptions } from '../../../services/shipping'
-import { ShippingOptions } from '../../../../models/ShippingOptions'
+import { getDisplayCartItems } from '../../../services/cart'
+import { DisplayCartItem } from '../../../../models/Cart'
+import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
+import { ShippingOption } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
-import { moveCartToPurchases } from '../../../services/orders'
+import { transferDemoUserCartToOrders } from '../../../services/orders'
 import { UpdateUser } from '../../../../models/Users'
-import { modifyUserDetails } from '../../../services/users'
+import {  } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
   PaymentInformation,
@@ -16,14 +16,12 @@ import {
   OrderSummary,
 } from '../../components'
 import LoadError from '../../components/LoadError/LoadError'
-import { useAuth0 } from '@auth0/auth0-react'
 
 function Checkout() {
-  const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const [cartProducts, setCartProduct] = useState([] as CartClient[])
+  const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
   const [userDetails, setUserDetails] = useState({
     phoneNumber: '',
     firstName: '',
@@ -40,19 +38,17 @@ function Checkout() {
   })
   //Different Query
   const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchAllShippingOptions(token)
+    return await getShippingOptionsFromLocalStorage()
   })
 
   const CartQuery = useQuery(
     'fetchCart',
     async () => {
-      const token = await getAccessTokenSilently()
-      const cartData = await fetchCart(token)
+      const cartData = getDisplayCartItems()
       return cartData
     },
     {
-      onSuccess: (data: CartClient[]) => {
+      onSuccess: (data: DisplayCartItem[]) => {
         setCartProduct(data)
       },
     }
@@ -62,8 +58,8 @@ function Checkout() {
 
   //Mutation of Different Query
   const purchaseMutation = useMutation(
-    ({ shippingId, token }: { shippingId: number; token: string }) =>
-      moveCartToPurchases(shippingId, token),
+    async ({ shippingId }: { shippingId: number }) =>
+      transferDemoUserCartToOrders(shippingId),
     {
       onSuccess: async () => {
         //Need to check the api function
@@ -75,8 +71,8 @@ function Checkout() {
 
   const updateUserDataMutation = useMutation(
     async (updatedDetail: UpdateUser) => {
-      const token = await getAccessTokenSilently()
-      return modifyUserDetails(updatedDetail, token)
+      //! NEED A FUNCTION TO UPDATE USER DETAILS
+      return modifyUserDetails(updatedDetail)
     },
     {
       onSuccess: async () => {
@@ -89,7 +85,7 @@ function Checkout() {
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const shippingOption = ShippingQuery.data?.find(
-      (option: ShippingOptions) => option.id === Number(e.target.value)
+      (option: ShippingOption) => option.id === Number(e.target.value)
     )
 
     if (shippingOption) {
@@ -101,6 +97,7 @@ function Checkout() {
     }
   }
 
+  //! USED TO UPDATE PHONE NUMBER, DELIVERY ADDRESS, 
   function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
     setUserDetails({
@@ -119,8 +116,7 @@ function Checkout() {
     event.preventDefault()
     updateUserDataMutation.mutate(userDetails)
     const shippingId = selectedShipping.id
-    const token = await getAccessTokenSilently()
-    purchaseMutation.mutate({ shippingId, token })
+    purchaseMutation.mutate({ shippingId })
     navigate('/thankyou')
   }
 
