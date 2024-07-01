@@ -1,23 +1,20 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
 
-import { CartClient } from '../../../../models/Cart'
+import { DisplayCartItem } from '../../../../models/Cart'
 import {
-  deleteCartItems,
-  deleteProductFromCart,
-  fetchCart,
-  modifyCartProductQuantity,
+  deleteAllCartItems,
+  deleteItemFromCartByProductId,
+  getDisplayCartItems,
+  updateCartItemQuantityByProductId,
 } from '../../../services/cart'
 import LoadError from '../../components/LoadError/LoadError'
 
 const Cart = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   const { data, status } = useQuery('fetchCart', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchCart(token)
+    return getDisplayCartItems()
   })
 
   const navigate = useNavigate()
@@ -31,8 +28,7 @@ const Cart = () => {
     { productId: number; quantity: number }
   >(
     async ({ productId, quantity }) => {
-      const token = await getAccessTokenSilently()
-      await modifyCartProductQuantity(productId, token, quantity)
+      updateCartItemQuantityByProductId(productId, quantity)
     },
     {
       onSuccess: async () => {
@@ -43,8 +39,7 @@ const Cart = () => {
 
   const deleteProductMutation = useMutation(
     async (productId: number) => {
-      const token = await getAccessTokenSilently()
-      await deleteProductFromCart(productId, token)
+      deleteItemFromCartByProductId(productId)
     },
     {
       onSuccess: () => {
@@ -55,8 +50,7 @@ const Cart = () => {
 
   const deleteCartItemsMutation = useMutation(
     async () => {
-      const token = await getAccessTokenSilently()
-      await deleteCartItems(token)
+      deleteAllCartItems()
     },
     {
       onSuccess: () => {
@@ -74,7 +68,7 @@ const Cart = () => {
             <h1 className="text-3xl font-bold tracking-wider">CART</h1>
             <div className="mt-4">
               {data &&
-                data.map((item: CartClient) => (
+                data.map((item: DisplayCartItem) => (
                   <div
                     key={item.productId}
                     className="flex items-center justify-between mb-6 border p-4 rounded-md"
