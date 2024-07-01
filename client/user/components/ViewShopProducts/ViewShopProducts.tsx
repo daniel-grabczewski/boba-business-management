@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom'
 import StarRating from '../../components/StarRating/StarRating'
-import { UserProduct } from '../../../../models/Products'
+import { ShopperProduct } from '../../../../models/Products'
 
 
 interface ViewShopProductsProps {
   hoveredProductId: number | null
   setHoveredProductId: (id: number | null) => void
-  getPaginatedProducts: () => UserProduct[]
+  getPaginatedProducts: () => ShopperProduct[]
 }
 
 const ViewShopProducts = ({
