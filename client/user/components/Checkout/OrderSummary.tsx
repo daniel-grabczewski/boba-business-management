@@ -1,11 +1,11 @@
-import { CartClient } from '../../../../models/Cart'
+import { DisplayCartItem } from '../../../../models/Cart'
 interface SelectedShipping {
   id: number
   type: string
   price: number
 }
 interface OderSummaryProps {
-  cartProducts: CartClient[]
+  cartProducts: DisplayCartItem[]
   subtotal: number
   selectedShipping: SelectedShipping
   total: number
@@ -20,7 +20,7 @@ function OrderSummary({
     <div>
       <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
 
-      {cartProducts.map((product: CartClient) => (
+      {cartProducts.map((product: DisplayCartItem) => (
         <div className="flex justify-between mb-2" key={product.productId}>
           <div className="flex flex-row">
             <div>{product.quantity}</div> <span className="mx-2">X</span>{' '}
