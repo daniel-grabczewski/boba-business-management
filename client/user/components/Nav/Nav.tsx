@@ -1,13 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
 
 const Nav = () => {
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
+
+/*
+ WAS THIS SUPPORSED TO GO TO THE USER'S PROFILE IF THEY ARE LOGGED IN?
 
   const { loginWithRedirect } = useAuth0()
 
@@ -18,6 +20,8 @@ const Nav = () => {
       },
     })
   }
+    */
+
 
   return (
     <nav
@@ -46,6 +50,11 @@ const Nav = () => {
       </div>
 
       <div className="flex space-x-6 text-white">
+
+      {
+  /*
+  IS THIS MEANT TO TAKE THE USER TO THEIR PROFILE? CURRENTLY, IT SEEMS THAT IT IS USED TO LOGIN?
+  
         <div className="group relative">
           <button
             className="hover:text-purple-700 transition-colors duration-300 flex items-center"
@@ -61,6 +70,8 @@ const Nav = () => {
             Account
           </span>
         </div>
+*/
+}
 
         <div className="group relative">
           <button onClick={() => goTo('/wishlist')}>
