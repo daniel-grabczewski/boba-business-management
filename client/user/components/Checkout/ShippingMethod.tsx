@@ -1,6 +1,6 @@
-import { ShippingOptions } from '../../../../models/ShippingOptions'
+import { ShippingOption } from '../../../../models/ShippingOptions'
 interface ShippingMethodProps {
-  shippingData: ShippingOptions[]
+  shippingData: ShippingOption[]
   handleShippingChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
@@ -20,7 +20,7 @@ function ShippingMethod({
         onChange={handleShippingChange}
       >
         <option value="">Please Select the Shipping Type</option>
-        {shippingData.map((option: ShippingOptions) => (
+        {shippingData.map((option: ShippingOption) => (
           <option value={option.id} key={option.id}>
             {option.shippingType}
           </option>
