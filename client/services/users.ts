@@ -39,7 +39,7 @@ export function getUsersFromLocalStorage(): User[] {
 export function getUserByUserId(userId: string): User | null {
   try {
     const users = getUsersFromLocalStorage()
-    const [user] = users.filter((user) => user.userId === userId)
+    const user = users.find(user => user.userId === userId)
     if (!user) {
       console.log(`User with userId ${userId} not found`)
       return null
