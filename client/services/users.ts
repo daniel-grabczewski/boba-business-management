@@ -1,6 +1,6 @@
-
-import {User} from '../../models/Users'
+import { User, UpdateUser } from '../../models/Users'
 import initialUsers from '../data/usersData'
+import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 
 // Initialize new key 'users' to be equal to value of initialUsers IF localStorage 'users' key doesn't exist
 export function setUsersInLocalStorageInitial(): void {
@@ -39,7 +39,7 @@ export function getUsersFromLocalStorage(): User[] {
 export function getUserByUserId(userId: string): User | null {
   try {
     const users = getUsersFromLocalStorage()
-    const [user] = users.filter(user => user.userId === userId)
+    const [user] = users.filter((user) => user.userId === userId)
     if (!user) {
       console.log(`User with userId ${userId} not found`)
       return null
@@ -48,5 +48,41 @@ export function getUserByUserId(userId: string): User | null {
   } catch (error) {
     console.error('Failed to get user by userId:', error)
     return null
+  }
+}
+
+// Get demo user details
+export function getDemoUser(): User | null {
+  try {
+    const demoUserId = getDemoUserDetails().userId
+    return getUserByUserId(demoUserId)
+  } catch (error) {
+    console.error('Failed to get demo user', error)
+    return null
+  }
+}
+
+// Given new user details as UpdateUser, update demo user's details to the new details.
+export function updateDemoUserDetails(updatedDetails: UpdateUser) {
+  try {
+    const users = getUsersFromLocalStorage()
+    const demoUser = getDemoUserDetails()
+    const updatedUsers = users.map((user) => {
+      if (user.userId === demoUser.userId) {
+        return {
+          ...user,
+          ...updatedDetails,
+        }
+      } else {
+        return user
+      }
+    })
+    setUsersInLocalStorage(updatedUsers)
+  } catch (error) {
+    console.error(
+      `Failed to update details of demo user with updated details : ${JSON.stringify(
+        updatedDetails
+      )}`, error
+    )
   }
 }
