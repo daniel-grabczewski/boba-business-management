@@ -1,14 +1,11 @@
 import { FormEvent, useState, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import { NewEmail } from '../../../../models/Emails'
-import { createNewEmail } from '../../../services/emails'
-import { useAuth0 } from '@auth0/auth0-react'
+import { sendEmailFromDemoUser } from '../../../services/emails'
 
 function Contact() {
-  const { getAccessTokenSilently } = useAuth0()
   const mutations = useMutation(async (newEmail: NewEmail) => {
-    const token = await getAccessTokenSilently()
-    return createNewEmail(newEmail, token)
+    return sendEmailFromDemoUser(newEmail)
   })
 
   const [newEmail, setNewEmail] = useState({
@@ -20,13 +17,14 @@ function Contact() {
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
 
-    setNewEmail((prevEmail) => ({ ...newEmail, [name]: value }))
+    setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
+
   }
 
   function handleMessageChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const { name, value } = event.target
 
-    setNewEmail((prevEmail) => ({ ...newEmail, [name]: value }))
+    setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
   }
 
   async function handleSubmit(event: FormEvent) {
@@ -38,7 +36,7 @@ function Contact() {
     }
 
     try {
-      await mutations.mutate(newEmail)
+      mutations.mutate(newEmail)
       setNewEmail({ title: '', description: '' })
       setAlertMessage('Message sent successfully!')
     } catch (error) {
