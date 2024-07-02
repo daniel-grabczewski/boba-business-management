@@ -1,23 +1,21 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
-import { fetchProductByIdUser } from '../../../services/products'
-import { fetchReviewsByProductId } from '../../../services/reviews'
+import { getProductByIdShopper } from '../../../services/products'
+import { getReviewsByProductId } from '../../../services/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
-import { ProductReview } from '../../../../models/Reviews'
-import { fetchWishlistStatusByProductId } from '../../../services/wishlist'
-import { useAuth0 } from '@auth0/auth0-react'
+import { ProductPageDisplayReview } from '../../../../models/Reviews'
+import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 
 const ProductPage = () => {
-  const { getAccessTokenSilently } = useAuth0() // Use Auth0 hook
   const params = useParams()
   const id = Number(params.id)
 
   const { data: product, status: statusProductS } = useQuery(
     ['getProduct', id],
     async () => {
-      return await fetchProductByIdUser(id)
+      return getProductByIdShopper(id)
     }
   )
 
@@ -26,7 +24,7 @@ const ProductPage = () => {
     refetch: refetchReviews,
     status: statusReviews,
   } = useQuery(['getReviews', id], async () => {
-    const fetchedReviews: ProductReview[] = await fetchReviewsByProductId(id)
+    const fetchedReviews: ProductPageDisplayReview[] = getReviewsByProductId(id)
     return fetchedReviews
   })
 
@@ -36,10 +34,8 @@ const ProductPage = () => {
     status: statusWishlist,
   } = useQuery(['getWishlistStatus', id], async () => {
     try {
-      const token = await getAccessTokenSilently()
-      const wishlistStatus: boolean = await fetchWishlistStatusByProductId(
+      const wishlistStatus: boolean = isProductInWishlistItemsByProductId(
         id,
-        token
       )
       return wishlistStatus
     } catch (error) {
