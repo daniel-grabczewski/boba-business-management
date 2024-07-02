@@ -55,6 +55,7 @@ export function getAllProductsShopper(): ShopperProduct[] {
     const products = getProductsFromLocalStorage()
     const enabledProducts = products.filter((product) => product.isEnabled)
     const shopperProducts = enabledProducts.map(
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       ({ isEnabled, ...rest }) => rest
     )
     return shopperProducts
