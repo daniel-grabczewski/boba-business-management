@@ -6,7 +6,7 @@ import { ShippingOption } from '../../../../models/ShippingOptions'
 import { useState } from 'react'
 import { transferDemoUserCartToOrders } from '../../../services/orders'
 import { UpdateUser } from '../../../../models/Users'
-import {  } from '../../../services/users'
+import { updateDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
   PaymentInformation,
@@ -22,6 +22,8 @@ function Checkout() {
   const queryClient = useQueryClient()
 
   const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
+
+  //! I don't understand why we are setting the state of the user to be empty? Maybe it will become clear once I'm able to view the component.
   const [userDetails, setUserDetails] = useState({
     phoneNumber: '',
     firstName: '',
@@ -38,7 +40,7 @@ function Checkout() {
   })
   //Different Query
   const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
-    return await getShippingOptionsFromLocalStorage()
+    return getShippingOptionsFromLocalStorage()
   })
 
   const CartQuery = useQuery(
@@ -70,9 +72,8 @@ function Checkout() {
   )
 
   const updateUserDataMutation = useMutation(
-    async (updatedDetail: UpdateUser) => {
-      //! NEED A FUNCTION TO UPDATE USER DETAILS
-      return modifyUserDetails(updatedDetail)
+    async (updatedDetails: UpdateUser) => {
+      updateDemoUserDetails(updatedDetails)
     },
     {
       onSuccess: async () => {
