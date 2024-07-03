@@ -54,14 +54,10 @@ export function getUserByUserId(userId: string): User | null {
 export function getDemoUserDetails(): User | null {
   try {
     const demoUserId = initialUsers[0].userId
-    const users = getUsersFromLocalStorage()
-    const demoUser = users.find(user => user.userId === demoUserId)
-    
+    const demoUser = getUserByUserId(demoUserId)
     if (!demoUser) {
-      console.error(`Demo user with ID ${demoUserId} not found`)
       return null
     }
-
     return demoUser
   } catch (error) {
     console.error('Failed to get demo user details', error)
@@ -79,7 +75,7 @@ export function updateDemoUserDetails(updatedDetails: UpdateUser) {
       console.error(`Demo user not found`)
       return null
     }
-    
+
     const updatedUsers = users.map((user) => {
       if (user.userId === demoUser.userId) {
         return {
