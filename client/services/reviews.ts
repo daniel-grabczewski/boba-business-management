@@ -239,10 +239,13 @@ export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
 }
 
 // Get all reviews of demo user as ShopperDisplayReview[]
-export function getReviewsOfDemoUser() : ShopperDisplayReview[] {
+export function getReviewsOfDemoUser() : ShopperDisplayReview[] | null {
   try {
-    const demoUserId = getDemoUserDetails().userId
-    return getReviewsByUserId(demoUserId)
+    const demoUser = getDemoUserDetails()
+    if (!demoUser) {
+      return null
+    }
+    return getReviewsByUserId(demoUser.userId)
   } catch (error) {
     console.error('Failed to get demo user reviews', error)
     return []
