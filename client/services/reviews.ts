@@ -8,13 +8,12 @@ import {
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { generateCurrentDateTime } from '../utils/generateDate'
-import { getDemoUserDetails } from '../utils/getDemoUserDetails'
 import {
   getAllProductsAdmin,
   getProductByIdAdmin,
   setProductsInLocalStorage,
 } from './products'
-import { getUserByUserId } from './users'
+import { getUserByUserId, getDemoUserDetails } from './users'
 
 //!What if we have a system where we add a bunch of reviews as soon as the user boots up the app, so they are each added with the current date, with a time that is before the current time. So that way, when the user goes into the admin dashboard, it isn't competely empty.
 
@@ -235,6 +234,17 @@ export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
     return userReviews as ShopperDisplayReview[] 
   } catch (error) {
     console.error(`Failed to get user ${userId} reviews`, error)
+    return []
+  }
+}
+
+// Get all reviews of demo user as ShopperDisplayReview[]
+export function getReviewsOfDemoUser() : ShopperDisplayReview[] {
+  try {
+    const demoUserId = getDemoUserDetails().userId
+    return getReviewsByUserId(demoUserId)
+  } catch (error) {
+    console.error('Failed to get demo user reviews', error)
     return []
   }
 }
