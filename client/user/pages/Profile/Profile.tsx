@@ -1,43 +1,38 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { fetchUser } from '../../../services/users'
+import { getDemoUserDetails } from '../../../services/users'
 import {
-  deleteReviewByProductId,
-  fetchUserReviews,
+  deleteReviewOfDemoUserByProductId,
+  getReviewsOfDemoUser,
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
-import { UserReview } from '../../../../models/Reviews'
-import { UserOrders } from '../../../../models/Orders'
-import { fetchUserOrders } from '../../../services/orders'
-import { useAuth0 } from '@auth0/auth0-react'
+import { ShopperDisplayReview } from '../../../../models/Reviews'
+import { UserOrderSummary } from '../../../../models/Orders'
+import { getDemoUserOrdersSummary } from '../../../services/orders'
 import StarRating from '../../components/StarRating/StarRating'
 
 const Profile = () => {
-  const { logout, getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
   const { data, status } = useQuery('fetchUser', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchUser(token)
+    return getDemoUserDetails()
   })
 
   const { data: reviews, status: reviewsStatus } = useQuery(
     'fetchUserReviews',
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchUserReviews(token)
+      return getReviewsOfDemoUser()
     }
   )
 
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchUserOrders',
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchUserOrders(token)
+      return  getDemoUserOrdersSummary()
     }
   )
 
@@ -51,8 +46,7 @@ const Profile = () => {
 
   const deleteReviewMutation = useMutation(
     async (productId: number) => {
-      const token = await getAccessTokenSilently()
-      return deleteReviewByProductId(productId, token)
+      return deleteReviewOfDemoUserByProductId(productId)
     },
     {
       onSuccess: () => {
@@ -61,19 +55,23 @@ const Profile = () => {
     }
   )
 
+  //! UNEEDED AS OF THE MOMENT
+  /*
   function handleLogout() {
     logout({ logoutParams: { returnTo: window.location.origin } })
     console.log(window.location.origin)
   }
+    */
 
   return (
     <div className="flex justify-center items-center">
       <div className="p-8 w-4/5">
         <LoadError status={status} />
 
+
+        {/* //! REMOVED LOGOUT ONCLICK TO BUTTON */}
         <button
           className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
-          onClick={handleLogout}
         >
           Logout
         </button>
@@ -92,7 +90,7 @@ const Profile = () => {
                 <p className="text-red-600">Error loading orders</p>
               ) : orders && orders.length > 0 ? (
                 <ul className="divide-y divide-gray-200">
-                  {orders.map((order: UserOrders) => (
+                  {orders.map((order: UserOrderSummary) => (
                     <li
                       key={order.orderId}
                       className="p-4 border border-gray-300 rounded-md mb-4"
@@ -104,7 +102,7 @@ const Profile = () => {
                         <div className="text-gray-500">{order.purchasedAt}</div>
                       </div>
                       <div className="text-gray-600 mt-2">
-                        Total: {formatCurrency(order.totalAmount)}
+                        Total: {formatCurrency(order.totalSale)}
                       </div>
                     </li>
                   ))}
@@ -157,10 +155,10 @@ const Profile = () => {
           <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {reviewsStatus === 'loading' ? (
               <p>Loading reviews...</p>
-            ) : reviewsStatus === 'error' ? (
+            ) : reviewsStatus === 'error' || !reviews ? (
               <p>Error loading reviews</p>
             ) : (
-              reviews.map((review: UserReview) => (
+              reviews.map((review: ShopperDisplayReview) => (
                 <li
                   key={review.productId}
                   className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
