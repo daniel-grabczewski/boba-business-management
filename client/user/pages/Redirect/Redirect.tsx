@@ -1,14 +1,16 @@
-import { useAuth0 } from '@auth0/auth0-react'
-import { useQuery, useMutation } from 'react-query'
-import {
-  fetchCheckIfUserExists,
-  fetchIsUserAdmin,
-  insertUser,
-} from '../../../services/users'
-import { useNavigate } from 'react-router-dom'
-import { NewUser } from '../../../../models/Users'
-import { useEffect } from 'react'
 
+//import { useQuery, useMutation } from 'react-query'
+//import {fetchCheckIfUserExists, fetchIsUserAdmin, insertUser} from '../../../services/users'
+//import { useNavigate } from 'react-router-dom'
+//import { NewUser } from '../../../../models/Users'
+//import { useEffect } from 'react'
+
+//!I don't think this component is necessary any more, being that the user is no longer strictly an admin or a shopper.Instead, they can freely go to admin view or shopper view as they please.
+//!I've added a temporary unconditional redirect message
+const Redirect = () => {
+  return <div>Redirecting...</div>
+}
+/*
 const Redirect = () => {
   const { getAccessTokenSilently, user } = useAuth0()
   const navigate = useNavigate()
@@ -60,5 +62,5 @@ const Redirect = () => {
 
   return <div>Redirecting...</div>
 }
-
+*/
 export default Redirect
