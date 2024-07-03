@@ -2,32 +2,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
-  deleteFromWishlistByProductId,
-  fetchWishlist,
+  deleteWishlistItemByProductId,
+  getDisplayWishlistItems,
 } from '../../../services/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
-import { WishlistProduct } from '../../../../models/Wishlist'
-import { fetchCart, modifyCartProductQuantity } from '../../../services/cart'
-import { useAuth0 } from '@auth0/auth0-react'
+import { DisplayWishlistItem } from '../../../../models/Wishlist'
+import { getCartItemsFromLocalStorage, updateCartItemQuantityByProductId } from '../../../services/cart'
 
 const Wishlist = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const queryClient = useQueryClient()
 
   //fetch query
   const wishListQuery = useQuery('fetchWishlist', async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchWishlist(token)
+    return getDisplayWishlistItems()
   })
 
-  const cartQuery = useQuery('fetchCart', fetchCart)
+  const cartQuery = useQuery('fetchCart', getCartItemsFromLocalStorage)
 
   const statuses = [wishListQuery.status, cartQuery.status]
 
   //add to the cart mutation
   const cartMutation = useMutation(
-    ({ productId, quantity }: { productId: number; quantity: number }) =>
-      modifyCartProductQuantity(productId, quantity),
+    async ({ productId, quantity }: { productId: number; quantity: number }) =>
+      updateCartItemQuantityByProductId(productId, quantity),
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchCart')
@@ -37,8 +34,8 @@ const Wishlist = () => {
 
   // remove from the wishList mutation
   const romoveMutation = useMutation(
-    ({ productId, token }: { productId: number; token: string }) =>
-      deleteFromWishlistByProductId(productId, token),
+    async ({ productId }: { productId: number }) =>
+      deleteWishlistItemByProductId(productId),
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('fetchWishlist')
@@ -53,9 +50,8 @@ const Wishlist = () => {
   }
 
   async function removeFromWishList(productId: number) {
-    const token = await getAccessTokenSilently()
 
-    romoveMutation.mutate({ productId, token })
+    romoveMutation.mutate({ productId })
   }
   return (
     <>
@@ -67,7 +63,7 @@ const Wishlist = () => {
         <div className="bg-white w-10/12">
           {!wishListQuery.isLoading &&
             wishListQuery.data &&
-            wishListQuery.data.map((item: WishlistProduct) => (
+            wishListQuery.data.map((item: DisplayWishlistItem) => (
               <div
                 key={item.id}
                 className="bg-white w-10/12 flex flex-row gap-10 items-center border-b border-gray-300 py-4"
