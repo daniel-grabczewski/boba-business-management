@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query'
-import { fetchAllProductsUser } from '../../../services/products'
+import { getAllProductsShopper } from '../../../services/products'
 import LoadError from '../../components/LoadError/LoadError'
 import { useState, useEffect } from 'react'
 import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
@@ -20,7 +20,7 @@ const Shop = () => {
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
     async () => {
-      return await fetchAllProductsUser()
+      return getAllProductsShopper()
     }
   )
 
