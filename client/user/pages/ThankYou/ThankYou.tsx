@@ -1,24 +1,20 @@
 import { useQuery } from 'react-query'
-import { fetchUser } from '../../../services/users'
+import { getDemoUserDetails } from '../../../services/users'
 import LoadError from '../../components/LoadError/LoadError'
-import { fetchLatestOrderId } from '../../../services/orders'
+import { getIdOfLatestOrderDemoUser } from '../../../services/orders'
 import { useNavigate } from 'react-router-dom'
-import { useAuth0 } from '@auth0/auth0-react'
 
 const ThankYou = () => {
-  const { getAccessTokenSilently } = useAuth0()
   const navigate = useNavigate()
 
   const { data: user, status } = useQuery(['getUser'], async () => {
-    const token = await getAccessTokenSilently()
-    return await fetchUser(token)
+    return getDemoUserDetails()
   })
 
   const { data: orderId, status: statusOrderId } = useQuery(
     ['getLatestOrderId'],
     async () => {
-      const token = await getAccessTokenSilently()
-      return await fetchLatestOrderId(token)
+      return getIdOfLatestOrderDemoUser()
     }
   )
 
@@ -33,7 +29,7 @@ const ThankYou = () => {
 
       {orderId && (
         <div className="mt-8 mb-8 ml-2 border rounded-md px-3 py-2 text-center">
-          ORDRE NUMBER #{orderId.orderId}
+          ORDRE NUMBER #{orderId}
         </div>
       )}
 
