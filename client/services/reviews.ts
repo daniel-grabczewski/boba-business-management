@@ -312,3 +312,15 @@ export function deleteReviewOfUserByProductId(productId : number, userId : strin
   }
 }
 
+// Delete review of demo user associated with given product Id, then recalculates average rating of the product associated with given productId
+export function deleteReviewOfDemoUserByProductId(productId : number) : void {
+  try {
+    const demoUser = getDemoUserDetails()
+    if (!demoUser) {
+      return
+    }
+    deleteReviewOfUserByProductId(productId, demoUser.userId)
+  } catch (error) {
+    console.error(`Failed to delete review of demo user for product ID: ${productId}`, error)
+  }
+}
