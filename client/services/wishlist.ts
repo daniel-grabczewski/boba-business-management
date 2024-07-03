@@ -104,7 +104,7 @@ export function addProductToWishlistItemsByProductId(productId: number): void {
 }
 
 // Delete wishlist item associated with with ID, AFTER checking if product exists in wishlist items
-export function deleteProductFromWishlistItemsByProductId(
+export function deleteWishlistItemByProductId(
   productId: number
 ): void {
   try {
