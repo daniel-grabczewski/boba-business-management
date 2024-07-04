@@ -2,7 +2,7 @@ import { AdminOrderSummary, Order, UserOrderSummary } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
-import { getDemoUserDetails } from '../utils/getDemoUserDetails'
+import { getDemoUserDetails } from './users'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getProductByIdAdmin } from './products'
@@ -91,8 +91,14 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
       return
     }
 
-    const orders = getOrdersFromLocalStorage()
+    const demoUser = getDemoUserDetails()
 
+    if (!demoUser) {
+      return
+    }
+
+    const orders = getOrdersFromLocalStorage()
+   
     const newOrderItems = cart.map(({ productId, quantity }) => ({
       productId,
       quantity,
@@ -100,7 +106,7 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
 
     const newOrder: Order = {
       id: generateNewOrderId(),
-      userId: getDemoUserDetails().userId,
+      userId: demoUser.userId,
       purchasedAt: generateCurrentDateTime(),
       shippingId: shippingId,
       orderItems: newOrderItems,
@@ -121,7 +127,13 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
 // Get the id from the latest order the demo user made
 export function getIdOfLatestOrderDemoUser(): number {
   try {
-    const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
+    const demoUser = getDemoUserDetails()
+    if (!demoUser) {
+      return 0
+    }
+    const demoUserOrders = getOrdersByUserId(demoUser.userId)
+
+
     if (demoUserOrders.length === 0) {
       console.log('No orders found for the demo user')
       return -1
@@ -185,7 +197,12 @@ export function getTotalSaleOfOrderById(id: number): number {
 // Gets all orders of demo user as UserOrderSummary[]
 export function getDemoUserOrdersSummary(): UserOrderSummary[] {
   try {
-    const demoUserOrders = getOrdersByUserId(getDemoUserDetails().userId)
+    const demoUser = getDemoUserDetails()
+    
+    if (!demoUser) {
+      return []
+    }
+    const demoUserOrders = getOrdersByUserId(demoUser.userId)
     if (demoUserOrders.length === 0) {
       console.log('No orders found for the demo user')
       return []
