@@ -1,5 +1,5 @@
 import { NewEmail, Email } from '../../models/Emails'
-import { getDemoUserDetails } from '../utils/getDemoUserDetails'
+import { getDemoUserDetails } from './users'
 import initialEmails from '../data/emailsData'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
@@ -68,6 +68,10 @@ export function sendEmailFromDemoUser(newEmail: NewEmail): void {
     const demoUser = getDemoUserDetails()
     const newEmailId = generateNewEmailId()
     const currentDateTime = generateCurrentDateTime()
+
+    if (!demoUser) {
+      return
+    }
 
     emails.push({
       id: newEmailId,
