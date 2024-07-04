@@ -8,8 +8,13 @@
   "scripts": {
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
-    "build": "vite build",
-    "dev": "vite",
+    "dev": "run-p dev:client dev:server dev:css",
+    "dev:client": "vite",
+    "dev:server": "nodemon --watch server/",
+    "dev:css": "tailwindcss -i ./client/styles/input.css -o ./public/output.css --watch",
+    "build": "run-s build:client build:server",
+    "build:client": "vite build",
+    "build:server": "tsc -p server/tsconfig.json",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "format": "prettier -w '**/*.{js,jsx,ts,tsx}'"
   },
