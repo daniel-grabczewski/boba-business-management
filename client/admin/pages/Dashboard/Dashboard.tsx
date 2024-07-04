@@ -1,12 +1,11 @@
 import { useQuery } from 'react-query'
 import { getOrderCountFromDate } from '../../../services/orders'
-import { getUserByUserId } from '../../../services/users'
 import { countUnreadEmailsFromDate } from '../../../services/emails'
 import { getCountOfReviewsFromDate } from '../../../services/reviews'
 import { countProductsBelowStockThreshold } from '../../../services/products'
 import LoadError from '../../../user/components/LoadError/LoadError'
 import { useNavigate } from 'react-router-dom'
-import { getDemoUserDetails } from '../../../utils/getDemoUserDetails'
+import { getDemoUserDetails } from '../../../services/users'
 import { generateCurrentDate } from '../../../utils/generateDate'
 
 const Dashboard = () => {
@@ -21,8 +20,7 @@ const Dashboard = () => {
   })
 
   const profileQuery = useQuery('fetchUser', async () => {
-    const demoUser = getDemoUserDetails()
-    return getUserByUserId(demoUser.userId)
+    return getDemoUserDetails()
   })
 
   const emailQuery = useQuery('fetchAmountOfUnreadEmailsByToday', async () => {
