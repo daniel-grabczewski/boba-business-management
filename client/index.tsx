@@ -34,7 +34,10 @@ import Redirect from './user/pages/Redirect/Redirect'
 import AllOrders from './admin/pages/Orders/AllOrders'
 import ProtectedComponent from './UI/ProtectedComponent'
 import AddProduct from './admin/pages/AddProduct/AddProduct'
+import { initializeLocalStorage } from './services/initializeLocalStorage'
 
+// Initialize local storage before rendering app
+initializeLocalStorage()
 
 export const routes = createRoutesFromElements(
   <Route
