@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query'
 import { getEmailsFromLocalStorage, getEmailById } from '../../../services/emails'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
 import { useEffect, useState } from 'react'

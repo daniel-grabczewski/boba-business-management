@@ -5,7 +5,7 @@ import {
   getEmailById,
   updateEmailReadStatusById,
 } from '../../../services/emails'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import { Email } from '../../../../models/Emails'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 

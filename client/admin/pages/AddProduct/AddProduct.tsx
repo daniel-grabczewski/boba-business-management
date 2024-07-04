@@ -2,7 +2,7 @@ import { UpsertProduct } from '../../../../models/Products'
 import { createProduct } from '../../../services/products'
 import { useMutation } from 'react-query'
 import React, { useEffect, useState } from 'react'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 
 const AddProduct = () => {
   const [buttonText, setButtonText] = useState('Add Product')

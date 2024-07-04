@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import { AdminProduct } from '../../../../models/Products'
-import StarRating from '../../../user/components/StarRating/StarRating'
+import StarRating from '../../../shopper/components/StarRating/StarRating'
 import AdminSortFilterControls from '../AdminSortFilterControls/AdminSortFilterControls'
 
 

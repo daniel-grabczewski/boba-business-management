@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query'
 import { getAllProductsAdmin } from '../../../services/products'
 import { useEffect, useState } from 'react'
-import ShopPaginationControls from '../../../user/components/ShopPaginationControls/ShopPaginationControls'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import ShopPaginationControls from '../../../shopper/components/ShopPaginationControls/ShopPaginationControls'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductSearchBar from '../../components/ProductSearchBar/ProductSearchBar'
 

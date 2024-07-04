@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getProductByIdAdmin } from '../../../services/products'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import EditProduct from '../../components/EditProduct/EditProduct'
 
 const IndividualProduct = () => {

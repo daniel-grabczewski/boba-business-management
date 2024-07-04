@@ -3,7 +3,7 @@ import { useQuery } from 'react-query'
 import { getOrdersFromLocalStorage, getOrderById } from '../../../services/orders'
 import { Order } from '../../../../models/Orders'
 import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
 import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
 

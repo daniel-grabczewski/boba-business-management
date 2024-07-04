@@ -7,8 +7,8 @@ import {
 } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from 'react-query'
 
-import AppLayout from './user/components/AppLayout/AppLayout'
-import Cart from './user/pages/Cart/Cart'
+import AppLayout from './shopper/components/AppLayout/AppLayout'
+import { Cart } from './shopper/pages'
 import UnprotectedComponent from './UI/UnprotectedComponent'
 import {
   ErrorPage,
@@ -21,7 +21,7 @@ import {
   Profile,
   EditProfile,
   Wishlist,
-} from './user/pages/index'
+} from './shopper/pages/index'
 import {
   Reviews,
   Dashboard,
@@ -30,7 +30,7 @@ import {
   IndividualProduct,
 } from './admin/pages/'
 
-import Redirect from './user/pages/Redirect/Redirect'
+import Redirect from './shopper/pages/Redirect/Redirect'
 import AllOrders from './admin/pages/Orders/AllOrders'
 import ProtectedComponent from './UI/ProtectedComponent'
 import AddProduct from './admin/pages/AddProduct/AddProduct'

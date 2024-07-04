@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
 import { getAllAdminDisplayReviews, getAdminDisplayReviewById } from '../../../services/reviews'
-import LoadError from '../../../user/components/LoadError/LoadError'
+import LoadError from '../../../shopper/components/LoadError/LoadError'
 import { AdminDisplayReview } from '../../../../models/Reviews'
 import ReviewPopup from '../../components/ReviewsComponents/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewsComponents/ReviewSortingControls/ReviewSortingControls'
