@@ -3,7 +3,7 @@ import { useQuery, useMutation } from 'react-query'
 import StarRating from '../../../../user/components/StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../../utils/formatDate'
 import {
-  getReviewById,
+  getAdminDisplayReviewById,
   updateReviewStatusById,
 } from '../../../../services/reviews'
 import LoadError from '../../../../user/components/LoadError/LoadError'
@@ -39,7 +39,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
   } = useQuery(
     ['getReviewById', reviewId],
     async () => {
-      return await getReviewById(reviewId)
+      return getAdminDisplayReviewById(reviewId)
     },
     {
       refetchOnWindowFocus: false,
