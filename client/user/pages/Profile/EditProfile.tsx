@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 
-import { getDemoUser, updateDemoUserDetails } from '../../../services/users'
+import { getDemoUserDetails, updateDemoUserDetails } from '../../../services/users'
 import { UpdateUser } from '../../../../models/Users'
 import LoadError from '../../components/LoadError/LoadError'
 
@@ -12,7 +12,7 @@ const EditProfile = () => {
   const queryClient = useQueryClient()
 
   const { data: userData, status } = useQuery('fetchUser', async () => {
-    return getDemoUser()
+    return getDemoUserDetails()
   })
 
   const initialFormData = {
