@@ -1,5 +1,5 @@
 import {
-  CreateReview ,
+  CreateReview,
   Review,
   ProductPageDisplayReview,
   AdminDisplayReview,
@@ -51,7 +51,9 @@ export function getReviewsFromLocalStorage(): Review[] {
 }
 
 // Get all reviews associated with given product id as ProductPageDisplayReview[]
-export function getReviewsByProductId(productId: number): ProductPageDisplayReview[] {
+export function getReviewsByProductId(
+  productId: number
+): ProductPageDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const reviewsForProduct = reviews
@@ -83,7 +85,9 @@ export function getReviewsByProductId(productId: number): ProductPageDisplayRevi
 }
 
 // Get review associated with given id as AdminDisplayReview
-export function getAdminDisplayReviewById(id: number): AdminDisplayReview | undefined {
+export function getAdminDisplayReviewById(
+  id: number
+): AdminDisplayReview | undefined {
   try {
     const reviews = getReviewsFromLocalStorage()
     const review = reviews.find((review) => review.id === id)
@@ -116,15 +120,17 @@ export function getAdminDisplayReviewById(id: number): AdminDisplayReview | unde
 export function getAllAdminDisplayReviews(): AdminDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
-    const adminDisplayReviews = reviews.map(({ id }) => {
-      const adminDisplayReview = getAdminDisplayReviewById(id)
-      return adminDisplayReview
-    }).filter(review => review !== undefined) as AdminDisplayReview[] 
+    const adminDisplayReviews = reviews
+      .map(({ id }) => {
+        const adminDisplayReview = getAdminDisplayReviewById(id)
+        return adminDisplayReview
+      })
+      .filter((review) => review !== undefined) as AdminDisplayReview[]
 
     return adminDisplayReviews
   } catch (error) {
     console.error('Failed to get all admin display reviews:', error)
-    return [] 
+    return []
   }
 }
 
@@ -132,9 +138,7 @@ export function getAllAdminDisplayReviews(): AdminDisplayReview[] {
 export function generateNewReviewId(): number {
   const reviews = getReviewsFromLocalStorage()
   const newId =
-    reviews.length > 0
-      ? Math.max(...reviews.map((review) => review.id)) + 1
-      : 1
+    reviews.length > 0 ? Math.max(...reviews.map((review) => review.id)) + 1 : 1
 
   return newId
 }
@@ -182,7 +186,8 @@ export function recalculateAverageRatingOfProductById(productId: number): void {
       )
 
       const newAverageRating = sumOfRatings / reviews.length
-      products[productIndex].averageRating = newAverageRating
+      const roundedAverageRating = parseFloat(newAverageRating.toFixed(2))
+      products[productIndex].averageRating = roundedAverageRating
     }
 
     setProductsInLocalStorage(products)
@@ -194,7 +199,6 @@ export function recalculateAverageRatingOfProductById(productId: number): void {
   }
 }
 
-
 // Recalculate all products' average ratings
 export function recalculateAllProductsAverageRating(): void {
   try {
@@ -203,7 +207,10 @@ export function recalculateAllProductsAverageRating(): void {
       recalculateAverageRatingOfProductById(product.id)
     }
   } catch (error) {
-    console.error('Failed to recalculate average rating for all products', error)
+    console.error(
+      'Failed to recalculate average rating for all products',
+      error
+    )
   }
 }
 
@@ -212,7 +219,7 @@ export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const userReviews = reviews
-      .filter(review => review.userId === userId)
+      .filter((review) => review.userId === userId)
       .map(({ productId, description, rating, createdAt }) => {
         const reviewProduct = getProductByIdAdmin(productId)
         if (reviewProduct) {
@@ -223,14 +230,14 @@ export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
             reviewDescription: description,
             reviewerUserName: userId,
             reviewRating: rating,
-            reviewCreatedAt: createdAt
+            reviewCreatedAt: createdAt,
           }
         }
-        return undefined 
+        return undefined
       })
-      .filter(review => review !== undefined) 
+      .filter((review) => review !== undefined)
 
-    return userReviews as ShopperDisplayReview[] 
+    return userReviews as ShopperDisplayReview[]
   } catch (error) {
     console.error(`Failed to get reviews for user ID: ${userId}`, error)
     return []
@@ -238,7 +245,7 @@ export function getReviewsByUserId(userId: string): ShopperDisplayReview[] {
 }
 
 // Get all reviews of demo user as ShopperDisplayReview[]
-export function getReviewsOfDemoUser() : ShopperDisplayReview[] {
+export function getReviewsOfDemoUser(): ShopperDisplayReview[] {
   try {
     const demoUser = getDemoUserDetails()
     if (!demoUser) {
@@ -252,17 +259,21 @@ export function getReviewsOfDemoUser() : ShopperDisplayReview[] {
 }
 
 // Add review from demo user as CreateReview to reviews in localStorage. Only allow to add a review if the demo user hasn't reviewed the associated product yet Then, recalculates average rating of the product they reviewed.
-export function addDemoUserReview(newReview: CreateReview ): void {
+export function addDemoUserReview(newReview: CreateReview): void {
   try {
     const reviews = getReviewsFromLocalStorage()
     const demoUser = getDemoUserDetails()
     if (!demoUser) {
       return
     }
-    
+
     // Check if the demo user has already reviewed this product
-    const alreadyReviewed = reviews.some(review => review.productId === newReview.productId && review.userId === demoUser.userId)
-    
+    const alreadyReviewed = reviews.some(
+      (review) =>
+        review.productId === newReview.productId &&
+        review.userId === demoUser.userId
+    )
+
     if (!alreadyReviewed) {
       const review = {
         id: generateNewReviewId(),
@@ -271,13 +282,19 @@ export function addDemoUserReview(newReview: CreateReview ): void {
         rating: newReview.rating,
         isEnabled: true,
         userId: demoUser.userId,
-        createdAt: generateCurrentDateTime()
+        createdAt: generateCurrentDateTime(),
       }
       reviews.push(review)
       setReviewsInLocalStorage(reviews)
       recalculateAverageRatingOfProductById(newReview.productId)
     } else {
-      console.log(`Cannot add review ${JSON.stringify(newReview)}, as ${demoUser.userId} already has a review associated with product ID: ${newReview.productId}`)
+      console.log(
+        `Cannot add review ${JSON.stringify(newReview)}, as ${
+          demoUser.userId
+        } already has a review associated with product ID: ${
+          newReview.productId
+        }`
+      )
     }
   } catch (error) {
     console.error(`Error adding new review ${JSON.stringify(newReview)}`, error)
@@ -285,10 +302,10 @@ export function addDemoUserReview(newReview: CreateReview ): void {
 }
 
 // Update isEnabled status of review associated with given id, to the given status
-export function updateReviewStatusById(id : number, status : boolean) : void {
+export function updateReviewStatusById(id: number, status: boolean): void {
   try {
     const reviews = getReviewsFromLocalStorage()
-    const reviewIndex = reviews.findIndex(review => review.id === id)
+    const reviewIndex = reviews.findIndex((review) => review.id === id)
     if (reviewIndex !== -1) {
       reviews[reviewIndex].isEnabled = status
       setReviewsInLocalStorage(reviews)
@@ -296,24 +313,35 @@ export function updateReviewStatusById(id : number, status : boolean) : void {
       console.log(`Review with ID ${id} not found`)
     }
   } catch (error) {
-    console.error(`Error updating review of ID ${id} isEnabled status to ${status}`, error)
+    console.error(
+      `Error updating review of ID ${id} isEnabled status to ${status}`,
+      error
+    )
   }
 }
 
 // Delete review associated with given userId and productId, then recalculates average rating of the product associated with given productId
-export function deleteReviewOfUserByProductId(productId : number, userId : string) : void {
+export function deleteReviewOfUserByProductId(
+  productId: number,
+  userId: string
+): void {
   try {
     const reviews = getReviewsFromLocalStorage()
-    const newReviews = reviews.filter(review => !(review.productId === productId && review.userId === userId))
+    const newReviews = reviews.filter(
+      (review) => !(review.productId === productId && review.userId === userId)
+    )
     setReviewsInLocalStorage(newReviews)
     recalculateAverageRatingOfProductById(productId)
   } catch (error) {
-    console.error(`Error deleting review for product ID ${productId} of user ID: ${userId}`, error)
+    console.error(
+      `Error deleting review for product ID ${productId} of user ID: ${userId}`,
+      error
+    )
   }
 }
 
 // Delete review of demo user associated with given product Id, then recalculates average rating of the product associated with given productId
-export function deleteReviewOfDemoUserByProductId(productId : number) : void {
+export function deleteReviewOfDemoUserByProductId(productId: number): void {
   try {
     const demoUser = getDemoUserDetails()
     if (!demoUser) {
@@ -321,6 +349,9 @@ export function deleteReviewOfDemoUserByProductId(productId : number) : void {
     }
     deleteReviewOfUserByProductId(productId, demoUser.userId)
   } catch (error) {
-    console.error(`Failed to delete review of demo user for product ID: ${productId}`, error)
+    console.error(
+      `Failed to delete review of demo user for product ID: ${productId}`,
+      error
+    )
   }
 }
