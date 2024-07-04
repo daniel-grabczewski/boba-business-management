@@ -5,7 +5,7 @@ import StarRating from '../StarRating/StarRating'
 import { useMutation } from 'react-query'
 import {
   addProductToWishlistItemsByProductId,
-  deleteProductFromWishlistItemsByProductId,
+  deleteWishlistItemByProductId,
 } from '../../../services/wishlist'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
@@ -49,7 +49,7 @@ function ViewProduct({
   const wishlistMutation = useMutation(
     async () => {
       if (wishlistStatus) {
-        return deleteProductFromWishlistItemsByProductId(product.id)
+        return deleteWishlistItemByProductId(product.id)
       } else {
         return addProductToWishlistItemsByProductId(product.id)
       }
