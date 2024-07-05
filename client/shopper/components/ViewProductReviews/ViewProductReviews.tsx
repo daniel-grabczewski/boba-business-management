@@ -9,13 +9,13 @@ import { addDemoUserReview } from '../../../services/reviews'
 interface ProductReviewsProps {
   product: ShopperProduct
   reviews: ProductPageDisplayReview[]
-  refetchReviews: () => void
+  updateAverageRating: () => void
 }
 
 function ViewProductReviews({
   product,
   reviews,
-  refetchReviews,
+  updateAverageRating
 }: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
@@ -28,7 +28,7 @@ function ViewProductReviews({
     },
     {
       onSuccess: () => {
-        refetchReviews()
+        updateAverageRating()
       },
       onError: (error) => {
         console.error('An error occurred:', error)
