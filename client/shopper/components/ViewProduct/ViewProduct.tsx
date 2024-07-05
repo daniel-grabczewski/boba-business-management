@@ -15,12 +15,14 @@ interface ViewProductProps {
   product: ShopperProduct
   wishlistStatus: boolean
   refetchWishlistProductStatus: () => void
+  averageRating : number
 }
 
 function ViewProduct({
   product,
   wishlistStatus,
   refetchWishlistProductStatus,
+  averageRating
 }: ViewProductProps) {
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
@@ -92,8 +94,8 @@ function ViewProduct({
 
         <h2 className="text-xl font-bold">${product.price}</h2>
         <div className="flex">
-          <StarRating rating={product.averageRating} size={1} />
-          <p>{product.averageRating}</p>
+          <StarRating rating={averageRating} size={1} />
+          <p>{averageRating}</p>
         </div>
 
         <p className="mt-2">{product.description}</p>
