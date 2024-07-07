@@ -267,14 +267,9 @@ export function addDemoUserReview(newReview: CreateReview): void {
       return
     }
 
-    // Check if the demo user has already reviewed this product
-    const alreadyReviewed = reviews.some(
-      (review) =>
-        review.productId === newReview.productId &&
-        review.userId === demoUser.userId
-    )
+    const isDemoUserEligable = canDemoUserAddReview(newReview.productId)
 
-    if (!alreadyReviewed) {
+    if (isDemoUserEligable) {
       const review = {
         id: generateNewReviewId(),
         productId: newReview.productId,
