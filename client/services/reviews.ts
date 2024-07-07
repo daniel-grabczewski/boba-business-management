@@ -301,6 +301,30 @@ export function addDemoUserReview(newReview: CreateReview): void {
   }
 }
 
+// Return true if demo user is eligable to make a new review associated with given product ID. Return false if demo user IS NOT eligable to make a new review
+export function canDemoUserAddReview(productId: number): boolean {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+    const demoUser = getDemoUserDetails()
+    if (!demoUser) {
+      return false
+    }
+
+    // Check if the demo user has already reviewed this product
+    const alreadyReviewed = reviews.some(
+      (review) =>
+        review.productId === productId && review.userId === demoUser.userId
+    )
+    return !alreadyReviewed
+  } catch (error) {
+    console.error(
+      `Error checking if demo user is eligable to make review for product ID: ${productId}`,
+      error
+    )
+    return false
+  }
+}
+
 // Update isEnabled status of review associated with given id, to the given status
 export function updateReviewStatusById(id: number, status: boolean): void {
   try {
