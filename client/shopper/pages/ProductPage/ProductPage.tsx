@@ -1,11 +1,15 @@
 import { useQuery } from 'react-query'
 import { useParams } from 'react-router-dom'
 import { getProductByIdShopper } from '../../../services/products'
-import { getReviewsByProductId } from '../../../services/reviews'
+import {
+  getReviewsByProductId,
+  canDemoUserAddReview,
+} from '../../../services/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
 import { ProductPageDisplayReview } from '../../../../models/Reviews'
+import { ShopperProduct } from '../../../../models/Products'
 import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 import { useEffect, useState } from 'react'
 
@@ -13,16 +17,24 @@ const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
-  const { data: product, status: statusProductS, refetch : refetchProduct } = useQuery(
-    ['getProduct', id],
-    async () => {
-      return getProductByIdShopper(id)
-    }
-  )
+  const {
+    data: product,
+    status: statusProducts,
+    refetch: refetchProduct,
+  } = useQuery(['getProduct', id], async () => {
+    const fetchedProduct: ShopperProduct | undefined = getProductByIdShopper(id)
+    return fetchedProduct
+  })
+
+  const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
+    useQuery(['canDemoUserAddReview', id], async () => {
+      return canDemoUserAddReview(id)
+    })
 
   const {
-    data: reviews,
+    data: reviews = [],
     status: statusReviews,
+    refetch: refetchReviews,
   } = useQuery(['getReviews', id], async () => {
     const fetchedReviews: ProductPageDisplayReview[] = getReviewsByProductId(id)
     return fetchedReviews
@@ -34,17 +46,17 @@ const ProductPage = () => {
     status: statusWishlist,
   } = useQuery(['getWishlistStatus', id], async () => {
     try {
-      const wishlistStatus: boolean = isProductInWishlistItemsByProductId(
-        id,
-      )
+      const wishlistStatus: boolean = isProductInWishlistItemsByProductId(id)
       return wishlistStatus
     } catch (error) {
       console.error('An error occurred:', error)
     }
   })
 
-  
-  const [averageRating, setAverageRating] = useState(product?.averageRating || 0)
+  const [averageRating, setAverageRating] = useState(
+    product?.averageRating || 0
+  )
+  const [displayReviews, setDisplayReviews] = useState(reviews || [])
 
   useEffect(() => {
     if (product) {
@@ -59,9 +71,22 @@ const ProductPage = () => {
     }
   }
 
+  useEffect(() => {
+    if (reviews) {
+      setDisplayReviews(reviews)
+    }
+  }, [reviews])
+
+  const updateDisplayReviews = async () => {
+    const updatedDisplayReviews = await refetchReviews()
+    if (updatedDisplayReviews.data) {
+      setDisplayReviews(updatedDisplayReviews.data)
+    }
+  }
+
   return (
     <>
-      <LoadError status={[statusProductS, statusReviews, statusWishlist]} />
+      <LoadError status={[statusProducts, statusReviews, statusWishlist]} />
       {product && reviews && (
         <div
           className="flex flex-col items-center w-full"
@@ -71,12 +96,15 @@ const ProductPage = () => {
             product={product}
             wishlistStatus={wishlistStatus}
             refetchWishlistProductStatus={refetchWishlistProductStatus}
-            averageRating = {averageRating}
+            averageRating={averageRating}
           />
           <ViewProductReviews
             product={product}
-            reviews={reviews}
+            reviews={displayReviews}
             updateAverageRating={updateAverageRating}
+            isEligable={isEligable}
+            refetchCanDemoUserAddReview={refetchCanDemoUserAddReview}
+            updateDisplayReviews={updateDisplayReviews}
           />
         </div>
       )}

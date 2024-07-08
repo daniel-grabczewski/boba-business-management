@@ -10,12 +10,18 @@ interface ProductReviewsProps {
   product: ShopperProduct
   reviews: ProductPageDisplayReview[]
   updateAverageRating: () => void
+  isEligable : boolean
+  refetchCanDemoUserAddReview: () => void
+  updateDisplayReviews : () => void
 }
 
 function ViewProductReviews({
   product,
   reviews,
-  updateAverageRating
+  updateAverageRating,
+  isEligable,
+  refetchCanDemoUserAddReview,
+  updateDisplayReviews
 }: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
@@ -29,6 +35,8 @@ function ViewProductReviews({
     {
       onSuccess: () => {
         updateAverageRating()
+        refetchCanDemoUserAddReview()
+        updateDisplayReviews()
       },
       onError: (error) => {
         console.error('An error occurred:', error)
@@ -37,7 +45,13 @@ function ViewProductReviews({
   )
 
   const handleAddReviewClick = () => {
-    setIsAddingReview(true)
+    if (isEligable) {
+      setIsAddingReview(true)
+    }
+    else {
+      alert(`You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your profile`)
+    }
+
   }
 
   const handleCancelClick = () => {
@@ -64,7 +78,6 @@ function ViewProductReviews({
     }
 
     addReviewMutation.mutate(newReview)
-
     setReviewDescription('')
     setReviewRating(3)
     setIsAddingReview(false)
