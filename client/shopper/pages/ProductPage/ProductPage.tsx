@@ -17,6 +17,11 @@ const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
+    // Scroll to top when the component is mounted
+    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [])
+
   const {
     data: product,
     status: statusProducts,
