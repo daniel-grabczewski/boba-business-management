@@ -49,7 +49,7 @@ function ViewProductReviews({
       setIsAddingReview(true)
     }
     else {
-      alert(`You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your account page`)
+      alert(`You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your profile page`)
     }
 
   }
