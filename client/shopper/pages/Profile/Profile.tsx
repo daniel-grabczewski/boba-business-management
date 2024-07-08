@@ -32,7 +32,7 @@ const Profile = () => {
   const { data: orders, status: ordersStatus } = useQuery(
     'fetchUserOrders',
     async () => {
-      return  getDemoUserOrdersSummary()
+      return getDemoUserOrdersSummary()
     }
   )
 
@@ -55,26 +55,10 @@ const Profile = () => {
     }
   )
 
-  //! UNEEDED AS OF THE MOMENT
-  /*
-  function handleLogout() {
-    logout({ logoutParams: { returnTo: window.location.origin } })
-    console.log(window.location.origin)
-  }
-    */
-
   return (
     <div className="flex justify-center items-center">
       <div className="p-8 w-4/5">
         <LoadError status={status} />
-
-
-        {/* //! REMOVED LOGOUT ONCLICK TO BUTTON */}
-        <button
-          className="mt-2 py-1 px-2 bg-gray-400 text-sm text-white font-semibold rounded-md transition duration-300 ease-in-out hover:bg-gray-500 hover:text-gray-100 focus:outline-none focus:ring focus:ring-gray-400"
-        >
-          Logout
-        </button>
 
         <h1 className="text-3xl font-bold tracking-wider mb-8">
           Hello, {data?.firstName} {data?.lastName}!
