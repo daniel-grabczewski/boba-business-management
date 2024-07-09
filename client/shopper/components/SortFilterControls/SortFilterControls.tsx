@@ -28,7 +28,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
           <option value="without-pearls">Without pearls</option>
           <option value="teas">Teas</option>
           <option value="smoothies">Smoothies</option>
-          <option value="yoghurts">Yogurts</option>
+          <option value="yogurts">Yogurts</option>
           <option value="fruit-drinks">Fruit drinks</option>
           <option value="dairy-free">Dairy free</option>
         </select>

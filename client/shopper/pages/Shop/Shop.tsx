@@ -61,7 +61,7 @@ const Shop = () => {
             return lowerCaseName.includes('tea')
           case 'smoothies':
             return lowerCaseName.includes('smoothie')
-          case 'yoghurts':
+          case 'yogurts':
             return lowerCaseName.includes('yogurt')
           case 'fruit-drinks':
             return lowerCaseName.includes('drink')
