@@ -49,6 +49,12 @@ const Shop = () => {
     setFilter(newFilter)
   }
 
+  const changeSort = (newSort : string) => {
+    queryParams.set('sort', `${newSort}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
+    setSort(newSort)
+  }
+
   const filteredProducts = products
     ? products.filter((product) => {
         const lowerCaseName = product.name.toLowerCase()
@@ -108,7 +114,7 @@ const Shop = () => {
               filter={filter}
               sort={sort}
               changeFilter={changeFilter}
-              setSort={setSort}
+              changeSort={changeSort}
             />
             <ViewShopProducts
               hoveredProductId={hoveredProductId}
