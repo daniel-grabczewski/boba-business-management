@@ -5,9 +5,12 @@ import { useState, useEffect } from 'react'
 import SortFilterControls from '../../components/SortFilterControls/SortFilterControls'
 import ViewShopProducts from '../../components/ViewShopProducts/ViewShopProducts'
 import ShopPaginationControls from '../../components/ShopPaginationControls/ShopPaginationControls'
+import { useNavigate } from 'react-router-dom'
 
 const Shop = () => {
+  const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
+  
   const initialPage = parseInt(queryParams.get('page') || '1', 10)
   const initialSort = queryParams.get('sort') || ''
   const initialFilter = queryParams.get('filter') || ''
@@ -22,12 +25,9 @@ const Shop = () => {
   const productsPerPage = 15
 
 
-
-
-
   useEffect(() => {
-    setPage(1)
-  }, [filter, sort])
+    setPage(page)
+  }, [filter, sort, page])
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
@@ -36,7 +36,9 @@ const Shop = () => {
     }
   )
 
-  const changePage = (newPage: number) => {
+  const changePage = (newPage : number) => {
+    queryParams.set('page', `${newPage}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
     setPage(newPage)
     window.scrollTo({ top: 0 })
   }
