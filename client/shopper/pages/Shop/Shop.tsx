@@ -7,11 +7,23 @@ import ViewShopProducts from '../../components/ViewShopProducts/ViewShopProducts
 import ShopPaginationControls from '../../components/ShopPaginationControls/ShopPaginationControls'
 
 const Shop = () => {
-  const [filter, setFilter] = useState('')
-  const [sort, setSort] = useState('')
+  const queryParams = new URLSearchParams(location.search)
+  const initialPage = parseInt(queryParams.get('page') || '1', 10)
+  const initialSort = queryParams.get('sort') || ''
+  const initialFilter = queryParams.get('filter') || ''
+
+  console.log(`initialPage : ${initialPage}\ninitialSort : ${initialSort}\ninitialFilter : ${initialFilter}`)
+
+  const [page, setPage] = useState(initialPage)
+  const [sort, setSort] = useState(initialSort)
+  const [filter, setFilter] = useState(initialFilter)
+
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
-  const [page, setPage] = useState(1)
   const productsPerPage = 15
+
+
+
+
 
   useEffect(() => {
     setPage(1)
@@ -33,19 +45,19 @@ const Shop = () => {
     ? products.filter((product) => {
         const lowerCaseName = product.name.toLowerCase()
         switch (filter) {
-          case 'With pearls':
+          case 'with-pearls':
             return lowerCaseName.includes('pearl')
-          case 'Without pearls':
+          case 'without-pearls':
             return !lowerCaseName.includes('pearl')
-          case 'Teas':
+          case 'teas':
             return lowerCaseName.includes('tea')
-          case 'Smoothies':
+          case 'smoothies':
             return lowerCaseName.includes('smoothie')
-          case 'Yogurts':
+          case 'yoghurts':
             return lowerCaseName.includes('yogurt')
-          case 'Fruit Drinks':
+          case 'fruit-drinks':
             return lowerCaseName.includes('drink')
-          case 'Dairy free':
+          case 'dairy-free':
             return !/milk|smoothie|yogurt/.test(lowerCaseName)
           default:
             return true
@@ -55,11 +67,11 @@ const Shop = () => {
 
   const sortedProducts = [...filteredProducts].sort((a, b) => {
     switch (sort) {
-      case 'Price (Low to High)':
+      case 'price-low-to-high':
         return a.price - b.price
-      case 'Price (High to Low)':
+      case 'price-high-to-low':
         return b.price - a.price
-      case 'Alphabetical (A to Z)':
+      case 'a-z':
         return a.name.localeCompare(b.name)
       default:
         return 0
