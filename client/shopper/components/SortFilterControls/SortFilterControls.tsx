@@ -24,13 +24,13 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
           className="border rounded-md"
         >
           <option value="">...</option>
-          <option value="With pearls">With pearls</option>
-          <option value="Without pearls">Without pearls</option>
-          <option value="Teas">Teas</option>
-          <option value="Smoothies">Smoothies</option>
-          <option value="Yogurts">Yogurts</option>
-          <option value="Fruit Drinks">Fruit drinks</option>
-          <option value="Dairy free">Dairy free</option>
+          <option value="with-pearls">With pearls</option>
+          <option value="without-pearls">Without pearls</option>
+          <option value="teas">Teas</option>
+          <option value="smoothies">Smoothies</option>
+          <option value="yoghurts">Yogurts</option>
+          <option value="fruit-drinks">Fruit drinks</option>
+          <option value="dairy-free">Dairy free</option>
         </select>
 
         <label htmlFor="sort" className="ml-4 font-bold" >
@@ -44,9 +44,9 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
           className="border rounded-md"
         >
           <option value="">...</option>
-          <option value="Price (Low to High)">Price (Low to High)</option>
-          <option value="Price (High to Low)">Price (High to Low)</option>
-          <option value="Alphabetical (A to Z)">Alphabetical (A to Z)</option>
+          <option value="price-low-to-high">Price (Low to High)</option>
+          <option value="price-high-to-low">Price (High to Low)</option>
+          <option value="a-z">Alphabetical (A to Z)</option>
         </select>
       </div>
   );
