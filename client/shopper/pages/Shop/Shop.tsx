@@ -43,6 +43,12 @@ const Shop = () => {
     window.scrollTo({ top: 0 })
   }
 
+  const changeFilter = (newFilter : string) => {
+    queryParams.set('filter', `${newFilter}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
+    setFilter(newFilter)
+  }
+
   const filteredProducts = products
     ? products.filter((product) => {
         const lowerCaseName = product.name.toLowerCase()
@@ -101,7 +107,7 @@ const Shop = () => {
             <SortFilterControls
               filter={filter}
               sort={sort}
-              setFilter={setFilter}
+              changeFilter={changeFilter}
               setSort={setSort}
             />
             <ViewShopProducts
