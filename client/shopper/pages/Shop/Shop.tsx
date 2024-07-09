@@ -44,13 +44,21 @@ const Shop = () => {
   }
 
   const changeFilter = (newFilter : string) => {
-    queryParams.set('filter', `${newFilter}`)
+    if (newFilter === '') {
+      queryParams.delete('filter')
+    } else {
+      queryParams.set('filter', newFilter)
+    }
     navigate(`?${queryParams.toString()}`, { replace: true })
     setFilter(newFilter)
   }
 
   const changeSort = (newSort : string) => {
-    queryParams.set('sort', `${newSort}`)
+    if (newSort === '') {
+      queryParams.delete('sort')
+    } else {
+      queryParams.set('sort', newSort)
+    }
     navigate(`?${queryParams.toString()}`, { replace: true })
     setSort(newSort)
   }
