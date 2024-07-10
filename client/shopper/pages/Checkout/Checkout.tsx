@@ -9,7 +9,6 @@ import { UpdateUser } from '../../../../models/Users'
 import { updateDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
-  PaymentInformation,
   DeliveryAddress,
   PaymentMethod,
   ShippingMethod,
@@ -124,13 +123,13 @@ function Checkout() {
   return (
     <>
       <LoadError status={statuses} />
-      <div className=" text-black p-8">
-        <div className="text-4xl font-bold mb-4">I am the Logo</div>
-        <form onSubmit={handleSubmit}>
-          <PaymentInformation
-            handleUserDetailsChange={handleUserDetailsChange}
-          />
+      <div className="text-4xl font-bold text-center mt-12">
+        <h1>Checkout</h1>
+      </div>
+      <div className="text-black p-8 flex justify-center items-center min-h-screen">
+        <form onSubmit={handleSubmit} className="w-3/5">
           <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
+          <div className="flex flex-col mb-8">
           <PaymentMethod />
           {!ShippingQuery.isLoading && ShippingQuery.data && (
             <ShippingMethod
@@ -138,6 +137,7 @@ function Checkout() {
               handleShippingChange={handleShippingChange}
             />
           )}
+          </div>
           <OrderSummary
             cartProducts={cartProducts}
             subtotal={subtotal}
@@ -145,7 +145,7 @@ function Checkout() {
             total={total}
           />
           <button
-            className="bg-black text-white p-4 w-full text-lg font-bold"
+            className="bg-black text-white p-4 w-half text-lg font-bold"
             type="submit"
           >
             COMPLETE ORDER
