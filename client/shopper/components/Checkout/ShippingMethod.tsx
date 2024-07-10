@@ -9,8 +9,8 @@ function ShippingMethod({
   handleShippingChange,
 }: ShippingMethodProps) {
   return (
-    <div>
-      <label htmlFor="shipping" className="font-medium">
+    <div className="w-full mr-6 mb-4 flex flex-row">
+      <div className="w-full mr-6"><label htmlFor="shipping" className="font-medium">
         SELECT SHIPPING METHOD
       </label>
       <select
@@ -25,7 +25,9 @@ function ShippingMethod({
             {option.shippingType}
           </option>
         ))}
-      </select>
+      </select></div>
+      <div className="w-full p-2 mb-4"></div>
+      
     </div>
   )
 }
