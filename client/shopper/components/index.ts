@@ -1,4 +1,4 @@
-import DeliveryAddress from './Checkout/DeliveryAdress'
+import DeliveryAddress from './Checkout/DeliveryAddress'
 import OrderSummary from './Checkout/OrderSummary'
 import PaymentInformation from './Checkout/PaymentInformation'
 import PaymentMethod from './Checkout/PaymentMethod'
