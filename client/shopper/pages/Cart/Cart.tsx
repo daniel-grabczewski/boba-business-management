@@ -63,7 +63,7 @@ const Cart = () => {
     <>
       <LoadError status={status} />
       <div className="flex justify-center items-center min-h-screen mt-4">
-        <div className="flex w-4/5 justify-end">
+        <div className="flex w-3/5 justify-end">
           <div className="w-3/5 pl-6">
             <h1 className="text-3xl font-bold tracking-wider">CART</h1>
             <div className="mt-4">
