@@ -17,7 +17,7 @@ function OrderSummary({
   total,
 }: OderSummaryProps) {
   return (
-    <div>
+    <div className="w-1/2">
       <h1 className="text-2xl font-semibold mb-4">ORDER SUMMARY</h1>
 
       {cartProducts.map((product: DisplayCartItem) => (
@@ -30,9 +30,9 @@ function OrderSummary({
         </div>
       ))}
 
-      <div className="flex justify-between mb-2">
-        <h1 className="text-xl font-semibold">SUBTOTAL</h1>
-        <p className="text-lg">${subtotal.toFixed(2)}</p>
+      <div className="flex justify-between mb-4">
+        <h1 className="">SUBTOTAL</h1>
+        <p className="">${subtotal.toFixed(2)}</p>
       </div>
       <div className="mb-2 ">
         <h1 className="text-xl font-semibold">SHIPPING METHOD</h1>
