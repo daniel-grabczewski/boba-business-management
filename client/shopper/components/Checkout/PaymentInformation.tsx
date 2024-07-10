@@ -8,7 +8,7 @@ function PaymentInformation({
   return (
     <>
       <div>
-        <h1 className="text-2xl font-semibold mb-4">PAYMENT INFORMATION</h1>
+        <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
       </div>
       <div>
         <input
@@ -16,7 +16,7 @@ function PaymentInformation({
           id="phoneNumber"
           name="phoneNumber"
           placeholder="PHONE"
-          className="border p-2 w-full mb-4"
+          className="border p-2 w-full mb-8"
           onChange={handleUserDetailsChange}
         />
       </div>
