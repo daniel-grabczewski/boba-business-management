@@ -10,12 +10,10 @@ import { useNavigate } from 'react-router-dom'
 const Shop = () => {
   const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
-  
+
   const initialPage = parseInt(queryParams.get('page') || '1', 10)
   const initialSort = queryParams.get('sort') || ''
   const initialFilter = queryParams.get('filter') || ''
-
-  console.log(`initialPage : ${initialPage}\ninitialSort : ${initialSort}\ninitialFilter : ${initialFilter}`)
 
   const [page, setPage] = useState(initialPage)
   const [sort, setSort] = useState(initialSort)
@@ -24,26 +22,14 @@ const Shop = () => {
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
   const productsPerPage = 15
 
-
-  useEffect(() => {
-    setPage(page)
-  }, [filter, sort, page])
-
-  const { data: products, status: statusProducts } = useQuery(
-    ['getAllProducts'],
-    async () => {
-      return getAllProductsShopper()
-    }
-  )
-
-  const changePage = (newPage : number) => {
+  const changePage = (newPage: number) => {
     queryParams.set('page', `${newPage}`)
     navigate(`?${queryParams.toString()}`, { replace: true })
     setPage(newPage)
     window.scrollTo({ top: 0 })
   }
 
-  const changeFilter = (newFilter : string) => {
+  const changeFilter = (newFilter: string) => {
     if (newFilter === '') {
       queryParams.delete('filter')
     } else {
@@ -53,7 +39,7 @@ const Shop = () => {
     setFilter(newFilter)
   }
 
-  const changeSort = (newSort : string) => {
+  const changeSort = (newSort: string) => {
     if (newSort === '') {
       queryParams.delete('sort')
     } else {
@@ -62,6 +48,19 @@ const Shop = () => {
     navigate(`?${queryParams.toString()}`, { replace: true })
     setSort(newSort)
   }
+
+  useEffect(() => {
+    if (filteredProducts.length <= productsPerPage) {
+      changePage(1)
+    }
+  }, [filter])
+
+  const { data: products, status: statusProducts } = useQuery(
+    ['getAllProducts'],
+    async () => {
+      return getAllProductsShopper()
+    }
+  )
 
   const filteredProducts = products
     ? products.filter((product) => {
