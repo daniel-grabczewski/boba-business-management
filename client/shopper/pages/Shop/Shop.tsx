@@ -50,7 +50,7 @@ const Shop = () => {
   }
 
   useEffect(() => {
-    if (filteredProducts.length <= productsPerPage) {
+    if (products && filteredProducts.length <= productsPerPage) {
       changePage(1)
     }
   }, [filter])
