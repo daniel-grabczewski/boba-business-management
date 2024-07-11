@@ -22,6 +22,27 @@ const Shop = () => {
   const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
   const productsPerPage = 15
 
+  useEffect(() => {
+    if (products && filteredProducts.length <= productsPerPage) {
+      changePage(1)
+    }
+  }, [filter])
+
+  useEffect(() => {
+    if (!location.search) {
+      setPage(1)
+      setSort('')
+      setFilter('')
+    }
+  }, [location.search])
+
+  const { data: products, status: statusProducts } = useQuery(
+    ['getAllProducts'],
+    async () => {
+      return getAllProductsShopper()
+    }
+  )
+
   const changePage = (newPage: number) => {
     queryParams.set('page', `${newPage}`)
     navigate(`?${queryParams.toString()}`, { replace: true })
@@ -48,19 +69,6 @@ const Shop = () => {
     navigate(`?${queryParams.toString()}`, { replace: true })
     setSort(newSort)
   }
-
-  useEffect(() => {
-    if (products && filteredProducts.length <= productsPerPage) {
-      changePage(1)
-    }
-  }, [filter])
-
-  const { data: products, status: statusProducts } = useQuery(
-    ['getAllProducts'],
-    async () => {
-      return getAllProductsShopper()
-    }
-  )
 
   const filteredProducts = products
     ? products.filter((product) => {
