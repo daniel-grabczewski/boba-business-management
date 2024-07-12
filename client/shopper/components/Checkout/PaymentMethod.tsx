@@ -6,8 +6,11 @@ function PaymentMethod() {
           SELECT PAYMENT METHOD
         </label>
         <select name="payment" id="payment" className="border p-2 w-full">
-          <option value="card">CREDIT</option>
-          <option value="visa">VISA</option>
+          <option value="card">Debit Card</option>
+          <option value="visa">PayPal</option>
+          <option value="visa">Google Pay</option>
+          <option value="visa">Apple Pay</option>
+          <option value="visa">Bnana Coin</option>
         </select>
       </div>
       <div className="w-full p-2 mb-4"></div>
