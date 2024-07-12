@@ -3,10 +3,10 @@ import { getDisplayCartItems } from '../../../services/cart'
 import { DisplayCartItem } from '../../../../models/Cart'
 import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
 import { ShippingOption } from '../../../../models/ShippingOptions'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { transferDemoUserCartToOrders } from '../../../services/orders'
 import { UpdateUser } from '../../../../models/Users'
-import { updateDemoUserDetails } from '../../../services/users'
+import { getDemoUserDetails, updateDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
   DeliveryAddress,
@@ -22,25 +22,29 @@ function Checkout() {
 
   const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
 
-  //! I don't understand why we are setting the state of the user to be empty? Maybe it will become clear once I'm able to view the component.
-  const [userDetails, setUserDetails] = useState({
-    phoneNumber: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    city: '',
-    country: '',
-    zipCode: '',
+  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
+    return getShippingOptionsFromLocalStorage()
   })
+
+  const UserDetailsQuery = useQuery('fetchUserDetails', async () => {
+    return getDemoUserDetails()
+  })
+
+
+  const [userDetails, setUserDetails] = useState(UserDetailsQuery.data || {}
+  )
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
     type: '',
     price: 0,
   })
-  //Different Query
-  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
-    return getShippingOptionsFromLocalStorage()
-  })
+
+
+  useEffect(() => {
+    if (UserDetailsQuery.data) {
+      setUserDetails(UserDetailsQuery.data)
+    }
+  }, [UserDetailsQuery.data])
 
   const CartQuery = useQuery(
     'fetchCart',
@@ -128,7 +132,8 @@ function Checkout() {
       </div>
       <div className="text-black p-8 flex justify-center items-center min-h-screen">
         <form onSubmit={handleSubmit} className="w-3/5">
-          <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange} />
+          <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange}
+          userDetails={userDetails} />
           <div className="flex flex-col mb-8">
           <PaymentMethod />
           {!ShippingQuery.isLoading && ShippingQuery.data && (
