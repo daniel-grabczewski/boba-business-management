@@ -7,35 +7,37 @@ import {
 } from '../../../services/wishlist'
 import LoadError from '../../components/LoadError/LoadError'
 import { DisplayWishlistItem } from '../../../../models/Wishlist'
-import {
-  getCartItemsFromLocalStorage,
-  updateCartItemQuantityByProductId,
-} from '../../../services/cart'
+import { addItemToCartByProductId } from '../../../services/cart'
+import { useState } from 'react'
 
 const Wishlist = () => {
   const queryClient = useQueryClient()
+  const [buttonText, setButtonText] = useState('Add to cart')
+  const [buttonColor, setButtonColor] = useState('bg-black hover:bg-gray-700')
 
-  //fetch query
   const wishListQuery = useQuery('fetchWishlist', async () => {
     return getDisplayWishlistItems()
   })
 
-  const cartQuery = useQuery('fetchCart', getCartItemsFromLocalStorage)
-
-  const statuses = [wishListQuery.status, cartQuery.status]
-
-  //add to the cart mutation
   const cartMutation = useMutation(
-    async ({ productId, quantity }: { productId: number; quantity: number }) =>
-      updateCartItemQuantityByProductId(productId, quantity),
+    async (productId: number) => {
+      return addItemToCartByProductId(productId)
+    },
     {
-      onSuccess: async () => {
-        queryClient.invalidateQueries('fetchCart')
+      onSuccess: () => {
+        setButtonText('Item added')
+        setButtonColor('bg-gray-500')
+        setTimeout(() => {
+          setButtonText('Add to cart')
+          setButtonColor('bg-black hover:bg-gray-700')
+        }, 1000)
+      },
+      onError: (error) => {
+        console.error('An error occurred:', error)
       },
     }
   )
 
-  // remove from the wishList mutation
   const romoveMutation = useMutation(
     async ({ productId }: { productId: number }) =>
       deleteWishlistItemByProductId(productId),
@@ -46,18 +48,17 @@ const Wishlist = () => {
     }
   )
 
-  function handleCartDetails(productId: number) {
-    const product = cartQuery.data?.find((item) => item.productId === productId)
-    const quantity = product ? product.quantity + 1 : 1
-    cartMutation.mutate({ productId, quantity })
+  const handleAddToCart = (productId: number) => {
+    cartMutation.mutate(productId)
   }
+
   console.log(wishListQuery.data)
   async function removeFromWishList(productId: number) {
     romoveMutation.mutate({ productId })
   }
   return (
     <>
-      <LoadError status={statuses} />
+      <LoadError status={wishListQuery.status} />
       <div className="bg-white w-full flex flex-col items-center py-8">
         <div className="w-10/12 text-center mb-4">
           <h1 className="text-4xl font-semibold text-black">WISHLIST</h1>
@@ -88,11 +89,13 @@ const Wishlist = () => {
                   <h1 className="text-xl font-semibold text-black w-1/12">
                     ${item.productPrice.toFixed(2)}
                   </h1>
+
                   <button
-                    className="w-1/6 text-sm bg-black text-white p-2 rounded-md hover:bg-gray-700 transition"
-                    onClick={() => handleCartDetails(item.productId)}
+                    className={`${buttonColor} w-1/6 text-sm bg-black text-white p-2 rounded-md`}
+                    onClick={() => handleAddToCart(item.productId)}
+                    disabled={cartMutation.isLoading}
                   >
-                    Add to Cart
+                    {`${buttonText}`}
                   </button>
                   <button
                     className="flex flex-col items-center text-black hover:text-red-500 transition"
