@@ -5,8 +5,7 @@ import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
 import { ShippingOption } from '../../../../models/ShippingOptions'
 import { useEffect, useState } from 'react'
 import { transferDemoUserCartToOrders } from '../../../services/orders'
-import { UpdateUser } from '../../../../models/Users'
-import { getDemoUserDetails, updateDemoUserDetails } from '../../../services/users'
+import { getDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
   DeliveryAddress,
@@ -30,15 +29,25 @@ function Checkout() {
     return getDemoUserDetails()
   })
 
-
-  const [userDetails, setUserDetails] = useState(UserDetailsQuery.data || {}
+  const [userDetails, setUserDetails] = useState(
+    UserDetailsQuery.data || {
+      userId: '',
+      firstName: '',
+      lastName: '',
+      userName: '',
+      phoneNumber: '',
+      emailAddress: '',
+      address: '',
+      city: '',
+      country: '',
+      zipCode: '',
+    }
   )
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
     type: '',
     price: 0,
   })
-
 
   useEffect(() => {
     if (UserDetailsQuery.data) {
@@ -74,19 +83,6 @@ function Checkout() {
     }
   )
 
-  const updateUserDataMutation = useMutation(
-    async (updatedDetails: UpdateUser) => {
-      updateDemoUserDetails(updatedDetails)
-    },
-    {
-      onSuccess: async () => {
-        //Need to check the user api function
-        queryClient.invalidateQueries('fetchUser')
-        queryClient.invalidateQueries('fetchUserName')
-      },
-    }
-  )
-
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const shippingOption = ShippingQuery.data?.find(
       (option: ShippingOption) => option.id === Number(e.target.value)
@@ -101,7 +97,7 @@ function Checkout() {
     }
   }
 
-  //! USED TO UPDATE PHONE NUMBER, DELIVERY ADDRESS, 
+  //! USED TO UPDATE PHONE NUMBER, DELIVERY ADDRESS,
   function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
     setUserDetails({
@@ -118,7 +114,6 @@ function Checkout() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    updateUserDataMutation.mutate(userDetails)
     const shippingId = selectedShipping.id
     purchaseMutation.mutate({ shippingId })
     navigate('/thankyou')
@@ -132,16 +127,18 @@ function Checkout() {
       </div>
       <div className="text-black p-8 flex justify-center items-center min-h-screen">
         <form onSubmit={handleSubmit} className="w-3/5">
-          <DeliveryAddress handleUserDetailsChange={handleUserDetailsChange}
-          userDetails={userDetails} />
+          <DeliveryAddress
+            handleUserDetailsChange={handleUserDetailsChange}
+            userDetails={userDetails}
+          />
           <div className="flex flex-col mb-8">
-          <PaymentMethod />
-          {!ShippingQuery.isLoading && ShippingQuery.data && (
-            <ShippingMethod
-              shippingData={ShippingQuery.data}
-              handleShippingChange={handleShippingChange}
-            />
-          )}
+            <PaymentMethod />
+            {!ShippingQuery.isLoading && ShippingQuery.data && (
+              <ShippingMethod
+                shippingData={ShippingQuery.data}
+                handleShippingChange={handleShippingChange}
+              />
+            )}
           </div>
           <OrderSummary
             cartProducts={cartProducts}
