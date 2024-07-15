@@ -29,20 +29,18 @@ function Checkout() {
     return getDemoUserDetails()
   })
 
-  const [userDetails, setUserDetails] = useState(
-    {
-      userId: '',
-      firstName: '',
-      lastName: '',
-      userName: '',
-      phoneNumber: '',
-      emailAddress: '',
-      address: '',
-      city: '',
-      country: '',
-      zipCode: '',
-    }
-  )
+  const [userDetails, setUserDetails] = useState({
+    userId: 'auth0|demoUser',
+    firstName: '',
+    lastName: '',
+    userName: 'demo.user',
+    phoneNumber: '',
+    emailAddress: 'DemoUser@example.com',
+    address: '',
+    city: '',
+    country: '',
+    zipCode: '',
+  })
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
     type: '',
@@ -114,11 +112,20 @@ function Checkout() {
   )
   const total = subtotal + selectedShipping.price
 
+  const checkValues = (obj: object) => {
+    return !Object.values(obj).some((value) => value === '')
+  }
+
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const shippingId = selectedShipping.id
     purchaseMutation.mutate({ shippingId })
-    navigate('/thankyou')
+
+    if (checkValues(userDetails)) {
+      navigate('/thankyou')
+    } else {
+      alert('Please fill all fields before continuing.')
+    }
   }
 
   return (
