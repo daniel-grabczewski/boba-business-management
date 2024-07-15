@@ -47,6 +47,9 @@ function Checkout() {
     price: 0,
   })
 
+  const [emptyFields, setEmptyFields] = useState<string[]>([])
+  const [invalidFields, setInvalidFields] = useState<string[]>([])
+
   const CartQuery = useQuery(
     'fetchCart',
     async () => {
@@ -62,13 +65,11 @@ function Checkout() {
 
   const statuses = [ShippingQuery.status, CartQuery.status]
 
-  //Mutation of Different Query
   const purchaseMutation = useMutation(
     async ({ shippingId }: { shippingId: number }) =>
       transferDemoUserCartToOrders(shippingId),
     {
       onSuccess: async () => {
-        //Need to check the api function
         queryClient.invalidateQueries('fetchOrderByOrderId')
         queryClient.invalidateQueries('fetchAllOrders')
       },
@@ -76,10 +77,10 @@ function Checkout() {
   )
 
   const fillDetailsWithDefaults = () => {
-    console.log(UserDetailsQuery.data)
     if (UserDetailsQuery.data) {
+      setEmptyFields([])
+      setInvalidFields([])
       setUserDetails(UserDetailsQuery.data)
-      console.log('inside if')
     }
   }
 
@@ -97,13 +98,38 @@ function Checkout() {
     }
   }
 
-  //! USED TO UPDATE PHONE NUMBER, DELIVERY ADDRESS,
-  function handleUserDetailsChange(event: React.ChangeEvent<HTMLInputElement>) {
+  const handleUserDetailsChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const { name, value } = event.target
-    setUserDetails({
-      ...userDetails,
+    setUserDetails((prevDetails) => ({
+      ...prevDetails,
       [name]: value,
-    })
+    }))
+    if (value !== '') {
+      setEmptyFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
+    }
+  }
+
+  const handleNumberOnlyFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const { name, value } = event.target
+    handleUserDetailsChange(event)
+    if (/^[\d\s]*$/.test(value)) {
+      setInvalidFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
+    } else {
+      setInvalidFields((prevFields) => {
+        if (!prevFields.includes(name)) {
+          return [...prevFields, name]
+        }
+        return prevFields
+      })
+    }
   }
 
   const subtotal = cartProducts.reduce(
@@ -112,19 +138,21 @@ function Checkout() {
   )
   const total = subtotal + selectedShipping.price
 
-  const checkValues = (obj: object) => {
-    return !Object.values(obj).some((value) => value === '')
+  const checkValues = (obj: { [key: string]: string }) => {
+    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
+    setEmptyFields(emptyKeys)
+    return emptyKeys.length === 0 && invalidFields.length === 0
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const shippingId = selectedShipping.id
-    purchaseMutation.mutate({ shippingId })
 
     if (checkValues(userDetails)) {
+      purchaseMutation.mutate({ shippingId })
       navigate('/thankyou')
     } else {
-      alert('Please fill all fields before continuing.')
+      alert('Please fill all empty fields and correct invalid inputs.')
     }
   }
 
@@ -138,8 +166,11 @@ function Checkout() {
         <form onSubmit={handleSubmit} className="w-3/5">
           <DeliveryAddress
             handleUserDetailsChange={handleUserDetailsChange}
+            handleNumberOnlyFieldChange={handleNumberOnlyFieldChange}
             fillDetailsWithDefaults={fillDetailsWithDefaults}
             userDetails={userDetails}
+            emptyFields={emptyFields}
+            invalidFields={invalidFields}
           />
           <div className="flex flex-col mb-8">
             <PaymentMethod />
