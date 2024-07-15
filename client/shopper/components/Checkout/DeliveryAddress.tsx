@@ -3,20 +3,22 @@ import { User } from '../../../../models/Users'
 interface PaymentInformationProps {
   handleUserDetailsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   userDetails: User
+  fillDetailsWithDefaults : () => void
 }
 
 function DeliveryAddress({
   handleUserDetailsChange,
   userDetails,
+  fillDetailsWithDefaults
 }: PaymentInformationProps) {
   //! BUTTON THAT ALLOWS USER TO CLICK TO LOAD DEFAULTS FROM PROFILE? The button becomes clickable when the user details are modified. So the user can click on it anytime to fill it in with default values.
 
-  //! FORM FIELDS SHOULD HAVE LABELS, SO THE USER CAN SEE WHAT FIELD THAT HAVE TYPED IN. Right now, after typing it in, you don't see what the field is.
-
-  //! Make label inside of the border? LIke on kmart checkout? Somehow?
   return (
     <>
+      <div className = "flex flex-row w-full justify-between ">
       <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
+      <button type="button" className="px-3 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300" onClick={fillDetailsWithDefaults}>Load defaults from profile</button>
+      </div>
       <div className="flex flex-row mb-4">
         <div className="w-full mr-6">
           <label htmlFor="phoneNumber" className="font-normal text-gray-600">
@@ -27,7 +29,7 @@ function DeliveryAddress({
             id="phoneNumber"
             name="phoneNumber"
             className="border p-2 w-full"
-            //value={userDetails.phoneNumber}
+            value={userDetails.phoneNumber}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -43,7 +45,7 @@ function DeliveryAddress({
             name="firstName"
             id="firstName"
             className="border p-2 w-full mr-6"
-            //value={userDetails.firstName}
+            value={userDetails.firstName}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -56,7 +58,7 @@ function DeliveryAddress({
             name="lastName"
             id="lastName"
             className="border p-2 w-full"
-            //value={userDetails.lastName}
+            value={userDetails.lastName}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -71,7 +73,7 @@ function DeliveryAddress({
           name="address"
           id="address"
           className="border p-2 w-full"
-          //value={userDetails.address}
+          value={userDetails.address}
           onChange={handleUserDetailsChange}
         />
       </div>
@@ -84,7 +86,7 @@ function DeliveryAddress({
           name="city"
           id="city"
           className="border p-2 w-full"
-          //value={userDetails.city}
+          value={userDetails.city}
           onChange={handleUserDetailsChange}
         />
       </div>
@@ -99,7 +101,7 @@ function DeliveryAddress({
           name="zipCode"
           id="zipCode"
           className="border p-2 w-full"
-          //value={userDetails.zipCode}
+          value={userDetails.zipCode}
           onChange={handleUserDetailsChange}
         />
       </div>
@@ -112,7 +114,7 @@ function DeliveryAddress({
           name="country"
           id="country"
           className="border p-2 w-full"
-          //value={userDetails.country}
+          value={userDetails.country}
           onChange={handleUserDetailsChange}
         />
       </div>

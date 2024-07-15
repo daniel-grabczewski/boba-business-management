@@ -3,7 +3,7 @@ import { getDisplayCartItems } from '../../../services/cart'
 import { DisplayCartItem } from '../../../../models/Cart'
 import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
 import { ShippingOption } from '../../../../models/ShippingOptions'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { transferDemoUserCartToOrders } from '../../../services/orders'
 import { getDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
@@ -30,7 +30,7 @@ function Checkout() {
   })
 
   const [userDetails, setUserDetails] = useState(
-    UserDetailsQuery.data || {
+    {
       userId: '',
       firstName: '',
       lastName: '',
@@ -48,12 +48,6 @@ function Checkout() {
     type: '',
     price: 0,
   })
-
-  useEffect(() => {
-    if (UserDetailsQuery.data) {
-      setUserDetails(UserDetailsQuery.data)
-    }
-  }, [UserDetailsQuery.data])
 
   const CartQuery = useQuery(
     'fetchCart',
@@ -82,6 +76,14 @@ function Checkout() {
       },
     }
   )
+
+  const fillDetailsWithDefaults = () => {
+    console.log(UserDetailsQuery.data)
+    if (UserDetailsQuery.data) {
+      setUserDetails(UserDetailsQuery.data)
+      console.log('inside if')
+    }
+  }
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const shippingOption = ShippingQuery.data?.find(
@@ -129,6 +131,7 @@ function Checkout() {
         <form onSubmit={handleSubmit} className="w-3/5">
           <DeliveryAddress
             handleUserDetailsChange={handleUserDetailsChange}
+            fillDetailsWithDefaults={fillDetailsWithDefaults}
             userDetails={userDetails}
           />
           <div className="flex flex-col mb-8">
@@ -147,7 +150,7 @@ function Checkout() {
             total={total}
           />
           <button
-            className="bg-black text-white p-4 w-half text-lg font-bold"
+            className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
             type="submit"
           >
             COMPLETE ORDER
