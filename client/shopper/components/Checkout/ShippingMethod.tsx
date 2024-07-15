@@ -19,7 +19,6 @@ function ShippingMethod({
         className="border p-2 w-full mb-4"
         onChange={handleShippingChange}
       >
-        <option value="">Please Select the Shipping Type</option>
         {shippingData.map((option: ShippingOption) => (
           <option value={option.id} key={option.id}>
             {option.shippingType}
