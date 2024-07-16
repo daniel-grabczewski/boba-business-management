@@ -3,7 +3,7 @@ import { getDisplayCartItems } from '../../../services/cart'
 import { DisplayCartItem } from '../../../../models/Cart'
 import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
 import { ShippingOption } from '../../../../models/ShippingOptions'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { transferDemoUserCartToOrders } from '../../../services/orders'
 import { getDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
@@ -14,20 +14,13 @@ import {
   OrderSummary,
 } from '../../components'
 import LoadError from '../../components/LoadError/LoadError'
+import { checkIfStringIsOnlyNumbers } from '../../../utils/checkInput'
 
 function Checkout() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
   const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
-
-  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
-    return getShippingOptionsFromLocalStorage()
-  })
-
-  const UserDetailsQuery = useQuery('fetchUserDetails', async () => {
-    return getDemoUserDetails()
-  })
 
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
@@ -50,6 +43,8 @@ function Checkout() {
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
 
+  const [errorMessage, setErrorMessage] = useState('empty')
+
   const CartQuery = useQuery(
     'fetchCart',
     async () => {
@@ -63,6 +58,14 @@ function Checkout() {
     }
   )
 
+  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
+    return getShippingOptionsFromLocalStorage()
+  })
+
+  const UserDetailsQuery = useQuery('fetchUserDetails', async () => {
+    return getDemoUserDetails()
+  })
+
   const statuses = [ShippingQuery.status, CartQuery.status]
 
   const purchaseMutation = useMutation(
@@ -75,6 +78,27 @@ function Checkout() {
       },
     }
   )
+
+  // Checks if all values in the provided object are non-empty strings.
+  const checkValues = (obj: { [key: string]: string }) => {
+    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
+    setEmptyFields(emptyKeys)
+    return emptyKeys.length === 0 && invalidFields.length === 0
+  }
+
+  // Checks if all fields in userDetails are filled and valid.
+  const checkAllFieldsAreEligable = () => {
+    const allFieldsFilled = !Object.values(userDetails).some((value) => value === '')
+    const allFieldsValid = checkIfStringIsOnlyNumbers(userDetails.zipCode) && checkIfStringIsOnlyNumbers(userDetails.phoneNumber)
+    return allFieldsFilled && allFieldsValid
+  }
+
+  useEffect(()=> {
+    if(checkAllFieldsAreEligable()) {
+      setErrorMessage('')
+    }
+  }, [userDetails])
+
 
   const fillDetailsWithDefaults = () => {
     if (UserDetailsQuery.data) {
@@ -118,7 +142,7 @@ function Checkout() {
   ) => {
     const { name, value } = event.target
     handleUserDetailsChange(event)
-    if (/^[\d\s]*$/.test(value)) {
+    if (checkIfStringIsOnlyNumbers(value)) {
       setInvalidFields((prevFields) =>
         prevFields.filter((field) => field !== name)
       )
@@ -132,17 +156,13 @@ function Checkout() {
     }
   }
 
+
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
     0
   )
   const total = subtotal + selectedShipping.price
 
-  const checkValues = (obj: { [key: string]: string }) => {
-    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
-    setEmptyFields(emptyKeys)
-    return emptyKeys.length === 0 && invalidFields.length === 0
-  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -152,7 +172,7 @@ function Checkout() {
       purchaseMutation.mutate({ shippingId })
       navigate('/thankyou')
     } else {
-      alert('Please fill all empty fields and correct invalid inputs.')
+      setErrorMessage('Please fill all empty fields and correct invalid inputs')
     }
   }
 
@@ -187,12 +207,15 @@ function Checkout() {
             selectedShipping={selectedShipping}
             total={total}
           />
-          <button
-            className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
-            type="submit"
-          >
-            COMPLETE ORDER
-          </button>
+          <div className="flex flex-row w-full justify-between items-center">
+            <button
+              className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+              type="submit"
+            >
+              COMPLETE ORDER
+            </button>
+            <p className="p-4 text-red-500">{errorMessage}</p>
+          </div>
         </form>
       </div>
     </>
