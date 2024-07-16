@@ -13,9 +13,7 @@ const ThankYou = () => {
 
   const { data: orderId, status: statusOrderId } = useQuery(
     ['getLatestOrderId'],
-    async () => {
-      return getIdOfLatestOrderDemoUser()
-    }
+    async () => getIdOfLatestOrderDemoUser()
   )
 
   return (

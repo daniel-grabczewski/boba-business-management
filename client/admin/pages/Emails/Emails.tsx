@@ -1,5 +1,8 @@
 import { useQuery } from 'react-query'
-import { getEmailsFromLocalStorage, getEmailById } from '../../../services/emails'
+import {
+  getEmailsFromLocalStorage,
+  getEmailById,
+} from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
@@ -11,24 +14,25 @@ import EmailPopup from '../../components/Emails/EmailPopup'
 const Emails = () => {
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
-  const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(undefined)
+  const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(
+    undefined
+  )
 
   const [currentPage, setCurrentPage] = useState(1)
   // the 10 just for testing if the filter work or not
   const emailsPerPage = 10
 
-  // fetche All the emails
   const {
-    data: fetchedmails,
+    data: emails,
     status: emailStatus,
     isLoading,
-    refetch,
-  } = useQuery(['fetchEmails'], async () => {
-    return ( getEmailsFromLocalStorage()) as Email[]
-  })
+    refetch: refetchGetEmailsFromLocalStorage,
+  } = useQuery(['getEmailsFromLocalStorage'], async () =>
+    getEmailsFromLocalStorage()
+  )
 
-  const fetchAndShowEmailDetails = async (emailId: number) => {
-    const email = getEmailById(emailId)
+  const setSelectedEmailById = async (id: number) => {
+    const email = getEmailById(id)
     setSelectedEmail(email)
   }
 
@@ -36,7 +40,7 @@ const Emails = () => {
     setCurrentPage(1)
   }, [filter, sort, selectedEmail])
 
-  const filteredAndSortedEmails = fetchedmails
+  const filteredAndSortedEmails = emails
     ?.filter((email) => {
       if (filter === 'all') return true
       if (filter === 'unread') return !email.isRead
@@ -66,7 +70,7 @@ const Emails = () => {
 
   const closeEmailPopup = () => {
     setSelectedEmail(undefined)
-    refetch()
+    refetchGetEmailsFromLocalStorage()
   }
   return (
     <>
@@ -78,7 +82,7 @@ const Emails = () => {
         />
       )}
 
-      {!isLoading && fetchedmails && currentEmails && filteredAndSortedEmails && (
+      {!isLoading && emails && currentEmails && filteredAndSortedEmails && (
         <div className="flex justify-center overflow-x-auto">
           <div className="p-4 w-full lg:w-11/12">
             {/* SortingControl */}
@@ -96,7 +100,7 @@ const Emails = () => {
               <EmailsColumnTitles />
               <DisplayCurrentEmails
                 currentEmails={currentEmails}
-                fetchAndShowEmailDetails={fetchAndShowEmailDetails}
+                setSelectedEmailById={setSelectedEmailById}
               />
             </div>
           </div>

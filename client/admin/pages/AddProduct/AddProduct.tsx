@@ -25,9 +25,9 @@ const AddProduct = () => {
 
 
   const addProductMutation = useMutation(
-    async (newProduct: UpsertProduct) => {
-      return createProduct(newProduct)
-    },
+    async (newProduct: UpsertProduct) => 
+      createProduct(newProduct)
+    ,
     {
       onSuccess: () => {
         setButtonText('Product Added')

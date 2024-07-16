@@ -20,9 +20,7 @@ const ProductsSummary = () => {
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
-    async () => {
-      return getAllProductsAdmin()
-    }
+    async () => getAllProductsAdmin()
   )
 
   const changePage = (newPage: number) => {

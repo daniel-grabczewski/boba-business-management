@@ -8,19 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface DisplayCurrentEmailsProps {
   currentEmails: Email[]
-  fetchAndShowEmailDetails: (emailId: number) => void
+  setSelectedEmailById: (emailId: number) => void
 }
 
 const DisplayCurrentEmails = ({
   currentEmails,
-  fetchAndShowEmailDetails,
+  setSelectedEmailById,
 }: DisplayCurrentEmailsProps) => {
   return (
     <div className="text-gray-600 text-sm font-light">
       {currentEmails.map((email) => (
         <div
           key={email.id}
-          onClick={() => fetchAndShowEmailDetails(email.id)}
+          onClick={() => setSelectedEmailById(email.id)}
           className="flex border border-gray-300 cursor-pointer "
         >
           <div className="pl-1 flex flex-col items-center justify-center ">

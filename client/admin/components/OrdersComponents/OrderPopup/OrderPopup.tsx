@@ -19,7 +19,6 @@ function formatCurrency(amount: number) {
 }
 
 const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
-
   const popupRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -40,9 +39,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
 
   const { status } = useQuery(
     ['getOrderById', orderId],
-    async () => {
-      return getOrderById(orderId)
-    },
+    async () => getOrderById(orderId),
     {
       refetchOnWindowFocus: false,
     }

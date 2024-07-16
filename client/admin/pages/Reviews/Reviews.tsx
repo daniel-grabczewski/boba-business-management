@@ -1,6 +1,9 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import { getAllAdminDisplayReviews, getAdminDisplayReviewById } from '../../../services/reviews'
+import {
+  getAllAdminDisplayReviews,
+  getAdminDisplayReviewById,
+} from '../../../services/reviews'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import { AdminDisplayReview } from '../../../../models/Reviews'
 import ReviewPopup from '../../components/ReviewsComponents/ReviewPopup/ReviewPopup'
@@ -9,7 +12,9 @@ import ReviewColumnTitles from '../../components/ReviewsComponents/ReviewColumnT
 import DisplayCurrentReviews from '../../components/ReviewsComponents/DisplayCurrentReviews/DisplayCurrentReviews'
 
 const Reviews = () => {
-  const [selectedReview, setSelectedReview] = useState<AdminDisplayReview | undefined>(undefined)
+  const [selectedReview, setSelectedReview] = useState<
+    AdminDisplayReview | undefined
+  >(undefined)
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState('all')
   const [sort, setSort] = useState('Newest first')
@@ -19,14 +24,13 @@ const Reviews = () => {
   const {
     data: reviews,
     status: statusReviews,
-    refetch,
-  } = useQuery(['getReviews'], async () => {
-    const fetchedReviews: AdminDisplayReview[] =  getAllAdminDisplayReviews()
-    return fetchedReviews
-  })
+    refetch: refetchGetAllAdminDisplayReviews,
+  } = useQuery(['getAllAdminDisplayReviews'], async () =>
+    getAllAdminDisplayReviews()
+  )
 
-  const fetchAndShowReviewDetails = async (reviewId: number) => {
-    const review = getAdminDisplayReviewById(reviewId)
+  const setSelectedReviewById = async (id: number) => {
+    const review = getAdminDisplayReviewById(id)
     setSelectedReview(review)
   }
 
@@ -41,19 +45,19 @@ const Reviews = () => {
       return true
     })
     .filter((review) => {
-   
-        return review.productName.toLowerCase().includes(search.toLowerCase())
-      
+      return review.productName.toLowerCase().includes(search.toLowerCase())
     })
     .sort((a, b) => {
       switch (sort) {
         case 'Newest first':
           return (
-            new Date(b.reviewCreatedAt).getTime() - new Date(a.reviewCreatedAt).getTime()
+            new Date(b.reviewCreatedAt).getTime() -
+            new Date(a.reviewCreatedAt).getTime()
           )
         case 'Oldest first':
           return (
-            new Date(a.reviewCreatedAt).getTime() - new Date(b.reviewCreatedAt).getTime()
+            new Date(a.reviewCreatedAt).getTime() -
+            new Date(b.reviewCreatedAt).getTime()
           )
         case 'High to low rating':
           return b.reviewRating - a.reviewRating
@@ -73,7 +77,7 @@ const Reviews = () => {
 
   const closeReviewPopup = () => {
     setSelectedReview(undefined)
-    refetch()
+    refetchGetAllAdminDisplayReviews()
   }
 
   return (
@@ -106,7 +110,7 @@ const Reviews = () => {
               <ReviewColumnTitles />
               <DisplayCurrentReviews
                 currentReviews={currentReviews}
-                fetchAndShowReviewDetails={fetchAndShowReviewDetails}
+                setSelectedReviewById={setSelectedReviewById}
               />
             </div>
           </div>

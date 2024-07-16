@@ -14,14 +14,14 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
 interface ViewProductProps {
   product: ShopperProduct
   wishlistStatus: boolean
-  refetchWishlistProductStatus: () => void
+  refetchIsProductInWishlistItemsByProductId: () => void
   averageRating : number
 }
 
 function ViewProduct({
   product,
   wishlistStatus,
-  refetchWishlistProductStatus,
+  refetchIsProductInWishlistItemsByProductId,
   averageRating
 }: ViewProductProps) {
   const [buttonText, setButtonText] = useState('Add to cart')
@@ -30,9 +30,9 @@ function ViewProduct({
   )
 
   const cartMutation = useMutation(
-    async (productId: number) => {
-      return addItemToCartByProductId(productId)
-    },
+    async (productId: number) => 
+      addItemToCartByProductId(productId)
+    ,
     {
       onSuccess: () => {
         setButtonText('Item added')
@@ -57,7 +57,7 @@ function ViewProduct({
       }
     },
     {
-      onSuccess: () => refetchWishlistProductStatus(),
+      onSuccess: () => refetchIsProductInWishlistItemsByProductId(),
       onError: (error) => {
         console.error('An error occurred:', error)
       },

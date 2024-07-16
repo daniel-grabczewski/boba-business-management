@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useMutation } from 'react-query'
-import { CreateReview, ProductPageDisplayReview } from '../../../../models/Reviews'
+import {
+  CreateReview,
+  ProductPageDisplayReview,
+} from '../../../../models/Reviews'
 import { ShopperProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
@@ -10,9 +13,9 @@ interface ProductReviewsProps {
   product: ShopperProduct
   reviews: ProductPageDisplayReview[]
   updateAverageRating: () => void
-  isEligable : boolean
+  isEligable: boolean
   refetchCanDemoUserAddReview: () => void
-  updateDisplayReviews : () => void
+  updateDisplayReviews: () => void
 }
 
 function ViewProductReviews({
@@ -21,17 +24,14 @@ function ViewProductReviews({
   updateAverageRating,
   isEligable,
   refetchCanDemoUserAddReview,
-  updateDisplayReviews
+  updateDisplayReviews,
 }: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(3)
 
-
   const addReviewMutation = useMutation(
-    async (newReview: CreateReview) => {
-      return addDemoUserReview(newReview)
-    },
+    async (newReview: CreateReview) => addDemoUserReview(newReview),
     {
       onSuccess: () => {
         updateAverageRating()
@@ -47,11 +47,11 @@ function ViewProductReviews({
   const handleAddReviewClick = () => {
     if (isEligable) {
       setIsAddingReview(true)
+    } else {
+      alert(
+        `You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your profile page`
+      )
     }
-    else {
-      alert(`You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your profile page`)
-    }
-
   }
 
   const handleCancelClick = () => {
@@ -69,7 +69,9 @@ function ViewProductReviews({
   }
 
   const handleSubmitReview = () => {
-    if (reviewDescription.trim() === '') return
+    if (reviewDescription.trim() === '') {
+      return
+    }
 
     const newReview = {
       productId: product.id,

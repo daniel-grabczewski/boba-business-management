@@ -8,8 +8,6 @@ import {
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
-import { ProductPageDisplayReview } from '../../../../models/Reviews'
-import { ShopperProduct } from '../../../../models/Products'
 import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 import { useEffect, useState } from 'react'
 
@@ -17,46 +15,39 @@ const ProductPage = () => {
   const params = useParams()
   const id = Number(params.id)
 
-    // Scroll to top when the component is mounted
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    }, [])
+  // Scroll to top when the component is mounted
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const {
     data: product,
     status: statusProducts,
-    refetch: refetchProduct,
-  } = useQuery(['getProduct', id], async () => {
-    const fetchedProduct: ShopperProduct | undefined = getProductByIdShopper(id)
-    return fetchedProduct
-  })
+    refetch: refetchGetProductByIdShopper,
+  } = useQuery(['getProductByIdShopper', id], async () =>
+    getProductByIdShopper(id)
+  )
 
   const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
-    useQuery(['canDemoUserAddReview', id], async () => {
-      return canDemoUserAddReview(id)
-    })
+    useQuery(['canDemoUserAddReview', id], async () => 
+      canDemoUserAddReview(id)
+    )
 
   const {
     data: reviews = [],
     status: statusReviews,
-    refetch: refetchReviews,
-  } = useQuery(['getReviews', id], async () => {
-    const fetchedReviews: ProductPageDisplayReview[] = getReviewsByProductId(id)
-    return fetchedReviews
-  })
+    refetch: refetchGetReviewsByProductId,
+  } = useQuery(['getReviewsByProductId', id], async () =>
+    getReviewsByProductId(id)
+  )
 
   const {
     data: wishlistStatus = false,
-    refetch: refetchWishlistProductStatus,
+    refetch: refetchIsProductInWishlistItemsByProductId,
     status: statusWishlist,
-  } = useQuery(['getWishlistStatus', id], async () => {
-    try {
-      const wishlistStatus: boolean = isProductInWishlistItemsByProductId(id)
-      return wishlistStatus
-    } catch (error) {
-      console.error('An error occurred:', error)
-    }
-  })
+  } = useQuery(['isProductInWishlistItemsByProductId', id], async () =>
+    isProductInWishlistItemsByProductId(id)
+  )
 
   const [averageRating, setAverageRating] = useState(
     product?.averageRating || 0
@@ -70,7 +61,7 @@ const ProductPage = () => {
   }, [product])
 
   const updateAverageRating = async () => {
-    const updatedProduct = await refetchProduct()
+    const updatedProduct = await refetchGetProductByIdShopper()
     if (updatedProduct?.data?.averageRating) {
       setAverageRating(updatedProduct.data.averageRating)
     }
@@ -83,7 +74,7 @@ const ProductPage = () => {
   }, [reviews])
 
   const updateDisplayReviews = async () => {
-    const updatedDisplayReviews = await refetchReviews()
+    const updatedDisplayReviews = await refetchGetReviewsByProductId()
     if (updatedDisplayReviews.data) {
       setDisplayReviews(updatedDisplayReviews.data)
     }
@@ -100,7 +91,9 @@ const ProductPage = () => {
           <ViewProduct
             product={product}
             wishlistStatus={wishlistStatus}
-            refetchWishlistProductStatus={refetchWishlistProductStatus}
+            refetchIsProductInWishlistItemsByProductId={
+              refetchIsProductInWishlistItemsByProductId
+            }
             averageRating={averageRating}
           />
           <ViewProductReviews

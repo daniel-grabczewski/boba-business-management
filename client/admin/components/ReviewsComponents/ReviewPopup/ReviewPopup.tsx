@@ -35,12 +35,10 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
   const {
     data: review,
     status,
-    refetch,
+    refetch: refetchGetAdminDisplayReviewById,
   } = useQuery(
-    ['getReviewById', reviewId],
-    async () => {
-      return getAdminDisplayReviewById(reviewId)
-    },
+    ['getAdminDisplayReviewById', reviewId],
+    () => getAdminDisplayReviewById(reviewId),
     {
       refetchOnWindowFocus: false,
     }
@@ -52,7 +50,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
     },
     {
       onSuccess: () => {
-        refetch()
+        refetchGetAdminDisplayReviewById()
       },
     }
   )

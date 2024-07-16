@@ -4,9 +4,9 @@ import { NewEmail } from '../../../../models/Emails'
 import { sendEmailFromDemoUser } from '../../../services/emails'
 
 function Contact() {
-  const mutations = useMutation(async (newEmail: NewEmail) => {
-    return sendEmailFromDemoUser(newEmail)
-  })
+  const mutations = useMutation(async (newEmail: NewEmail) => 
+    sendEmailFromDemoUser(newEmail)
+  )
 
   const [newEmail, setNewEmail] = useState({
     title: '',

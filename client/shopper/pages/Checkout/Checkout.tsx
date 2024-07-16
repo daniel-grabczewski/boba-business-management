@@ -46,11 +46,8 @@ function Checkout() {
   const [errorMessage, setErrorMessage] = useState('empty')
 
   const CartQuery = useQuery(
-    'fetchCart',
-    async () => {
-      const cartData = getDisplayCartItems()
-      return cartData
-    },
+    'getDisplayCartItems',
+    async () => getDisplayCartItems(),
     {
       onSuccess: (data: DisplayCartItem[]) => {
         setCartProduct(data)
@@ -58,23 +55,24 @@ function Checkout() {
     }
   )
 
-  const ShippingQuery = useQuery('fetchAllShippingOptions', async () => {
-    return getShippingOptionsFromLocalStorage()
-  })
+  const { data: shippingOptions, status: statusShipping } = useQuery(
+    'getShippingOptionsFromLocalStorage',
+    async () => getShippingOptionsFromLocalStorage()
+  )
 
-  const UserDetailsQuery = useQuery('fetchUserDetails', async () => {
-    return getDemoUserDetails()
-  })
+  const UserDetailsQuery = useQuery('getDemoUserDetails', async () =>
+    getDemoUserDetails()
+  )
 
-  const statuses = [ShippingQuery.status, CartQuery.status]
+  const statuses = [statusShipping, CartQuery.status]
 
   const purchaseMutation = useMutation(
     async ({ shippingId }: { shippingId: number }) =>
       transferDemoUserCartToOrders(shippingId),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries('fetchOrderByOrderId')
-        queryClient.invalidateQueries('fetchAllOrders')
+        queryClient.invalidateQueries('getOrderById')
+        queryClient.invalidateQueries('getOrdersFromLocalStorage')
       },
     }
   )
@@ -88,17 +86,20 @@ function Checkout() {
 
   // Checks if all fields in userDetails are filled and valid.
   const checkAllFieldsAreEligable = () => {
-    const allFieldsFilled = !Object.values(userDetails).some((value) => value === '')
-    const allFieldsValid = checkIfStringIsOnlyNumbers(userDetails.zipCode) && checkIfStringIsOnlyNumbers(userDetails.phoneNumber)
+    const allFieldsFilled = !Object.values(userDetails).some(
+      (value) => value === ''
+    )
+    const allFieldsValid =
+      checkIfStringIsOnlyNumbers(userDetails.zipCode) &&
+      checkIfStringIsOnlyNumbers(userDetails.phoneNumber)
     return allFieldsFilled && allFieldsValid
   }
 
-  useEffect(()=> {
-    if(checkAllFieldsAreEligable()) {
+  useEffect(() => {
+    if (checkAllFieldsAreEligable()) {
       setErrorMessage('')
     }
   }, [userDetails])
-
 
   const fillDetailsWithDefaults = () => {
     if (UserDetailsQuery.data) {
@@ -109,7 +110,7 @@ function Checkout() {
   }
 
   const handleShippingChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const shippingOption = ShippingQuery.data?.find(
+    const shippingOption = shippingOptions?.find(
       (option: ShippingOption) => option.id === Number(e.target.value)
     )
 
@@ -156,13 +157,11 @@ function Checkout() {
     }
   }
 
-
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
     0
   )
   const total = subtotal + selectedShipping.price
-
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -194,9 +193,9 @@ function Checkout() {
           />
           <div className="flex flex-col mb-8">
             <PaymentMethod />
-            {!ShippingQuery.isLoading && ShippingQuery.data && (
+            {!(statusShipping === 'loading') && shippingOptions && (
               <ShippingMethod
-                shippingData={ShippingQuery.data}
+                shippingOptions={shippingOptions}
                 handleShippingChange={handleShippingChange}
               />
             )}

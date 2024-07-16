@@ -18,22 +18,18 @@ const Profile = () => {
   function goTo(link: string) {
     navigate(link)
   }
-  const { data, status } = useQuery('fetchUser', async () => {
-    return getDemoUserDetails()
-  })
+  const { data, status } = useQuery('getDemoUserDetails', async () =>
+    getDemoUserDetails()
+  )
 
   const { data: reviews, status: reviewsStatus } = useQuery(
-    'fetchUserReviews',
-    async () => {
-      return getReviewsOfDemoUser()
-    }
+    'getReviewsOfDemoUser',
+    async () => getReviewsOfDemoUser()
   )
 
   const { data: orders, status: ordersStatus } = useQuery(
-    'fetchUserOrders',
-    async () => {
-      return getDemoUserOrdersSummary()
-    }
+    'getDemoUserOrdersSummary',
+    async () => getDemoUserOrdersSummary()
   )
 
   function formatCurrency(amount: number) {
@@ -45,12 +41,10 @@ const Profile = () => {
   }
 
   const deleteReviewMutation = useMutation(
-    async (productId: number) => {
-      return deleteReviewOfDemoUserByProductId(productId)
-    },
+    async (productId: number) => deleteReviewOfDemoUserByProductId(productId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('fetchUserReviews')
+        queryClient.invalidateQueries('getReviewsOfDemoUser')
       },
     }
   )

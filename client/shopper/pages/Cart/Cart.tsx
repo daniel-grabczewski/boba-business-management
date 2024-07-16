@@ -13,9 +13,9 @@ import LoadError from '../../components/LoadError/LoadError'
 const Cart = () => {
   const queryClient = useQueryClient()
 
-  const { data, status } = useQuery('fetchCart', async () => {
-    return getDisplayCartItems()
-  })
+  const { data, status } = useQuery('getDisplayCartItems', async () =>
+    getDisplayCartItems()
+  )
 
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -32,7 +32,7 @@ const Cart = () => {
     },
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries('fetchCart')
+        queryClient.invalidateQueries('getDisplayCartItems')
       },
     }
   )
@@ -43,7 +43,7 @@ const Cart = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('fetchCart')
+        queryClient.invalidateQueries('getDisplayCartItems')
       },
     }
   )
@@ -54,7 +54,7 @@ const Cart = () => {
     },
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('fetchCart')
+        queryClient.invalidateQueries('getDisplayCartItems')
       },
     }
   )

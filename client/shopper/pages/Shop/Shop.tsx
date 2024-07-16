@@ -38,9 +38,9 @@ const Shop = () => {
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
-    async () => {
-      return getAllProductsShopper()
-    }
+    async () => 
+      getAllProductsShopper()
+    
   )
 
   const changePage = (newPage: number) => {

@@ -6,12 +6,12 @@ import {
      //! RENAME ReviewExtraDetails to new convention with 'Display...'
 interface DisplayCurrentReviewsProps {
   currentReviews: AdminDisplayReview[]
-  fetchAndShowReviewDetails: (reviewId: number) => void
+  setSelectedReviewById: (reviewId: number) => void
 }
 
 const DisplayCurrentReviews = ({
   currentReviews,
-  fetchAndShowReviewDetails,
+  setSelectedReviewById,
 }: DisplayCurrentReviewsProps) => {
   return (
     <div className="divBody text-gray-600 text-sm font-light">
@@ -20,7 +20,7 @@ const DisplayCurrentReviews = ({
         <div
           key={review.reviewId}
           className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-          onClick={() => fetchAndShowReviewDetails(review.reviewId)}
+          onClick={() => setSelectedReviewById(review.reviewId)}
         >
           <div
             className="divCell py-3 px-8 text-left whitespace-nowrap"

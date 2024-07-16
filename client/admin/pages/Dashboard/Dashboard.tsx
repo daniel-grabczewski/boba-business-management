@@ -9,35 +9,31 @@ import { getDemoUserDetails } from '../../../services/users'
 import { generateCurrentDate } from '../../../utils/generateDate'
 
 const Dashboard = () => {
+  const stockThreshold = 5
   const navigate = useNavigate()
   function goTo(link: string) {
     navigate(link)
   }
   const formattedDate = new Date().toISOString().split('T')[0]
 
-  const orderAmountQuery = useQuery('fetchAmountOfOrdersByDate', async () => {
-    return getOrderCountFromDate(formattedDate)
-  })
+  const orderAmountQuery = useQuery('getOrderCountFromDate', async () =>
+    getOrderCountFromDate(formattedDate)
+  )
 
-  const profileQuery = useQuery('fetchUser', async () => {
-    return getDemoUserDetails()
-  })
+  const profileQuery = useQuery('getDemoUserDetails', async () =>
+    getDemoUserDetails()
+  )
 
-  const emailQuery = useQuery('fetchAmountOfUnreadEmailsByToday', async () => {
-    const currentDate = generateCurrentDate()
-    return countUnreadEmailsFromDate(currentDate)
-  })
+  const emailQuery = useQuery('countUnreadEmailsFromDate', async () =>
+    countUnreadEmailsFromDate(generateCurrentDate())
+  )
 
-  const reviewAmountQuery = useQuery('fetchAmountOfReviewsByDate', async () => {
-    return getCountOfReviewsFromDate(formattedDate)
-  })
+  const reviewAmountQuery = useQuery('getCountOfReviewsFromDate', async () =>
+    getCountOfReviewsFromDate(formattedDate)
+  )
 
-  const lowStockQuery = useQuery(
-    'fetchAmountOfProductsBelowStockLevel',
-    async () => {
-      const stockThreshold = 5
-      return countProductsBelowStockThreshold(stockThreshold)
-    }
+  const lowStockQuery = useQuery('countProductsBelowStockThreshold', async () =>
+    countProductsBelowStockThreshold(stockThreshold)
   )
   const statuses = [
     orderAmountQuery.status,
@@ -72,9 +68,7 @@ const Dashboard = () => {
           <div>
             <h1 className="text-2xl mb-2 text-red-500">Low Stock Alert!</h1>
             <div className="flex flex-row justify-center gap-7">
-
-              {
-              /* //!NEED ADDITIONAL FUNCTION TO GET THE LOW STOCK PRODUCTS THEMSELVES?
+              {/* //!NEED ADDITIONAL FUNCTION TO GET THE LOW STOCK PRODUCTS THEMSELVES?
               lowStockQuery.data?.lowStockProducts.map(
                 (product: AdminProduct) => (
                   <div key={product.id}>
@@ -86,8 +80,7 @@ const Dashboard = () => {
                   </div>
                 )
               )
-              */  
-              }
+              */}
             </div>
           </div>
           <button
@@ -117,8 +110,10 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {/* //! I don't know why this following code is causing an error:
-               reviewAmountQuery.data?.reviewCount */} reviews today
+              You have{' '}
+              {/* //! I don't know why this following code is causing an error:
+               reviewAmountQuery.data?.reviewCount */}{' '}
+              reviews today
             </h1>
           </div>
           <button

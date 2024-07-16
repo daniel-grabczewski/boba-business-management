@@ -6,7 +6,6 @@ import {
   updateEmailReadStatusById,
 } from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
-import { Email } from '../../../../models/Emails'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 
 interface EmailPopupProps {
@@ -37,9 +36,9 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
 
   const { data: email, status } = useQuery(
     ['getEmailById', emailId],
-    async () => {
-      return (getEmailById(emailId)) as Email
-    },
+    async () => 
+      (getEmailById(emailId))
+    ,
     {
       refetchOnWindowFocus: false,
     }

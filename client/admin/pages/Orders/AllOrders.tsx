@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { useQuery } from 'react-query'
-import { getOrdersFromLocalStorage, getOrderById } from '../../../services/orders'
+import {
+  getOrdersFromLocalStorage,
+  getOrderById,
+} from '../../../services/orders'
 import { Order } from '../../../../models/Orders'
 import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
@@ -17,10 +20,8 @@ function AllOrders() {
   const [oldestFirst, setOldestFirst] = useState<boolean>(false)
 
   const { data: orders, status: ordersStatus } = useQuery(
-    'fetchAllOrders',
-    async () => {
-      return  getOrdersFromLocalStorage()
-    }
+    'getOrdersFromLocalStorage',
+    async () => getOrdersFromLocalStorage()
   )
 
   function formatCurrency(amount: number) {
@@ -36,7 +37,7 @@ function AllOrders() {
       const order = getOrderById(orderId)
       setSelectedOrder(order)
     } catch (error) {
-      console.error('Error fetching order details:', error)
+      console.error('Error getting order details:', error)
     }
   }
 

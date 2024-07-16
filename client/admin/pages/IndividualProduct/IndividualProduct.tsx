@@ -12,9 +12,7 @@ const IndividualProduct = () => {
     data: product,
     status: statusProduct,
     isLoading,
-  } = useQuery(['getProduct', id], async () => {
-    return await getProductByIdAdmin(id)
-  })
+  } = useQuery(['getProduct', id], async () => getProductByIdAdmin(id))
 
   return (
     <>

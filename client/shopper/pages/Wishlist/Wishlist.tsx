@@ -15,14 +15,14 @@ const Wishlist = () => {
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState('bg-black hover:bg-gray-700')
 
-  const wishListQuery = useQuery('fetchWishlist', async () => {
-    return getDisplayWishlistItems()
-  })
+  const wishListQuery = useQuery('getDisplayWishlistItems', async () =>
+    getDisplayWishlistItems()
+  )
 
   const cartMutation = useMutation(
-    async (productId: number) => {
-      return addItemToCartByProductId(productId)
-    },
+    async (productId: number) => 
+      addItemToCartByProductId(productId)
+    ,
     {
       onSuccess: () => {
         setButtonText('Item added')
@@ -43,7 +43,7 @@ const Wishlist = () => {
       deleteWishlistItemByProductId(productId),
     {
       onSuccess: async () => {
-        queryClient.invalidateQueries('fetchWishlist')
+        queryClient.invalidateQueries('getDisplayWishlistItems')
       },
     }
   )

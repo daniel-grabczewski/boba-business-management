@@ -1,11 +1,11 @@
 import { ShippingOption } from '../../../../models/ShippingOptions'
 interface ShippingMethodProps {
-  shippingData: ShippingOption[]
+  shippingOptions: ShippingOption[]
   handleShippingChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
 
 function ShippingMethod({
-  shippingData,
+  shippingOptions,
   handleShippingChange,
 }: ShippingMethodProps) {
   return (
@@ -19,7 +19,7 @@ function ShippingMethod({
         className="border p-2 w-full mb-4"
         onChange={handleShippingChange}
       >
-        {shippingData.map((option: ShippingOption) => (
+        {shippingOptions.map((option: ShippingOption) => (
           <option value={option.id} key={option.id}>
             {option.shippingType}
           </option>
