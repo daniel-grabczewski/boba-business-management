@@ -22,6 +22,16 @@ function Checkout() {
 
   const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
 
+  //I want to it so t hat when the user hovers over the load defaults, it will show a preview of what will be filled. 
+  //It will be in yellow background, dark text as they hover.
+  //Create a state for the preview. previewDefaultDetails Details. Set it equal to the profile defaults.
+  //Create a state called displayUserDetails, which will be what actually shows up on the page.
+  //Create a state called userDetails, which is what is updated when the user makes changes. And then it is synced up to the displayUserDetails.
+  //Create a state called previewDetailsColor, most of the time it is empty, otherwise it is set to a beige yellow
+  //When the user hovers over the default button, temporarily displayUserDetails the state shows the color and the default demo user
+  //When they let go, then the state is returned to the userDetails
+  //If they click it, then userDetails becomes equal to the demo details. 
+
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
     firstName: '',
@@ -34,6 +44,22 @@ function Checkout() {
     country: '',
     zipCode: '',
   })
+
+  const [displayUserDetails, setDisplayUserDetails] = useState({
+    userId: 'auth0|demoUser',
+    firstName: '',
+    lastName: '',
+    userName: 'demo.user',
+    phoneNumber: '',
+    emailAddress: 'DemoUser@example.com',
+    address: '',
+    city: '',
+    country: '',
+    zipCode: '',
+  })
+
+  const [previewDefaultDetails, setPreviewDefaultDetails] = useState({})
+
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
     type: '',
@@ -60,9 +86,15 @@ function Checkout() {
     async () => getShippingOptionsFromLocalStorage()
   )
 
-  const UserDetailsQuery = useQuery('getDemoUserDetails', async () =>
+  const {data : defaultUserDetails} = useQuery('getDemoUserDetails', async () =>
     getDemoUserDetails()
   )
+
+  useEffect(() => {
+    if (defaultUserDetails) {
+      setPreviewDefaultDetails(defaultUserDetails)
+    }
+  }, [defaultUserDetails, previewDefaultDetails])
 
   const statuses = [statusShipping, CartQuery.status]
 
@@ -102,10 +134,10 @@ function Checkout() {
   }, [userDetails])
 
   const fillDetailsWithDefaults = () => {
-    if (UserDetailsQuery.data) {
+    if (defaultUserDetails) {
       setEmptyFields([])
       setInvalidFields([])
-      setUserDetails(UserDetailsQuery.data)
+      setUserDetails(defaultUserDetails)
     }
   }
 
@@ -137,6 +169,10 @@ function Checkout() {
       )
     }
   }
+  
+  useEffect(() => {
+    setDisplayUserDetails(userDetails)
+  }, [userDetails])
 
   const handleNumberOnlyFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -187,7 +223,7 @@ function Checkout() {
             handleUserDetailsChange={handleUserDetailsChange}
             handleNumberOnlyFieldChange={handleNumberOnlyFieldChange}
             fillDetailsWithDefaults={fillDetailsWithDefaults}
-            userDetails={userDetails}
+            displayUserDetails={displayUserDetails}
             emptyFields={emptyFields}
             invalidFields={invalidFields}
           />

@@ -2,7 +2,7 @@ import { User } from '../../../../models/Users'
 
 interface PaymentInformationProps {
   handleUserDetailsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
-  userDetails: User
+  displayUserDetails: User
   handleNumberOnlyFieldChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   fillDetailsWithDefaults: () => void
   emptyFields: string[]
@@ -11,7 +11,7 @@ interface PaymentInformationProps {
 
 function DeliveryAddress({
   handleUserDetailsChange,
-  userDetails,
+  displayUserDetails,
   fillDetailsWithDefaults,
   emptyFields,
   invalidFields,
@@ -39,7 +39,7 @@ function DeliveryAddress({
             id="phoneNumber"
             name="phoneNumber"
             className={`rounded border p-2 w-full ${emptyFields.includes('phoneNumber') ? 'border-red-500' : ''} ${invalidFields.includes('phoneNumber') ? 'border-red-500 text-red-500' : ''}`}
-            value={userDetails.phoneNumber}
+            value={displayUserDetails.phoneNumber}
             onChange={handleNumberOnlyFieldChange}
           />
           <p className={`text-normal ${invalidFields.includes('phoneNumber') ? 'text-red-500' : 'text-gray-600'}`}>{`${invalidFields.includes('phoneNumber') ? `Please enter a valid phone number` : `e.g. 020 000 0000`}`}</p>
@@ -56,7 +56,7 @@ function DeliveryAddress({
             name="firstName"
             id="firstName"
             className={`rounded border p-2 w-full mr-6 ${emptyFields.includes('firstName') ? 'border-red-500' : ''}`}
-            value={userDetails.firstName}
+            value={displayUserDetails.firstName}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -69,7 +69,7 @@ function DeliveryAddress({
             name="lastName"
             id="lastName"
             className={`rounded border p-2 w-full ${emptyFields.includes('lastName') ? 'border-red-500' : ''}`}
-            value={userDetails.lastName}
+            value={displayUserDetails.lastName}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -84,7 +84,7 @@ function DeliveryAddress({
             name="address"
             id="address"
             className={`rounded border p-2 w-full ${emptyFields.includes('address') ? 'border-red-500' : ''}`}
-            value={userDetails.address}
+            value={displayUserDetails.address}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -97,7 +97,7 @@ function DeliveryAddress({
             name="city"
             id="city"
             className={`rounded border p-2 w-full ${emptyFields.includes('city') ? 'border-red-500' : ''}`}
-            value={userDetails.city}
+            value={displayUserDetails.city}
             onChange={handleUserDetailsChange}
           />
         </div>
@@ -112,7 +112,7 @@ function DeliveryAddress({
             name="zipCode"
             id="zipCode"
             className={`rounded border p-2 w-full ${emptyFields.includes('zipCode') ? 'border-red-500' : ''} ${invalidFields.includes('zipCode') ? 'border-red-500 text-red-500' : ''}`}
-            value={userDetails.zipCode}
+            value={displayUserDetails.zipCode}
             onChange={handleNumberOnlyFieldChange}
           />
           <p className={`text-normal ${invalidFields.includes('zipCode') ? 'text-red-500' : 'text-gray-600'}`}>{`${invalidFields.includes('zipCode') ? `Please enter a valid zip code` : `e.g. 2345`}`}</p>
@@ -126,7 +126,7 @@ function DeliveryAddress({
             name="country"
             id="country"
             className={`rounded border p-2 w-full ${emptyFields.includes('country') ? 'border-red-500' : ''}`}
-            value={userDetails.country}
+            value={displayUserDetails.country}
             onChange={handleUserDetailsChange}
           />
         </div>
