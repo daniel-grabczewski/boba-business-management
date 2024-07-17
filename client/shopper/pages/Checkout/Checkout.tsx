@@ -22,7 +22,7 @@ function Checkout() {
 
   const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
 
-  //I want to it so t hat when the user hovers over the load defaults, it will show a preview of what will be filled. 
+  //I want to it so t hat when the user hovers over the load defaults, it will show a preview of what will be filled.
   //It will be in yellow background, dark text as they hover.
   //Create a state for the preview. previewDefaultDetails Details. Set it equal to the profile defaults.
   //Create a state called displayUserDetails, which will be what actually shows up on the page.
@@ -30,7 +30,7 @@ function Checkout() {
   //Create a state called previewDetailsColor, most of the time it is empty, otherwise it is set to a beige yellow
   //When the user hovers over the default button, temporarily displayUserDetails the state shows the color and the default demo user
   //When they let go, then the state is returned to the userDetails
-  //If they click it, then userDetails becomes equal to the demo details. 
+  //If they click it, then userDetails becomes equal to the demo details.
 
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
@@ -58,8 +58,6 @@ function Checkout() {
     zipCode: '',
   })
 
-  const [previewDefaultDetails, setPreviewDefaultDetails] = useState({})
-
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
     type: '',
@@ -86,15 +84,10 @@ function Checkout() {
     async () => getShippingOptionsFromLocalStorage()
   )
 
-  const {data : defaultUserDetails} = useQuery('getDemoUserDetails', async () =>
-    getDemoUserDetails()
+  const { data: defaultUserDetails } = useQuery(
+    'getDemoUserDetails',
+    async () => getDemoUserDetails()
   )
-
-  useEffect(() => {
-    if (defaultUserDetails) {
-      setPreviewDefaultDetails(defaultUserDetails)
-    }
-  }, [defaultUserDetails, previewDefaultDetails])
 
   const statuses = [statusShipping, CartQuery.status]
 
@@ -169,7 +162,7 @@ function Checkout() {
       )
     }
   }
-  
+
   useEffect(() => {
     setDisplayUserDetails(userDetails)
   }, [userDetails])
@@ -211,6 +204,16 @@ function Checkout() {
     }
   }
 
+  const handlePreviewMouseEnter = () => {
+    if (defaultUserDetails) {
+      setDisplayUserDetails(defaultUserDetails)
+    }
+  }
+
+  const handlePreviewMouseLeave = () => {
+    setDisplayUserDetails(userDetails)
+  }
+
   return (
     <>
       <LoadError status={statuses} />
@@ -226,6 +229,8 @@ function Checkout() {
             displayUserDetails={displayUserDetails}
             emptyFields={emptyFields}
             invalidFields={invalidFields}
+            handlePreviewMouseEnter={handlePreviewMouseEnter}
+            handlePreviewMouseLeave={handlePreviewMouseLeave}
           />
           <div className="flex flex-col mb-8">
             <PaymentMethod />
