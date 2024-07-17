@@ -11,6 +11,7 @@ interface PaymentInformationProps {
   invalidFields: string[]
   handlePreviewMouseEnter : () => void
   handlePreviewMouseLeave : () => void
+  previewDefaultColor : string
 }
 
 function DeliveryAddress({
@@ -21,7 +22,8 @@ function DeliveryAddress({
   invalidFields,
   handleNumberOnlyFieldChange,
   handlePreviewMouseEnter,
-  handlePreviewMouseLeave
+  handlePreviewMouseLeave,
+  previewDefaultColor
 }: PaymentInformationProps) {
   return (
     <>
@@ -46,7 +48,7 @@ function DeliveryAddress({
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
             } ${
               invalidFields.includes('phoneNumber')
@@ -79,7 +81,7 @@ function DeliveryAddress({
             type="text"
             name="firstName"
             id="firstName"
-            className={`rounded border p-2 w-full mr-6 ${
+            className={`${previewDefaultColor} rounded border p-2 w-full mr-6 ${
               emptyFields.includes('firstName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.firstName}
@@ -94,7 +96,7 @@ function DeliveryAddress({
             type="text"
             name="lastName"
             id="lastName"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('lastName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.lastName}
@@ -111,7 +113,7 @@ function DeliveryAddress({
             type="text"
             name="address"
             id="address"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('address') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.address}
@@ -126,7 +128,7 @@ function DeliveryAddress({
             type="text"
             name="city"
             id="city"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('city') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.city}
@@ -143,7 +145,7 @@ function DeliveryAddress({
             type="text"
             name="zipCode"
             id="zipCode"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('zipCode') ? 'border-red-500' : ''
             } ${
               invalidFields.includes('zipCode')
@@ -173,7 +175,7 @@ function DeliveryAddress({
             type="text"
             name="country"
             id="country"
-            className={`rounded border p-2 w-full ${
+            className={`${previewDefaultColor} rounded border p-2 w-full ${
               emptyFields.includes('country') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.country}

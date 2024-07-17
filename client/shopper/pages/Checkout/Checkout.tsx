@@ -64,6 +64,8 @@ function Checkout() {
     price: 0,
   })
 
+  const [previewDefaultColor, setPreviewDefaultColor] = useState('')
+
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
 
@@ -128,6 +130,7 @@ function Checkout() {
 
   const fillDetailsWithDefaults = () => {
     if (defaultUserDetails) {
+      setPreviewDefaultColor('')
       setEmptyFields([])
       setInvalidFields([])
       setUserDetails(defaultUserDetails)
@@ -205,13 +208,15 @@ function Checkout() {
   }
 
   const handlePreviewMouseEnter = () => {
-    if (defaultUserDetails) {
+    if (defaultUserDetails && defaultUserDetails !== displayUserDetails) {
       setDisplayUserDetails(defaultUserDetails)
+      setPreviewDefaultColor('bg-amber-100')
     }
   }
 
   const handlePreviewMouseLeave = () => {
-    setDisplayUserDetails(userDetails)
+      setDisplayUserDetails(userDetails)
+      setPreviewDefaultColor('')
   }
 
   return (
@@ -231,6 +236,7 @@ function Checkout() {
             invalidFields={invalidFields}
             handlePreviewMouseEnter={handlePreviewMouseEnter}
             handlePreviewMouseLeave={handlePreviewMouseLeave}
+            previewDefaultColor={previewDefaultColor}
           />
           <div className="flex flex-col mb-8">
             <PaymentMethod />
