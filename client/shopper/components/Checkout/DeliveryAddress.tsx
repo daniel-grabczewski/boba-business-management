@@ -3,28 +3,37 @@ import { User } from '../../../../models/Users'
 interface PaymentInformationProps {
   handleUserDetailsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   displayUserDetails: User
+  userDetails : User
   handleNumberOnlyFieldChange: (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void
   fillDetailsWithDefaults: () => void
   emptyFields: string[]
   invalidFields: string[]
-  handlePreviewMouseEnter : () => void
-  handlePreviewMouseLeave : () => void
-  previewDefaultColor : string
+  handlePreviewMouseEnter: () => void
+  handlePreviewMouseLeave: () => void
+  previewDefaultDetailsColor: string
 }
 
 function DeliveryAddress({
   handleUserDetailsChange,
   displayUserDetails,
+  userDetails,
   fillDetailsWithDefaults,
   emptyFields,
   invalidFields,
   handleNumberOnlyFieldChange,
   handlePreviewMouseEnter,
   handlePreviewMouseLeave,
-  previewDefaultColor
+  previewDefaultDetailsColor,
 }: PaymentInformationProps) {
+
+  const getFieldClass = (fieldName: keyof User) => {
+    return userDetails[fieldName] !== displayUserDetails[fieldName]
+      ? previewDefaultDetailsColor
+      : ''
+  }
+
   return (
     <>
       <div className="flex flex-row w-full justify-between ">
@@ -48,7 +57,7 @@ function DeliveryAddress({
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('phoneNumber')} rounded border p-2 w-full ${
               emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
             } ${
               invalidFields.includes('phoneNumber')
@@ -81,7 +90,7 @@ function DeliveryAddress({
             type="text"
             name="firstName"
             id="firstName"
-            className={`${previewDefaultColor} rounded border p-2 w-full mr-6 ${
+            className={`${getFieldClass('firstName')} rounded border p-2 w-full mr-6 ${
               emptyFields.includes('firstName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.firstName}
@@ -96,7 +105,7 @@ function DeliveryAddress({
             type="text"
             name="lastName"
             id="lastName"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('lastName')} rounded border p-2 w-full ${
               emptyFields.includes('lastName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.lastName}
@@ -113,7 +122,7 @@ function DeliveryAddress({
             type="text"
             name="address"
             id="address"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('address')} rounded border p-2 w-full ${
               emptyFields.includes('address') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.address}
@@ -128,7 +137,7 @@ function DeliveryAddress({
             type="text"
             name="city"
             id="city"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('city')} rounded border p-2 w-full ${
               emptyFields.includes('city') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.city}
@@ -145,7 +154,7 @@ function DeliveryAddress({
             type="text"
             name="zipCode"
             id="zipCode"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('zipCode')} rounded border p-2 w-full ${
               emptyFields.includes('zipCode') ? 'border-red-500' : ''
             } ${
               invalidFields.includes('zipCode')
@@ -175,7 +184,7 @@ function DeliveryAddress({
             type="text"
             name="country"
             id="country"
-            className={`${previewDefaultColor} rounded border p-2 w-full ${
+            className={`${getFieldClass('country')} rounded border p-2 w-full ${
               emptyFields.includes('country') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.country}
