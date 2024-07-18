@@ -23,7 +23,7 @@ function Checkout() {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
 
-  const [cartProducts, setCartProduct] = useState([] as DisplayCartItem[])
+  const [cartProducts, setCartProducts] = useState([] as DisplayCartItem[])
 
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
@@ -70,7 +70,7 @@ function Checkout() {
     async () => getDisplayCartItems(),
     {
       onSuccess: (data: DisplayCartItem[]) => {
-        setCartProduct(data)
+        setCartProducts(data)
       },
     }
   )
@@ -218,48 +218,63 @@ function Checkout() {
   return (
     <>
       <LoadError status={statuses} />
-      <div className="text-4xl font-bold text-center mt-12">
-        <h1>Checkout</h1>
+      {cartProducts.length === 0 ? (
+        <div className="flex flex-col items-center justify-center mt-12">
+        <h1 className="text-3xl font text-center mt-12 mb-4">
+          {`No items currently in your cart. Let's get shopping! 😀`}
+        </h1>
+        <button className="bg-gray-500 text-white p-4 w-auto whitespace-nowrap text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+        onClick={() => navigate('/shop')}
+        >
+          Continue shopping
+        </button>
       </div>
-      <div className="text-black p-8 flex justify-center items-center min-h-screen">
-        <form onSubmit={handleSubmit} className="w-3/5">
-          <DeliveryAddress
-            handleFieldChange={handleFieldChange}
-            fillDetailsWithDefaults={fillDetailsWithDefaults}
-            displayUserDetails={displayUserDetails}
-            userDetails={userDetails}
-            emptyFields={emptyFields}
-            invalidFields={invalidFields}
-            handlePreviewMouseEnter={handlePreviewMouseEnter}
-            handlePreviewMouseLeave={handlePreviewMouseLeave}
-            previewDefaultDetailsColor={previewDefaultDetailsColor}
-          />
-          <div className="flex flex-col mb-8">
-            <PaymentMethod />
-            {!(statusShipping === 'loading') && shippingOptions && (
-              <ShippingMethod
-                shippingOptions={shippingOptions}
-                handleShippingChange={handleShippingChange}
+      ) : (
+        <>
+          <div className="text-4xl font-bold text-center mt-12">
+            <h1>Checkout</h1>
+          </div>
+          <div className="text-black p-8 flex justify-center items-center min-h-screen">
+            <form onSubmit={handleSubmit} className="w-3/5">
+              <DeliveryAddress
+                handleFieldChange={handleFieldChange}
+                fillDetailsWithDefaults={fillDetailsWithDefaults}
+                displayUserDetails={displayUserDetails}
+                userDetails={userDetails}
+                emptyFields={emptyFields}
+                invalidFields={invalidFields}
+                handlePreviewMouseEnter={handlePreviewMouseEnter}
+                handlePreviewMouseLeave={handlePreviewMouseLeave}
+                previewDefaultDetailsColor={previewDefaultDetailsColor}
               />
-            )}
+              <div className="flex flex-col mb-8">
+                <PaymentMethod />
+                {!(statusShipping === 'loading') && shippingOptions && (
+                  <ShippingMethod
+                    shippingOptions={shippingOptions}
+                    handleShippingChange={handleShippingChange}
+                  />
+                )}
+              </div>
+              <OrderSummary
+                cartProducts={cartProducts}
+                subtotal={subtotal}
+                selectedShipping={selectedShipping}
+                total={total}
+              />
+              <div className="flex flex-row w-full justify-between items-center">
+                <button
+                  className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+                  type="submit"
+                >
+                  COMPLETE ORDER
+                </button>
+                <p className="p-4 text-red-500">{errorMessage}</p>
+              </div>
+            </form>
           </div>
-          <OrderSummary
-            cartProducts={cartProducts}
-            subtotal={subtotal}
-            selectedShipping={selectedShipping}
-            total={total}
-          />
-          <div className="flex flex-row w-full justify-between items-center">
-            <button
-              className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
-              type="submit"
-            >
-              COMPLETE ORDER
-            </button>
-            <p className="p-4 text-red-500">{errorMessage}</p>
-          </div>
-        </form>
-      </div>
+        </>
+      )}
     </>
   )
 }
