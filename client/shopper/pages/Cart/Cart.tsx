@@ -161,7 +161,7 @@ const Cart = () => {
                   <span className="pl-40">TBC</span>
                 </p>
                 <button
-                  onClick={() => goTo('/Checkout')}
+                  onClick={() => goTo('/checkout')}
                   className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
                 >
                   Checkout
