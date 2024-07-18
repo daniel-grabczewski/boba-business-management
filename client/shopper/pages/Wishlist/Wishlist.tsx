@@ -13,7 +13,7 @@ import { useState } from 'react'
 const Wishlist = () => {
   const queryClient = useQueryClient()
   const [buttonStatus, setButtonStatus] = useState<{
-    [key: number]: { text: string; color: string }
+    [key: number]: { text: string; color: string; disabled: boolean }
   }>({})
 
   const wishListQuery = useQuery('getDisplayWishlistItems', async () =>
@@ -26,7 +26,11 @@ const Wishlist = () => {
       onSuccess: (data, variables) => {
         setButtonStatus((prevStatus) => ({
           ...prevStatus,
-          [variables]: { text: 'Item added', color: 'bg-gray-500' },
+          [variables]: {
+            text: 'Item added',
+            color: 'bg-gray-500',
+            disabled: true,
+          },
         }))
         setTimeout(() => {
           setButtonStatus((prevStatus) => ({
@@ -34,8 +38,18 @@ const Wishlist = () => {
             [variables]: {
               text: 'Add to cart',
               color: 'bg-black hover:bg-gray-700',
+              disabled: true,
             },
           }))
+          setTimeout(() => {
+            setButtonStatus((prevStatus) => ({
+              ...prevStatus,
+              [variables]: {
+                ...prevStatus[variables],
+                disabled: false,
+              },
+            }))
+          }, 200)
         }, 1000)
       },
       onError: (error) => {
@@ -44,7 +58,7 @@ const Wishlist = () => {
     }
   )
 
-  const romoveMutation = useMutation(
+  const removeMutation = useMutation(
     async ({ productId }: { productId: number }) =>
       deleteWishlistItemByProductId(productId),
     {
@@ -55,11 +69,12 @@ const Wishlist = () => {
   )
 
   const handleAddToCart = (productId: number) => {
+    if (buttonStatus[productId]?.disabled) return
     cartMutation.mutate(productId)
   }
 
   async function removeFromWishList(productId: number) {
-    romoveMutation.mutate({ productId })
+    removeMutation.mutate({ productId })
   }
 
   return (
@@ -102,7 +117,10 @@ const Wishlist = () => {
                       'bg-black hover:bg-gray-700'
                     }`}
                     onClick={() => handleAddToCart(item.productId)}
-                    disabled={cartMutation.isLoading}
+                    disabled={
+                      cartMutation.isLoading ||
+                      buttonStatus[item.productId]?.disabled
+                    }
                   >
                     {buttonStatus[item.productId]?.text || 'Add to cart'}
                   </button>
