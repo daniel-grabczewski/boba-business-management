@@ -14,7 +14,7 @@ import {
   OrderSummary,
 } from '../../components'
 import LoadError from '../../components/LoadError/LoadError'
-import { checkIfStringIsOnlyNumbers } from '../../../utils/checkInput'
+import { checkIfStringIsOnlyLetters, checkIfStringIsOnlyNumbers } from '../../../utils/checkInput'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -59,7 +59,7 @@ function Checkout() {
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
 
-  const [errorMessage, setErrorMessage] = useState('empty')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const CartQuery = useQuery(
     'getDisplayCartItems',
@@ -141,6 +141,12 @@ function Checkout() {
     }
   }
 
+
+
+  useEffect(() => {
+    setDisplayUserDetails(userDetails)
+  }, [userDetails])
+  
   const handleUserDetailsChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -155,10 +161,6 @@ function Checkout() {
       )
     }
   }
-
-  useEffect(() => {
-    setDisplayUserDetails(userDetails)
-  }, [userDetails])
 
   const handleNumberOnlyFieldChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -178,6 +180,25 @@ function Checkout() {
       })
     }
   }
+
+const handleLetterOnlyFieldChange = (
+  event: React.ChangeEvent<HTMLInputElement>
+) => {
+  const { name, value } = event.target
+  handleUserDetailsChange(event)
+  if (checkIfStringIsOnlyLetters(value) || value === '') {
+    setInvalidFields((prevFields) =>
+      prevFields.filter((field) => field !== name)
+    )
+  } else {
+    setInvalidFields((prevFields) => {
+      if (!prevFields.includes(name)) {
+        return [...prevFields, name]
+      }
+      return prevFields
+    })
+  }
+}
 
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -220,6 +241,7 @@ function Checkout() {
           <DeliveryAddress
             handleUserDetailsChange={handleUserDetailsChange}
             handleNumberOnlyFieldChange={handleNumberOnlyFieldChange}
+            handleLetterOnlyFieldChange={handleLetterOnlyFieldChange}
             fillDetailsWithDefaults={fillDetailsWithDefaults}
             displayUserDetails={displayUserDetails}
             userDetails = {userDetails}
