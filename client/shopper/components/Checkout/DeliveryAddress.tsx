@@ -3,8 +3,11 @@ import { User } from '../../../../models/Users'
 interface PaymentInformationProps {
   handleUserDetailsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
   displayUserDetails: User
-  userDetails : User
+  userDetails: User
   handleNumberOnlyFieldChange: (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => void
+  handleLetterOnlyFieldChange : (
     event: React.ChangeEvent<HTMLInputElement>
   ) => void
   fillDetailsWithDefaults: () => void
@@ -26,8 +29,8 @@ function DeliveryAddress({
   handlePreviewMouseEnter,
   handlePreviewMouseLeave,
   previewDefaultDetailsColor,
+  handleLetterOnlyFieldChange
 }: PaymentInformationProps) {
-
   const getFieldClass = (fieldName: keyof User) => {
     return userDetails[fieldName] !== displayUserDetails[fieldName]
       ? previewDefaultDetailsColor
@@ -57,7 +60,9 @@ function DeliveryAddress({
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            className={`${getFieldClass('phoneNumber')} rounded border p-2 w-full ${
+            className={`${getFieldClass(
+              'phoneNumber'
+            )} rounded border p-2 w-full ${
               emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
             } ${
               invalidFields.includes('phoneNumber')
@@ -90,12 +95,28 @@ function DeliveryAddress({
             type="text"
             name="firstName"
             id="firstName"
-            className={`${getFieldClass('firstName')} rounded border p-2 w-full mr-6 ${
-              emptyFields.includes('firstName') ? 'border-red-500' : ''
+            className={`${getFieldClass(
+              'firstName'
+            )} rounded border p-2 w-full mr-6 ${
+              emptyFields.includes('firstName')|| invalidFields.includes('firstName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.firstName}
-            onChange={handleUserDetailsChange}
+            onChange={handleLetterOnlyFieldChange}
           />
+          <p
+            className={`text-normal ${
+              invalidFields.includes('firstName')
+                ? 'text-red-500'
+                : 'text-gray-600'
+            }`}
+            style={{
+              visibility: invalidFields.includes('firstName')
+                ? 'visible'
+                : 'hidden',
+            }}
+          >
+            {`Please enter a valid first name`}
+          </p>
         </div>
         <div className="w-full">
           <label htmlFor="lastName" className="font-normal text-gray-600">
@@ -105,12 +126,28 @@ function DeliveryAddress({
             type="text"
             name="lastName"
             id="lastName"
-            className={`${getFieldClass('lastName')} rounded border p-2 w-full ${
-              emptyFields.includes('lastName') ? 'border-red-500' : ''
+            className={`${getFieldClass(
+              'lastName'
+            )} rounded border p-2 w-full ${
+              emptyFields.includes('lastName') || invalidFields.includes('lastName')? 'border-red-500' : ''
             }`}
             value={displayUserDetails.lastName}
-            onChange={handleUserDetailsChange}
+            onChange={handleLetterOnlyFieldChange}
           />
+          <p
+            className={`text-normal ${
+              invalidFields.includes('lastName')
+                ? 'text-red-500'
+                : 'text-gray-600'
+            }`}
+            style={{
+              visibility: invalidFields.includes('lastName')
+                ? 'visible'
+                : 'hidden',
+            }}
+          >
+            {`Please enter a valid last name`}
+          </p>
         </div>
       </div>
       <div className="flex flex-row mb-4">
@@ -138,11 +175,26 @@ function DeliveryAddress({
             name="city"
             id="city"
             className={`${getFieldClass('city')} rounded border p-2 w-full ${
-              emptyFields.includes('city') ? 'border-red-500' : ''
+              emptyFields.includes('city') || 
+              invalidFields.includes('city') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.city}
-            onChange={handleUserDetailsChange}
+            onChange={handleLetterOnlyFieldChange}
           />
+          <p
+            className={`text-normal ${
+              invalidFields.includes('city') 
+                ? 'text-red-500'
+                : 'text-gray-600'
+            }`}
+            style={{
+              visibility: invalidFields.includes('city')
+                ? 'visible'
+                : 'hidden',
+            }}
+          >
+            {`Please enter a valid city`}
+          </p>
         </div>
       </div>
       <div className="flex flex-row mb-8">
@@ -185,11 +237,25 @@ function DeliveryAddress({
             name="country"
             id="country"
             className={`${getFieldClass('country')} rounded border p-2 w-full ${
-              emptyFields.includes('country') ? 'border-red-500' : ''
+              emptyFields.includes('country') || invalidFields.includes('country') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.country}
-            onChange={handleUserDetailsChange}
+            onChange={handleLetterOnlyFieldChange}
           />
+          <p
+            className={`text-normal ${
+              invalidFields.includes('country')
+                ? 'text-red-500'
+                : 'text-gray-600'
+            }`}
+            style={{
+              visibility: invalidFields.includes('country')
+                ? 'visible'
+                : 'hidden',
+            }}
+          >
+            {`Please enter a valid country`}
+          </p>
         </div>
       </div>
     </>
