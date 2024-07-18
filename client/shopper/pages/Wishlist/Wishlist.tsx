@@ -12,24 +12,30 @@ import { useState } from 'react'
 
 const Wishlist = () => {
   const queryClient = useQueryClient()
-  const [buttonText, setButtonText] = useState('Add to cart')
-  const [buttonColor, setButtonColor] = useState('bg-black hover:bg-gray-700')
+  const [buttonStatus, setButtonStatus] = useState<{
+    [key: number]: { text: string; color: string }
+  }>({})
 
   const wishListQuery = useQuery('getDisplayWishlistItems', async () =>
     getDisplayWishlistItems()
   )
 
   const cartMutation = useMutation(
-    async (productId: number) => 
-      addItemToCartByProductId(productId)
-    ,
+    async (productId: number) => addItemToCartByProductId(productId),
     {
-      onSuccess: () => {
-        setButtonText('Item added')
-        setButtonColor('bg-gray-500')
+      onSuccess: (data, variables) => {
+        setButtonStatus((prevStatus) => ({
+          ...prevStatus,
+          [variables]: { text: 'Item added', color: 'bg-gray-500' },
+        }))
         setTimeout(() => {
-          setButtonText('Add to cart')
-          setButtonColor('bg-black hover:bg-gray-700')
+          setButtonStatus((prevStatus) => ({
+            ...prevStatus,
+            [variables]: {
+              text: 'Add to cart',
+              color: 'bg-black hover:bg-gray-700',
+            },
+          }))
         }, 1000)
       },
       onError: (error) => {
@@ -52,10 +58,10 @@ const Wishlist = () => {
     cartMutation.mutate(productId)
   }
 
-  console.log(wishListQuery.data)
   async function removeFromWishList(productId: number) {
     romoveMutation.mutate({ productId })
   }
+
   return (
     <>
       <LoadError status={wishListQuery.status} />
@@ -91,11 +97,14 @@ const Wishlist = () => {
                   </h1>
 
                   <button
-                    className={`${buttonColor} w-1/6 text-sm bg-black text-white p-2 rounded-md`}
+                    className={`w-1/6 text-sm text-white p-2 rounded-md ${
+                      buttonStatus[item.productId]?.color ||
+                      'bg-black hover:bg-gray-700'
+                    }`}
                     onClick={() => handleAddToCart(item.productId)}
                     disabled={cartMutation.isLoading}
                   >
-                    {`${buttonText}`}
+                    {buttonStatus[item.productId]?.text || 'Add to cart'}
                   </button>
                   <button
                     className="flex flex-col items-center text-black hover:text-red-500 transition"
