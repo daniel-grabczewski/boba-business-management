@@ -14,7 +14,10 @@ import {
   OrderSummary,
 } from '../../components'
 import LoadError from '../../components/LoadError/LoadError'
-import { checkIfStringIsOnlyLetters, checkIfStringIsOnlyNumbers } from '../../../utils/checkInput'
+import {
+  checkIfStringIsOnlyLetters,
+  checkIfStringIsOnlyNumbers,
+} from '../../../utils/checkInput'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -54,7 +57,8 @@ function Checkout() {
     price: 0,
   })
 
-  const [previewDefaultDetailsColor, setPreviewDefaultDetailsColor] = useState('')
+  const [previewDefaultDetailsColor, setPreviewDefaultDetailsColor] =
+    useState('')
 
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
@@ -141,64 +145,45 @@ function Checkout() {
     }
   }
 
-
-
   useEffect(() => {
     setDisplayUserDetails(userDetails)
   }, [userDetails])
-  
-  const handleUserDetailsChange = (
-    event: React.ChangeEvent<HTMLInputElement>
+
+  const handleFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    validationType?: 'letters' | 'numbers'
   ) => {
     const { name, value } = event.target
+
     setUserDetails((prevDetails) => ({
       ...prevDetails,
       [name]: value,
     }))
+
     if (value !== '') {
       setEmptyFields((prevFields) =>
         prevFields.filter((field) => field !== name)
       )
     }
-  }
 
-  const handleNumberOnlyFieldChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const { name, value } = event.target
-    handleUserDetailsChange(event)
-    if (checkIfStringIsOnlyNumbers(value)) {
-      setInvalidFields((prevFields) =>
-        prevFields.filter((field) => field !== name)
-      )
-    } else {
-      setInvalidFields((prevFields) => {
+    let isValid = true
+    if (validationType === 'letters') {
+      isValid = checkIfStringIsOnlyLetters(value)
+    } else if (validationType === 'numbers') {
+      isValid = checkIfStringIsOnlyNumbers(value)
+    }
+
+    setInvalidFields((prevFields) => {
+      if (isValid) {
+        return prevFields.filter((field) => field !== name)
+      } else {
         if (!prevFields.includes(name)) {
           return [...prevFields, name]
         }
         return prevFields
-      })
-    }
-  }
-
-const handleLetterOnlyFieldChange = (
-  event: React.ChangeEvent<HTMLInputElement>
-) => {
-  const { name, value } = event.target
-  handleUserDetailsChange(event)
-  if (checkIfStringIsOnlyLetters(value) || value === '') {
-    setInvalidFields((prevFields) =>
-      prevFields.filter((field) => field !== name)
-    )
-  } else {
-    setInvalidFields((prevFields) => {
-      if (!prevFields.includes(name)) {
-        return [...prevFields, name]
       }
-      return prevFields
     })
   }
-}
 
   const subtotal = cartProducts.reduce(
     (total, product) => total + product.price * product.quantity,
@@ -226,8 +211,8 @@ const handleLetterOnlyFieldChange = (
   }
 
   const handlePreviewMouseLeave = () => {
-      setDisplayUserDetails(userDetails)
-      setPreviewDefaultDetailsColor('')
+    setDisplayUserDetails(userDetails)
+    setPreviewDefaultDetailsColor('')
   }
 
   return (
@@ -239,12 +224,10 @@ const handleLetterOnlyFieldChange = (
       <div className="text-black p-8 flex justify-center items-center min-h-screen">
         <form onSubmit={handleSubmit} className="w-3/5">
           <DeliveryAddress
-            handleUserDetailsChange={handleUserDetailsChange}
-            handleNumberOnlyFieldChange={handleNumberOnlyFieldChange}
-            handleLetterOnlyFieldChange={handleLetterOnlyFieldChange}
+            handleFieldChange={handleFieldChange}
             fillDetailsWithDefaults={fillDetailsWithDefaults}
             displayUserDetails={displayUserDetails}
-            userDetails = {userDetails}
+            userDetails={userDetails}
             emptyFields={emptyFields}
             invalidFields={invalidFields}
             handlePreviewMouseEnter={handlePreviewMouseEnter}

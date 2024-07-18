@@ -1,15 +1,9 @@
 import { User } from '../../../../models/Users'
 
 interface PaymentInformationProps {
-  handleUserDetailsChange: (event: React.ChangeEvent<HTMLInputElement>) => void
+  handleFieldChange: (event: React.ChangeEvent<HTMLInputElement>, validationType?: 'letters' | 'numbers') => void
   displayUserDetails: User
   userDetails: User
-  handleNumberOnlyFieldChange: (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void
-  handleLetterOnlyFieldChange : (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void
   fillDetailsWithDefaults: () => void
   emptyFields: string[]
   invalidFields: string[]
@@ -19,17 +13,15 @@ interface PaymentInformationProps {
 }
 
 function DeliveryAddress({
-  handleUserDetailsChange,
+  handleFieldChange,
   displayUserDetails,
   userDetails,
   fillDetailsWithDefaults,
   emptyFields,
   invalidFields,
-  handleNumberOnlyFieldChange,
   handlePreviewMouseEnter,
   handlePreviewMouseLeave,
   previewDefaultDetailsColor,
-  handleLetterOnlyFieldChange
 }: PaymentInformationProps) {
   const getFieldClass = (fieldName: keyof User) => {
     return userDetails[fieldName] !== displayUserDetails[fieldName]
@@ -70,7 +62,7 @@ function DeliveryAddress({
                 : ''
             }`}
             value={displayUserDetails.phoneNumber}
-            onChange={handleNumberOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'numbers')}
           />
           <p
             className={`text-normal ${
@@ -101,7 +93,7 @@ function DeliveryAddress({
               emptyFields.includes('firstName')|| invalidFields.includes('firstName') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.firstName}
-            onChange={handleLetterOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'letters')}
           />
           <p
             className={`text-normal ${
@@ -132,7 +124,7 @@ function DeliveryAddress({
               emptyFields.includes('lastName') || invalidFields.includes('lastName')? 'border-red-500' : ''
             }`}
             value={displayUserDetails.lastName}
-            onChange={handleLetterOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'letters')}
           />
           <p
             className={`text-normal ${
@@ -163,7 +155,7 @@ function DeliveryAddress({
               emptyFields.includes('address') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.address}
-            onChange={handleUserDetailsChange}
+            onChange={(e) => handleFieldChange(e)}
           />
         </div>
         <div className="w-full">
@@ -179,7 +171,7 @@ function DeliveryAddress({
               invalidFields.includes('city') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.city}
-            onChange={handleLetterOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'letters')}
           />
           <p
             className={`text-normal ${
@@ -214,7 +206,7 @@ function DeliveryAddress({
                 : ''
             }`}
             value={displayUserDetails.zipCode}
-            onChange={handleNumberOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'numbers')}
           />
           <p
             className={`text-normal ${
@@ -240,7 +232,7 @@ function DeliveryAddress({
               emptyFields.includes('country') || invalidFields.includes('country') ? 'border-red-500' : ''
             }`}
             value={displayUserDetails.country}
-            onChange={handleLetterOnlyFieldChange}
+            onChange={(e) => handleFieldChange(e, 'letters')}
           />
           <p
             className={`text-normal ${
