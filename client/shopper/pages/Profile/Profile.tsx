@@ -86,7 +86,7 @@ const Profile = () => {
                   ))}
                 </ul>
               ) : (
-                <p>No orders available.</p>
+                <p>{`You haven't made any orders yet.`}</p>
               )}
             </div>
           </section>
@@ -129,7 +129,7 @@ const Profile = () => {
         </div>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">{`Reviews you've posted:`}</h2>
+          <h2 className="text-xl font-semibold mb-4">{`Reviews you've posted`}</h2>
           {reviews?.length === 0 ? (
             <p>{`You haven't posted any reviews yet.`}</p>
           ) : (
