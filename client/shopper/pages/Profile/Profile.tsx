@@ -129,47 +129,53 @@ const Profile = () => {
         </div>
 
         <section className="mt-8">
-          <h2 className="text-xl font-semibold mb-4">Reviews</h2>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {reviewsStatus === 'loading' ? (
-              <p>Loading reviews...</p>
-            ) : reviewsStatus === 'error' || !reviews ? (
-              <p>Error loading reviews</p>
-            ) : (
-              reviews.map((review: ShopperDisplayReview) => (
-                <li
-                  key={review.productId}
-                  className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
-                >
-                  <div className="flex justify-between items-center mb-2">
-                    <h3 className="text-lg font-semibold">
-                      {review.productName}
-                    </h3>
-                    <span className="text-gray-500">
-                      {review.reviewCreatedAt}
-                    </span>
-                  </div>
-                  <p className="mb-4">{review.reviewDescription}</p>
-                  <div className="flex items-center">
-                    <span className="text-gray-600 text-sm mr-2">
-                      {review.reviewerUserName}
-                    </span>
-                    <div className="flex items-center">
-                      <StarRating rating={review.reviewRating} size={1} />
-                    </div>
-                  </div>
-                  <button
-                    onClick={() =>
-                      deleteReviewMutation.mutate(review.productId)
-                    }
-                    className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
-                  >
-                    Delete
-                  </button>
-                </li>
-              ))
-            )}
-          </ul>
+          <h2 className="text-xl font-semibold mb-4">{`Reviews you've posted:`}</h2>
+          {reviews?.length === 0 ? (
+            <p>{`You haven't posted any reviews yet.`}</p>
+          ) : (
+            <>
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {reviewsStatus === 'loading' ? (
+                  <p>Loading reviews...</p>
+                ) : reviewsStatus === 'error' || !reviews ? (
+                  <p>Error loading reviews</p>
+                ) : (
+                  reviews.map((review: ShopperDisplayReview) => (
+                    <li
+                      key={review.productId}
+                      className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
+                    >
+                      <div className="flex justify-between items-center mb-2">
+                        <h3 className="text-lg font-semibold">
+                          {review.productName}
+                        </h3>
+                        <span className="text-gray-500">
+                          {review.reviewCreatedAt}
+                        </span>
+                      </div>
+                      <p className="mb-4">{review.reviewDescription}</p>
+                      <div className="flex items-center">
+                        <span className="text-gray-600 text-sm mr-2">
+                          {review.reviewerUserName}
+                        </span>
+                        <div className="flex items-center">
+                          <StarRating rating={review.reviewRating} size={1} />
+                        </div>
+                      </div>
+                      <button
+                        onClick={() =>
+                          deleteReviewMutation.mutate(review.productId)
+                        }
+                        className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  ))
+                )}
+              </ul>
+            </>
+          )}
         </section>
       </div>
     </div>
