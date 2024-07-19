@@ -17,6 +17,7 @@ const ThankYou = () => {
   )
 
   return (
+    //! NEW ISSUE, THE ADDRESS OF DELIVERY SHOULD BE OF THE ORDER, NOT THE DEFAULT USER'S ADDRESS
     <>
       <LoadError status={[status, statusOrderId]} />
       <div className="mt-8 text-2xl text-center font-bold">
@@ -27,7 +28,7 @@ const ThankYou = () => {
 
       {orderId && (
         <div className="mt-8 mb-8 ml-2 border rounded-md px-3 py-2 text-center">
-          ORDRE NUMBER #{orderId}
+          ORDER NUMBER #{orderId}
         </div>
       )}
 
