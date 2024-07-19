@@ -91,26 +91,27 @@ const Wishlist = () => {
             </h1>
           </div>
         ) : (
-          <div className="bg-white w-10/12">
+          <div className="bg-white w-10/12 flex flex-col items-center">
             {!wishListQuery.isLoading &&
               wishListQuery.data &&
               wishListQuery.data.map((item: DisplayWishlistItem) => (
                 <div
                   key={item.id}
-                  className="bg-white w-10/12 flex flex-row gap-10 items-center border-b border-gray-300 py-4"
+                  className="bg-white w-3/4 flex flex-row gap-10 items-center border-b border-gray-300 py-4"
                 >
-                  <img
-                    src={item.productImage}
-                    alt={item.productName}
-                    className="w-3/12 object-cover"
-                  />
-                  <h1 className="text-xl font-medium text-black w-3/12">
-                    {item.productName}
-                  </h1>
-                  <h1 className="text-xl font-semibold text-black w-1/12">
-                    ${item.productPrice.toFixed(2)}
-                  </h1>
-
+                  <div className="flex flexrow items-center p-4">
+                    <img
+                      src={item.productImage}
+                      alt={item.productName}
+                      className="w-1/6 object-cover"
+                    />
+                    <h1 className="text-xl font-medium text-black w-3/12">
+                      {item.productName}
+                    </h1>
+                    <h1 className="text-xl font-semibold text-black w-1/12">
+                      ${item.productPrice.toFixed(2)}
+                    </h1>
+                  </div>
                   <button
                     className={`w-1/6 text-sm text-white p-2 rounded-md ${
                       buttonStatus[item.productId]?.color ||
