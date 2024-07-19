@@ -26,6 +26,8 @@ function Checkout() {
 
   const [cartProducts, setCartProducts] = useState([] as DisplayCartItem[])
 
+  const [loadDefaultButtonText, setloadDefaultButtonText] = useState('Load defaults from profile')
+
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
     firstName: '',
@@ -204,6 +206,16 @@ function Checkout() {
     }
   }
 
+
+
+  useEffect(() => {
+    if (userDetails === defaultUserDetails) {
+      setloadDefaultButtonText('Profile defaults loaded')
+    } else {
+      setloadDefaultButtonText('Load defaults from profile')
+    }
+  }, [userDetails])
+
   const handlePreviewMouseEnter = () => {
     if (defaultUserDetails && defaultUserDetails !== displayUserDetails) {
       setDisplayUserDetails(defaultUserDetails)
@@ -238,6 +250,7 @@ function Checkout() {
                 handlePreviewMouseEnter={handlePreviewMouseEnter}
                 handlePreviewMouseLeave={handlePreviewMouseLeave}
                 previewDefaultDetailsColor={previewDefaultDetailsColor}
+                loadDefaultButtonText={loadDefaultButtonText}
               />
               <div className="flex flex-col mb-8">
                 <PaymentMethod />

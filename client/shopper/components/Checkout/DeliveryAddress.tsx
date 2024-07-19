@@ -1,7 +1,10 @@
 import { User } from '../../../../models/Users'
 
 interface PaymentInformationProps {
-  handleFieldChange: (event: React.ChangeEvent<HTMLInputElement>, validationType?: 'letters' | 'numbers') => void
+  handleFieldChange: (
+    event: React.ChangeEvent<HTMLInputElement>,
+    validationType?: 'letters' | 'numbers'
+  ) => void
   displayUserDetails: User
   userDetails: User
   fillDetailsWithDefaults: () => void
@@ -10,6 +13,7 @@ interface PaymentInformationProps {
   handlePreviewMouseEnter: () => void
   handlePreviewMouseLeave: () => void
   previewDefaultDetailsColor: string
+  loadDefaultButtonText: string
 }
 
 function DeliveryAddress({
@@ -22,6 +26,7 @@ function DeliveryAddress({
   handlePreviewMouseEnter,
   handlePreviewMouseLeave,
   previewDefaultDetailsColor,
+  loadDefaultButtonText,
 }: PaymentInformationProps) {
   const getFieldClass = (fieldName: keyof User) => {
     return userDetails[fieldName] !== displayUserDetails[fieldName]
@@ -36,11 +41,12 @@ function DeliveryAddress({
         <button
           type="button"
           className="px-3 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+          style={{ width: '190px' }}
           onClick={fillDetailsWithDefaults}
           onMouseEnter={handlePreviewMouseEnter}
           onMouseLeave={handlePreviewMouseLeave}
         >
-          Load defaults from profile
+          {loadDefaultButtonText}
         </button>
       </div>
       <div className="flex flex-row mb-4">
@@ -90,7 +96,10 @@ function DeliveryAddress({
             className={`${getFieldClass(
               'firstName'
             )} rounded border p-2 w-full mr-6 ${
-              emptyFields.includes('firstName')|| invalidFields.includes('firstName') ? 'border-red-500' : ''
+              emptyFields.includes('firstName') ||
+              invalidFields.includes('firstName')
+                ? 'border-red-500'
+                : ''
             }`}
             value={displayUserDetails.firstName}
             onChange={(e) => handleFieldChange(e, 'letters')}
@@ -121,7 +130,10 @@ function DeliveryAddress({
             className={`${getFieldClass(
               'lastName'
             )} rounded border p-2 w-full ${
-              emptyFields.includes('lastName') || invalidFields.includes('lastName')? 'border-red-500' : ''
+              emptyFields.includes('lastName') ||
+              invalidFields.includes('lastName')
+                ? 'border-red-500'
+                : ''
             }`}
             value={displayUserDetails.lastName}
             onChange={(e) => handleFieldChange(e, 'letters')}
@@ -167,22 +179,19 @@ function DeliveryAddress({
             name="city"
             id="city"
             className={`${getFieldClass('city')} rounded border p-2 w-full ${
-              emptyFields.includes('city') || 
-              invalidFields.includes('city') ? 'border-red-500' : ''
+              emptyFields.includes('city') || invalidFields.includes('city')
+                ? 'border-red-500'
+                : ''
             }`}
             value={displayUserDetails.city}
             onChange={(e) => handleFieldChange(e, 'letters')}
           />
           <p
             className={`text-normal ${
-              invalidFields.includes('city') 
-                ? 'text-red-500'
-                : 'text-gray-600'
+              invalidFields.includes('city') ? 'text-red-500' : 'text-gray-600'
             }`}
             style={{
-              visibility: invalidFields.includes('city')
-                ? 'visible'
-                : 'hidden',
+              visibility: invalidFields.includes('city') ? 'visible' : 'hidden',
             }}
           >
             {`Please enter a valid city`}
@@ -229,7 +238,10 @@ function DeliveryAddress({
             name="country"
             id="country"
             className={`${getFieldClass('country')} rounded border p-2 w-full ${
-              emptyFields.includes('country') || invalidFields.includes('country') ? 'border-red-500' : ''
+              emptyFields.includes('country') ||
+              invalidFields.includes('country')
+                ? 'border-red-500'
+                : ''
             }`}
             value={displayUserDetails.country}
             onChange={(e) => handleFieldChange(e, 'letters')}
