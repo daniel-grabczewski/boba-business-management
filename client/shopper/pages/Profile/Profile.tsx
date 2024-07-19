@@ -18,8 +18,9 @@ const Profile = () => {
   function goTo(link: string) {
     navigate(link)
   }
-  const { data, status } = useQuery('getDemoUserDetails', async () =>
-    getDemoUserDetails()
+  const { data: demoUserDetails, status: demoUserStatus } = useQuery(
+    'getDemoUserDetails',
+    async () => getDemoUserDetails()
   )
 
   const { data: reviews, status: reviewsStatus } = useQuery(
@@ -52,10 +53,10 @@ const Profile = () => {
   return (
     <div className="flex justify-center items-center">
       <div className="p-8 w-4/5">
-        <LoadError status={status} />
+        <LoadError status={demoUserStatus} />
 
         <h1 className="text-3xl font-bold tracking-wider mb-8">
-          Hello, {data?.firstName} {data?.lastName}!
+          Hello, {demoUserDetails?.firstName} {demoUserDetails?.lastName}!
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -94,29 +95,29 @@ const Profile = () => {
           <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Account Details</h2>
             <p>
-              {data?.firstName} {data?.lastName}
+              {demoUserDetails?.firstName} {demoUserDetails?.lastName}
             </p>
             <h3 className="font-semibold pt-6">Username: </h3>
             <div className="pb-4">
-              <p>{data?.userName}</p>
+              <p>{demoUserDetails?.userName}</p>
             </div>
 
             <h3 className="font-semibold pt-6">Phone Number: </h3>
             <div className="pb-4">
-              <p>{data?.phoneNumber}</p>
+              <p>{demoUserDetails?.phoneNumber}</p>
             </div>
 
             <h3 className="font-semibold pt-6">Email: </h3>
             <div className="pb-4">
-              <p>{data?.emailAddress}</p>
+              <p>{demoUserDetails?.emailAddress}</p>
             </div>
 
             <h3 className="font-semibold pt-6">Address: </h3>
             <div className="pb-4">
-              <p>{data?.address}</p>
-              <p>{data?.city}</p>
-              <p>{data?.country}</p>
-              <p>{data?.zipCode}</p>
+              <p>{demoUserDetails?.address}</p>
+              <p>{demoUserDetails?.city}</p>
+              <p>{demoUserDetails?.country}</p>
+              <p>{demoUserDetails?.zipCode}</p>
             </div>
 
             <button
@@ -156,7 +157,7 @@ const Profile = () => {
                       <p className="mb-4">{review.reviewDescription}</p>
                       <div className="flex items-center">
                         <span className="text-gray-600 text-sm mr-2">
-                          {review.reviewerUserName}
+                          {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
                         </span>
                         <div className="flex items-center">
                           <StarRating rating={review.reviewRating} size={1} />
