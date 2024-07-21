@@ -1,4 +1,4 @@
-import { AdminOrderSummary, Order, UserOrderSummary } from '../../models/Orders'
+import { AdminOrderSummary, Order, OrderCheckoutDetails, UserOrderSummary } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
@@ -82,8 +82,8 @@ export function generateNewOrderId(): number {
   return newId
 }
 
-// Copy Demo User's cart to orders, then delete Demo User's cart.
-export function transferDemoUserCartToOrders(shippingId: number): void {
+// Create order using details entered into checkout and data of Demo user's cart in local storage, then delete Demo user's cart.
+export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
   try {
     const cart: CartItem[] = getCartItemsFromLocalStorage()
     if (cart.length === 0) {
@@ -108,7 +108,14 @@ export function transferDemoUserCartToOrders(shippingId: number): void {
       id: generateNewOrderId(),
       userId: demoUser.userId,
       purchasedAt: generateCurrentDateTime(),
-      shippingId: shippingId,
+      shippingId: orderCheckoutDetails.shippingId,
+      phoneNumber: orderCheckoutDetails.phoneNumber,
+      firstName: orderCheckoutDetails.firstName,
+      lastName: orderCheckoutDetails.lastName,
+      address: orderCheckoutDetails.address,
+      city: orderCheckoutDetails.city,
+      zipCode: orderCheckoutDetails.zipCode,
+      country: orderCheckoutDetails.country,
       orderItems: newOrderItems,
     }
 
