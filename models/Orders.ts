@@ -52,6 +52,13 @@ export interface Order {
   userId: string
   purchasedAt: string
   shippingId: number
+  phoneNumber : string
+  firstName : string
+  lastName : string
+  address : string
+  city : string
+  zipCode : string
+  country : string
   orderItems: OrderItem[]
 }
 
