@@ -19,7 +19,7 @@ const users: User[] = [
     lastName: 'Johnson',
     userName: 'emma.j',
     phoneNumber: '64 21 1234567',
-    address: '123 Main St',
+    address: '42 Sunset St',
     city: 'Auckland',
     country: 'New Zealand',
     zipCode: '1010',

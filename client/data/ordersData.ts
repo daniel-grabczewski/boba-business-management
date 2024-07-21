@@ -6,6 +6,13 @@ const orders: Order[] = [
     userId: 'auth0|abc12345',
     purchasedAt: '2023-02-10 10:30:00',
     shippingId: 1,
+    phoneNumber: '64 21 1234567',
+    firstName: 'Emma',
+    lastName: 'Johnson',
+    address: '42 Sunset St',
+    city: 'Auckland',
+    zipCode: '1010',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 9,
@@ -42,6 +49,13 @@ const orders: Order[] = [
     userId: 'auth0|def67890',
     purchasedAt: '2023-02-12 14:45:00',
     shippingId: 2,
+    phoneNumber: '64 21 9876543',
+    firstName: 'Liam',
+    lastName: 'Smith',
+    address: '456 Maple Ave',
+    city: 'Wellington',
+    zipCode: '6011',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 8,
@@ -78,6 +92,13 @@ const orders: Order[] = [
     userId: 'auth0|xyz45678',
     purchasedAt: '2023-03-05 9:15:00',
     shippingId: 3,
+    phoneNumber: '64 27 555888',
+    firstName: 'Olivia',
+    lastName: 'Williams',
+    address: '789 Oak Rd',
+    city: 'Christchurch',
+    zipCode: '8011',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 15,
@@ -114,6 +135,13 @@ const orders: Order[] = [
     userId: 'auth0|pqr98765',
     purchasedAt: '2023-03-15 16:30:00',
     shippingId: 1,
+    phoneNumber: '64 22 3334444',
+    firstName: 'Noah',
+    lastName: 'Jones',
+    address: '321 Elm Court',
+    city: 'Dunedin',
+    zipCode: '9016',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 1,
@@ -150,6 +178,13 @@ const orders: Order[] = [
     userId: 'auth0|lmn65432',
     purchasedAt: '2023-04-01 11:45:00',
     shippingId: 2,
+    phoneNumber: '64 27 1112222',
+    firstName: 'Ava',
+    lastName: 'Brown',
+    address: '654 Pine Lane',
+    city: 'Hamilton',
+    zipCode: '3204',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 2,
@@ -178,6 +213,13 @@ const orders: Order[] = [
     userId: 'auth0|ghi32109',
     purchasedAt: '2023-04-10 15:00:00',
     shippingId: 3,
+    phoneNumber: '64 21 4447777',
+    firstName: 'Oliver',
+    lastName: 'Taylor',
+    address: '987 Birch Blvd',
+    city: 'Tauranga',
+    zipCode: '3110',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 6,
@@ -214,6 +256,13 @@ const orders: Order[] = [
     userId: 'auth0|uvw54321',
     purchasedAt: '2023-05-02 8:00:00',
     shippingId: 1,
+    phoneNumber: '64 27 8889999',
+    firstName: 'Isla',
+    lastName: 'Davis',
+    address: '654 Willow Drive',
+    city: 'Napier',
+    zipCode: '4110',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 18,
@@ -250,6 +299,13 @@ const orders: Order[] = [
     userId: 'auth0|hij23456',
     purchasedAt: '2023-05-15 14:20:00',
     shippingId: 2,
+    phoneNumber: '64 22 7776666',
+    firstName: 'Jack',
+    lastName: 'Evans',
+    address: '789 Rose Street',
+    city: 'Palmerston North',
+    zipCode: '4410',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 5,
@@ -286,6 +342,13 @@ const orders: Order[] = [
     userId: 'auth0|klm78901',
     purchasedAt: '2023-06-05 17:00:00',
     shippingId: 3,
+    phoneNumber: '64 21 2223333',
+    firstName: 'Charlotte',
+    lastName: 'Wilson',
+    address: '123 Ivy Lane',
+    city: 'Nelson',
+    zipCode: '7010',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 8,
@@ -322,6 +385,13 @@ const orders: Order[] = [
     userId: 'auth0|bcd34567',
     purchasedAt: '2023-06-20 9:45:00',
     shippingId: 1,
+    phoneNumber: '64 27 9990000',
+    firstName: 'Leo',
+    lastName: 'Moore',
+    address: '987 Poplar Close',
+    city: 'Rotorua',
+    zipCode: '3010',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 1,
@@ -358,6 +428,13 @@ const orders: Order[] = [
     userId: 'auth0|abc12345',
     purchasedAt: '2023-07-02 12:10:00',
     shippingId: 2,
+    phoneNumber: '64 21 1234567',
+    firstName: 'Emma',
+    lastName: 'Johnson',
+    address: '42 Sunset St',
+    city: 'Auckland',
+    zipCode: '1010',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 9,
@@ -394,6 +471,13 @@ const orders: Order[] = [
     userId: 'auth0|def67890',
     purchasedAt: '2023-07-15 18:25:00',
     shippingId: 3,
+    phoneNumber: '64 21 9876543',
+    firstName: 'Liam',
+    lastName: 'Smith',
+    address: '456 Maple Ave',
+    city: 'Wellington',
+    zipCode: '6011',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 8,
@@ -430,6 +514,13 @@ const orders: Order[] = [
     userId: 'auth0|xyz45678',
     purchasedAt: '2023-07-21 8:45:00',
     shippingId: 1,
+    phoneNumber: '64 27 555888',
+    firstName: 'Olivia',
+    lastName: 'Williams',
+    address: '789 Oak Rd',
+    city: 'Christchurch',
+    zipCode: '8011',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 15,
@@ -466,6 +557,13 @@ const orders: Order[] = [
     userId: 'auth0|pqr98765',
     purchasedAt: '2023-07-24 15:30:00',
     shippingId: 2,
+    phoneNumber: '64 22 3334444',
+    firstName: 'Noah',
+    lastName: 'Jones',
+    address: '321 Elm Court',
+    city: 'Dunedin',
+    zipCode: '9016',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 1,
@@ -502,6 +600,13 @@ const orders: Order[] = [
     userId: 'auth0|lmn65432',
     purchasedAt: '2023-07-27 11:20:00',
     shippingId: 3,
+    phoneNumber: '64 27 1112222',
+    firstName: 'Ava',
+    lastName: 'Brown',
+    address: '654 Pine Lane',
+    city: 'Hamilton',
+    zipCode: '3204',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 2,
@@ -530,6 +635,13 @@ const orders: Order[] = [
     userId: 'auth0|ghi32109',
     purchasedAt: '2023-07-30 17:50:00',
     shippingId: 1,
+    phoneNumber: '64 21 4447777',
+    firstName: 'Oliver',
+    lastName: 'Taylor',
+    address: '987 Birch Blvd',
+    city: 'Tauranga',
+    zipCode: '3110',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 6,
@@ -566,6 +678,13 @@ const orders: Order[] = [
     userId: 'auth0|uvw54321',
     purchasedAt: '2023-07-31 20:10:00',
     shippingId: 2,
+    phoneNumber: '64 27 1234567',
+    firstName: 'Sophia',
+    lastName: 'Anderson',
+    address: '123 Kiwi Rd',
+    city: 'Wellington',
+    zipCode: '6012',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 18,
@@ -602,6 +721,13 @@ const orders: Order[] = [
     userId: 'auth0|hij23456',
     purchasedAt: '2023-07-31 22:45:00',
     shippingId: 3,
+    phoneNumber: '64 22 7894561',
+    firstName: 'Ethan',
+    lastName: 'Taylor',
+    address: '456 Pohutukawa St',
+    city: 'Auckland',
+    zipCode: '1011',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 5,
@@ -638,6 +764,13 @@ const orders: Order[] = [
     userId: 'auth0|klm78901',
     purchasedAt: '2023-07-31 23:59:59',
     shippingId: 1,
+    phoneNumber: '64 27 3216549',
+    firstName: 'Mia',
+    lastName: 'Roberts',
+    address: '789 Kauri Ave',
+    city: 'Christchurch',
+    zipCode: '8012',
+    country: 'New Zealand',
     orderItems: [
       {
         productId: 8,
