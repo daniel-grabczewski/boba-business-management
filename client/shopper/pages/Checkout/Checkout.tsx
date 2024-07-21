@@ -4,7 +4,7 @@ import { DisplayCartItem } from '../../../../models/Cart'
 import { getShippingOptionsFromLocalStorage } from '../../../services/shipping'
 import { ShippingOption } from '../../../../models/ShippingOptions'
 import { useEffect, useState } from 'react'
-import { transferDemoUserCartToOrders } from '../../../services/orders'
+import { createOrder } from '../../../services/orders'
 import { getDemoUserDetails } from '../../../services/users'
 import { useNavigate } from 'react-router-dom'
 import {
@@ -92,7 +92,16 @@ function Checkout() {
 
   const purchaseMutation = useMutation(
     async ({ shippingId }: { shippingId: number }) =>
-      transferDemoUserCartToOrders(shippingId),
+      createOrder({
+        shippingId,
+        phoneNumber : userDetails.phoneNumber,
+        firstName : userDetails.firstName,
+        lastName : userDetails.lastName,
+        address : userDetails.address,
+        city : userDetails.city,
+        zipCode : userDetails.zipCode,
+        country : userDetails.country
+      }),
     {
       onSuccess: async () => {
         queryClient.invalidateQueries('getOrderById')
