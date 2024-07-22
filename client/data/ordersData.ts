@@ -1,10 +1,14 @@
 import { Order } from '../../models/Orders'
+import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
-const orders: Order[] = [
+const days = 30
+
+// Define the orders data without date/time values
+const ordersWithoutDateTime: Order[] = [
   {
     id: 1,
     userId: 'auth0|abc12345',
-    purchasedAt: '2023-02-10 10:30:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 21 1234567',
     firstName: 'Emma',
@@ -47,7 +51,7 @@ const orders: Order[] = [
   {
     id: 2,
     userId: 'auth0|def67890',
-    purchasedAt: '2023-02-12 14:45:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 21 9876543',
     firstName: 'Liam',
@@ -90,7 +94,7 @@ const orders: Order[] = [
   {
     id: 3,
     userId: 'auth0|xyz45678',
-    purchasedAt: '2023-03-05 9:15:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 27 555888',
     firstName: 'Olivia',
@@ -133,7 +137,7 @@ const orders: Order[] = [
   {
     id: 4,
     userId: 'auth0|pqr98765',
-    purchasedAt: '2023-03-15 16:30:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 22 3334444',
     firstName: 'Noah',
@@ -176,7 +180,7 @@ const orders: Order[] = [
   {
     id: 5,
     userId: 'auth0|lmn65432',
-    purchasedAt: '2023-04-01 11:45:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 27 1112222',
     firstName: 'Ava',
@@ -211,7 +215,7 @@ const orders: Order[] = [
   {
     id: 6,
     userId: 'auth0|ghi32109',
-    purchasedAt: '2023-04-10 15:00:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 21 4447777',
     firstName: 'Oliver',
@@ -254,7 +258,7 @@ const orders: Order[] = [
   {
     id: 7,
     userId: 'auth0|uvw54321',
-    purchasedAt: '2023-05-02 8:00:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 27 8889999',
     firstName: 'Isla',
@@ -297,7 +301,7 @@ const orders: Order[] = [
   {
     id: 8,
     userId: 'auth0|hij23456',
-    purchasedAt: '2023-05-15 14:20:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 22 7776666',
     firstName: 'Jack',
@@ -340,7 +344,7 @@ const orders: Order[] = [
   {
     id: 9,
     userId: 'auth0|klm78901',
-    purchasedAt: '2023-06-05 17:00:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 21 2223333',
     firstName: 'Charlotte',
@@ -383,7 +387,7 @@ const orders: Order[] = [
   {
     id: 10,
     userId: 'auth0|bcd34567',
-    purchasedAt: '2023-06-20 9:45:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 27 9990000',
     firstName: 'Leo',
@@ -426,7 +430,7 @@ const orders: Order[] = [
   {
     id: 11,
     userId: 'auth0|abc12345',
-    purchasedAt: '2023-07-02 12:10:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 21 1234567',
     firstName: 'Emma',
@@ -469,7 +473,7 @@ const orders: Order[] = [
   {
     id: 12,
     userId: 'auth0|def67890',
-    purchasedAt: '2023-07-15 18:25:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 21 9876543',
     firstName: 'Liam',
@@ -512,7 +516,7 @@ const orders: Order[] = [
   {
     id: 13,
     userId: 'auth0|xyz45678',
-    purchasedAt: '2023-07-21 8:45:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 27 555888',
     firstName: 'Olivia',
@@ -555,7 +559,7 @@ const orders: Order[] = [
   {
     id: 14,
     userId: 'auth0|pqr98765',
-    purchasedAt: '2023-07-24 15:30:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 22 3334444',
     firstName: 'Noah',
@@ -598,7 +602,7 @@ const orders: Order[] = [
   {
     id: 15,
     userId: 'auth0|lmn65432',
-    purchasedAt: '2023-07-27 11:20:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 27 1112222',
     firstName: 'Ava',
@@ -633,7 +637,7 @@ const orders: Order[] = [
   {
     id: 16,
     userId: 'auth0|ghi32109',
-    purchasedAt: '2023-07-30 17:50:00',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 21 4447777',
     firstName: 'Oliver',
@@ -676,7 +680,7 @@ const orders: Order[] = [
   {
     id: 17,
     userId: 'auth0|uvw54321',
-    purchasedAt: '2023-07-31 20:10:00',
+    purchasedAt: '',
     shippingId: 2,
     phoneNumber: '64 27 1234567',
     firstName: 'Sophia',
@@ -719,7 +723,7 @@ const orders: Order[] = [
   {
     id: 18,
     userId: 'auth0|hij23456',
-    purchasedAt: '2023-07-31 22:45:00',
+    purchasedAt: '',
     shippingId: 3,
     phoneNumber: '64 22 7894561',
     firstName: 'Ethan',
@@ -762,7 +766,7 @@ const orders: Order[] = [
   {
     id: 19,
     userId: 'auth0|klm78901',
-    purchasedAt: '2023-07-31 23:59:59',
+    purchasedAt: '',
     shippingId: 1,
     phoneNumber: '64 27 3216549',
     firstName: 'Mia',
@@ -803,5 +807,11 @@ const orders: Order[] = [
     ],
   },
 ]
+
+// Process the orders data to generate a random date/time within x days of the current date.
+const orders = ordersWithoutDateTime.map((order) => ({
+  ...order,
+  purchasedAt: getRandomDateTimeWithinLastDays(days),
+}))
 
 export default orders

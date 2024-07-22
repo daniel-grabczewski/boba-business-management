@@ -3,7 +3,7 @@ import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
 const days = 30
 
-// Define the review data without date/time values
+// Define the reviews data without date/time values
 const reviewsWithoutDateTime: Review[] = [
   {
     id: 1,
@@ -377,7 +377,7 @@ const reviewsWithoutDateTime: Review[] = [
   },
 ]
 
-// Process the review data to generate a random date/time within x days of the current date.
+// Process the reviews data to generate a random date/time within x days of the current date.
 const reviews = reviewsWithoutDateTime.map((review) => ({
   ...review,
   createdAt: getRandomDateTimeWithinLastDays(days),
