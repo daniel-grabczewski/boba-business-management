@@ -1,6 +1,10 @@
-import { Review } from "../../models/Reviews";
+import { Review } from '../../models/Reviews'
+import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
-const reviews : Review[] = [
+const days = 30
+
+// Define the review data without date/time values
+const reviewsWithoutDateTime: Review[] = [
   {
     id: 1,
     productId: 1,
@@ -8,7 +12,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|abc12345',
-    createdAt: '2023-07-21 9:15:00',
+    createdAt: '',
   },
   {
     id: 2,
@@ -17,7 +21,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|def67890',
-    createdAt: '2023-07-20 14:30:00',
+    createdAt: '',
   },
   {
     id: 3,
@@ -26,7 +30,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|xyz45678',
-    createdAt: '2023-07-19 11:45:00',
+    createdAt: '',
   },
   {
     id: 4,
@@ -35,7 +39,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|pqr98765',
-    createdAt: '2023-07-18 16:00:00',
+    createdAt: '',
   },
   {
     id: 5,
@@ -44,7 +48,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|lmn65432',
-    createdAt: '2023-07-17 10:20:00',
+    createdAt: '',
   },
   {
     id: 6,
@@ -53,7 +57,7 @@ const reviews : Review[] = [
     rating: 2,
     isEnabled: true,
     userId: 'auth0|ghi32109',
-    createdAt: '2023-07-16 12:40:00',
+    createdAt: '',
   },
   {
     id: 7,
@@ -62,7 +66,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|uvw54321',
-    createdAt: '2023-07-15 8:10:00',
+    createdAt: '',
   },
   {
     id: 8,
@@ -71,7 +75,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|hij23456',
-    createdAt: '2023-07-14 17:50:00',
+    createdAt: '',
   },
   {
     id: 9,
@@ -80,7 +84,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|klm78901',
-    createdAt: '2023-07-13 13:25:00',
+    createdAt: '',
   },
   {
     id: 10,
@@ -89,7 +93,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|bcd34567',
-    createdAt: '2023-07-12 9:55:00',
+    createdAt: '',
   },
   {
     id: 11,
@@ -98,7 +102,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|abc12345',
-    createdAt: '2023-07-21 9:15:00',
+    createdAt: '',
   },
   {
     id: 12,
@@ -107,7 +111,7 @@ const reviews : Review[] = [
     rating: 2,
     isEnabled: true,
     userId: 'auth0|def67890',
-    createdAt: '2023-07-20 14:30:00',
+    createdAt: '',
   },
   {
     id: 13,
@@ -116,7 +120,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|xyz45678',
-    createdAt: '2023-07-19 11:45:00',
+    createdAt: '',
   },
   {
     id: 14,
@@ -125,7 +129,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|pqr98765',
-    createdAt: '2023-07-18 16:00:00',
+    createdAt: '',
   },
   {
     id: 15,
@@ -134,7 +138,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|lmn65432',
-    createdAt: '2023-07-17 10:20:00',
+    createdAt: '',
   },
   {
     id: 16,
@@ -143,7 +147,7 @@ const reviews : Review[] = [
     rating: 2,
     isEnabled: true,
     userId: 'auth0|ghi32109',
-    createdAt: '2023-07-16 12:40:00',
+    createdAt: '',
   },
   {
     id: 17,
@@ -152,7 +156,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|uvw54321',
-    createdAt: '2023-07-15 8:10:00',
+    createdAt: '',
   },
   {
     id: 18,
@@ -161,7 +165,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|hij23456',
-    createdAt: '2023-07-14 17:50:00',
+    createdAt: '',
   },
   {
     id: 19,
@@ -170,7 +174,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|klm78901',
-    createdAt: '2023-07-13 13:25:00',
+    createdAt: '',
   },
   {
     id: 20,
@@ -179,7 +183,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|bcd34567',
-    createdAt: '2023-07-12 9:55:00',
+    createdAt: '',
   },
   {
     id: 21,
@@ -188,7 +192,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|abc12345',
-    createdAt: '2023-07-21 9:15:00',
+    createdAt: '',
   },
   {
     id: 22,
@@ -197,7 +201,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|def67890',
-    createdAt: '2023-07-20 14:30:00',
+    createdAt: '',
   },
   {
     id: 23,
@@ -206,7 +210,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|xyz45678',
-    createdAt: '2023-07-19 11:45:00',
+    createdAt: '',
   },
   {
     id: 24,
@@ -215,7 +219,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|pqr98765',
-    createdAt: '2023-07-18 16:00:00',
+    createdAt: '',
   },
   {
     id: 25,
@@ -224,7 +228,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|lmn65432',
-    createdAt: '2023-07-17 10:20:00',
+    createdAt: '',
   },
   {
     id: 26,
@@ -233,7 +237,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|ghi32109',
-    createdAt: '2023-07-16 12:40:00',
+    createdAt: '',
   },
   {
     id: 27,
@@ -242,7 +246,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|uvw54321',
-    createdAt: '2023-07-15 8:10:00',
+    createdAt: '',
   },
   {
     id: 28,
@@ -251,7 +255,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|hij23456',
-    createdAt: '2023-07-14 17:50:00',
+    createdAt: '',
   },
   {
     id: 29,
@@ -260,7 +264,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|klm78901',
-    createdAt: '2023-07-13 13:25:00',
+    createdAt: '',
   },
   {
     id: 30,
@@ -269,7 +273,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|bcd34567',
-    createdAt: '2023-07-12 9:55:00',
+    createdAt: '',
   },
   {
     id: 31,
@@ -278,7 +282,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|abc12345',
-    createdAt: '2023-07-21 9:15:00',
+    createdAt: '',
   },
   {
     id: 32,
@@ -287,7 +291,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|def67890',
-    createdAt: '2023-07-20 14:30:00',
+    createdAt: '',
   },
   {
     id: 33,
@@ -296,7 +300,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|xyz45678',
-    createdAt: '2023-07-19 11:45:00',
+    createdAt: '',
   },
   {
     id: 34,
@@ -305,7 +309,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|pqr98765',
-    createdAt: '2023-07-18 16:00:00',
+    createdAt: '',
   },
   {
     id: 35,
@@ -314,7 +318,7 @@ const reviews : Review[] = [
     rating: 5,
     isEnabled: true,
     userId: 'auth0|lmn65432',
-    createdAt: '2023-07-17 10:20:00',
+    createdAt: '',
   },
   {
     id: 36,
@@ -323,7 +327,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|ghi32109',
-    createdAt: '2023-07-16 12:40:00',
+    createdAt: '',
   },
   {
     id: 37,
@@ -332,7 +336,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|uvw54321',
-    createdAt: '2023-07-15 8:10:00',
+    createdAt: '',
   },
   {
     id: 38,
@@ -341,7 +345,7 @@ const reviews : Review[] = [
     rating: 2.5,
     isEnabled: true,
     userId: 'auth0|hij23456',
-    createdAt: '2023-07-14 17:50:00',
+    createdAt: '',
   },
   {
     id: 39,
@@ -350,7 +354,7 @@ const reviews : Review[] = [
     rating: 4.5,
     isEnabled: true,
     userId: 'auth0|klm78901',
-    createdAt: '2023-07-13 13:25:00',
+    createdAt: '',
   },
   {
     id: 40,
@@ -359,7 +363,7 @@ const reviews : Review[] = [
     rating: 3,
     isEnabled: true,
     userId: 'auth0|bcd34567',
-    createdAt: '2023-07-12 9:55:00',
+    createdAt: '',
   },
   {
     id: 41,
@@ -369,8 +373,14 @@ const reviews : Review[] = [
     rating: 0.5,
     isEnabled: true,
     userId: 'auth0|abc12345',
-    createdAt: '2023-06-12 9:42:00',
+    createdAt: '',
   },
 ]
+
+// Process the review data to generate a random date/time within x days of the current date.
+const reviews = reviewsWithoutDateTime.map((review) => ({
+  ...review,
+  createdAt: getRandomDateTimeWithinLastDays(days),
+}))
 
 export default reviews
