@@ -106,6 +106,7 @@ function Checkout() {
       onSuccess: async () => {
         queryClient.invalidateQueries('getOrderById')
         queryClient.invalidateQueries('getOrdersFromLocalStorage')
+        queryClient.invalidateQueries('getLatestOrderOfDemoUser')
       },
     }
   )
