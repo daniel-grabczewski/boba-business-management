@@ -1,5 +1,6 @@
 import { User, UpdateUser } from '../../models/Users'
 import initialUsers from '../data/usersData'
+import { generateRandomName } from '../utils/generateRandomName'
 
 // Initialize new key 'users' to be equal to value of initialUsers IF localStorage 'users' key doesn't exist
 export function setUsersInLocalStorageInitial(): void {
@@ -38,15 +39,28 @@ export function getUsersFromLocalStorage(): User[] {
 export function getUserByUserId(userId: string): User | null {
   try {
     const users = getUsersFromLocalStorage()
-    const user = users.find(user => user.userId === userId)
+    const user = users.find((user) => user.userId === userId)
     if (!user) {
       console.log(`User with userId ${userId} not found`)
       return null
     }
     return user
   } catch (error) {
-    console.error('Failed to get user by userId:', error)
+    console.error('Failed to get user by user ID:', error)
     return null
+  }
+}
+
+export function getUserFullNameByUserId(userId: string): string {
+  try {
+    const user = getUserByUserId(userId)
+    if (user) {
+      return `${user.firstName} ${user.lastName}`
+    }
+    return generateRandomName()
+  } catch (error) {
+    console.error('Failed to get full name by user ID', error)
+    return 'John Doe'
   }
 }
 
@@ -64,7 +78,6 @@ export function getDemoUserDetails(): User | null {
     return null
   }
 }
-
 
 // Given new user details as UpdateUser, update demo user's details to the new details.
 export function updateDemoUserDetails(updatedDetails: UpdateUser) {
@@ -91,7 +104,8 @@ export function updateDemoUserDetails(updatedDetails: UpdateUser) {
     console.error(
       `Failed to update details of demo user with updated details : ${JSON.stringify(
         updatedDetails
-      )}`, error
+      )}`,
+      error
     )
   }
 }
