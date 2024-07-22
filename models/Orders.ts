@@ -62,6 +62,18 @@ export interface Order {
   orderItems: OrderItem[]
 }
 
+// Interface for shopper's details entered in checkout page
+export interface OrderCheckoutDetails {
+  shippingId: number
+  phoneNumber : string
+  firstName : string
+  lastName : string
+  address : string
+  city : string
+  zipCode : string
+  country : string
+}
+
 // ***** Cart Transfer Interfaces ***** //
 
 export type TransferedCart = {
