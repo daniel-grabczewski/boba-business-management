@@ -26,7 +26,9 @@ function Checkout() {
 
   const [cartProducts, setCartProducts] = useState([] as DisplayCartItem[])
 
-  const [loadDefaultButtonText, setloadDefaultButtonText] = useState('Load defaults from profile')
+  const [loadDefaultButtonText, setloadDefaultButtonText] = useState(
+    'Load defaults from profile'
+  )
 
   const [userDetails, setUserDetails] = useState({
     userId: 'auth0|demoUser',
@@ -94,13 +96,13 @@ function Checkout() {
     async ({ shippingId }: { shippingId: number }) =>
       createOrder({
         shippingId,
-        phoneNumber : userDetails.phoneNumber,
-        firstName : userDetails.firstName,
-        lastName : userDetails.lastName,
-        address : userDetails.address,
-        city : userDetails.city,
-        zipCode : userDetails.zipCode,
-        country : userDetails.country
+        phoneNumber: userDetails.phoneNumber,
+        firstName: userDetails.firstName,
+        lastName: userDetails.lastName,
+        address: userDetails.address,
+        city: userDetails.city,
+        zipCode: userDetails.zipCode,
+        country: userDetails.country,
       }),
     {
       onSuccess: async () => {
@@ -210,13 +212,12 @@ function Checkout() {
 
     if (checkValues(userDetails)) {
       purchaseMutation.mutate({ shippingId })
+      localStorage.setItem('orderCompleted', 'true')
       navigate('/thankyou')
     } else {
       setErrorMessage('Please fill all empty fields and correct invalid inputs')
     }
   }
-
-
 
   useEffect(() => {
     if (userDetails === defaultUserDetails) {

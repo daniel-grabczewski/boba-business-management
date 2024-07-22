@@ -2,9 +2,19 @@ import { useQuery } from 'react-query'
 import LoadError from '../../components/LoadError/LoadError'
 import { getLatestOrderOfDemoUser } from '../../../services/orders'
 import { useNavigate } from 'react-router-dom'
+import { useEffect } from 'react'
 
 const ThankYou = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const orderCompleted = localStorage.getItem('orderCompleted')
+    if (!orderCompleted) {
+      navigate('/') 
+    } else {
+      localStorage.removeItem('orderCompleted') 
+    }
+  }, [navigate])
 
   const { data: demoUserOrder, status: statusDemoUserOrder } = useQuery(
     ['getLatestOrderOfDemoUser'],
