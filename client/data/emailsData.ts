@@ -11,7 +11,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Appreciation for Great Service',
     description:
-      "Dear Emma, I wanted to extend my gratitude for the excellent service I received from your team. My order arrived on time, and I'm delighted with the products' quality. The entire shopping experience was smooth and enjoyable. Thank you for providing outstanding service! Best regards, Emma Johnson",
+      "Hey guys! I wanted to extend my gratitude for the excellent service I received from your team. My order arrived on time, and I'm delighted with the products' quality. The entire shopping experience was smooth and enjoyable. Thank you for providing outstanding service! Best regards, Emma Johnson",
     createdAt: '',
   },
   {
@@ -101,7 +101,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Praise for Fast Shipping',
     description:
-      "Dear Emma, I'm writing to let you know that I'm impressed with the fast shipping of my recent order. The products arrived on time and everything is as expected. Thank you for the excellent service! Best regards, Emma Johnson",
+      "Yo! I'm writing to let you know that I'm impressed with the fast shipping of my recent order. The products arrived on time and everything is as expected. Thank you for the excellent service! Best regards, Emma Johnson",
     createdAt: '',
   },
   {
