@@ -1,7 +1,7 @@
 import { Order } from '../../models/Orders'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
-const days = 30
+const days = 75
 
 // Define the orders data without date/time values
 const ordersWithoutDateTime: Order[] = [
