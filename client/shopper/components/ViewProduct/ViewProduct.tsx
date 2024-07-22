@@ -15,31 +15,34 @@ interface ViewProductProps {
   product: ShopperProduct
   wishlistStatus: boolean
   refetchIsProductInWishlistItemsByProductId: () => void
-  averageRating : number
+  averageRating: number
 }
 
 function ViewProduct({
   product,
   wishlistStatus,
   refetchIsProductInWishlistItemsByProductId,
-  averageRating
+  averageRating,
 }: ViewProductProps) {
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
     'bg-blue-500 hover:bg-blue-700'
   )
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
   const cartMutation = useMutation(
-    async (productId: number) => 
-      addItemToCartByProductId(productId)
-    ,
+    async (productId: number) => addItemToCartByProductId(productId),
     {
       onSuccess: () => {
         setButtonText('Item added')
         setButtonColor('bg-gray-500')
+        setIsButtonDisabled(true)
         setTimeout(() => {
           setButtonText('Add to cart')
           setButtonColor('bg-blue-500 hover:bg-blue-700')
+          setTimeout(() => {
+            setIsButtonDisabled(false)
+          }, 200)
         }, 1000)
       },
       onError: (error) => {
@@ -65,7 +68,9 @@ function ViewProduct({
   )
 
   const handleAddToCart = () => {
-    cartMutation.mutate(product.id)
+    if (!isButtonDisabled) {
+      cartMutation.mutate(product.id)
+    }
   }
 
   const handleWishlistClick = () => {
@@ -102,7 +107,7 @@ function ViewProduct({
         <button
           className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded`}
           onClick={handleAddToCart}
-          disabled={cartMutation.isLoading}
+          disabled={isButtonDisabled || cartMutation.isLoading}
         >
           {buttonText}
         </button>
