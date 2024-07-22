@@ -1,4 +1,9 @@
-import { AdminOrderSummary, Order, OrderCheckoutDetails, UserOrderSummary } from '../../models/Orders'
+import {
+  AdminOrderSummary,
+  Order,
+  OrderCheckoutDetails,
+  UserOrderSummary,
+} from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
@@ -98,7 +103,7 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
     }
 
     const orders = getOrdersFromLocalStorage()
-   
+
     const newOrderItems = cart.map(({ productId, quantity }) => ({
       productId,
       quantity,
@@ -131,26 +136,34 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
   }
 }
 
-// Get the id from the latest order the demo user made
-export function getIdOfLatestOrderDemoUser(): number {
+// Get the the latest order the demo user made
+export function getLatestOrderOfDemoUser(): Order | null {
   try {
     const demoUser = getDemoUserDetails()
     if (!demoUser) {
-      return 0
+      return null
     }
     const demoUserOrders = getOrdersByUserId(demoUser.userId)
 
-
     if (demoUserOrders.length === 0) {
       console.log('No orders found for the demo user')
-      return -1
+      return null
     }
-    const latestId = Math.max(...demoUserOrders.map(({ id }) => id))
+    const latestId = demoUserOrders.reduce((mostRecent, item) => {
+      return new Date(item.purchasedAt) > new Date(mostRecent.purchasedAt)
+        ? item
+        : mostRecent
+    }).id
 
-    return latestId
+    const latestOrder = demoUserOrders.find((order) => order.id === latestId)
+
+    if (latestOrder) {
+      return latestOrder
+    }
+    return null
   } catch (error) {
     console.error('Failed to get the latest order id for the demo user:', error)
-    return -1
+    return null
   }
 }
 
@@ -205,7 +218,7 @@ export function getTotalSaleOfOrderById(id: number): number {
 export function getDemoUserOrdersSummary(): UserOrderSummary[] {
   try {
     const demoUser = getDemoUserDetails()
-    
+
     if (!demoUser) {
       return []
     }
