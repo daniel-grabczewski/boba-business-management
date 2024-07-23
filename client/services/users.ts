@@ -35,7 +35,7 @@ export function getUsersFromLocalStorage(): User[] {
   }
 }
 
-// Get user details, given their user id as User
+// Get user details, given their user ID as User
 export function getUserByUserId(userId: string): User | null {
   try {
     const users = getUsersFromLocalStorage()
@@ -51,9 +51,13 @@ export function getUserByUserId(userId: string): User | null {
   }
 }
 
-export function getUserFullNameByUserId(userId: string): string {
+// Get user's full name, given their username
+export function getUserFullNameByUserName(userName: string): string {
+
   try {
-    const user = getUserByUserId(userId)
+    const users = getUsersFromLocalStorage()
+
+    const user = users.find((user) => user.userName === userName)
     if (user) {
       return `${user.firstName} ${user.lastName}`
     }
