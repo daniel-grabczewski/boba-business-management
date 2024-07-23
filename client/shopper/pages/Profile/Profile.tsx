@@ -68,13 +68,13 @@ const Profile = () => {
               ) : ordersStatus === 'error' ? (
                 <p className="text-red-600">Error loading orders</p>
               ) : orders && orders.length > 0 ? (
-                <ul className="divide-y divide-gray-200">
+                <div>
                   {orders.map((order: UserOrderSummary) => (
-                    <li
+                    <div
                       key={order.orderId}
-                      className="p-4 border border-gray-300 rounded-md mb-4"
+                      className="p-4 rounded-md mb-4 border border-gray-300 "
                     >
-                      <div className="flex justify-between">
+                      <div className="flex justify-between ">
                         <div className="text-lg font-semibold">
                           # {order.orderId}
                         </div>
@@ -83,9 +83,9 @@ const Profile = () => {
                       <div className="text-gray-600 mt-2">
                         Total: {formatCurrency(order.totalSale)}
                       </div>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
               ) : (
                 <p>{`You haven't made any orders yet.`}</p>
               )}
