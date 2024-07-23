@@ -3,6 +3,7 @@ import {
   Order,
   OrderCheckoutDetails,
   UserOrderSummary,
+  OrderItemExtraDetails,
 } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
@@ -10,7 +11,7 @@ import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from './users'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { getProductByIdAdmin } from './products'
+import { getProductByIdAdmin, getProductByIdShopper } from './products'
 import { getShippingOptionById } from './shipping'
 import { getUserByUserId } from './users'
 
@@ -164,6 +165,41 @@ export function getLatestOrderOfDemoUser(): Order | null {
   } catch (error) {
     console.error('Failed to get the latest order id for the demo user:', error)
     return null
+  }
+}
+
+// Given the order ID, return associated order items as OrderItemExtraDetails
+export function getOrderItemsByOrderId(
+  orderId: number
+): OrderItemExtraDetails[] {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const orderItems = orders.find((order) => order.id === orderId)?.orderItems
+    if (orderItems) {
+      const orderItemsDetailed = orderItems
+        .map((orderItem) => {
+          const product = getProductByIdShopper(orderItem.productId)
+          if (product) {
+            return {
+              productName: product.name,
+              productSale: parseFloat((product.price * orderItem.quantity).toFixed(2)),
+              productImage: product.image,
+              itemQuantity: orderItem.quantity,
+            }
+          }
+          return undefined
+        })
+        .filter((item): item is OrderItemExtraDetails => item !== undefined)
+
+      return orderItemsDetailed
+    }
+
+    return []
+  } catch (error) {
+    console.error(
+      `Error getting order items associated with order ID: ${orderId}`
+    )
+    return []
   }
 }
 
