@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { useMutation } from 'react-query'
 import {
   CreateReview,
@@ -8,6 +8,7 @@ import { ShopperProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 import { addDemoUserReview } from '../../../services/reviews'
+import { getUserFullNameByUserName } from '../../../services/users'
 
 interface ProductReviewsProps {
   product: ShopperProduct
@@ -85,6 +86,14 @@ function ViewProductReviews({
     setIsAddingReview(false)
   }
 
+  // Prepare the reviews data with full names
+  const reviewsWithFullNames = useMemo(() => {
+    return reviews.map((review) => ({
+      ...review,
+      fullName: getUserFullNameByUserName(review.userName),
+    }))
+  }, [reviews])
+
   return (
     <div
       className="flex flex-col items-center max-w-5xl"
@@ -98,28 +107,26 @@ function ViewProductReviews({
         <StarRating rating={product.averageRating} size={2} />
       </div>
 
-      {reviews &&
-        reviews.map((review) => {
-          return (
-            <div
-              key={review.userName}
-              className="flex flex-col border border-black rounded"
-              style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
-            >
-              <div
-                className="flex flex-row justify-between font-bold"
-                style={{ marginBottom: '5px' }}
-              >
-                <h2>{review.userName}</h2>
-                <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
-              </div>
-              <p style={{ marginBottom: '20px' }}>{review.description}</p>
-              <div className="flex">
-                <StarRating rating={review.rating} size={1} />
-              </div>
-            </div>
-          )
-        })}
+      {reviewsWithFullNames.map((review) => (
+        <div
+          key={review.userName}
+          className="flex flex-col border border-black rounded"
+          style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
+        >
+          <div
+            className="flex flex-row justify-between font-bold"
+            style={{ marginBottom: '5px' }}
+          >
+            <h2>{review.fullName}</h2>
+            <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+          </div>
+          <p style={{ marginBottom: '20px' }}>{review.description}</p>
+          <div className="flex">
+            <StarRating rating={review.rating} size={1} />
+          </div>
+        </div>
+      ))}
+
       {isAddingReview ? (
         <div className="flex flex-col" style={{ width: '400px' }}>
           <textarea
