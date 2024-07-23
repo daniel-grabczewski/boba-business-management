@@ -8,6 +8,10 @@ import {
 } from '../../../services/users'
 import { UpdateUser } from '../../../../models/Users'
 import LoadError from '../../components/LoadError/LoadError'
+import {
+  checkIfStringIsOnlyLetters,
+  checkIfStringIsOnlyNumbers,
+} from '../../../utils/checkInput'
 
 const EditProfile = () => {
   const navigate = useNavigate()
@@ -29,6 +33,9 @@ const EditProfile = () => {
   }
 
   const [formData, setFormData] = useState(initialFormData)
+  const [emptyFields, setEmptyFields] = useState<string[]>([])
+  const [invalidFields, setInvalidFields] = useState<string[]>([])
+  const [showError, setShowError] = useState(false)
 
   useEffect(() => {
     if (userData) {
@@ -62,17 +69,55 @@ const EditProfile = () => {
     }
   )
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target
-    setFormData((prevData) => ({
-      ...prevData,
+  const handleFieldChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    validationType?: 'letters' | 'numbers'
+  ) => {
+    const { name, value } = event.target
+
+    setFormData((prevDetails) => ({
+      ...prevDetails,
       [name]: value,
     }))
+
+    if (value !== '') {
+      setEmptyFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
+    }
+
+    let isValid = true
+    if (validationType === 'letters') {
+      isValid = checkIfStringIsOnlyLetters(value)
+    } else if (validationType === 'numbers') {
+      isValid = checkIfStringIsOnlyNumbers(value)
+    }
+
+    setInvalidFields((prevFields) => {
+      if (isValid) {
+        return prevFields.filter((field) => field !== name)
+      } else {
+        if (!prevFields.includes(name)) {
+          return [...prevFields, name]
+        }
+        return prevFields
+      }
+    })
+  }
+
+  const checkValues = (obj: { [key: string]: string }) => {
+    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
+    setEmptyFields(emptyKeys)
+    return emptyKeys.length === 0 && invalidFields.length === 0
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    mutation.mutate(formData)
+    if (checkValues(formData)) {
+      mutation.mutate(formData)
+    } else {
+      setShowError(true)
+    }
   }
 
   return (
@@ -90,9 +135,22 @@ const EditProfile = () => {
             id="firstName"
             name="firstName"
             value={formData.firstName}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'letters')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('firstName') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('firstName')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('firstName') ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please enter a valid first name
+          </p>
         </div>
 
         <div className="mb-4">
@@ -104,9 +162,22 @@ const EditProfile = () => {
             id="lastName"
             name="lastName"
             value={formData.lastName}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'letters')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('lastName') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('lastName')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('lastName') ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please enter a valid last name
+          </p>
         </div>
 
         <div className="mb-4">
@@ -118,9 +189,24 @@ const EditProfile = () => {
             id="phoneNumber"
             name="phoneNumber"
             value={formData.phoneNumber}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'numbers')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('phoneNumber')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('phoneNumber')
+                ? 'text-red-500'
+                : 'invisible'
+            }`}
+          >
+            Please enter a valid phone number
+          </p>
         </div>
 
         <div className="mb-4">
@@ -132,9 +218,12 @@ const EditProfile = () => {
             id="address"
             name="address"
             value={formData.address}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={handleFieldChange}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('address') ? 'border-red-500' : ''
+            }`}
           />
+          <p className="invisible text-sm">Placeholder</p>
         </div>
 
         <div className="mb-4">
@@ -146,9 +235,22 @@ const EditProfile = () => {
             id="city"
             name="city"
             value={formData.city}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'letters')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('city') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('city')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('city') ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please enter a valid city
+          </p>
         </div>
 
         <div className="mb-4">
@@ -160,9 +262,22 @@ const EditProfile = () => {
             id="country"
             name="country"
             value={formData.country}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'letters')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('country') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('country')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('country') ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please enter a valid country
+          </p>
         </div>
 
         <div className="mb-4">
@@ -174,19 +289,51 @@ const EditProfile = () => {
             id="zipCode"
             name="zipCode"
             value={formData.zipCode}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400"
+            onChange={(e) => handleFieldChange(e, 'numbers')}
+            className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+              emptyFields.includes('zipCode') ? 'border-red-500' : ''
+            } ${
+              invalidFields.includes('zipCode')
+                ? 'border-red-500 text-red-500'
+                : ''
+            }`}
           />
+          <p
+            className={`text-sm ${
+              invalidFields.includes('zipCode') ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please enter a valid zip code
+          </p>
         </div>
 
         <div>
           <button
             type="submit"
-            disabled={mutation.isLoading}
-            className="w-full py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 focus:outline-none focus:ring focus:bg-blue-600"
+            className={`w-full py-2 px-4 text-white font-semibold rounded focus:outline-none focus:ring ${
+              mutation.isLoading
+                ? 'bg-gray-300 cursor-not-allowed'
+                : 'bg-blue-500 hover:bg-blue-600'
+            }`}
           >
             Submit
           </button>
+          <p
+            className={`text-sm mt-2 ${
+              showError && emptyFields.length > 0 ? 'text-red-500' : 'invisible'
+            }`}
+          >
+            Please fill all fields
+          </p>
+          <p
+            className={`text-sm mt-2 ${
+              showError && invalidFields.length > 0
+                ? 'text-red-500'
+                : 'invisible'
+            }`}
+          >
+            Please correct the invalid inputs
+          </p>
         </div>
       </form>
     </div>
