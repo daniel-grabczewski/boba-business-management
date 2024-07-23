@@ -54,7 +54,9 @@ const EditProfile = () => {
         return formDataToUpdate
       },
       onSuccess: () => {
-        queryClient.invalidateQueries('user')
+        queryClient.invalidateQueries('getDemoUserDetails')
+        queryClient.invalidateQueries('getReviewsByProductId')
+        queryClient.invalidateQueries('getReviewsOfDemoUser')
         navigate('/profile')
       },
     }
