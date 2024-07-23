@@ -16,7 +16,7 @@ export interface AdminOrderSummary {
 
 // ***** Full Detail Order Interfaces ***** //
 
-interface OrderItemExtraDetails {
+export interface OrderItemExtraDetails {
   productName: string
   productSale: number
   productImage: string
