@@ -8,9 +8,13 @@ import {
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { ShopperDisplayReview } from '../../../../models/Reviews'
-import { UserOrderSummary } from '../../../../models/Orders'
-import { getDemoUserOrdersSummary } from '../../../services/orders'
+import { OrderItemExtraDetails } from '../../../../models/Orders'
+import {
+  getDemoUserOrdersSummary,
+  getOrderItemsByOrderId,
+} from '../../../services/orders'
 import StarRating from '../../components/StarRating/StarRating'
+import { useMemo } from 'react'
 
 const Profile = () => {
   const queryClient = useQueryClient()
@@ -32,6 +36,13 @@ const Profile = () => {
     'getDemoUserOrdersSummary',
     async () => getDemoUserOrdersSummary()
   )
+
+  const ordersWithItems = useMemo(() => {
+    return orders?.map((order) => ({
+      ...order,
+      items: getOrderItemsByOrderId(order.orderId),
+    }))
+  }, [orders])
 
   function formatCurrency(amount: number) {
     return new Intl.NumberFormat('en-US', {
@@ -62,23 +73,39 @@ const Profile = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <section className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Order History</h2>
-            <div className="space-y-4">
+            <div
+              style={{ maxHeight: '500px' }}
+              className="space-y-4 overflow-y-auto"
+            >
               {ordersStatus === 'loading' ? (
                 <p>Loading orders...</p>
               ) : ordersStatus === 'error' ? (
                 <p className="text-red-600">Error loading orders</p>
-              ) : orders && orders.length > 0 ? (
+              ) : ordersWithItems && ordersWithItems.length > 0 ? (
                 <div>
-                  {orders.map((order: UserOrderSummary) => (
+                  {ordersWithItems.map((order) => (
                     <div
                       key={order.orderId}
-                      className="p-4 rounded-md mb-4 border border-gray-300 "
+                      className="p-4 rounded-md mb-4 border border-gray-300 mr-2"
                     >
-                      <div className="flex justify-between ">
+                      <div className="flex justify-between">
                         <div className="text-lg font-semibold">
-                          # {order.orderId}
+                          Order Number: {order.orderId}
                         </div>
                         <div className="text-gray-500">{order.purchasedAt}</div>
+                      </div>
+                      <div>
+                        {order.items.map((orderItem: OrderItemExtraDetails) => (
+                          <div
+                            key={orderItem.productName}
+                            className="flex w-full"
+                          >
+                            <p className="w-1/2">
+                              {orderItem.itemQuantity}x {orderItem.productName}
+                            </p>
+                            <p>{formatCurrency(orderItem.productSale)}</p>
+                          </div>
+                        ))}
                       </div>
                       <div className="text-gray-600 mt-2">
                         Total: {formatCurrency(order.totalSale)}
