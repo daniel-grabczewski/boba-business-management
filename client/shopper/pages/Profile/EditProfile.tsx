@@ -186,7 +186,7 @@ const EditProfile = () => {
           </div>
         </div>
 
-        <div className="mb-4 w-full flex gap-4">
+        <div className=" w-full flex gap-4">
           <div className="w-full">
             <label htmlFor="phoneNumber" className="block font-semibold mb-1">
               Phone Number:

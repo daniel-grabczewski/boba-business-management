@@ -107,14 +107,20 @@ const Profile = () => {
                           </div>
                         ))}
                       </div>
-                      <div className="flex mt-2">
+                      <div className="flex mb-2">
                         <p className="w-1/2">Shipping: {order.shippingType}</p>
                         <p>{formatCurrency(order.shippingPrice)}</p>
                       </div>
-                      <div className="text-gray-600 mt-2">
-                        <p>
-                          Total: {formatCurrency(order.totalSale + order.shippingPrice)}
+                      <div >
+                        <div className="font-semibold flex">
+                        <p className="w-1/2">
+                          Total: 
                         </p>
+                          <p>
+                          {formatCurrency(order.totalSale + order.shippingPrice)}
+                          </p>
+                        </div>
+                        <hr className="mt-2 mb-2"/>
                         <p>
                           Shipped to: {`${order.address}, ${order.city}, ${order.country}`}
                         </p>
