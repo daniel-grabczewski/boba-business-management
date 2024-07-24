@@ -169,7 +169,7 @@ export function getLatestOrderOfDemoUser(): Order | null {
   }
 }
 
-// Given the order ID, return associated order items as OrderItemExtraDetails
+// Given the order ID, return associated order items as OrderItemExtraDetails[]
 export function getOrderItemsExtraDetailsByOrderId(
   orderId: number
 ): OrderItemExtraDetails[] {
@@ -206,6 +206,7 @@ export function getOrderItemsExtraDetailsByOrderId(
   }
 }
 
+// Get all orders that demo user has made as OrderExtraDetails[]
 export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
   try {
     const orders = getOrdersFromLocalStorage()
@@ -224,7 +225,7 @@ export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
             return {
               orderId: demoOrder.id,
               firstName: demoOrder.firstName,
-              lastName: demoOrder.firstName,
+              lastName: demoOrder.lastName,
               address: demoOrder.address,
               city: demoOrder.city,
               country: demoOrder.country,
@@ -246,7 +247,7 @@ export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
     }
     return []
   } catch (error) {
-    console.error('Error retrieving demo users orders')
+    console.error(`Error retrieving demo user's orders`)
     return []
   }
 }
