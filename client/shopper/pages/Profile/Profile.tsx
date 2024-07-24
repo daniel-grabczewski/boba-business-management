@@ -8,13 +8,12 @@ import {
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { ShopperDisplayReview } from '../../../../models/Reviews'
-import { OrderItemExtraDetails } from '../../../../models/Orders'
-import {
-  getDemoUserOrdersSummary,
-  getOrderItemsByOrderId,
-} from '../../../services/orders'
+import { getDemoOrdersExtraDetailsByOrderId } from '../../../services/orders'
 import StarRating from '../../components/StarRating/StarRating'
-import { useMemo } from 'react'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../utils/formatDate'
 
 const Profile = () => {
   const queryClient = useQueryClient()
@@ -27,22 +26,18 @@ const Profile = () => {
     async () => getDemoUserDetails()
   )
 
+  const { data: demoOrders, status: demoOrdersStatus } = useQuery(
+    'getDemoOrdersExtraDetailsByOrderId',
+    async () => {
+      console.log(getDemoOrdersExtraDetailsByOrderId())
+      return getDemoOrdersExtraDetailsByOrderId()
+    }
+  )
+
   const { data: reviews, status: reviewsStatus } = useQuery(
     'getReviewsOfDemoUser',
     async () => getReviewsOfDemoUser()
   )
-
-  const { data: orders, status: ordersStatus } = useQuery(
-    'getDemoUserOrdersSummary',
-    async () => getDemoUserOrdersSummary()
-  )
-
-  const ordersWithItems = useMemo(() => {
-    return orders?.map((order) => ({
-      ...order,
-      items: getOrderItemsByOrderId(order.orderId),
-    }))
-  }, [orders])
 
   function formatCurrency(amount: number) {
     return new Intl.NumberFormat('en-US', {
@@ -64,7 +59,7 @@ const Profile = () => {
   return (
     <div className="flex justify-center items-center">
       <div className="p-8 w-4/5">
-        <LoadError status={demoUserStatus} />
+        <LoadError status={[demoUserStatus, demoOrdersStatus]} />
 
         <h1 className="text-3xl font-bold tracking-wider mb-8">
           Hello, {demoUserDetails?.firstName} {demoUserDetails?.lastName}!
@@ -77,13 +72,13 @@ const Profile = () => {
               style={{ maxHeight: '500px' }}
               className="space-y-4 overflow-y-auto"
             >
-              {ordersStatus === 'loading' ? (
+              {demoOrdersStatus === 'loading' ? (
                 <p>Loading orders...</p>
-              ) : ordersStatus === 'error' ? (
+              ) : demoOrdersStatus === 'error' ? (
                 <p className="text-red-600">Error loading orders</p>
-              ) : ordersWithItems && ordersWithItems.length > 0 ? (
+              ) : demoOrders && demoOrders.length > 0 ? (
                 <div>
-                  {ordersWithItems.map((order) => (
+                  {demoOrders.map((order) => (
                     <div
                       key={order.orderId}
                       className="p-4 rounded-md mb-4 border border-gray-300 mr-2"
@@ -92,23 +87,48 @@ const Profile = () => {
                         <div className="text-lg font-semibold">
                           Order Number: {order.orderId}
                         </div>
-                        <div className="text-gray-500">{order.purchasedAt}</div>
+                        <div className="text-gray-500 flex gap-4">
+                          <p>{format24HourTo12Hour(order.purchasedAt)}</p>
+                          <p>{formatDateToDDMMYYYY(order.purchasedAt)}</p>
+                        </div>
                       </div>
                       <div>
-                        {order.items.map((orderItem: OrderItemExtraDetails) => (
-                          <div
-                            key={orderItem.productName}
-                            className="flex w-full"
-                          >
-                            <p className="w-1/2">
-                              {orderItem.itemQuantity}x {orderItem.productName}
-                            </p>
-                            <p>{formatCurrency(orderItem.productSale)}</p>
-                          </div>
-                        ))}
+                        {order.orderItemsExtraDetails
+                          .reverse()
+                          .map((orderItem) => (
+                            <div
+                              key={orderItem.productName}
+                              className="flex w-full flex-col"
+                            >
+                              <div className="flex ">
+                                <p className="w-1/2">
+                                  {orderItem.itemQuantity}x{' '}
+                                  {orderItem.productName}
+                                </p>
+                                <p>{formatCurrency(orderItem.productSale)}</p>
+                              </div>
+                            </div>
+                          ))}
+                      </div>
+                      <div className="flex mt-2">
+                        <p className="w-1/2">Shipping: {order.shippingType}</p>
+                        <p>{formatCurrency(order.shippingPrice)}</p>
                       </div>
                       <div className="text-gray-600 mt-2">
-                        Total: {formatCurrency(order.totalSale)}
+                        <p>
+                          Total:{' '}
+                          {formatCurrency(
+                            order.totalSale + order.shippingPrice
+                          )}
+                        </p>
+                        <p>
+                          Shipped to:
+                          {`${' '}${order.address}, ${order.city}, ${
+                            order.country
+                          }`}
+                        </p>
+                        <p>{`${order.firstName} ${order.lastName}`}</p>
+                        <p>Contact number: {`${order.phoneNumber}`}</p>
                       </div>
                     </div>
                   ))}
