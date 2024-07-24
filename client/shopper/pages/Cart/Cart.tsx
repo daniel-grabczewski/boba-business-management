@@ -67,10 +67,13 @@ const Cart = () => {
         <EmptyCart />
       ) : (
         <div className="flex justify-center items-center min-h-screen mt-4">
-          <div className="flex w-3/5 justify-end">
+          <div className="flex w-3/5 justify-center items-center">
             <div className="w-3/5 pl-6">
               <h1 className="text-3xl font-bold tracking-wider">CART</h1>
-              <div className="mt-4">
+              <div
+                className="mt-4 space-y-4 overflow-y-auto "
+                style={{ maxHeight: '650px' }}
+              >
                 {data &&
                   data.map((item: DisplayCartItem) => (
                     <div
@@ -136,15 +139,15 @@ const Cart = () => {
               </button>
             </div>
 
-            <div className="w-1/3 pl-6 mt-14">
+            <div className="w-1/3 pl-6">
               <div
                 className="p-8 rounded-md bg-gray-500 text-white"
-                style={{ width: '340px' }}
+                style={{ maxWidth: '340px' }}
               >
                 {data && (
-                  <p>
-                    <span className="font-bold">Total: </span>
-                    <span className="pl-40">
+                  <div className="flex justify-between">
+                    <p className="font-bold">Total: </p>
+                    <p className="">
                       {' '}
                       ${' '}
                       {data
@@ -153,13 +156,15 @@ const Cart = () => {
                           0
                         )
                         .toFixed(2)}
-                    </span>
-                  </p>
+                    </p>
+                  </div>
                 )}
-                <p>
-                  <span className="font-bold">Shipping: </span>
-                  <span className="pl-40">TBC</span>
-                </p>
+                <div className="flex justify-between">
+                  <p className="font-bold">Shipping: </p>
+                  <div>
+                    <p className="">TBC</p>
+                  </div>
+                </div>
                 <button
                   onClick={() => goTo('/checkout')}
                   className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
