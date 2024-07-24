@@ -23,9 +23,7 @@ const Shop = () => {
   const productsPerPage = 15
 
   useEffect(() => {
-    if (products && filteredProducts.length <= productsPerPage) {
-      changePage(1)
-    }
+    changePage(1)
   }, [filter])
 
   useEffect(() => {
@@ -38,9 +36,7 @@ const Shop = () => {
 
   const { data: products, status: statusProducts } = useQuery(
     ['getAllProducts'],
-    async () => 
-      getAllProductsShopper()
-    
+    async () => getAllProductsShopper()
   )
 
   const changePage = (newPage: number) => {
