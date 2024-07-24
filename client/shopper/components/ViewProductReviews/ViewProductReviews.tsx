@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useMutation } from 'react-query'
 import {
   CreateReview,
@@ -30,6 +30,17 @@ function ViewProductReviews({
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(3)
+  const [errorMessage, setErrorMessage] = useState('')
+
+  useEffect(() => {
+    if (errorMessage) {
+      const timer = setTimeout(() => {
+        setErrorMessage('')
+      }, 2000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [errorMessage])
 
   const addReviewMutation = useMutation(
     async (newReview: CreateReview) => addDemoUserReview(newReview),
@@ -38,9 +49,11 @@ function ViewProductReviews({
         updateAverageRating()
         refetchCanDemoUserAddReview()
         updateDisplayReviews()
+        setErrorMessage('')
       },
       onError: (error) => {
         console.error('An error occurred:', error)
+        setErrorMessage('An error occurred while submitting the review.')
       },
     }
   )
@@ -49,9 +62,7 @@ function ViewProductReviews({
     if (isEligable) {
       setIsAddingReview(true)
     } else {
-      alert(
-        `You've already added a review for this product. \n\nIf you would like to add a new review for this product, please delete your current review, which can be found in your profile page`
-      )
+      setErrorMessage("You've already added a review for this product.")
     }
   }
 
@@ -59,6 +70,7 @@ function ViewProductReviews({
     setIsAddingReview(false)
     setReviewDescription('')
     setReviewRating(3)
+    setErrorMessage('')
   }
 
   const handleIncrementRating = () => {
@@ -71,6 +83,7 @@ function ViewProductReviews({
 
   const handleSubmitReview = () => {
     if (reviewDescription.trim() === '') {
+      setErrorMessage('Please write a review before submitting.')
       return
     }
 
@@ -86,7 +99,6 @@ function ViewProductReviews({
     setIsAddingReview(false)
   }
 
-  // Prepare the reviews data with full names
   const reviewsWithFullNames = useMemo(() => {
     return reviews.map((review) => ({
       ...review,
@@ -184,6 +196,13 @@ function ViewProductReviews({
           Add review
         </button>
       )}
+      <p
+        className={`text-red-500 ${
+          errorMessage ? 'visible' : 'invisible'
+        } mt-4`}
+      >
+        {errorMessage || 'Placeholder for error message'}
+      </p>
     </div>
   )
 }
