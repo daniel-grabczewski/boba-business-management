@@ -4,6 +4,7 @@ import {
   OrderCheckoutDetails,
   UserOrderSummary,
   OrderItemExtraDetails,
+  OrderExtraDetails,
 } from '../../models/Orders'
 import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
@@ -169,7 +170,7 @@ export function getLatestOrderOfDemoUser(): Order | null {
 }
 
 // Given the order ID, return associated order items as OrderItemExtraDetails
-export function getOrderItemsByOrderId(
+export function getOrderItemsExtraDetailsByOrderId(
   orderId: number
 ): OrderItemExtraDetails[] {
   try {
@@ -182,7 +183,9 @@ export function getOrderItemsByOrderId(
           if (product) {
             return {
               productName: product.name,
-              productSale: parseFloat((product.price * orderItem.quantity).toFixed(2)),
+              productSale: parseFloat(
+                (product.price * orderItem.quantity).toFixed(2)
+              ),
               productImage: product.image,
               itemQuantity: orderItem.quantity,
             }
@@ -199,6 +202,51 @@ export function getOrderItemsByOrderId(
     console.error(
       `Error getting order items associated with order ID: ${orderId}`
     )
+    return []
+  }
+}
+
+export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const demoUser = getDemoUserDetails()
+    if (demoUser) {
+      const demoUserOrders = orders
+        .filter((order) => order.userId === demoUser.userId)
+        .map((demoOrder) => {
+          console.log(demoOrder)
+          const totalSale = getTotalSaleOfOrderById(demoOrder.id)
+          const shippingOption = getShippingOptionById(demoOrder.shippingId)
+          const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(
+            demoOrder.id
+          )
+          if (demoOrder && shippingOption && orderItemsExtraDetails) {
+            return {
+              orderId: demoOrder.id,
+              firstName: demoOrder.firstName,
+              lastName: demoOrder.firstName,
+              address: demoOrder.address,
+              city: demoOrder.city,
+              country: demoOrder.country,
+              zipCode: demoOrder.zipCode,
+              email: demoUser.emailAddress,
+              phoneNumber: demoOrder.phoneNumber,
+              totalSale: totalSale,
+              amountOfItems: demoOrder.orderItems.length,
+              purchasedAt: demoOrder.purchasedAt,
+              shippingType: shippingOption?.shippingType,
+              shippingPrice: shippingOption?.price,
+              orderItemsExtraDetails: orderItemsExtraDetails,
+            }
+          }
+          return undefined
+        })
+        .filter((item) => item !== undefined)
+      return demoUserOrders
+    }
+    return []
+  } catch (error) {
+    console.error('Error retrieving demo users orders')
     return []
   }
 }
