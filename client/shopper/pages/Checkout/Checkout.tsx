@@ -58,7 +58,7 @@ function Checkout() {
 
   const [selectedShipping, setSelectedShipping] = useState({
     id: 0,
-    type: '',
+    shippingType: '',
     price: 0,
   })
 
@@ -84,6 +84,12 @@ function Checkout() {
     'getShippingOptionsFromLocalStorage',
     async () => getShippingOptionsFromLocalStorage()
   )
+
+  useEffect(()=> {
+    if (shippingOptions) {
+      setSelectedShipping(shippingOptions[0])
+    }
+  }, [shippingOptions])
 
   const { data: defaultUserDetails } = useQuery(
     'getDemoUserDetails',
@@ -154,7 +160,7 @@ function Checkout() {
     if (shippingOption) {
       setSelectedShipping({
         id: shippingOption.id,
-        type: shippingOption.shippingType,
+        shippingType: shippingOption.shippingType,
         price: shippingOption.price,
       })
     }

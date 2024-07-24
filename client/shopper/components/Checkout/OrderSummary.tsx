@@ -1,7 +1,7 @@
 import { DisplayCartItem } from '../../../../models/Cart'
 interface SelectedShipping {
   id: number
-  type: string
+  shippingType: string
   price: number
 }
 interface OderSummaryProps {
@@ -37,7 +37,7 @@ function OrderSummary({
       <div className="mb-2 ">
         <h1 className="text-xl font-semibold">SHIPPING METHOD</h1>
         <div className="flex flex-row justify-between">
-          <div className="text-sm">{selectedShipping.type}</div>
+          <div className="text-sm">{selectedShipping.shippingType}</div>
           <div className="text-lg">${selectedShipping.price.toFixed(2)}</div>
         </div>
       </div>
