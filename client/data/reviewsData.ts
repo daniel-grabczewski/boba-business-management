@@ -1,7 +1,7 @@
 import { Review } from '../../models/Reviews'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
-const days = 75
+const days = 120
 
 // Define the reviews data without date/time values
 const reviewsWithoutDateTime: Review[] = [

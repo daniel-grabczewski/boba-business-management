@@ -1,7 +1,7 @@
 import { Email } from '../../models/Emails'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
 
-const days = 75
+const days = 120
 
 // Define the emails data without date/time values
 const emailsWithoutDateTime: Email[] = [
