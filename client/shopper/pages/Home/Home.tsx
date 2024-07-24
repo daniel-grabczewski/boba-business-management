@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const Home = () => {
@@ -5,6 +6,10 @@ const Home = () => {
   function goTo(link: string) {
     navigate(link)
   }
+    // Scroll to top when the component is mounted
+    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [])
   return (
     <div style={{ background: '#FFC5C7' }}>
       <div

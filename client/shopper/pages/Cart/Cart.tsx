@@ -10,6 +10,7 @@ import {
 } from '../../../services/cart'
 import LoadError from '../../components/LoadError/LoadError'
 import EmptyCart from '../../components/EmptyCart/EmptyCart'
+import { useEffect } from 'react'
 
 const Cart = () => {
   const queryClient = useQueryClient()
@@ -22,6 +23,11 @@ const Cart = () => {
   function goTo(link: string) {
     navigate(link)
   }
+
+    // Scroll to top when the component is mounted
+    useEffect(() => {
+      window.scrollTo(0, 0)
+    }, [])
 
   const modifyQuantityMutation = useMutation<
     void,
