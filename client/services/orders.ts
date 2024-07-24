@@ -15,6 +15,7 @@ import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getProductByIdAdmin, getProductByIdShopper } from './products'
 import { getShippingOptionById } from './shipping'
 import { getUserByUserId } from './users'
+import { generateUniqueOrderId } from '../utils/generateUniqueOrderId'
 
 // Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist
 export function setOrdersInLocalStorageInitial(): void {
@@ -80,15 +81,6 @@ export function getOrdersByUserId(userId: string): Order[] {
   }
 }
 
-// Generate unique order id
-export function generateNewOrderId(): number {
-  const orders = getOrdersFromLocalStorage()
-  const newId =
-    orders.length > 0 ? Math.max(...orders.map((orders) => orders.id)) + 1 : 1
-
-  return newId
-}
-
 // Create order using details entered into checkout and data of Demo user's cart in local storage, then delete Demo user's cart.
 export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
   try {
@@ -112,7 +104,7 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
     }))
 
     const newOrder: Order = {
-      id: generateNewOrderId(),
+      id: generateUniqueOrderId(),
       userId: demoUser.userId,
       purchasedAt: generateCurrentDateTime(),
       shippingId: orderCheckoutDetails.shippingId,
