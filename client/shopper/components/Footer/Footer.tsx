@@ -26,6 +26,12 @@ const Footer = () => {
             </button>
             <button
               className="hover:text-rose-200 transition-colors duration-300"
+              onClick={() => goTo('/cart')}
+            >
+              Cart
+            </button>
+            <button
+              className="hover:text-rose-200 transition-colors duration-300"
               onClick={() => goTo('/contact')}
             >
               Contact
