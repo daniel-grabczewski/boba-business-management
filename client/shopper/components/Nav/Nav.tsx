@@ -32,6 +32,12 @@ const Nav = () => {
         >
           Cart
         </button>
+        <button
+          className="hover:text-purple-700 transition-colors duration-300"
+          onClick={() => goTo('/contact')}
+        >
+          Contact
+        </button>
       </div>
 
       <div className="flex space-x-6 text-white">
