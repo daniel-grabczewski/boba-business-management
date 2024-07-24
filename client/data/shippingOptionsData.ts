@@ -9,12 +9,12 @@ const shippingOptions: ShippingOption[] = [
     {
       id: 2,
       shippingType: 'Express (2-4 working days)',
-      price: 12.5,
+      price: 8,
     },
     {
       id: 3,
       shippingType: 'Overnight (1 working day)',
-      price: 25,
+      price: 12.5,
     },
   ]
 
