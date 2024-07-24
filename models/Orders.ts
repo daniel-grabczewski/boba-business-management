@@ -25,20 +25,20 @@ export interface OrderItemExtraDetails {
 
 export interface OrderExtraDetails {
   orderId: number
-  userFirstName: string
-  userLastName: string
-  userAddress: string
-  userCity: string
-  userCountry: string
-  userZipCode: string
-  userEmail: string
-  userPhoneNumber: string
+  firstName: string
+  lastName: string
+  address: string
+  city: string
+  country: string
+  zipCode: string
+  email: string
+  phoneNumber: string
   totalSale: number
   amountOfItems: number
-  orderDate: string
+  purchasedAt: string
   shippingType: string
   shippingPrice: number
-  orderItems: OrderItemExtraDetails[]
+  orderItemsExtraDetails: OrderItemExtraDetails[]
 }
 
 // ***** Initial Order Interfaces ***** //
