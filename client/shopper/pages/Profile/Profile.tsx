@@ -1,6 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-
 import { getDemoUserDetails } from '../../../services/users'
 import {
   deleteReviewOfDemoUserByProductId,
@@ -21,6 +20,7 @@ const Profile = () => {
   function goTo(link: string) {
     navigate(link)
   }
+
   const { data: demoUserDetails, status: demoUserStatus } = useQuery(
     'getDemoUserDetails',
     async () => getDemoUserDetails()
@@ -78,7 +78,7 @@ const Profile = () => {
                 <p className="text-red-600">Error loading orders</p>
               ) : demoOrders && demoOrders.length > 0 ? (
                 <div>
-                  {demoOrders.map((order) => (
+                  {[...demoOrders].reverse().map((order) => (
                     <div
                       key={order.orderId}
                       className="p-4 rounded-md mb-4 border border-gray-300 mr-2"
@@ -93,22 +93,19 @@ const Profile = () => {
                         </div>
                       </div>
                       <div>
-                        {order.orderItemsExtraDetails
-                          .reverse()
-                          .map((orderItem) => (
-                            <div
-                              key={orderItem.productName}
-                              className="flex w-full flex-col"
-                            >
-                              <div className="flex ">
-                                <p className="w-1/2">
-                                  {orderItem.itemQuantity}x{' '}
-                                  {orderItem.productName}
-                                </p>
-                                <p>{formatCurrency(orderItem.productSale)}</p>
-                              </div>
+                        {order.orderItemsExtraDetails.map((orderItem) => (
+                          <div
+                            key={orderItem.productName}
+                            className="flex w-full flex-col"
+                          >
+                            <div className="flex ">
+                              <p className="w-1/2">
+                                {orderItem.itemQuantity}x {orderItem.productName}
+                              </p>
+                              <p>{formatCurrency(orderItem.productSale)}</p>
                             </div>
-                          ))}
+                          </div>
+                        ))}
                       </div>
                       <div className="flex mt-2">
                         <p className="w-1/2">Shipping: {order.shippingType}</p>
@@ -116,16 +113,10 @@ const Profile = () => {
                       </div>
                       <div className="text-gray-600 mt-2">
                         <p>
-                          Total:{' '}
-                          {formatCurrency(
-                            order.totalSale + order.shippingPrice
-                          )}
+                          Total: {formatCurrency(order.totalSale + order.shippingPrice)}
                         </p>
                         <p>
-                          Shipped to:
-                          {`${' '}${order.address}, ${order.city}, ${
-                            order.country
-                          }`}
+                          Shipped to: {`${order.address}, ${order.city}, ${order.country}`}
                         </p>
                         <p>{`${order.firstName} ${order.lastName}`}</p>
                         <p>Contact number: {`${order.phoneNumber}`}</p>
