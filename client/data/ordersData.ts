@@ -1,7 +1,8 @@
 import { Order } from '../../models/Orders'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
+import { generateUniqueOrderId } from '../utils/generateUniqueOrderId'
 
-const days = 75
+const days = 120
 
 // Define the orders data without date/time values
 const ordersWithoutDateTime: Order[] = [
@@ -814,4 +815,10 @@ const orders = ordersWithoutDateTime.map((order) => ({
   purchasedAt: getRandomDateTimeWithinLastDays(days),
 }))
 
-export default orders
+// Generate unique order ID for each order, based on their date/time purchased
+const ordersWithUniqueId = orders.map((order) => ({
+  ...order,
+  id : generateUniqueOrderId(order.purchasedAt)
+}))
+
+export default ordersWithUniqueId
