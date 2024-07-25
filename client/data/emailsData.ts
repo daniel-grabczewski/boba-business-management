@@ -11,7 +11,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Appreciation for Great Service',
     description:
-      "Hey guys! I wanted to extend my gratitude for the excellent service I received from your team. My order arrived on time, and I'm delighted with the products' quality. The entire shopping experience was smooth and enjoyable. Thank you for providing outstanding service! Best regards, Emma Johnson",
+      "Hey guys! I wanted to extend my gratitude for the excellent service I received from your team. My order arrived on time, and I'm delighted with the products' quality. The entire shopping experience was smooth and enjoyable. Thank you for providing outstanding service!",
     createdAt: '',
   },
   {
@@ -29,7 +29,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Product Inquiry',
     description:
-      'Hi there, I have a question about one of the products I recently ordered. I received my order and everything looks great except for one item. It seems to be a different variant from what I expected. Could you please clarify this for me? Thank you, Olivia Williams',
+      'Hi there, I have a question about one of the products I recently ordered. I received my order and everything looks great except for one item. It seems to be a different variant from what I expected. Could you please clarify this for me?',
     createdAt: '',
   },
   {
@@ -56,7 +56,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Excellent Product Packaging',
     description:
-      'Hello, I wanted to express my appreciation for the excellent packaging of my recent order. I received the items yesterday, and they were all securely packed, ensuring they arrived in perfect condition. Thank you for taking care of the packaging to ensure a great customer experience. Best regards, Oliver Taylor',
+      'Hello, I wanted to express my appreciation for the excellent packaging of my recent order. I received the items yesterday, and they were all securely packed, ensuring they arrived in perfect condition. Thank you for taking care of the packaging to ensure a great customer experience.',
     createdAt: '',
   },
   {
@@ -65,7 +65,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Feedback on Delivery',
     description:
-      "Dear Support Team, I received my order today, and I'm satisfied with the products' quality. However, I noticed that one of the items was missing from the package. Could you please investigate this and arrange for the missing item to be sent to me? Thank you, Isla Davis",
+      "Dear Support Team, I received my order today, and I'm satisfied with the products' quality. However, I noticed that one of the items was missing from the package. Could you please investigate this and arrange for the missing item to be sent to me?",
     createdAt: '',
   },
   {
@@ -83,7 +83,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Positive Feedback',
     description:
-      'Hello Team, I just wanted to drop a quick note to express my satisfaction with my recent purchase. The products I received are of excellent quality, and the shipping was faster than expected. I am impressed with the overall shopping experience. Keep up the good work! Best regards, Charlotte Wilson',
+      'Hello Team, I just wanted to drop a quick note to express my satisfaction with my recent purchase. The products I received are of excellent quality, and the shipping was faster than expected. I am impressed with the overall shopping experience. Keep up the good work!',
     createdAt: '',
   },
   {
@@ -92,7 +92,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Issue with Order',
     description:
-      "Hi, I hope you can help me with an issue I encountered with my order. The products I received were in good condition, but I didn't receive the correct quantity for one of the items. Can you please assist me in resolving this? Thank you, Leo Moore",
+      "Hi, I hope you can help me with an issue I encountered with my order. The products I received were in good condition, but I didn't receive the correct quantity for one of the items. Can you please assist me in resolving this?",
     createdAt: '',
   },
   {
@@ -101,7 +101,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Praise for Fast Shipping',
     description:
-      "Yo! I'm writing to let you know that I'm impressed with the fast shipping of my recent order. The products arrived on time and everything is as expected. Thank you for the excellent service! Best regards, Emma Johnson",
+      "Yo! I'm writing to let you know that I'm impressed with the fast shipping of my recent order. The products arrived on time and everything is as expected. Thank you for the excellent service!",
     createdAt: '',
   },
   {
@@ -110,7 +110,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Positive Review',
     description:
-      'Hello, I just wanted to leave a positive review for the products I purchased. The order was delivered today and the quality of the items exceeded my expectations. I will definitely recommend your store to my friends. Thank you, Liam Smith',
+      'Hello, I just wanted to leave a positive review for the products I purchased. The order was delivered today and the quality of the items exceeded my expectations. I will definitely recommend your store to my friends.',
     createdAt: '',
   },
   {
@@ -119,7 +119,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Complaint About Damaged Product',
     description:
-      "Hi, I received my order on 3 days ago, and unfortunately, one of the items arrived damaged. The product's packaging seemed intact, so it might have occurred during shipping. Can you please assist me with a replacement? Thanks, Olivia Williams",
+      "Hi, I received my order on 3 days ago, and unfortunately, one of the items arrived damaged. The product's packaging seemed intact, so it might have occurred during shipping. Can you please assist me with a replacement?",
     createdAt: '',
   },
   {
@@ -128,7 +128,7 @@ const emailsWithoutDateTime: Email[] = [
     isRead: false,
     title: 'Issue with Payment',
     description:
-      "Dear Support, I'm having trouble with my recent order payment. I placed the order three days ago, but my card was charged twice for the same purchase. Kindly rectify this issue and refund the extra amount. Best regards, Isla Davis",
+      "Dear Support, I'm having trouble with my recent order payment. I placed the order three days ago, but my card was charged twice for the same purchase. Kindly rectify this issue and refund the extra amount.",
     createdAt: '',
   },
   {
