@@ -62,7 +62,7 @@ function ViewProductReviews({
     if (isEligable) {
       setIsAddingReview(true)
     } else {
-      setErrorMessage("You've already added a review for this product.")
+      setErrorMessage("You've already added a review for this product")
     }
   }
 
