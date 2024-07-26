@@ -31,8 +31,8 @@ function OrderSummary({
       ))}
 
       <div className="flex justify-between mb-4">
-        <h1 className="">SUBTOTAL</h1>
-        <p className="">${subtotal.toFixed(2)}</p>
+        <h1 className="font-semibold">SUBTOTAL</h1>
+        <p className="font-semibold">${subtotal.toFixed(2)}</p>
       </div>
       <div className="mb-2 ">
         <h1 className="text-xl font-semibold">SHIPPING METHOD</h1>
@@ -43,7 +43,7 @@ function OrderSummary({
       </div>
       <div className="flex justify-between mb-4">
         <h1 className="text-xl font-semibold">ORDER TOTAL</h1>
-        <p className="text-lg">NZD $ {total.toFixed(2)}</p>
+        <p className="text-lg font-bold">NZD $ {total.toFixed(2)}</p>
       </div>
     </div>
   )
