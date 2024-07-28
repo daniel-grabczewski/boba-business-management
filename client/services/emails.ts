@@ -4,7 +4,6 @@ import initialEmails from '../data/emailsData'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 
-
 // Initialize localStorage key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
 export function setEmailsInLocalStorageInitial(): void {
   try {
@@ -39,13 +38,11 @@ export function getEmailsFromLocalStorage(): Email[] {
 }
 
 // Returns new email id, unique from every other email id
-export function generateNewEmailId() : number {
+export function generateNewEmailId(): number {
   const emails = getEmailsFromLocalStorage()
   const newId =
-      emails.length > 0
-        ? Math.max(...emails.map((email) => email.id)) + 1
-        : 1
-  
+    emails.length > 0 ? Math.max(...emails.map((email) => email.id)) + 1 : 1
+
   return newId
 }
 
@@ -88,10 +85,13 @@ export function sendEmailFromDemoUser(newEmail: NewEmail): void {
 }
 
 // Given an id and a readStatus of true/false, update the email with the matching id with the new readStatus
-export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean): void {
+export function updateEmailReadStatusById(
+  id: number,
+  updatedReadStatus: boolean
+): void {
   try {
     const emails = getEmailsFromLocalStorage()
-    const emailIndex = emails.findIndex(email => email.id === id)
+    const emailIndex = emails.findIndex((email) => email.id === id)
 
     if (emailIndex !== -1) {
       emails[emailIndex].isRead = updatedReadStatus
@@ -100,7 +100,10 @@ export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean
       console.error(`Email with ID: ${id} not found`)
     }
   } catch (error) {
-    console.error(`Failed to update read status for email with ID: ${id}`, error)
+    console.error(
+      `Failed to update read status for email with ID: ${id}`,
+      error
+    )
   }
 }
 
@@ -108,7 +111,7 @@ export function updateEmailReadStatusById(id: number, updatedReadStatus: boolean
 export function deleteEmailById(id: number): void {
   try {
     const emails = getEmailsFromLocalStorage()
-    const newEmails = emails.filter(email => email.id !== id)
+    const newEmails = emails.filter((email) => email.id !== id)
 
     if (emails.length === newEmails.length) {
       console.warn(`Email with ID: ${id} not found`)
@@ -120,13 +123,14 @@ export function deleteEmailById(id: number): void {
   }
 }
 
-// Given a date in 'DD/MM/YYYY' format, return a count of the emails which are unread from that given date
+// Given a date in 'YYYY-MM-DD HH:MM:SS' format, return a count of the emails which are unread from that given date
 export function countUnreadEmailsFromDate(date: string): number {
+  const formattedDate = formatDateToDDMMYYYY(date)
   const emails = getEmailsFromLocalStorage()
   return emails.reduce((count, email) => {
     // Format YYYY-MM-DD HH:MM:SS to DD/MM/YYYY
     const emailDate = formatDateToDDMMYYYY(email.createdAt)
-    if (emailDate === date && !email.isRead) {
+    if (emailDate === formattedDate && !email.isRead) {
       count++
     }
     return count
@@ -134,7 +138,7 @@ export function countUnreadEmailsFromDate(date: string): number {
 }
 
 // Returns count of all emails that have false isRead status
-export function countTotalUnreadEmails() : number {
+export function countTotalUnreadEmails(): number {
   const emails = getEmailsFromLocalStorage()
   return emails.reduce((count, email) => {
     if (!email.isRead) {
@@ -143,4 +147,3 @@ export function countTotalUnreadEmails() : number {
     return count
   }, 0)
 }
-
