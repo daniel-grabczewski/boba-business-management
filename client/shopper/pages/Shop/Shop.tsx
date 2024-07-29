@@ -28,10 +28,6 @@ const Shop = () => {
   const productsPerPage = 15
 
   useEffect(() => {
-    handleChangePage(1)
-  }, [filter, sort])
-
-  useEffect(() => {
     if (!location.search) {
       setPage(1)
       setSort('')
@@ -49,11 +45,11 @@ const Shop = () => {
   }
 
   const handleChangeFilter = (newFilter: string) => {
-    changeFilter(newFilter, setFilter, navigate, location.search)
+    changeFilter(newFilter, setFilter, setPage, navigate, location.search)
   }
 
   const handleChangeSort = (newSort: string) => {
-    changeSort(newSort, setSort, navigate, location.search)
+    changeSort(newSort, setSort, setPage, navigate, location.search)
   }
 
   const filteredProducts = products
