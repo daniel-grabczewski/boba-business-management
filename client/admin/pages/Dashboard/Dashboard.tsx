@@ -24,8 +24,9 @@ const Dashboard = () => {
     getDemoUserDetails()
   )
 
-  const emailQuery = useQuery('countUnreadEmailsFromDate', async () =>
-    countUnreadEmailsFromDate(generateCurrentDate())
+  const { data: unreadEmailCount, status: unreadEmailCountStatus } = useQuery(
+    'countUnreadEmailsFromDate',
+    async () => countUnreadEmailsFromDate(generateCurrentDate())
   )
 
   const reviewAmountQuery = useQuery('getCountOfReviewsFromDate', async () =>
@@ -38,7 +39,7 @@ const Dashboard = () => {
   const statuses = [
     orderAmountQuery.status,
     profileQuery.status,
-    emailQuery.status,
+    unreadEmailCountStatus,
     reviewAmountQuery.status,
     lowStockQuery.status,
   ]
@@ -95,7 +96,8 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {emailQuery.data} new emails today
+              You have {unreadEmailCount} unread email
+              {unreadEmailCount === 1 ? '' : 's'} today
             </h1>
           </div>
           <button
