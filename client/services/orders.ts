@@ -244,12 +244,13 @@ export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
   }
 }
 
-// Get count of orders that were made on the given 'DD/MM/YYYY' date
+// Get count of orders that were made on the given 'YYYY-MM-DD HH:MM:SS' date
 export function getOrderCountFromDate(date: string): number {
   try {
+    const formattedDate = formatDateToDDMMYYYY(date)
     const orders = getOrdersFromLocalStorage()
     const orderCountFromDate = orders.filter(
-      (order) => formatDateToDDMMYYYY(order.purchasedAt) === date
+      (order) => formatDateToDDMMYYYY(order.purchasedAt) === formattedDate
     ).length
     return orderCountFromDate
   } catch (error) {
