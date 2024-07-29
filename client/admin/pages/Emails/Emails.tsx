@@ -11,23 +11,30 @@ import { Email } from '../../../../models/Emails'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
 import EmailPopup from '../../components/Emails/EmailPopup'
 import { useNavigate } from 'react-router-dom'
+import {
+  changeFilter,
+  changePage,
+  changeSort,
+} from '../../../utils/queryHelpers'
 
 const Emails = () => {
   const navigate = useNavigate()
   const queryParams = new URLSearchParams(location.search)
 
-  const initialPage = parseInt(queryParams.get('page') || '1', 10)
-  const initialFilter = queryParams.get('filter') || ''
-  const initialSort = queryParams.get('sort') || ''
+  const initialPage = parseInt(queryParams.get('page') || '1')
 
+  const initialFilter = queryParams.get('filter') || 'all'
+  const initialSort = queryParams.get('sort') || 'newest-first'
+
+  const [page, setPage] = useState(initialPage)
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
   const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(
     undefined
   )
 
-  const [page, setPage] = useState(initialPage)
-  // the 10 just for testing if the filter work or not
+  console.log(initialPage)
+
   const emailsPerPage = 10
 
   const {
@@ -39,28 +46,46 @@ const Emails = () => {
     getEmailsFromLocalStorage()
   )
 
+  const handleChangePage = (newPage: number) => {
+    changePage(newPage, setPage, navigate, location.search)
+  }
+
+  const handleChangeFilter = (newFilter: string) => {
+    changeFilter(newFilter, setFilter, setPage, navigate, location.search)
+  }
+
+  const handleChangeSort = (newSort: string) => {
+    changeSort(newSort, setSort, setPage, navigate, location.search)
+  }
+
   const setSelectedEmailById = async (id: number) => {
     const email = getEmailById(id)
     setSelectedEmail(email)
   }
 
   useEffect(() => {
-    setPage(1)
-  }, [filter, sort, selectedEmail])
+    if (!location.search) {
+      setPage(1)
+      setSort('newest-first')
+      setFilter('all')
+    }
+  }, [location.search])
 
-  const filteredAndSortedEmails = emails
-    ?.filter((email) => {
+  const filteredEmails = emails 
+    ? emails.filter((email) => {
       if (filter === 'all') return true
       if (filter === 'unread') return !email.isRead
       return true
-    })
+    }) : []
+
+    const sortedEmails = [...filteredEmails]
     .sort((a, b) => {
       switch (sort) {
-        case 'Newest first':
+        case 'newest-first':
           return (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           )
-        case 'Oldest first':
+        case 'oldest-first':
           return (
             new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
           )
@@ -69,12 +94,17 @@ const Emails = () => {
       }
     })
 
-  const lastIndex = page * emailsPerPage
-  const firstIndex = lastIndex - emailsPerPage
-  const currentEmails = filteredAndSortedEmails?.slice(firstIndex, lastIndex)
-  const totalPages = Math.ceil(
-    (filteredAndSortedEmails?.length ?? 0) / emailsPerPage
-  )
+    const totalPages = Math.ceil(
+      (sortedEmails.length) / emailsPerPage
+    )
+    
+
+  const getPaginatedEmails = () => {
+    const start = (page - 1) * emailsPerPage
+    const end = start + emailsPerPage
+    return sortedEmails.slice(start, end)
+  }
+
 
   const closeEmailPopup = () => {
     setSelectedEmail(undefined)
@@ -90,27 +120,27 @@ const Emails = () => {
         />
       )}
 
-      {!isLoading && emails && currentEmails && filteredAndSortedEmails && (
+      {!isLoading && emails && sortedEmails && (
         <div className="flex justify-center overflow-x-auto">
           <div className="p-4 w-full lg:w-11/12">
             <h1 className="text-center text-4xl font-semibold mb-4">
-              Your inbox
+              Inbox
             </h1>
             {/* SortingControl */}
             <EmailsSortingControls
               filter={filter}
-              setFilter={setFilter}
+              handleChangeFilter={handleChangeFilter}
               sort={sort}
-              setSort={setSort}
+              handleChangeSort={handleChangeSort}
               page={page}
-              setPage={setPage}
+              handleChangePage={handleChangePage}
               totalPages={totalPages}
-              totalEmails={filteredAndSortedEmails.length}
+              sortedEmailsCount={sortedEmails.length}
             />
             <div className="w-full bg-white mt-4 border border-gray-300">
               <EmailsColumnTitles />
               <DisplayCurrentEmails
-                currentEmails={currentEmails}
+                getPaginatedEmails={getPaginatedEmails}
                 setSelectedEmailById={setSelectedEmailById}
               />
             </div>

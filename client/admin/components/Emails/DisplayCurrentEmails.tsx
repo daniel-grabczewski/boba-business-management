@@ -7,17 +7,17 @@ import { faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface DisplayCurrentEmailsProps {
-  currentEmails: Email[]
+  getPaginatedEmails: () => Email[]
   setSelectedEmailById: (emailId: number) => void
 }
 
 const DisplayCurrentEmails = ({
-  currentEmails,
+  getPaginatedEmails,
   setSelectedEmailById,
 }: DisplayCurrentEmailsProps) => {
   return (
     <div className="text-gray-600 text-sm font-light">
-      {currentEmails.map((email) => (
+      {getPaginatedEmails().map((email) => (
         <div
           key={email.id}
           onClick={() => setSelectedEmailById(email.id)}
