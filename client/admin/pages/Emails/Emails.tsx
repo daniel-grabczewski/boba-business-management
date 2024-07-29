@@ -85,6 +85,9 @@ const Emails = () => {
       {!isLoading && emails && currentEmails && filteredAndSortedEmails && (
         <div className="flex justify-center overflow-x-auto">
           <div className="p-4 w-full lg:w-11/12">
+            <h1 className="text-center text-4xl font-semibold mb-4">
+              Your inbox
+            </h1>
             {/* SortingControl */}
             <EmailsSortingControls
               filter={filter}
