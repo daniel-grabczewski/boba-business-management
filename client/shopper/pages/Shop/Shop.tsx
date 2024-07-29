@@ -29,7 +29,7 @@ const Shop = () => {
 
   useEffect(() => {
     handleChangePage(1)
-  }, [filter])
+  }, [filter, sort])
 
   useEffect(() => {
     if (!location.search) {
