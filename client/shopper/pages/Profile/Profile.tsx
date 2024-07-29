@@ -34,7 +34,7 @@ const Profile = () => {
     }
   )
 
-  const { data: reviews, status: reviewsStatus } = useQuery(
+  const { data: demoReviews, status: demoReviewsStatus } = useQuery(
     'getReviewsOfDemoUser',
     async () => getReviewsOfDemoUser()
   )
@@ -175,17 +175,17 @@ const Profile = () => {
 
         <section className="mt-8">
           <h2 className="text-xl font-semibold mb-4">{`Reviews you've posted`}</h2>
-          {reviews?.length === 0 ? (
+          {demoReviews?.length === 0 ? (
             <p>{`You haven't posted any reviews yet.`}</p>
           ) : (
             <>
               <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {reviewsStatus === 'loading' ? (
+                {demoReviewsStatus === 'loading' ? (
                   <p>Loading reviews...</p>
-                ) : reviewsStatus === 'error' || !reviews ? (
+                ) : demoReviewsStatus === 'error' || !demoReviews ? (
                   <p>Error loading reviews</p>
                 ) : (
-                  reviews.map((review: ShopperDisplayReview) => (
+                  [...demoReviews].reverse().map((review: ShopperDisplayReview) => (
                     <li
                       key={review.productId}
                       className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
@@ -194,9 +194,12 @@ const Profile = () => {
                         <h3 className="text-lg font-semibold">
                           {review.productName}
                         </h3>
-                        <span className="text-gray-500">
-                          {review.reviewCreatedAt}
-                        </span>
+ 
+                        <div className="text-gray-500 flex gap-4">
+                        <p>{format24HourTo12Hour(review.reviewCreatedAt)}</p>
+                        <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
+                        </div>
+                   
                       </div>
                       <p className="mb-4">{review.reviewDescription}</p>
                       <div className="flex items-center">
