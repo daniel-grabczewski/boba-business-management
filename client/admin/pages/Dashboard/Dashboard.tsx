@@ -18,6 +18,7 @@ const Dashboard = () => {
   // Generate today's date as YYYY-MM-DD HH:MM:SS
   const dateOfToday = generateCurrentDate()
 
+  // Get count of orders that were made on today's date
   const {data : orderCount, status : orderCountStatus} = useQuery('getOrderCountFromDate', async () =>
     getOrderCountFromDate(dateOfToday)
   )
@@ -26,12 +27,14 @@ const Dashboard = () => {
     getDemoUserDetails()
   )
 
+  // Get count of emails that were received today, which are also unread
   const { data: unreadEmailCount, status: unreadEmailCountStatus } = useQuery(
     'countUnreadEmailsFromDate',
     async () => countUnreadEmailsFromDate(dateOfToday)
   )
 
-  const reviewAmountQuery = useQuery('getCountOfReviewsFromDate', async () =>
+  // Get count of reviews that were made on today's date
+  const {data : reviewsCount, status : reviewsCountStatus} = useQuery('getCountOfReviewsFromDate', async () =>
     getCountOfReviewsFromDate(dateOfToday)
   )
 
@@ -42,7 +45,7 @@ const Dashboard = () => {
     orderCountStatus,
     profileQuery.status,
     unreadEmailCountStatus,
-    reviewAmountQuery.status,
+    reviewsCountStatus,
     lowStockQuery.status,
   ]
 
@@ -55,7 +58,7 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {orderCount} order{orderCount === 1 ? '' : 's'} today
+              You have {orderCount} new order{orderCount !== 1 ? 's' : ''} today
             </h1>
           </div>
           <button
@@ -99,7 +102,7 @@ const Dashboard = () => {
           <div>
             <h1 className="text-2xl mb-2">
               You have {unreadEmailCount} unread email
-              {unreadEmailCount === 1 ? '' : 's'} today
+              {unreadEmailCount !== 1 ? 's' : ''} today
             </h1>
           </div>
           <button
@@ -114,10 +117,7 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
-              You have{' '}
-              {/* //! I don't know why this following code is causing an error:
-               reviewAmountQuery.data?.reviewCount */}{' '}
-              reviews today
+              You have {reviewsCount} new review{reviewsCount !== 1 ? 's' : ''} today
             </h1>
           </div>
           <button
