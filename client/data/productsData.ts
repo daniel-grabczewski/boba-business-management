@@ -47,7 +47,7 @@ const products: AdminProduct[] = [
   },
   {
     id: 5,
-    name: 'Brown Sugar Milk Tea and Pearls',
+    name: 'Brown Sugar Milk Tea with Pearls',
     image: '/images/brown-sugar-milk-tea-and-pearls.svg',
     price: 8.9,
     description:
@@ -69,7 +69,7 @@ const products: AdminProduct[] = [
   },
   {
     id: 7,
-    name: 'Taro Milk Tea and pearls',
+    name: 'Taro Milk Tea with Pearls',
     image: '/images/taro-milk-tea-and-pearls.svg',
     price: 7.6,
     description:
@@ -80,7 +80,7 @@ const products: AdminProduct[] = [
   },
   {
     id: 8,
-    name: 'Chocolate Milk Tea and pearls',
+    name: 'Chocolate Milk Tea with Pearls',
     image: '/images/chocolate-milk-tea-and-pearls.svg',
     price: 6.4,
     description:
