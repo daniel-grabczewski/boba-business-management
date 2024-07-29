@@ -10,15 +10,23 @@ import { useEffect, useState } from 'react'
 import { Email } from '../../../../models/Emails'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
 import EmailPopup from '../../components/Emails/EmailPopup'
+import { useNavigate } from 'react-router-dom'
 
 const Emails = () => {
-  const [filter, setFilter] = useState('all')
-  const [sort, setSort] = useState('Newest first')
+  const navigate = useNavigate()
+  const queryParams = new URLSearchParams(location.search)
+
+  const initialPage = parseInt(queryParams.get('page') || '1', 10)
+  const initialFilter = queryParams.get('filter') || ''
+  const initialSort = queryParams.get('sort') || ''
+
+  const [filter, setFilter] = useState(initialFilter)
+  const [sort, setSort] = useState(initialSort)
   const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(
     undefined
   )
 
-  const [currentPage, setCurrentPage] = useState(1)
+  const [page, setPage] = useState(initialPage)
   // the 10 just for testing if the filter work or not
   const emailsPerPage = 10
 
@@ -37,7 +45,7 @@ const Emails = () => {
   }
 
   useEffect(() => {
-    setCurrentPage(1)
+    setPage(1)
   }, [filter, sort, selectedEmail])
 
   const filteredAndSortedEmails = emails
@@ -61,7 +69,7 @@ const Emails = () => {
       }
     })
 
-  const lastIndex = currentPage * emailsPerPage
+  const lastIndex = page * emailsPerPage
   const firstIndex = lastIndex - emailsPerPage
   const currentEmails = filteredAndSortedEmails?.slice(firstIndex, lastIndex)
   const totalPages = Math.ceil(
@@ -94,8 +102,8 @@ const Emails = () => {
               setFilter={setFilter}
               sort={sort}
               setSort={setSort}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
+              page={page}
+              setPage={setPage}
               totalPages={totalPages}
               totalEmails={filteredAndSortedEmails.length}
             />
