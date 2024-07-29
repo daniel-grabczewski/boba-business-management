@@ -14,10 +14,12 @@ const Dashboard = () => {
   function goTo(link: string) {
     navigate(link)
   }
-  const formattedDate = new Date().toISOString().split('T')[0]
 
-  const orderAmountQuery = useQuery('getOrderCountFromDate', async () =>
-    getOrderCountFromDate(formattedDate)
+  // Generate today's date as YYYY-MM-DD HH:MM:SS
+  const dateOfToday = generateCurrentDate()
+
+  const {data : orderCount, status : orderCountStatus} = useQuery('getOrderCountFromDate', async () =>
+    getOrderCountFromDate(dateOfToday)
   )
 
   const profileQuery = useQuery('getDemoUserDetails', async () =>
@@ -26,18 +28,18 @@ const Dashboard = () => {
 
   const { data: unreadEmailCount, status: unreadEmailCountStatus } = useQuery(
     'countUnreadEmailsFromDate',
-    async () => countUnreadEmailsFromDate(generateCurrentDate())
+    async () => countUnreadEmailsFromDate(dateOfToday)
   )
 
   const reviewAmountQuery = useQuery('getCountOfReviewsFromDate', async () =>
-    getCountOfReviewsFromDate(formattedDate)
+    getCountOfReviewsFromDate(dateOfToday)
   )
 
   const lowStockQuery = useQuery('countProductsBelowStockThreshold', async () =>
     countProductsBelowStockThreshold(stockThreshold)
   )
   const statuses = [
-    orderAmountQuery.status,
+    orderCountStatus,
     profileQuery.status,
     unreadEmailCountStatus,
     reviewAmountQuery.status,
@@ -53,7 +55,7 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {orderAmountQuery.data} orders today
+              You have {orderCount} order{orderCount === 1 ? '' : 's'} today
             </h1>
           </div>
           <button
