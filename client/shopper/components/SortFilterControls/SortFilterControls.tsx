@@ -3,15 +3,15 @@ import React from 'react';
 interface SortFilterControlsProps {
   filter: string;
   sort: string;
-  changeFilter: (value: string) => void;
-  changeSort: (value: string) => void;
+  handleChangeFilter: (value: string) => void;
+  handleChangeSort: (value: string) => void;
 }
 
 const SortFilterControls: React.FC<SortFilterControlsProps> = ({
   filter,
   sort,
-  changeFilter,
-  changeSort,
+  handleChangeFilter,
+  handleChangeSort,
 }) => {
   return (
       <div style = {{marginTop : "20px", marginBottom : "60px"}}>
@@ -19,7 +19,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
         <select
           name="filter"
           id="filter"
-          onChange={(e) => changeFilter(e.target.value)}
+          onChange={(e) => handleChangeFilter(e.target.value)}
           value={filter}
           className="border rounded-md"
         >
@@ -39,7 +39,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
         <select
           name="sort"
           id="sort"
-          onChange={(e) => changeSort(e.target.value)}
+          onChange={(e) => handleChangeSort(e.target.value)}
           value={sort}
           className="border rounded-md"
         >

@@ -6,6 +6,11 @@ import SortFilterControls from '../../components/SortFilterControls/SortFilterCo
 import ViewShopProducts from '../../components/ViewShopProducts/ViewShopProducts'
 import ShopPaginationControls from '../../components/ShopPaginationControls/ShopPaginationControls'
 import { useNavigate } from 'react-router-dom'
+import {
+  changeFilter,
+  changePage,
+  changeSort,
+} from '../../../utils/queryHelpers'
 
 const Shop = () => {
   const navigate = useNavigate()
@@ -23,7 +28,7 @@ const Shop = () => {
   const productsPerPage = 15
 
   useEffect(() => {
-    changePage(1)
+    handleChangePage(1)
   }, [filter])
 
   useEffect(() => {
@@ -39,31 +44,16 @@ const Shop = () => {
     async () => getAllProductsShopper()
   )
 
-  const changePage = (newPage: number) => {
-    queryParams.set('page', `${newPage}`)
-    navigate(`?${queryParams.toString()}`, { replace: true })
-    setPage(newPage)
-    window.scrollTo({ top: 0 })
+  const handleChangePage = (newPage: number) => {
+    changePage(newPage, setPage, navigate, location.search)
   }
 
-  const changeFilter = (newFilter: string) => {
-    if (newFilter === '') {
-      queryParams.delete('filter')
-    } else {
-      queryParams.set('filter', newFilter)
-    }
-    navigate(`?${queryParams.toString()}`, { replace: true })
-    setFilter(newFilter)
+  const handleChangeFilter = (newFilter: string) => {
+    changeFilter(newFilter, setFilter, navigate, location.search)
   }
 
-  const changeSort = (newSort: string) => {
-    if (newSort === '') {
-      queryParams.delete('sort')
-    } else {
-      queryParams.set('sort', newSort)
-    }
-    navigate(`?${queryParams.toString()}`, { replace: true })
-    setSort(newSort)
+  const handleChangeSort = (newSort: string) => {
+    changeSort(newSort, setSort, navigate, location.search)
   }
 
   const filteredProducts = products
@@ -124,8 +114,8 @@ const Shop = () => {
             <SortFilterControls
               filter={filter}
               sort={sort}
-              changeFilter={changeFilter}
-              changeSort={changeSort}
+              handleChangeFilter={handleChangeFilter}
+              handleChangeSort={handleChangeSort}
             />
             <ViewShopProducts
               hoveredProductId={hoveredProductId}
@@ -135,7 +125,7 @@ const Shop = () => {
             <ShopPaginationControls
               page={page}
               totalPages={totalPages}
-              changePage={changePage}
+              handleChangePage={handleChangePage}
             />
           </div>
         </div>
