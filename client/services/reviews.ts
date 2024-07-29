@@ -143,13 +143,14 @@ export function generateNewReviewId(): number {
   return newId
 }
 
-// Get count of amount of reviews that were created on given date in DD/MM/YYYY format.
+// Get count of amount of reviews that were created on given 'YYYY-MM-DD HH:MM:SS' date.
 export function getCountOfReviewsFromDate(date: string): number {
   try {
+    const formattedDate = formatDateToDDMMYYYY(date)
     const reviews = getReviewsFromLocalStorage()
     const count = reviews.reduce((accumulator, review) => {
       const convertedDateOfReview = formatDateToDDMMYYYY(review.createdAt)
-      if (convertedDateOfReview === date) {
+      if (convertedDateOfReview === formattedDate) {
         accumulator++
       }
       return accumulator
