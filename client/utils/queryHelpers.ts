@@ -32,6 +32,7 @@ export const changePage = (
 export const changeFilter = (
   newFilter: string,
   setFilter: (newFilter: string) => void,
+  setPage: (newPage: number) => void,
   navigate: (path: string, options?: { replace?: boolean }) => void,
   locationSearch: string
 ) => {
@@ -41,8 +42,10 @@ export const changeFilter = (
   } else {
     queryParams.set('filter', newFilter)
   }
-  navigate(`?${queryParams.toString()}`, { replace: true })
+  queryParams.set('page', '1')
   setFilter(newFilter)
+  setPage(1)
+  navigate(`?${queryParams.toString()}`, { replace: true })
 }
 
 /**
@@ -57,6 +60,7 @@ export const changeFilter = (
 export const changeSort = (
   newSort: string,
   setSort: (newSort: string) => void,
+  setPage: (newPage: number) => void,
   navigate: (path: string, options?: { replace?: boolean }) => void,
   locationSearch: string
 ) => {
@@ -66,6 +70,8 @@ export const changeSort = (
   } else {
     queryParams.set('sort', newSort)
   }
-  navigate(`?${queryParams.toString()}`, { replace: true })
+  queryParams.set('page', '1')
   setSort(newSort)
+  setPage(1)
+  navigate(`?${queryParams.toString()}`, { replace: true })
 }
