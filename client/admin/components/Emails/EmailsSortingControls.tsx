@@ -3,8 +3,8 @@ interface EmailSortingControlsProps {
   setFilter: React.Dispatch<React.SetStateAction<string>>
   sort: string
   setSort: React.Dispatch<React.SetStateAction<string>>
-  currentPage: number
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  page: number
+  setPage: React.Dispatch<React.SetStateAction<number>>
   totalPages: number
   totalEmails: number
 }
@@ -14,18 +14,18 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
   setFilter,
   sort,
   setSort,
-  currentPage,
-  setCurrentPage,
+  page,
+  setPage,
   totalPages,
   totalEmails,
 }) => {
-  const lastIndex = currentPage * 10
+  const lastIndex = page * 10
   const firstIndex = lastIndex - 10
   return (
     <div className="border p-2 rounded flex flex-row justify-between items-center">
       <div className="flex items-center">
         {/* FILTER */}
-        <p className="mx-2 font-semibold">Showing:</p>
+        <p className="mx-2 font-semibold">Filter by:</p>
         <select
           className="border p-2 rounded"
           onChange={(e) => setFilter(e.target.value)}
@@ -36,7 +36,7 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
         </select>
 
         {/* SORT */}
-        <p className="mx-2 font-semibold">Filter by:</p>
+        <p className="mx-2 font-semibold">Sort by:</p>
         <select
           className="border p-2 rounded"
           onChange={(e) => setSort(e.target.value)}
@@ -57,23 +57,23 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
         <div className="flex justify-center">
           <button
             className={`${
-              currentPage === 1
+              page === 1
                 ? 'bg-gray-300 cursor-default'
                 : 'bg-blue-500 hover:bg-blue-700'
             } text-white font-bold py-2 px-4 rounded`}
-            disabled={currentPage === 1}
-            onClick={() => setCurrentPage(currentPage - 1)}
+            disabled={page === 1}
+            onClick={() => setPage(page - 1)}
           >
             {'<'}
           </button>
           <button
             className={`${
-              currentPage === totalPages
+              page === totalPages
                 ? 'bg-gray-300 cursor-default'
                 : 'bg-blue-500 hover:bg-blue-700'
             } text-white font-bold py-2 px-4 rounded ml-2`}
-            disabled={currentPage === totalPages}
-            onClick={() => setCurrentPage(currentPage + 1)}
+            disabled={page === totalPages}
+            onClick={() => setPage(page + 1)}
           >
             {'>'}
           </button>
