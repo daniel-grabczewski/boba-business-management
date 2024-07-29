@@ -100,7 +100,8 @@ const Profile = () => {
                           >
                             <div className="flex ">
                               <p className="w-1/2">
-                                {orderItem.itemQuantity}x {orderItem.productName}
+                                {orderItem.itemQuantity}x{' '}
+                                {orderItem.productName}
                               </p>
                               <p>{formatCurrency(orderItem.productSale)}</p>
                             </div>
@@ -111,18 +112,19 @@ const Profile = () => {
                         <p className="w-1/2">Shipping: {order.shippingType}</p>
                         <p>{formatCurrency(order.shippingPrice)}</p>
                       </div>
-                      <div >
+                      <div>
                         <div className="font-semibold flex">
-                        <p className="w-1/2">
-                          Total: 
-                        </p>
+                          <p className="w-1/2">Total:</p>
                           <p>
-                          {formatCurrency(order.totalSale + order.shippingPrice)}
+                            {formatCurrency(
+                              order.totalSale + order.shippingPrice
+                            )}
                           </p>
                         </div>
-                        <hr className="mt-2 mb-2"/>
+                        <hr className="mt-2 mb-2" />
                         <p>
-                          Shipped to: {`${order.address}, ${order.city}, ${order.country}`}
+                          Shipped to:{' '}
+                          {`${order.address}, ${order.city}, ${order.country}`}
                         </p>
                         <p>{`${order.firstName} ${order.lastName}`}</p>
                         <p>Contact number: {`${order.phoneNumber}`}</p>
@@ -185,41 +187,46 @@ const Profile = () => {
                 ) : demoReviewsStatus === 'error' || !demoReviews ? (
                   <p>Error loading reviews</p>
                 ) : (
-                  [...demoReviews].reverse().map((review: ShopperDisplayReview) => (
-                    <li
-                      key={review.productId}
-                      className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
-                    >
-                      <div className="flex justify-between items-center mb-2">
-                        <h3 className="text-lg font-semibold">
-                          {review.productName}
-                        </h3>
- 
-                        <div className="text-gray-500 flex gap-4">
-                        <p>{format24HourTo12Hour(review.reviewCreatedAt)}</p>
-                        <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
-                        </div>
-                   
-                      </div>
-                      <p className="mb-4">{review.reviewDescription}</p>
-                      <div className="flex items-center">
-                        <span className="text-gray-600 text-sm mr-2">
-                          {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
-                        </span>
-                        <div className="flex items-center">
-                          <StarRating rating={review.reviewRating} size={1} />
-                        </div>
-                      </div>
-                      <button
-                        onClick={() =>
-                          deleteReviewMutation.mutate(review.productId)
-                        }
-                        className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                  [...demoReviews]
+                    .reverse()
+                    .map((review: ShopperDisplayReview) => (
+                      <li
+                        key={review.productId}
+                        className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
                       >
-                        Delete
-                      </button>
-                    </li>
-                  ))
+                        <div className="flex justify-between items-center mb-2">
+                          <h3 className="text-lg font-semibold">
+                            {review.productName}
+                          </h3>
+
+                          <div className="text-gray-500 flex gap-4">
+                            <p>
+                              {format24HourTo12Hour(review.reviewCreatedAt)}
+                            </p>
+                            <p>
+                              {formatDateToDDMMYYYY(review.reviewCreatedAt)}
+                            </p>
+                          </div>
+                        </div>
+                        <p className="mb-4">{review.reviewDescription}</p>
+                        <div className="flex items-center">
+                          <span className="text-gray-600 text-sm mr-2">
+                            {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
+                          </span>
+                          <div className="flex items-center">
+                            <StarRating rating={review.reviewRating} size={1} />
+                          </div>
+                        </div>
+                        <button
+                          onClick={() =>
+                            deleteReviewMutation.mutate(review.productId)
+                          }
+                          className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                        >
+                          Delete
+                        </button>
+                      </li>
+                    ))
                 )}
               </ul>
             </>
