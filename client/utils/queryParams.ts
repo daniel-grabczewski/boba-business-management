@@ -29,3 +29,19 @@ export const changeFilter = (
   navigate(`?${queryParams.toString()}`, { replace: true })
   setFilter(newFilter)
 }
+
+export const changeSort = (
+  newSort: string,
+  setSort: (newSort: string) => void,
+  navigate: NavigateFunction,
+  locationSearch: string
+) => {
+  const queryParams = new URLSearchParams(locationSearch)
+  if (newSort === '') {
+    queryParams.delete('sort')
+  } else {
+    queryParams.set('sort', newSort)
+  }
+  navigate(`?${queryParams.toString()}`, { replace: true })
+  setSort(newSort)
+}
