@@ -27,7 +27,7 @@ function ProductsSortingControls({
   const firstIndex = lastIndex - 10
 
   return (
-    <div className="border p-2 rounded flex justify-between items-center">
+    <div className="border p-2 rounded flex justify-between items-center mb-4">
       <div className="flex items-center">
         {/* SEARCH */}
         <input
@@ -61,9 +61,9 @@ function ProductsSortingControls({
           onChange={(e) => handleChangeSort(e.target.value)}
           value={sort}
         >
+          <option value="a-z">Alphabetical (A to Z)</option>
           <option value="price-low-to-high">Price (Low to High)</option>
           <option value="price-high-to-low">Price (High to Low)</option>
-          <option value="a-z">Alphabetical (A to Z)</option>
           <option value="stock-low-to-high">Stock (Low to High)</option>
           <option value="stock-high-to-low">Stock (High to Low)</option>
           <option value="rating-low-to-high">
