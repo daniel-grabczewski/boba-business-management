@@ -46,14 +46,13 @@ export function getUserByUserId(userId: string): User | null {
     }
     return user
   } catch (error) {
-    console.error('Failed to get user by user ID:', error)
+    console.error(`Failed to get user by user ID: ${userId}`, error)
     return null
   }
 }
 
 // Get user's full name, given their username
 export function getUserFullNameByUserName(userName: string): string {
-
   try {
     const users = getUsersFromLocalStorage()
 
@@ -63,8 +62,22 @@ export function getUserFullNameByUserName(userName: string): string {
     }
     return generateRandomName()
   } catch (error) {
-    console.error('Failed to get full name by user ID', error)
+    console.error(`Failed to get full name by username: ${userName}`, error)
     return 'John Doe'
+  }
+}
+
+// Get user's username, given their user ID
+export function getUserNameByUserId(userId: string): string {
+  try {
+    const userName = getUserByUserId(userId)?.userName
+    if (userName) {
+      return userName
+    }
+    return ''
+  } catch (error) {
+    console.error(`Failed to get username by user ID : ${userId}`)
+    return ''
   }
 }
 
