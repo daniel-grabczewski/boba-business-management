@@ -31,7 +31,7 @@ import {
 } from './admin/pages/'
 
 import Redirect from './shopper/pages/Redirect/Redirect'
-import AllOrders from './admin/pages/Orders/AllOrders'
+import AllOrders from './admin/pages/Orders/Orders'
 import ProtectedComponent from './UI/ProtectedComponent'
 import AddProduct from './admin/pages/AddProduct/AddProduct'
 import { initializeLocalStorage } from './services/initializeLocalStorage'
