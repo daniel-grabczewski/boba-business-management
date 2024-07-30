@@ -30,6 +30,12 @@ export const AdminNavBar = () => {
           Orders
         </button>
         <button
+          onClick={() => goTo('/admin/reviews')}
+          className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
+        >
+          Reviews
+        </button>
+        <button
           onClick={() => goTo('/admin/products-summary')}
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
@@ -40,12 +46,6 @@ export const AdminNavBar = () => {
           className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
         >
           Add Product
-        </button>
-        <button
-          onClick={() => goTo('/admin/reviews')}
-          className="font-bold text-white hover:bg-gray-400 px-4 py-2 rounded"
-        >
-          Reviews
         </button>
       </div>
     </div>
