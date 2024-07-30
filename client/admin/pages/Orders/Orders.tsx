@@ -105,8 +105,6 @@ function AllOrders() {
     return sortedOrders.slice(start, end)
   }
 
-  const ordersCount = sortedOrders.length
-
   return (
     <>
       <LoadError status={ordersStatus} />
@@ -119,7 +117,7 @@ function AllOrders() {
           page={page}
           totalPages={totalPages}
           handleChangePage={handleChangePage}
-          ordersCount={ordersCount}
+          ordersCount={sortedOrders.length}
         />
         <LoadError status={ordersStatus} />
         <OrderTable
