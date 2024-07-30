@@ -33,8 +33,6 @@ const Emails = () => {
     undefined
   )
 
-  console.log(initialPage)
-
   const emailsPerPage = 10
 
   const {
@@ -84,13 +82,9 @@ const Emails = () => {
       const dateB = new Date(b.createdAt).getTime()
       switch (sort) {
         case 'newest-first':
-          return (
-            dateB - dateA
-          )
+          return dateB - dateA
         case 'oldest-first':
-          return (
-            dateA - dateB
-          )
+          return dateA - dateB
         default:
           return 0
       }
