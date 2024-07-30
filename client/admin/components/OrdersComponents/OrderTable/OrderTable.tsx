@@ -7,23 +7,18 @@ import {
 } from '../../../../utils/formatDate'
 
 interface OrderTableProps {
-  orders: Order[]
-  itemsPerPage: number
+  getPaginatedOrders: () => Order[]
+  ordersPerPage: number
   handleOrderCellClick: (orderId: number) => void
   formatCurrency: (amount: number) => string
-  page: number
-  totalPages: number
 }
 
 function OrderTable({
-  orders,
-  page,
-  itemsPerPage,
+  getPaginatedOrders,
   handleOrderCellClick,
   formatCurrency,
 }: OrderTableProps) {
-  const startIndex = (page - 1) * itemsPerPage
-  const endIndex = startIndex + itemsPerPage
+
 
   return (
     <div className="divTable bg-white mt-4 border border-gray-300">
@@ -35,7 +30,7 @@ function OrderTable({
       </div>
 
       <div className="divBody text-gray-600 text-sm font-light">
-        {orders.slice(startIndex, endIndex).map((order: Order) => (
+        {getPaginatedOrders().map((order: Order) => (
           <div
             key={order.id}
             className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"

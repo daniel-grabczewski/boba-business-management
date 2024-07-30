@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import {
   getOrdersFromLocalStorage,
   getOrderById,
+  getTotalSaleOfOrderById,
 } from '../../../services/orders'
 import { Order } from '../../../../models/Orders'
 import OrderSortingControls from '../../components/OrdersComponents/OrderSortingControls/OrderSortingControls'
@@ -11,8 +12,7 @@ import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
 import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
 import { useNavigate } from 'react-router-dom'
 import { formatCurrency } from '../../../utils/formatCurrency'
-
-const itemsPerPage = 10
+import { changePage, changeSort } from '../../../utils/queryHelpers'
 
 function AllOrders() {
   const navigate = useNavigate()
@@ -28,10 +28,19 @@ function AllOrders() {
   const [search, setSearch] = useState<string>('')
   const [sort, setSort] = useState(initialSort)
 
+  const ordersPerPage = 10
+
   const { data: orders, status: ordersStatus } = useQuery(
     'getOrdersFromLocalStorage',
     async () => getOrdersFromLocalStorage()
   )
+
+  useEffect(() => {
+    if (!location.search) {
+      setPage(1)
+      setSort('newest-first')
+    }
+  }, [location.search])
 
   const handleOrderCellClick = async (orderId: number) => {
     try {
@@ -42,62 +51,82 @@ function AllOrders() {
     }
   }
 
-  const totalPages = Math.ceil((orders?.length || 0) / itemsPerPage)
-
-  if (orders === undefined) {
-    return <div>Loading...</div>
+  const handleChangeSort = (newSort: string) => {
+    changeSort(newSort, setSort, setPage, navigate, location.search)
   }
 
-  const filteredAndSortedOrders = orders
-    .filter((order: Order) =>
-      order.id.toString().includes(search.toLowerCase())
-    )
-    .sort((a: Order, b: Order) => {
-      const dateA = new Date(a.purchasedAt)
-      const dateB = new Date(b.purchasedAt)
+  const handleChangePage = (newPage: number) => {
+    changePage(newPage, setPage, navigate, location.search)
+  }
 
-      if (sort === 'newest') {
-        return dateB.getTime() - dateA.getTime()
-      } else if (sort === 'oldest') {
-        return dateA.getTime() - dateB.getTime()
-      }
-      return 0
-    })
+  const searchedOrders = orders
+    ? orders.filter((order: Order) =>
+        order.id.toString().includes(search.toLowerCase())
+      )
+    : []
 
-  const totalRows = filteredAndSortedOrders.length
+  const sortedOrders = searchedOrders.sort((a: Order, b: Order) => {
+    const dateA = new Date(a.purchasedAt).getTime()
+    const dateB = new Date(b.purchasedAt).getTime()
+    const saleA = getTotalSaleOfOrderById(a.id)
+    const saleB = getTotalSaleOfOrderById(b.id)
+    switch (sort) {
+      case 'newest-first':
+        return dateB - dateA
+      case 'oldest-first':
+        return dateA - dateB
+      case 'sale-low-to-high':
+        return saleA - saleB
+      case 'sale-high-to-low':
+        return saleB - saleA
+      default:
+        return 0
+    }
+  })
+
+  const totalPages = Math.ceil((sortedOrders.length || 0) / ordersPerPage)
+
+  const getPaginatedOrders = () => {
+    const start = (page - 1) * ordersPerPage
+    const end = start + ordersPerPage
+    return sortedOrders.slice(start, end)
+  }
+
+  const ordersCount = sortedOrders.length
 
   return (
-    <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
-      <OrderSortingControls
-        search={search}
-        setSearch={setSearch}
-        sort={sort}
-        setSort={setSort}
-        page={page}
-        totalPages={totalPages}
-        setPage={setPage}
-        totalRows={totalRows}
-      />
+    <>
       <LoadError status={ordersStatus} />
-      <OrderTable
-        orders={filteredAndSortedOrders}
-        page={page}
-        itemsPerPage={itemsPerPage}
-        handleOrderCellClick={handleOrderCellClick}
-        formatCurrency={formatCurrency}
-        totalPages={totalPages}
-      />
-      {selectedOrder && (
-        <div className="order-details-popup">
-          <button onClick={() => setSelectedOrder(null)}>Close</button>
-          <OrderPopup
-            orderId={selectedOrder.id}
-            order={selectedOrder}
-            closeOrderPopup={() => setSelectedOrder(null)}
-          />
-        </div>
-      )}
-    </div>
+      <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
+        <OrderSortingControls
+          search={search}
+          setSearch={setSearch}
+          sort={sort}
+          handleChangeSort={handleChangeSort}
+          page={page}
+          totalPages={totalPages}
+          handleChangePage={handleChangePage}
+          ordersCount={ordersCount}
+        />
+        <LoadError status={ordersStatus} />
+        <OrderTable
+          getPaginatedOrders={getPaginatedOrders}
+          ordersPerPage={ordersPerPage}
+          handleOrderCellClick={handleOrderCellClick}
+          formatCurrency={formatCurrency}
+        />
+        {selectedOrder && (
+          <div className="order-details-popup">
+            <button onClick={() => setSelectedOrder(null)}>Close</button>
+            <OrderPopup
+              orderId={selectedOrder.id}
+              order={selectedOrder}
+              closeOrderPopup={() => setSelectedOrder(null)}
+            />
+          </div>
+        )}
+      </div>
+    </>
   )
 }
 

@@ -2,22 +2,22 @@ interface OrderSortingControlsProps {
   search: string
   setSearch: React.Dispatch<React.SetStateAction<string>>
   sort: string
-  setSort: React.Dispatch<React.SetStateAction<string>>
+  handleChangeSort: (newSort : string) => void
   page: number
   totalPages: number
-  setPage: React.Dispatch<React.SetStateAction<number>>
-  totalRows: number
+  handleChangePage: (newPage : number) => void
+  ordersCount: number
 }
 
 function OrderSortingControls({
   search,
   setSearch,
   sort,
-  setSort,
+  handleChangeSort,
   page,
   totalPages,
-  setPage,
-  totalRows,
+  handleChangePage,
+  ordersCount,
 }: OrderSortingControlsProps) {
   const lastIndex = page * 10
   const firstIndex = lastIndex - 10
@@ -38,19 +38,21 @@ function OrderSortingControls({
         <p className="mx-2 font-semibold">Sort by:</p>
         <select
           className="border p-2 rounded"
-          onChange={(e) => setSort(e.target.value)}
+          onChange={(e) => handleChangeSort(e.target.value)}
           value={sort}
         >
-          <option value="newest">Newest first</option>
-          <option value="oldest">Oldest first</option>
+          <option value="newest-first">Newest first</option>
+          <option value="oldest-first">Oldest first</option>
+          <option value="sale-high-to-low">{'Total Sale (High to Low)'}</option>
+          <option value="sale-low-to-high">{'Total Sale (Low to High)'}</option>
         </select>
       </div>
 
       {/* PAGINATION */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
-          Showing {firstIndex + 1}-{Math.min(lastIndex, totalRows)} of{' '}
-          {totalRows}
+          Showing {firstIndex + 1}-{Math.min(lastIndex, ordersCount)} of{' '}
+          {ordersCount}
         </div>
         <button
           className={`${
@@ -59,7 +61,7 @@ function OrderSortingControls({
               : 'bg-blue-500 hover:bg-blue-700'
           } text-white font-bold py-2 px-4 rounded`}
           disabled={page === 1}
-          onClick={() => setPage(page - 1)}
+          onClick={() => handleChangePage(page - 1)}
         >
           {'<'}
         </button>
@@ -70,7 +72,7 @@ function OrderSortingControls({
               : 'bg-blue-500 hover.bg-blue-700'
           } text-white font-bold py-2 px-4 rounded ml-2`}
           disabled={page === totalPages}
-          onClick={() => setPage(page + 1)}
+          onClick={() => handleChangePage(page + 1)}
         >
           {'>'}
         </button>
