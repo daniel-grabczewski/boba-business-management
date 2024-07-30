@@ -9,15 +9,23 @@ import OrderSortingControls from '../../components/OrdersComponents/OrderSorting
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
 import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
+import { useNavigate } from 'react-router-dom'
 
 const itemsPerPage = 10
 
 function AllOrders() {
+  const navigate = useNavigate()
+  const queryParams = new URLSearchParams(location.search)
+
+  const initialPage = parseInt(queryParams.get('page') || '1')
+
+  const initialSort = queryParams.get('sort') || 'newest-first'
+
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
-  const [currentPage, setCurrentPage] = useState<number>(1)
+
+  const [page, setPage] = useState<number>(1)
   const [search, setSearch] = useState<string>('')
   const [sort, setSort] = useState<string>('newest')
-  const [oldestFirst, setOldestFirst] = useState<boolean>(false)
 
   const { data: orders, status: ordersStatus } = useQuery(
     'getOrdersFromLocalStorage',
@@ -72,17 +80,15 @@ function AllOrders() {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
-        oldestFirst={oldestFirst}
-        setOldestFirst={setOldestFirst}
-        currentPage={currentPage}
+        page={page}
         totalPages={totalPages}
-        setCurrentPage={setCurrentPage}
+        setPage={setPage}
         totalRows={totalRows}
       />
       <LoadError status={ordersStatus} />
       <OrderTable
         orders={filteredAndSortedOrders}
-        currentPage={currentPage}
+        page={page}
         itemsPerPage={itemsPerPage}
         handleOrderCellClick={handleOrderCellClick}
         formatCurrency={formatCurrency}

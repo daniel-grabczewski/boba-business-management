@@ -11,18 +11,18 @@ interface OrderTableProps {
   itemsPerPage: number
   handleOrderCellClick: (orderId: number) => void
   formatCurrency: (amount: number) => string
-  currentPage: number
+  page: number
   totalPages: number
 }
 
 function OrderTable({
   orders,
-  currentPage,
+  page,
   itemsPerPage,
   handleOrderCellClick,
   formatCurrency,
 }: OrderTableProps) {
-  const startIndex = (currentPage - 1) * itemsPerPage
+  const startIndex = (page - 1) * itemsPerPage
   const endIndex = startIndex + itemsPerPage
 
   return (

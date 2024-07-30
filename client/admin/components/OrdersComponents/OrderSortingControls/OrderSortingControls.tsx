@@ -3,11 +3,9 @@ interface OrderSortingControlsProps {
   setSearch: React.Dispatch<React.SetStateAction<string>>
   sort: string
   setSort: React.Dispatch<React.SetStateAction<string>>
-  oldestFirst: boolean
-  setOldestFirst: React.Dispatch<React.SetStateAction<boolean>>
-  currentPage: number
+  page: number
   totalPages: number
-  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
+  setPage: React.Dispatch<React.SetStateAction<number>>
   totalRows: number
 }
 
@@ -16,12 +14,12 @@ function OrderSortingControls({
   setSearch,
   sort,
   setSort,
-  currentPage,
+  page,
   totalPages,
-  setCurrentPage,
+  setPage,
   totalRows,
 }: OrderSortingControlsProps) {
-  const lastIndex = currentPage * 10
+  const lastIndex = page * 10
   const firstIndex = lastIndex - 10
 
   return (
@@ -56,23 +54,23 @@ function OrderSortingControls({
         </div>
         <button
           className={`${
-            currentPage === 1
+            page === 1
               ? 'bg-gray-300 cursor-default'
               : 'bg-blue-500 hover:bg-blue-700'
           } text-white font-bold py-2 px-4 rounded`}
-          disabled={currentPage === 1}
-          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
         >
           {'<'}
         </button>
         <button
           className={`${
-            currentPage === totalPages
+            page === totalPages
               ? 'bg-gray-300 cursor-default'
               : 'bg-blue-500 hover.bg-blue-700'
           } text-white font-bold py-2 px-4 rounded ml-2`}
-          disabled={currentPage === totalPages}
-          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
         >
           {'>'}
         </button>
