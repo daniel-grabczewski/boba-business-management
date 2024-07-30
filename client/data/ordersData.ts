@@ -20,32 +20,12 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 9,
+        productId: 2,
         quantity: 1,
       },
       {
-        productId: 10,
-        quantity: 6,
-      },
-      {
-        productId: 14,
-        quantity: 5,
-      },
-      {
-        productId: 4,
-        quantity: 3,
-      },
-      {
-        productId: 5,
-        quantity: 7,
-      },
-      {
-        productId: 6,
-        quantity: 4,
-      },
-      {
-        productId: 8,
-        quantity: 2,
+        productId: 9,
+        quantity: 1,
       },
     ],
   },
@@ -63,32 +43,16 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 8,
-        quantity: 5,
+        productId: 19,
+        quantity: 2,
       },
       {
-        productId: 1,
-        quantity: 4,
-      },
-      {
-        productId: 13,
-        quantity: 7,
-      },
-      {
-        productId: 6,
+        productId: 7,
         quantity: 1,
       },
       {
-        productId: 20,
-        quantity: 5,
-      },
-      {
-        productId: 11,
-        quantity: 3,
-      },
-      {
-        productId: 9,
-        quantity: 2,
+        productId: 1,
+        quantity: 1,
       },
     ],
   },
@@ -106,32 +70,20 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
+        productId: 2,
+        quantity: 3,
+      },
+      {
         productId: 15,
         quantity: 6,
       },
       {
-        productId: 18,
-        quantity: 8,
-      },
-      {
-        productId: 3,
-        quantity: 3,
-      },
-      {
-        productId: 5,
-        quantity: 5,
-      },
-      {
-        productId: 14,
+        productId: 11,
         quantity: 1,
       },
       {
-        productId: 10,
-        quantity: 2,
-      },
-      {
-        productId: 4,
-        quantity: 6,
+        productId: 1,
+        quantity: 1,
       },
     ],
   },
@@ -149,32 +101,12 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 1,
-        quantity: 7,
-      },
-      {
-        productId: 17,
-        quantity: 5,
-      },
-      {
-        productId: 5,
-        quantity: 3,
-      },
-      {
-        productId: 19,
+        productId: 12,
         quantity: 2,
       },
       {
-        productId: 7,
-        quantity: 8,
-      },
-      {
-        productId: 15,
-        quantity: 4,
-      },
-      {
-        productId: 8,
-        quantity: 1,
+        productId: 4,
+        quantity: 5,
       },
     ],
   },
@@ -192,24 +124,8 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 2,
-        quantity: 6,
-      },
-      {
-        productId: 13,
-        quantity: 3,
-      },
-      {
-        productId: 16,
-        quantity: 5,
-      },
-      {
-        productId: 12,
-        quantity: 1,
-      },
-      {
-        productId: 20,
-        quantity: 6,
+        productId: 5,
+        quantity: 7,
       },
     ],
   },
@@ -227,32 +143,20 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 6,
-        quantity: 3,
-      },
-      {
         productId: 4,
-        quantity: 5,
-      },
-      {
-        productId: 11,
         quantity: 2,
       },
       {
         productId: 10,
-        quantity: 8,
+        quantity: 2,
       },
       {
-        productId: 3,
-        quantity: 6,
-      },
-      {
-        productId: 15,
+        productId: 11,
         quantity: 1,
       },
       {
-        productId: 19,
-        quantity: 4,
+        productId: 16,
+        quantity: 1,
       },
     ],
   },
@@ -270,32 +174,8 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 18,
-        quantity: 2,
-      },
-      {
-        productId: 20,
-        quantity: 5,
-      },
-      {
-        productId: 7,
-        quantity: 7,
-      },
-      {
-        productId: 14,
+        productId: 2,
         quantity: 3,
-      },
-      {
-        productId: 11,
-        quantity: 6,
-      },
-      {
-        productId: 1,
-        quantity: 1,
-      },
-      {
-        productId: 17,
-        quantity: 4,
       },
     ],
   },
@@ -313,32 +193,20 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 5,
-        quantity: 3,
-      },
-      {
-        productId: 10,
+        productId: 12,
         quantity: 2,
       },
       {
-        productId: 12,
-        quantity: 5,
+        productId: 4,
+        quantity: 3,
       },
       {
-        productId: 13,
+        productId: 2,
         quantity: 1,
       },
       {
-        productId: 9,
-        quantity: 6,
-      },
-      {
-        productId: 6,
-        quantity: 8,
-      },
-      {
-        productId: 18,
-        quantity: 4,
+        productId: 7,
+        quantity: 1,
       },
     ],
   },
@@ -356,32 +224,12 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 8,
-        quantity: 5,
-      },
-      {
-        productId: 4,
+        productId: 2,
         quantity: 1,
       },
       {
-        productId: 16,
-        quantity: 3,
-      },
-      {
-        productId: 3,
-        quantity: 6,
-      },
-      {
-        productId: 20,
+        productId: 7,
         quantity: 2,
-      },
-      {
-        productId: 14,
-        quantity: 4,
-      },
-      {
-        productId: 2,
-        quantity: 7,
       },
     ],
   },
@@ -571,32 +419,20 @@ const ordersWithoutDateTime: Order[] = [
     country: 'New Zealand',
     orderItems: [
       {
-        productId: 1,
-        quantity: 7,
-      },
-      {
-        productId: 17,
-        quantity: 5,
-      },
-      {
-        productId: 5,
-        quantity: 3,
-      },
-      {
         productId: 19,
-        quantity: 2,
-      },
-      {
-        productId: 7,
-        quantity: 8,
-      },
-      {
-        productId: 15,
         quantity: 4,
       },
       {
-        productId: 8,
+        productId: 12,
+        quantity: 3,
+      },
+      {
+        productId: 3,
         quantity: 1,
+      },
+      {
+        productId: 17,
+        quantity: 4,
       },
     ],
   },
