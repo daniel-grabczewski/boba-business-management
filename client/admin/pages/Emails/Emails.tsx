@@ -80,14 +80,16 @@ const Emails = () => {
 
     const sortedEmails = [...filteredEmails]
     .sort((a, b) => {
+      const dateA = new Date(a.createdAt).getTime()
+      const dateB = new Date(b.createdAt).getTime()
       switch (sort) {
         case 'newest-first':
           return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+            dateB - dateA
           )
         case 'oldest-first':
           return (
-            new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+            dateA - dateB
           )
         default:
           return 0
