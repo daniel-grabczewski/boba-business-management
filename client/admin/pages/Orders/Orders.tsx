@@ -109,6 +109,9 @@ function AllOrders() {
     <>
       <LoadError status={ordersStatus} />
       <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
+      <h1 className="text-center text-4xl font-semibold mb-4">
+              Orders
+            </h1>
         <OrderSortingControls
           search={search}
           handleChangeSearch={handleChangeSearch}

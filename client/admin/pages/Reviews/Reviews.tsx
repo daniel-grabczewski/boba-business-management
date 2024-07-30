@@ -90,6 +90,9 @@ const Reviews = () => {
       )}
       <LoadError status={statusReviews} />
       {reviews && currentReviews && filteredAndSortedReviews && (
+        <> <h1 className="text-center text-4xl font-semibold mb-4 mt-4">
+        Reviews
+      </h1>
         <div className="flex justify-center">
           <div className="p-4" style={{ width: '1000px' }}>
             <ReviewSortingControls
@@ -115,6 +118,7 @@ const Reviews = () => {
             </div>
           </div>
         </div>
+        </>
       )}
     </>
   )

@@ -123,6 +123,9 @@ const ProductsSummary = () => {
           className="flex flex-col items-center"
           style={{ marginTop: '20px', marginBottom: '100px', minHeight : '100vh'}}
         >
+          <h1 className="text-center text-4xl font-semibold mb-4">
+              Products
+            </h1>
           <ProductsSortingControls 
             search = {search}
             handleChangeSearch = {handleChangeSearch}

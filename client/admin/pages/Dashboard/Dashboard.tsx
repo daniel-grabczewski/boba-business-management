@@ -19,8 +19,9 @@ const Dashboard = () => {
   const dateOfToday = generateCurrentDate()
 
   // Get count of orders that were made on today's date
-  const {data : orderCount, status : orderCountStatus} = useQuery('getOrderCountFromDate', async () =>
-    getOrderCountFromDate(dateOfToday)
+  const { data: orderCount, status: orderCountStatus } = useQuery(
+    'getOrderCountFromDate',
+    async () => getOrderCountFromDate(dateOfToday)
   )
 
   const profileQuery = useQuery('getDemoUserDetails', async () =>
@@ -34,8 +35,9 @@ const Dashboard = () => {
   )
 
   // Get count of reviews that were made on today's date
-  const {data : reviewsCount, status : reviewsCountStatus} = useQuery('getCountOfReviewsFromDate', async () =>
-    getCountOfReviewsFromDate(dateOfToday)
+  const { data: reviewsCount, status: reviewsCountStatus } = useQuery(
+    'getCountOfReviewsFromDate',
+    async () => getCountOfReviewsFromDate(dateOfToday)
   )
 
   const lowStockQuery = useQuery('countProductsBelowStockThreshold', async () =>
@@ -52,8 +54,10 @@ const Dashboard = () => {
   return (
     <div className="flex flex-col items-center justify-center">
       <LoadError status={statuses} />
+      <h1 className="text-center text-4xl font-semibold mb-4 mt-4">
+        Dashboard
+      </h1>
       <div className="bg-white text-black w-1/2 rounded-lg shadow-lg mt-4 p-4">
-        <div className="text-2xl m-4">Hi, {profileQuery.data?.firstName}!</div>
         {/* Orders */}
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
           <div>
@@ -117,7 +121,8 @@ const Dashboard = () => {
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {reviewsCount} new review{reviewsCount !== 1 ? 's' : ''} today
+              You have {reviewsCount} new review{reviewsCount !== 1 ? 's' : ''}{' '}
+              today
             </h1>
           </div>
           <button
