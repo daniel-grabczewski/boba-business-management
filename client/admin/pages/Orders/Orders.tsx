@@ -39,6 +39,7 @@ function AllOrders() {
     if (!location.search) {
       setPage(1)
       setSort('newest-first')
+      handleChangeSearch('')
     }
   }, [location.search])
 
@@ -50,6 +51,18 @@ function AllOrders() {
       console.error('Error getting order details:', error)
     }
   }
+
+  const handleChangeSearch = (search: string) => {
+    localStorage.setItem('orderSearch', JSON.stringify(search))
+    setSearch(search)
+  }
+
+  useEffect(() => {
+    const searchInLocalStorage = localStorage.getItem('orderSearch')
+    if (searchInLocalStorage) {
+      setSearch(JSON.parse(searchInLocalStorage))
+    }
+  }, [])
 
   const handleChangeSort = (newSort: string) => {
     changeSort(newSort, setSort, setPage, navigate, location.search)
@@ -100,7 +113,7 @@ function AllOrders() {
       <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
         <OrderSortingControls
           search={search}
-          setSearch={setSearch}
+          handleChangeSearch={handleChangeSearch}
           sort={sort}
           handleChangeSort={handleChangeSort}
           page={page}

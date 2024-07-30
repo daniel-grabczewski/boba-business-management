@@ -1,17 +1,17 @@
 interface OrderSortingControlsProps {
   search: string
-  setSearch: React.Dispatch<React.SetStateAction<string>>
+  handleChangeSearch: (search: string) => void
   sort: string
-  handleChangeSort: (newSort : string) => void
+  handleChangeSort: (newSort: string) => void
   page: number
   totalPages: number
-  handleChangePage: (newPage : number) => void
+  handleChangePage: (newPage: number) => void
   ordersCount: number
 }
 
 function OrderSortingControls({
   search,
-  setSearch,
+  handleChangeSearch,
   sort,
   handleChangeSort,
   page,
@@ -31,7 +31,10 @@ function OrderSortingControls({
           type="text"
           placeholder="Search Order Number..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            handleChangeSearch(e.target.value)
+            handleChangePage(1)
+          }}
         />
 
         {/* SORT */}
