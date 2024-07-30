@@ -10,6 +10,7 @@ import LoadError from '../../../shopper/components/LoadError/LoadError'
 import OrderPopup from '../../components/OrdersComponents/OrderPopup/OrderPopup'
 import OrderTable from '../../components/OrdersComponents/OrderTable/OrderTable'
 import { useNavigate } from 'react-router-dom'
+import { formatCurrency } from '../../../utils/formatCurrency'
 
 const itemsPerPage = 10
 
@@ -23,22 +24,14 @@ function AllOrders() {
 
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
 
-  const [page, setPage] = useState<number>(1)
+  const [page, setPage] = useState(initialPage)
   const [search, setSearch] = useState<string>('')
-  const [sort, setSort] = useState<string>('newest')
+  const [sort, setSort] = useState(initialSort)
 
   const { data: orders, status: ordersStatus } = useQuery(
     'getOrdersFromLocalStorage',
     async () => getOrdersFromLocalStorage()
   )
-
-  function formatCurrency(amount: number) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(amount)
-  }
 
   const handleOrderCellClick = async (orderId: number) => {
     try {

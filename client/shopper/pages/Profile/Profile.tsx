@@ -13,6 +13,7 @@ import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../utils/formatDate'
+import { formatCurrency } from '../../../utils/formatCurrency'
 
 const Profile = () => {
   const queryClient = useQueryClient()
@@ -38,14 +39,6 @@ const Profile = () => {
     'getReviewsOfDemoUser',
     async () => getReviewsOfDemoUser()
   )
-
-  function formatCurrency(amount: number) {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2,
-    }).format(amount)
-  }
 
   const deleteReviewMutation = useMutation(
     async (productId: number) => deleteReviewOfDemoUserByProductId(productId),
