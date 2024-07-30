@@ -1,4 +1,5 @@
 import { Email } from '../../../../models/Emails'
+import { getUserNameByUserId } from '../../../services/users'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
@@ -40,7 +41,7 @@ const DisplayCurrentEmails = ({
           </div>
 
           <div className="flex-1 py-3 px-1 text-left whitespace-nowrap">
-            {email.userId}
+            {getUserNameByUserId(email.userId)}
           </div>
           <div className="flex-1 py-3 text-left">{email.title}</div>
           <div className="flex-1 py-3 pl-6 text-left">
