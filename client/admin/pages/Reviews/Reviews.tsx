@@ -162,13 +162,10 @@ const Reviews = () => {
               />
 
               {/* TABLE */}
-              <div className="divTable bg-white mt-4 border border-gray-300">
-                <ReviewColumnTitles />
-                <DisplayCurrentReviews
-                  getPaginatedReviews={getPaginatedReviews}
-                  setSelectedReviewById={setSelectedReviewById}
-                />
-              </div>
+              <DisplayCurrentReviews
+                getPaginatedReviews={getPaginatedReviews}
+                setSelectedReviewById={setSelectedReviewById}
+              />
             </div>
           </div>
         </>
