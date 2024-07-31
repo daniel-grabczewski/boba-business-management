@@ -75,7 +75,7 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
         {/* PAGINATION */}
         <div className="flex justify-between items-center">
           <div className="flex flex-col justify-center mx-2 font-semibold">
-            Showing {firstIndex + 1}-{Math.min(lastIndex, reviewsCount)} of{' '}
+            Showing {reviewsCount === 0 ? 0 : firstIndex + 1}-{Math.min(lastIndex, reviewsCount)} of{' '}
             {reviewsCount}
           </div>
           <div className="flex justify-center">
@@ -92,11 +92,11 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
             </button>
             <button
               className={`${
-                page === totalPages
+                page === totalPages || reviewsCount === 0
                   ? 'bg-gray-300 cursor-default'
                   : 'bg-blue-500 hover:bg-blue-700'
               } text-white font-bold py-2 px-4 rounded ml-2`}
-              disabled={page === totalPages}
+              disabled={page === totalPages || reviewsCount === 0}
               onClick={() => handleChangePage(page + 1)}
             >
               {'>'}

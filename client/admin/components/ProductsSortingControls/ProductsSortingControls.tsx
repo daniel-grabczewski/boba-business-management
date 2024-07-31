@@ -78,7 +78,7 @@ function ProductsSortingControls({
       {/* PAGINATION */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
-          Showing {firstIndex + 1}-{Math.min(lastIndex, productsCount)} of{' '}
+          Showing {productsCount === 0 ? 0 : firstIndex + 1}-{Math.min(lastIndex, productsCount)} of{' '}
           {productsCount}
         </div>
         <button
@@ -94,11 +94,11 @@ function ProductsSortingControls({
         </button>
         <button
           className={`${
-            page === totalPages
+            page === totalPages || productsCount === 0
               ? 'bg-gray-300 cursor-default'
               : 'bg-blue-500 hover.bg-blue-700'
           } text-white font-bold py-2 px-4 rounded ml-2`}
-          disabled={page === totalPages}
+          disabled={page === totalPages || productsCount === 0}
           onClick={() => handleChangePage(page + 1)}
         >
           {'>'}
