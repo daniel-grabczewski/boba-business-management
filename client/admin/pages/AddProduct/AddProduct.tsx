@@ -95,7 +95,7 @@ const AddProduct = () => {
   return (
     <>
       <LoadError status={addProductMutation.status} />
-      <div className="container mx-auto mt-12" style={{ maxWidth: '500px' }}>
+      <div className="container mx-auto" style={{ maxWidth: '500px', minHeight: '95vh', marginTop : '60px' }}>
         <h1 className="text-3xl font-semibold mb-4">Add Product</h1>
         <form>
           <div className="flex space-x-4 mb-4">
@@ -137,6 +137,7 @@ const AddProduct = () => {
             <textarea
               id="description"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              style={{minHeight : "100px", maxHeight: "250px"}}
               name="description"
               value={newProduct.description}
               onChange={handleChange}
@@ -214,11 +215,8 @@ const AddProduct = () => {
                 buttonText === 'Add Product'
                   ? 'bg-blue-500 hover:bg-blue-700'
                   : 'bg-green-500 hover:bg-green-700'
-              } text-white font-bold py-2 px-4 rounded ${
-                !isFormComplete && 'opacity-50 cursor-not-allowed'
-              }`}
+              } text-white font-bold py-2 px-4 rounded`}
               type="button"
-              disabled={!isFormComplete}
               onClick={handleSubmit}
             >
               {buttonText}
