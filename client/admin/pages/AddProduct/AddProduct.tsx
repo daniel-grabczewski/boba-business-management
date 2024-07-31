@@ -101,12 +101,22 @@ const AddProduct = () => {
   }
 
   const checkValues = (obj: UpsertProduct) => {
-    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
-    setEmptyFields(emptyKeys)
-    const invalidKeys = Object.keys(obj).filter(
-      (key) => key === 'price' && (obj[key] === '' || obj[key] <= 0)
+    const emptyKeys = Object.keys(obj).filter(
+      (key) => obj[key as keyof UpsertProduct] === ''
     )
+    setEmptyFields(emptyKeys)
+
+    const invalidKeys = Object.keys(obj).filter((key) => {
+      if (key === 'price') {
+        const value = obj[key as keyof UpsertProduct]
+        return (
+          typeof value === 'string' || (typeof value === 'number' && value <= 0)
+        )
+      }
+      return false
+    })
     setInvalidFields(invalidKeys)
+
     return emptyKeys.length === 0 && invalidKeys.length === 0
   }
 
