@@ -26,7 +26,7 @@ function OrderTable({
         <div className="divTable bg-white mt-4 border border-gray-300">
           <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
             <div className="divCell py-3 px-8">Order ID</div>
-            <div className="divCell py-3 px-8">User Name</div>
+            <div className="divCell py-3 px-8">Username</div>
             <div className="divCell py-3 px-8">Purchase Date</div>
             <div className="divCell py-3 px-8">Total Sale</div>
           </div>
