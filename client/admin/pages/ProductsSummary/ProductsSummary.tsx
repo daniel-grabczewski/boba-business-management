@@ -118,7 +118,7 @@ const ProductsSummary = () => {
   return (
     <>
       <LoadError status={statusProducts} />
-      {products && (
+      {products && sortedProducts && (
         <div
           className="flex flex-col items-center"
           style={{ marginTop: '20px', marginBottom: '100px', minHeight : '100vh'}}
