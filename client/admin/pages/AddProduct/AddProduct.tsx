@@ -15,19 +15,18 @@ const AddProduct = () => {
     stock: 0,
   })
 
+  const [emptyFields, setEmptyFields] = useState<string[]>([])
+  const [invalidFields, setInvalidFields] = useState<string[]>([])
+  const [errorMessage, setErrorMessage] = useState('')
+
   const saveToLocalStorage = (state: UpsertProduct) => {
     localStorage.setItem('newProduct', JSON.stringify(state))
   }
 
   const placeholderImage = '/images/placeholder-image.png'
 
-  const [isFormComplete, setIsFormComplete] = useState(false)
-
-
   const addProductMutation = useMutation(
-    async (newProduct: UpsertProduct) => 
-      createProduct(newProduct)
-    ,
+    async (newProduct: UpsertProduct) => createProduct(newProduct),
     {
       onSuccess: () => {
         setButtonText('Product Added')
@@ -55,13 +54,12 @@ const AddProduct = () => {
   }, [])
 
   useEffect(() => {
-    const { image, name, price, description, stock } = newProduct
-    if (image && name && price && description && stock) {
-      setIsFormComplete(true)
-    } else {
-      setIsFormComplete(false)
+    const { image, name, price, description } = newProduct
+    if (image && name && price > 0 && description) {
+      setEmptyFields([])
+      setInvalidFields([])
+      setErrorMessage('')
     }
-    // Save form state to localStorage
     saveToLocalStorage(newProduct)
   }, [newProduct])
 
@@ -72,14 +70,27 @@ const AddProduct = () => {
 
     let finalValue: number | string
     if (name === 'price') {
-      finalValue = Math.max(parseFloat(value), 0)
+      finalValue = value === '' ? '' : Math.max(parseFloat(value), 0)
     } else if (name === 'stock') {
-      finalValue = Math.max(Math.round(parseFloat(value)), 0)
+      finalValue =
+        value === '' ? '' : Math.max(Math.round(parseFloat(value)), 0)
     } else {
       finalValue = value
     }
 
     setNewProduct((prevProduct) => ({ ...prevProduct, [name]: finalValue }))
+
+    if (finalValue !== '') {
+      setEmptyFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
+    }
+
+    if (name === 'price' && parseFloat(value) > 0) {
+      setInvalidFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
+    }
   }
 
   const toggleEnabled = () => {
@@ -88,16 +99,35 @@ const AddProduct = () => {
       isEnabled: !prevProduct.isEnabled,
     }))
   }
-  const handleSubmit = () => {
-    addProductMutation.mutate(newProduct)
+
+  const checkValues = (obj: UpsertProduct) => {
+    const emptyKeys = Object.keys(obj).filter((key) => obj[key] === '')
+    setEmptyFields(emptyKeys)
+    const invalidKeys = Object.keys(obj).filter(
+      (key) => key === 'price' && (obj[key] === '' || obj[key] <= 0)
+    )
+    setInvalidFields(invalidKeys)
+    return emptyKeys.length === 0 && invalidKeys.length === 0
+  }
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (checkValues(newProduct)) {
+      addProductMutation.mutate(newProduct)
+    } else {
+      setErrorMessage('Please fill all empty fields and correct invalid inputs')
+    }
   }
 
   return (
     <>
       <LoadError status={addProductMutation.status} />
-      <div className="container mx-auto" style={{ maxWidth: '500px', minHeight: '95vh', marginTop : '60px' }}>
+      <div
+        className="container mx-auto"
+        style={{ maxWidth: '500px', minHeight: '95vh', marginTop: '60px' }}
+      >
         <h1 className="text-3xl font-semibold mb-4">Add Product</h1>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="flex space-x-4 mb-4">
             <div className="mb-4 w-1/2">
               <label
@@ -108,7 +138,9 @@ const AddProduct = () => {
               </label>
               <input
                 id="name"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  emptyFields.includes('name') ? 'border-red-500' : ''
+                }`}
                 type="text"
                 name="name"
                 value={newProduct.name}
@@ -136,8 +168,10 @@ const AddProduct = () => {
             </label>
             <textarea
               id="description"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              style={{minHeight : "100px", maxHeight: "250px"}}
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                emptyFields.includes('description') ? 'border-red-500' : ''
+              }`}
+              style={{ minHeight: '100px', maxHeight: '250px' }}
               name="description"
               value={newProduct.description}
               onChange={handleChange}
@@ -153,7 +187,12 @@ const AddProduct = () => {
               </label>
               <input
                 id="price"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  emptyFields.includes('price') ||
+                  invalidFields.includes('price')
+                    ? 'border-red-500'
+                    : ''
+                }`}
                 type="number"
                 name="price"
                 min="0"
@@ -170,7 +209,9 @@ const AddProduct = () => {
               </label>
               <input
                 id="stock"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  emptyFields.includes('stock') ? 'border-red-500' : ''
+                }`}
                 type="number"
                 name="stock"
                 min="0"
@@ -190,7 +231,9 @@ const AddProduct = () => {
               </label>
               <input
                 id="imageUrl"
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  emptyFields.includes('image') ? 'border-red-500' : ''
+                }`}
                 type="text"
                 name="image"
                 value={newProduct.image}
@@ -198,13 +241,23 @@ const AddProduct = () => {
               />
             </div>
             <div
-              className="w-1/2 flex justify-center items-center mt-2"
-              style={{ maxHeight: '200px' }}
+              className="w-1/2 flex justify-center items-center mt-2 border rounded"
+              style={{
+                maxHeight: '200px',
+                minHeight: '200px',
+                background: '#d0d0d0',
+                minWidth: '250px',
+              }}
             >
               <img
                 src={newProduct.image ? newProduct.image : placeholderImage}
-                alt="Product preview"
-                style={{ maxHeight: '200px' }}
+                alt="Image preview"
+                style={{
+                  maxHeight: '200px',
+                  maxWidth: '250px',
+                  padding: '8px',
+                  borderRadius: '12px',
+                }}
               />
             </div>
           </div>
@@ -216,11 +269,13 @@ const AddProduct = () => {
                   ? 'bg-blue-500 hover:bg-blue-700'
                   : 'bg-green-500 hover:bg-green-700'
               } text-white font-bold py-2 px-4 rounded`}
-              type="button"
-              onClick={handleSubmit}
+              type="submit"
             >
               {buttonText}
             </button>
+            {errorMessage && (
+              <p className="text-red-500 mt-2">{errorMessage}</p>
+            )}
           </div>
         </form>
       </div>
