@@ -104,7 +104,7 @@ const ViewProducts = ({
                 </div>
 
                 <div className="flex-col w-1/4">
-                  {product.stock && product.stock < 5 && (
+                  {product.stock < 5 && (
                     <Link
                       to={`/admin/edit/${product.id}`}
                       onMouseEnter={() => setHoveredProductId(product.id)}
