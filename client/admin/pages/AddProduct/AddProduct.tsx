@@ -133,6 +133,7 @@ const AddProduct = () => {
   return (
     <>
       <LoadError status={addProductMutation.status} />
+      <div style = {{height : '50px'}}></div>
       <ProductForm
         handleSubmit={handleSubmit}
         handleChange={handleChange}
@@ -145,6 +146,7 @@ const AddProduct = () => {
         invalidFields={invalidFields}
         pageTitle={'Add a product'}
       />
+      <div style = {{height : '200px'}}></div>
     </>
   )
 }
