@@ -161,16 +161,20 @@ export function getLatestOrderOfDemoUser(): Order | null {
   }
 }
 
-export function getOrderExtraDetailsById(orderId: number): OrderExtraDetails | undefined {
+export function getOrderExtraDetailsById(
+  orderId: number
+): OrderExtraDetails | undefined {
   try {
     const orders = getOrdersFromLocalStorage()
     const order = orders.find((order) => order.id === orderId)
     if (order) {
       const totalSale = getTotalSaleOfOrderById(order.id)
       const shippingOption = getShippingOptionById(order.shippingId)
-      const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(order.id)
+      const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(
+        order.id
+      )
       if (shippingOption && orderItemsExtraDetails) {
-        const demoUser = getDemoUserDetails()
+        const userEmail = getUserByUserId(order.userId)?.emailAddress
         return {
           orderId: order.id,
           firstName: order.firstName,
@@ -179,7 +183,7 @@ export function getOrderExtraDetailsById(orderId: number): OrderExtraDetails | u
           city: order.city,
           country: order.country,
           zipCode: order.zipCode,
-          email: demoUser ? demoUser.emailAddress : '',
+          email: userEmail ? userEmail : '',
           phoneNumber: order.phoneNumber,
           totalSale: totalSale,
           amountOfItems: order.orderItems.length,
@@ -242,34 +246,8 @@ export function getDemoUserOrdersExtraDetails(): OrderExtraDetails[] {
     if (demoUser) {
       const demoUserOrders = orders
         .filter((order) => order.userId === demoUser.userId)
-        .map((demoOrder) => {
-          const totalSale = getTotalSaleOfOrderById(demoOrder.id)
-          const shippingOption = getShippingOptionById(demoOrder.shippingId)
-          const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(
-            demoOrder.id
-          )
-          if (demoOrder && shippingOption && orderItemsExtraDetails) {
-            return {
-              orderId: demoOrder.id,
-              firstName: demoOrder.firstName,
-              lastName: demoOrder.lastName,
-              address: demoOrder.address,
-              city: demoOrder.city,
-              country: demoOrder.country,
-              zipCode: demoOrder.zipCode,
-              email: demoUser.emailAddress,
-              phoneNumber: demoOrder.phoneNumber,
-              totalSale: totalSale,
-              amountOfItems: demoOrder.orderItems.length,
-              purchasedAt: demoOrder.purchasedAt,
-              shippingType: shippingOption?.shippingType,
-              shippingPrice: shippingOption?.price,
-              orderItemsExtraDetails: orderItemsExtraDetails,
-            }
-          }
-          return undefined
-        })
-        .filter((item) => item !== undefined)
+        .map((demoOrder) => getOrderExtraDetailsById(demoOrder.id))
+        .filter((item): item is OrderExtraDetails => item !== undefined)
       return demoUserOrders
     }
     return []
