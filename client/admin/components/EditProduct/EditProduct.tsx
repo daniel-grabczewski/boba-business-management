@@ -34,7 +34,7 @@ function EditProduct({ product }: EditProductProps) {
       updateProductById(product.id, editedProduct),
     {
       onSuccess: () => {
-        setButtonText('Product Updated')
+        setButtonText('Changes Saved')
         setTimeout(() => {
           setButtonText('Save Changes')
         }, 2000)
