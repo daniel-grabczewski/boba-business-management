@@ -1,13 +1,11 @@
 import { useQuery } from 'react-query'
 import {
   getEmailsFromLocalStorage,
-  getEmailById,
 } from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
 import { useEffect, useState } from 'react'
-import { Email } from '../../../../models/Emails'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
 import EmailPopup from '../../components/Emails/EmailPopup'
 import { useNavigate } from 'react-router-dom'
@@ -25,13 +23,18 @@ const Emails = () => {
 
   const initialFilter = queryParams.get('filter') || 'all'
   const initialSort = queryParams.get('sort') || 'newest-first'
+  const initialSelectedEmailId = parseInt(queryParams.get('email') || '0')
 
   const [page, setPage] = useState(initialPage)
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
+  /*
   const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(
     undefined
   )
+    */
+  const [selectedEmailId, setSelectedEmailId] = useState(initialSelectedEmailId)
+  console.log(selectedEmailId)
 
   const emailsPerPage = 10
 
@@ -56,44 +59,37 @@ const Emails = () => {
     changeSort(newSort, setSort, setPage, navigate, location.search)
   }
 
-  const setSelectedEmailById = async (id: number) => {
-    const email = getEmailById(id)
-    setSelectedEmail(email)
-  }
-
   useEffect(() => {
     if (!location.search) {
       setPage(1)
       setSort('newest-first')
       setFilter('all')
+      queryParams.delete('email')
     }
   }, [location.search])
 
-  const filteredEmails = emails 
+  const filteredEmails = emails
     ? emails.filter((email) => {
-      if (filter === 'all') return true
-      if (filter === 'unread') return !email.isRead
-      return true
-    }) : []
+        if (filter === 'all') return true
+        if (filter === 'unread') return !email.isRead
+        return true
+      })
+    : []
 
-    const sortedEmails = [...filteredEmails]
-    .sort((a, b) => {
-      const dateA = new Date(a.createdAt).getTime()
-      const dateB = new Date(b.createdAt).getTime()
-      switch (sort) {
-        case 'newest-first':
-          return dateB - dateA
-        case 'oldest-first':
-          return dateA - dateB
-        default:
-          return 0
-      }
-    })
+  const sortedEmails = [...filteredEmails].sort((a, b) => {
+    const dateA = new Date(a.createdAt).getTime()
+    const dateB = new Date(b.createdAt).getTime()
+    switch (sort) {
+      case 'newest-first':
+        return dateB - dateA
+      case 'oldest-first':
+        return dateA - dateB
+      default:
+        return 0
+    }
+  })
 
-    const totalPages = Math.ceil(
-      (sortedEmails.length) / emailsPerPage
-    )
-    
+  const totalPages = Math.ceil(sortedEmails.length / emailsPerPage)
 
   const getPaginatedEmails = () => {
     const start = (page - 1) * emailsPerPage
@@ -101,27 +97,30 @@ const Emails = () => {
     return sortedEmails.slice(start, end)
   }
 
+  const handleSelectEmailId = (id : number) => {
+    setSelectedEmailId(id)
+    queryParams.set('email', `${id}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
+  }
 
   const closeEmailPopup = () => {
-    setSelectedEmail(undefined)
+    setSelectedEmailId(0)
+    queryParams.delete('email')
+    navigate(`?${queryParams.toString()}`, { replace: true })
     refetchGetEmailsFromLocalStorage()
   }
   return (
     <>
       <LoadError status={emailStatus} />
-      {selectedEmail && (
         <EmailPopup
-          emailId={selectedEmail.id}
+          emailId={selectedEmailId}
           closeEmailPopup={closeEmailPopup}
         />
-      )}
 
       {!isLoading && emails && sortedEmails && (
         <div className="flex justify-center overflow-x-auto">
           <div className="p-4 w-full lg:w-11/12">
-            <h1 className="text-center text-4xl font-semibold mb-4">
-              Inbox
-            </h1>
+            <h1 className="text-center text-4xl font-semibold mb-4">Inbox</h1>
             {/* SortingControl */}
             <EmailsSortingControls
               filter={filter}
@@ -137,7 +136,8 @@ const Emails = () => {
               <EmailsColumnTitles />
               <DisplayCurrentEmails
                 getPaginatedEmails={getPaginatedEmails}
-                setSelectedEmailById={setSelectedEmailById}
+                handleSelectEmailId={handleSelectEmailId}
+                
               />
             </div>
           </div>
