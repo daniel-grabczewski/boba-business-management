@@ -6,7 +6,10 @@ import {
   updateEmailReadStatusById,
 } from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
-import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../utils/formatDate'
 import { getUserNameByUserId } from '../../../services/users'
 
 interface EmailPopupProps {
@@ -109,8 +112,12 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
                     From {getUserNameByUserId(email.userId)}
                   </p>
                 </div>
-
-                <p>{formatDateToDDMMYYYY(email.createdAt)}</p>
+                <div className="flex flex-col">
+                  <p>{formatDateToDDMMYYYY(email.createdAt)}</p>
+                  <div>
+                    <p>{format24HourTo12Hour(email.createdAt)}</p>
+                  </div>
+                </div>
               </div>
             </div>
             <div>
