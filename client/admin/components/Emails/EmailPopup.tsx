@@ -17,7 +17,7 @@ interface EmailPopupProps {
   closeEmailPopup: () => void
 }
 
-const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
+const EmailPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
   const queryClient = useQueryClient()
   const popupRef = useRef<HTMLDivElement>(null)
 
@@ -131,4 +131,4 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
   )
 }
 
-export default ReviewPopup
+export default EmailPopup
