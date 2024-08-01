@@ -9,19 +9,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 interface DisplayCurrentEmailsProps {
   getPaginatedEmails: () => Email[]
-  setSelectedEmailById: (emailId: number) => void
+  handleSelectEmailId: (emailId: number) => void
 }
 
 const DisplayCurrentEmails = ({
   getPaginatedEmails,
-  setSelectedEmailById,
+  handleSelectEmailId,
 }: DisplayCurrentEmailsProps) => {
   return (
     <div className="text-gray-600 text-sm font-light">
       {getPaginatedEmails().map((email) => (
         <div
           key={email.id}
-          onClick={() => setSelectedEmailById(email.id)}
+          onClick={() => handleSelectEmailId(email.id)}
           className="flex border border-gray-300 cursor-pointer "
         >
           <div className="pl-1 flex flex-col items-center justify-center ">
