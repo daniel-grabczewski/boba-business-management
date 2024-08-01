@@ -161,6 +161,42 @@ export function getLatestOrderOfDemoUser(): Order | null {
   }
 }
 
+export function getOrderExtraDetailsById(orderId: number): OrderExtraDetails | undefined {
+  try {
+    const orders = getOrdersFromLocalStorage()
+    const order = orders.find((order) => order.id === orderId)
+    if (order) {
+      const totalSale = getTotalSaleOfOrderById(order.id)
+      const shippingOption = getShippingOptionById(order.shippingId)
+      const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(order.id)
+      if (shippingOption && orderItemsExtraDetails) {
+        const demoUser = getDemoUserDetails()
+        return {
+          orderId: order.id,
+          firstName: order.firstName,
+          lastName: order.lastName,
+          address: order.address,
+          city: order.city,
+          country: order.country,
+          zipCode: order.zipCode,
+          email: demoUser ? demoUser.emailAddress : '',
+          phoneNumber: order.phoneNumber,
+          totalSale: totalSale,
+          amountOfItems: order.orderItems.length,
+          purchasedAt: order.purchasedAt,
+          shippingType: shippingOption.shippingType,
+          shippingPrice: shippingOption.price,
+          orderItemsExtraDetails: orderItemsExtraDetails,
+        }
+      }
+    }
+    return undefined
+  } catch (error) {
+    console.error(`Error retrieving order details for order ID: ${orderId}`)
+    return undefined
+  }
+}
+
 // Given the order ID, return associated order items as OrderItemExtraDetails[]
 export function getOrderItemsExtraDetailsByOrderId(
   orderId: number
@@ -199,7 +235,7 @@ export function getOrderItemsExtraDetailsByOrderId(
 }
 
 // Get all orders that demo user has made as OrderExtraDetails[]
-export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
+export function getDemoUserOrdersExtraDetails(): OrderExtraDetails[] {
   try {
     const orders = getOrdersFromLocalStorage()
     const demoUser = getDemoUserDetails()
@@ -207,7 +243,6 @@ export function getDemoOrdersExtraDetailsByOrderId(): OrderExtraDetails[] {
       const demoUserOrders = orders
         .filter((order) => order.userId === demoUser.userId)
         .map((demoOrder) => {
-          console.log(demoOrder)
           const totalSale = getTotalSaleOfOrderById(demoOrder.id)
           const shippingOption = getShippingOptionById(demoOrder.shippingId)
           const orderItemsExtraDetails = getOrderItemsExtraDetailsByOrderId(
