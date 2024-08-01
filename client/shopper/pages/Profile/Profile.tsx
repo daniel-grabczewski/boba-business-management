@@ -7,7 +7,7 @@ import {
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { ShopperDisplayReview } from '../../../../models/Reviews'
-import { getDemoOrdersExtraDetailsByOrderId } from '../../../services/orders'
+import { getDemoUserOrdersExtraDetails } from '../../../services/orders'
 import StarRating from '../../components/StarRating/StarRating'
 import {
   format24HourTo12Hour,
@@ -28,10 +28,10 @@ const Profile = () => {
   )
 
   const { data: demoOrders, status: demoOrdersStatus } = useQuery(
-    'getDemoOrdersExtraDetailsByOrderId',
+    'getDemoUserOrdersExtraDetails',
     async () => {
-      console.log(getDemoOrdersExtraDetailsByOrderId())
-      return getDemoOrdersExtraDetailsByOrderId()
+      console.log(getDemoUserOrdersExtraDetails())
+      return getDemoUserOrdersExtraDetails()
     }
   )
 
