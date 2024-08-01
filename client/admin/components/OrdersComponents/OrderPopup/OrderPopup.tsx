@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
-import LoadError from '../../../../user/components/LoadError/LoadError'
-import { getOrderById } from '../../../../services/orders'
+import { getOrderExtraDetailsById } from '../../../../services/orders'
 import { Order } from '../../../../../models/Orders'
+import { formatCurrency } from '../../../../utils/formatCurrency'
+import LoadError from '../../../../shopper/components/LoadError/LoadError'
 
 interface OrderPopupProps {
   orderId: number
@@ -10,15 +11,7 @@ interface OrderPopupProps {
   closeOrderPopup: () => void
 }
 
-function formatCurrency(amount: number) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-    minimumFractionDigits: 2,
-  }).format(amount)
-}
-
-const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
+const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -37,40 +30,37 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
     }
   }, [closeOrderPopup])
 
-  const { status } = useQuery(
-    ['getOrderById', orderId],
-    async () => getOrderById(orderId),
+  const { data: order, status: orderStatus } = useQuery(
+    ['getOrderExtraDetailsById', orderId],
+    async () => getOrderExtraDetailsById(orderId),
     {
       refetchOnWindowFocus: false,
     }
   )
 
-  //!NEED ADDITIONAL FUNCTIONS HERE TO GET USER DETAILS AND ADDITIONAL PRODUCT DETAILS. MAYBE A NEW DISPLAY ORDER SERVICE FUNCTION IS NEEDED?
   return (
-    <> </>
-    /*
     <>
-      <LoadError status={status} />
-      {status === 'success' && order && (
+      <LoadError status={orderStatus} />
+      {orderStatus === 'success' && order && (
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             ref={popupRef}
             className="bg-white p-8 w-[70%] max-w-full max-h-[80%] overflow-y-auto shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
           >
             <div className="mb-4">
-              <h2 className="text-xl font-semibold">Order #{order.id}</h2>
+              <h2 className="text-xl font-semibold">Order #{order.orderId}</h2>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Information:</h3>
               <p>
-                Name: {order.userFirstName} {order.userLastName}
+                Name: {order.firstName} {order.lastName}
               </p>
-              <p>Address: {order.userAddress}</p>
-              <p>City: {order.userCity}</p>
-              <p>Country: {order.userCountry}</p>
-              <p>Zip Code: {order.userZipCode}</p>
-              <p>Email: {order.userEmail}</p>
-              <p>Phone Number: {order.userPhoneNumber}</p>
+              <p>Address: {order.address}</p>
+              <p>City: {order.city}</p>
+              <p>Country: {order.country}</p>
+              <p>Zip Code: {order.zipCode}</p>
+              <p>Email: {order.email}</p>
+              <p>Phone Number: {order.phoneNumber}</p>
             </div>
 
             <div className="mb-4">
@@ -84,7 +74,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {order.orderItems.map((item) => (
+                  {order.orderItemsExtraDetails.map((item) => (
                     <tr key={item.productSale} className="border-b">
                       <td className="py-2 px-4 border">
                         <div className="flex items-center">
@@ -119,7 +109,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
                     <td className="py-2 px-4 border"></td>
                     <td className="bg-gray-300 py-2 px-4 border">
                       {formatCurrency(
-                        order.orderItems.reduce(
+                        order.orderItemsExtraDetails.reduce(
                           (total, item) => total + item.productSale,
                           0
                         ) + order.shippingPrice
@@ -142,9 +132,7 @@ const OrderPopup = ({ orderId, order, closeOrderPopup }: OrderPopupProps) => {
           </div>
         </div>
       )}
-        
     </>
-    */
   )
 }
 
