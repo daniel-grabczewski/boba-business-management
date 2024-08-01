@@ -31,8 +31,7 @@ function ProductForm({
   placeholderImage,
   pageTitle,
 }: ProductFormProps) {
-
-  const [originalButtonText, setOriginalButtonText] = useState(buttonText)
+  const [originalButtonText] = useState(buttonText)
 
   return (
     <div
@@ -175,6 +174,7 @@ function ProductForm({
 
         <div className="mb-4">
           <button
+            style={{ minWidth: '150px' }}
             className={`${
               buttonText === originalButtonText
                 ? 'bg-blue-500 hover:bg-blue-700'
@@ -184,7 +184,9 @@ function ProductForm({
           >
             {buttonText}
           </button>
-          {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
+          <p className="text-red-500 mt-2" style={{ minHeight: '1.5em' }}>
+            {errorMessage}
+          </p>
         </div>
       </form>
     </div>
