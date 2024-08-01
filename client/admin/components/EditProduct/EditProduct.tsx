@@ -23,9 +23,6 @@ function EditProduct({ product }: EditProductProps) {
   const [invalidFields, setInvalidFields] = useState<string[]>([])
   const [errorMessage, setErrorMessage] = useState('')
 
-  const saveToLocalStorage = (state: UpsertProduct) => {
-    localStorage.setItem('editedProduct', JSON.stringify(state))
-  }
 
   const placeholderImage = '/images/placeholder-image.png'
 
@@ -40,7 +37,6 @@ function EditProduct({ product }: EditProductProps) {
         setTimeout(() => {
           setButtonText('Save Changes')
         }, 2000)
-        localStorage.removeItem('editedProduct')
         queryClient.invalidateQueries('getProduct')
       },
       onError: (error) => {
@@ -49,12 +45,7 @@ function EditProduct({ product }: EditProductProps) {
     }
   )
 
-  useEffect(() => {
-    const savedProduct = localStorage.getItem('editedProduct')
-    if (savedProduct) {
-      setEditedProduct(JSON.parse(savedProduct) as UpsertProduct)
-    }
-  }, [])
+
 
   useEffect(() => {
     const { image, name, price, description } = editedProduct
@@ -63,7 +54,6 @@ function EditProduct({ product }: EditProductProps) {
       setInvalidFields([])
       setErrorMessage('')
     }
-    saveToLocalStorage(editedProduct)
   }, [editedProduct])
 
   const handleChange = (
