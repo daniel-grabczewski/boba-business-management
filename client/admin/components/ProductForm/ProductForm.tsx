@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
 
 interface ProductFormProps {
@@ -15,6 +16,9 @@ interface ProductFormProps {
   pageTitle: string
 }
 
+// This is a reusable component for editing/adding a new product for admins
+// It is a form with validation and error messages
+
 function ProductForm({
   handleSubmit,
   handleChange,
@@ -27,10 +31,13 @@ function ProductForm({
   placeholderImage,
   pageTitle,
 }: ProductFormProps) {
+
+  const [originalButtonText, setOriginalButtonText] = useState(buttonText)
+
   return (
     <div
       className="container mx-auto"
-      style={{ maxWidth: '500px', minHeight: '95vh', marginTop: '60px' }}
+      style={{ maxWidth: '500px', minHeight: '70vh' }}
     >
       <h1 className="text-3xl font-semibold mb-4">{pageTitle}</h1>
       <form onSubmit={handleSubmit}>
@@ -98,9 +105,8 @@ function ProductForm({
                   ? 'border-red-500'
                   : ''
               }`}
-              type="number"
               name="price"
-              min="0"
+              type="number"
               value={product.price}
               onChange={handleChange}
             />
@@ -170,7 +176,7 @@ function ProductForm({
         <div className="mb-4">
           <button
             className={`${
-              buttonText === 'Add Product'
+              buttonText === originalButtonText
                 ? 'bg-blue-500 hover:bg-blue-700'
                 : 'bg-green-500 hover:bg-green-700'
             } text-white font-bold py-2 px-4 rounded`}
