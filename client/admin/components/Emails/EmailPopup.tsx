@@ -7,6 +7,7 @@ import {
 } from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
+import { getUserNameByUserId } from '../../../services/users'
 
 interface EmailPopupProps {
   emailId: number
@@ -15,33 +16,12 @@ interface EmailPopupProps {
 
 const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
   const queryClient = useQueryClient()
-
   const popupRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        popupRef.current &&
-        !popupRef.current.contains(event.target as Node)
-      ) {
-        closeEmailPopup()
-      }
-    }
-
-    window.addEventListener('mousedown', handleClickOutside)
-    return () => {
-      window.removeEventListener('mousedown', handleClickOutside)
-    }
-  }, [closeEmailPopup])
 
   const { data: email, status } = useQuery(
     ['getEmailById', emailId],
-    async () => 
-      (getEmailById(emailId))
-    ,
-    {
-      refetchOnWindowFocus: false,
-    }
+    async () => getEmailById(emailId),
+    {}
   )
 
   const updateEmailStatusMutation = useMutation(
@@ -50,12 +30,12 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
     },
     {
       onSuccess: () => {
-        //Need to check the api function
         queryClient.invalidateQueries('getEmailById')
         queryClient.invalidateQueries('getEmailsFromLocalStorage')
       },
     }
   )
+
   const deleteEmailMutation = useMutation(
     async (emailId: number) => {
       return deleteEmailById(emailId)
@@ -72,17 +52,40 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
     updateEmailStatusMutation.mutate({ emailId, isRead })
   }
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        popupRef.current &&
+        !popupRef.current.contains(event.target as Node)
+      ) {
+        if (email && !email.isRead) {
+          updateEmailStatus(email.id, true)
+        }
+        closeEmailPopup()
+      }
+    }
+
+    window.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      window.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [email, closeEmailPopup])
+
   return (
     <>
       <LoadError status={status} />
       {status === 'success' && email && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50"
-          onClick={() => updateEmailStatus(email.id, !email.isRead)}
+          onClick={() => {
+            if (!email.isRead) {
+              updateEmailStatus(email.id, true)
+            }
+          }}
         >
           <div
             ref={popupRef}
-            className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg min-h-[400px]"
+            className="bg-white p-5 rounded-lg flex flex-col gap-8 w-4/5 max-w-lg p-8"
           >
             <div>
               <div className=" flex flex-row justify-between">
@@ -94,7 +97,7 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
                 </button>
                 <button
                   onClick={() => deleteEmailMutation.mutate(emailId)}
-                  className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5"
+                  className="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 mb-5"
                 >
                   Delete
                 </button>
@@ -102,7 +105,9 @@ const ReviewPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
               <div className="flex justify-between text-lg">
                 <div>
                   <h2 className="font-bold">{email.title}</h2>
-                  <p className="text-md">From {email.userId}</p>
+                  <p className="text-md">
+                    From {getUserNameByUserId(email.userId)}
+                  </p>
                 </div>
 
                 <p>{formatDateToDDMMYYYY(email.createdAt)}</p>
