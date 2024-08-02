@@ -62,7 +62,7 @@ function ProductForm({
       <h1 className="text-3xl font-semibold mb-4">{pageTitle}</h1>
       <form onSubmit={handleSubmit}>
         <div className="flex space-x-4 mb-4">
-          <div className="mb-4 w-1/2">
+          <div className="mb-4 w-full">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="name"
