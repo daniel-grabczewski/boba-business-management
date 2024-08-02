@@ -1,11 +1,7 @@
 import { useQuery } from 'react-query'
 import { useEffect, useState } from 'react'
-import {
-  getAllAdminDisplayReviews,
-  getAdminDisplayReviewById,
-} from '../../../services/reviews'
+import { getAllAdminDisplayReviews } from '../../../services/reviews'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
-import { AdminDisplayReview } from '../../../../models/Reviews'
 import ReviewPopup from '../../components/ReviewsComponents/ReviewPopup/ReviewPopup'
 import ReviewSortingControls from '../../components/ReviewsComponents/ReviewSortingControls/ReviewSortingControls'
 import DisplayCurrentReviews from '../../components/ReviewsComponents/DisplayCurrentReviews/DisplayCurrentReviews'
@@ -26,13 +22,16 @@ const Reviews = () => {
 
   const initialFilter = queryParams.get('filter') || 'all'
 
-  const [selectedReview, setSelectedReview] = useState<
-    AdminDisplayReview | undefined
-  >(undefined)
+  const initialSelectedReviewId = parseInt(queryParams.get('review') || '0')
+
   const [search, setSearch] = useState('')
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
   const [page, setPage] = useState(initialPage)
+  const [selectedReviewId, setSelectedReviewId] = useState(
+    initialSelectedReviewId
+  )
+
   const reviewsPerPage = 10
 
   const {
@@ -43,9 +42,10 @@ const Reviews = () => {
     getAllAdminDisplayReviews()
   )
 
-  const setSelectedReviewById = async (id: number) => {
-    const review = getAdminDisplayReviewById(id)
-    setSelectedReview(review)
+  const handleSelectReviewId = (id: number) => {
+    setSelectedReviewId(id)
+    queryParams.set('review', `${id}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
   }
 
   const handleChangeSearch = (search: string) => {
@@ -128,19 +128,20 @@ const Reviews = () => {
   const totalPages = Math.ceil(sortedReviews.length / reviewsPerPage)
 
   const closeReviewPopup = () => {
-    setSelectedReview(undefined)
+    setSelectedReviewId(0)
+    queryParams.delete('review')
+    navigate(`?${queryParams.toString()}`, { replace: true })
     refetchGetAllAdminDisplayReviews()
   }
 
   return (
     <>
-      {selectedReview && (
-        <ReviewPopup
-          reviewId={selectedReview.reviewId}
-          closeReviewPopup={closeReviewPopup}
-        />
-      )}
       <LoadError status={reviewStatus} />
+      <ReviewPopup
+        reviewId={selectedReviewId}
+        closeReviewPopup={closeReviewPopup}
+      />
+
       {reviews && sortedReviews && (
         <>
           {' '}
@@ -163,7 +164,7 @@ const Reviews = () => {
               {/* TABLE */}
               <DisplayCurrentReviews
                 getPaginatedReviews={getPaginatedReviews}
-                setSelectedReviewById={setSelectedReviewById}
+                handleSelectReviewId={handleSelectReviewId}
               />
             </div>
           </div>
