@@ -1,7 +1,10 @@
 import { useEffect, useRef } from 'react'
 import { useQuery, useMutation } from 'react-query'
 import StarRating from '../../../../shopper/components/StarRating/StarRating'
-import { formatDateToDDMMYYYY } from '../../../../utils/formatDate'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../../utils/formatDate'
 import {
   getAdminDisplayReviewById,
   updateReviewStatusById,
@@ -75,9 +78,14 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
               >
                 Back to reviews
               </button>
-              <div className="flex justify-between font-bold text-lg">
-                <h2>{review.reviewerUserName}</h2>
-                <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
+              <div className="flex justify-between text-lg">
+                <div>
+                  <h2 className="font-bold">{review.reviewerUserName}</h2>
+                </div>
+                <div>
+                  <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
+                  <p>{format24HourTo12Hour(review.reviewCreatedAt)}</p>
+                </div>
               </div>
               <div className="flex mt-8 items-center">
                 <img
@@ -90,7 +98,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
             </div>
             <div>
               <div className="flex gap-4 mt-4 mb-2">
-                <p className="font-bold">Rating:</p>
+                <p className="font-bold">{`User's Rating:`}</p>
                 <StarRating rating={review.reviewRating} size={1} />
                 <p>({review.reviewRating})</p>
               </div>
