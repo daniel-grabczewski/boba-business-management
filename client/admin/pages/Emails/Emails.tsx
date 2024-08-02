@@ -29,7 +29,6 @@ const Emails = () => {
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
   const [selectedEmailId, setSelectedEmailId] = useState(initialSelectedEmailId)
-  console.log(selectedEmailId)
 
   const emailsPerPage = 10
 

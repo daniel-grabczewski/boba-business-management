@@ -30,7 +30,6 @@ const Profile = () => {
   const { data: demoOrders, status: demoOrdersStatus } = useQuery(
     'getDemoUserOrdersExtraDetails',
     async () => {
-      console.log(getDemoUserOrdersExtraDetails())
       return getDemoUserOrdersExtraDetails()
     }
   )
