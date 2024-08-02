@@ -28,11 +28,6 @@ const Emails = () => {
   const [page, setPage] = useState(initialPage)
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
-  /*
-  const [selectedEmail, setSelectedEmail] = useState<Email | undefined>(
-    undefined
-  )
-    */
   const [selectedEmailId, setSelectedEmailId] = useState(initialSelectedEmailId)
   console.log(selectedEmailId)
 
