@@ -3,6 +3,10 @@ import { useQuery } from 'react-query'
 import { getOrderExtraDetailsById } from '../../../../services/orders'
 import { formatCurrency } from '../../../../utils/formatCurrency'
 import LoadError from '../../../../shopper/components/LoadError/LoadError'
+import {
+  format24HourTo12Hour,
+  formatDateToDDMMYYYY,
+} from '../../../../utils/formatDate'
 
 interface OrderPopupProps {
   orderId: number
@@ -47,6 +51,12 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
           >
             <div className="mb-4">
               <h2 className="text-xl font-semibold">Order #{order.orderId}</h2>
+              <p>
+                Order made on:{' '}
+                {`
+                ${formatDateToDDMMYYYY(order.purchasedAt)},
+                ${format24HourTo12Hour(order.purchasedAt)}  `}
+              </p>
             </div>
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Information:</h3>
