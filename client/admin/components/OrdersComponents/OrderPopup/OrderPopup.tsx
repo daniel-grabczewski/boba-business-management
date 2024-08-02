@@ -1,18 +1,24 @@
 import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
 import { getOrderExtraDetailsById } from '../../../../services/orders'
-import { Order } from '../../../../../models/Orders'
 import { formatCurrency } from '../../../../utils/formatCurrency'
 import LoadError from '../../../../shopper/components/LoadError/LoadError'
 
 interface OrderPopupProps {
   orderId: number
-  order: Order
   closeOrderPopup: () => void
 }
 
 const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null)
+
+  const { data: order, status: orderStatus } = useQuery(
+    ['getOrderExtraDetailsById', orderId],
+    async () => getOrderExtraDetailsById(orderId),
+    {
+      refetchOnWindowFocus: false,
+    }
+  )
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -29,14 +35,6 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
       window.removeEventListener('mousedown', handleClickOutside)
     }
   }, [closeOrderPopup])
-
-  const { data: order, status: orderStatus } = useQuery(
-    ['getOrderExtraDetailsById', orderId],
-    async () => getOrderExtraDetailsById(orderId),
-    {
-      refetchOnWindowFocus: false,
-    }
-  )
 
   return (
     <>
