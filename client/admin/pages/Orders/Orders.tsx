@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { useQuery } from 'react-query'
 import {
   getOrdersFromLocalStorage,
-  getOrderById,
   getTotalSaleOfOrderById,
 } from '../../../services/orders'
 import { Order } from '../../../../models/Orders'
@@ -22,7 +21,9 @@ function AllOrders() {
 
   const initialSort = queryParams.get('sort') || 'newest-first'
 
-  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
+  const initialSelectedOrderId = parseInt(queryParams.get('order') || '0')
+
+  const [selectedOrderId, setSelectedOrderId] = useState(initialSelectedOrderId)
 
   const [page, setPage] = useState(initialPage)
   const [search, setSearch] = useState<string>('')
@@ -30,9 +31,12 @@ function AllOrders() {
 
   const ordersPerPage = 10
 
-  const { data: orders, status: ordersStatus } = useQuery(
-    'getOrdersFromLocalStorage',
-    async () => getOrdersFromLocalStorage()
+  const {
+    data: orders,
+    status: ordersStatus,
+    refetch: refetchGetOrdersFromLocalStorage,
+  } = useQuery('getOrdersFromLocalStorage', async () =>
+    getOrdersFromLocalStorage()
   )
 
   useEffect(() => {
@@ -40,16 +44,21 @@ function AllOrders() {
       setPage(1)
       setSort('newest-first')
       handleChangeSearch('')
+      queryParams.delete('email')
     }
   }, [location.search])
 
-  const handleOrderCellClick = async (orderId: number) => {
-    try {
-      const order = getOrderById(orderId)
-      setSelectedOrder(order)
-    } catch (error) {
-      console.error('Error getting order details:', error)
-    }
+  const handleSelectOrderId = (id: number) => {
+    setSelectedOrderId(id)
+    queryParams.set('order', `${id}`)
+    navigate(`?${queryParams.toString()}`, { replace: true })
+  }
+
+  const closeOrderPopup = () => {
+    setSelectedOrderId(0)
+    queryParams.delete('order')
+    navigate(`?${queryParams.toString()}`, { replace: true })
+    refetchGetOrdersFromLocalStorage()
   }
 
   const handleChangeSearch = (search: string) => {
@@ -108,10 +117,9 @@ function AllOrders() {
   return (
     <>
       <LoadError status={ordersStatus} />
+      <OrderPopup orderId={selectedOrderId} closeOrderPopup={closeOrderPopup} />
       <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
-      <h1 className="text-center text-4xl font-semibold mb-4">
-              Orders
-            </h1>
+        <h1 className="text-center text-4xl font-semibold mb-4">Orders</h1>
         <OrderSortingControls
           search={search}
           handleChangeSearch={handleChangeSearch}
@@ -126,19 +134,9 @@ function AllOrders() {
         <OrderTable
           getPaginatedOrders={getPaginatedOrders}
           ordersPerPage={ordersPerPage}
-          handleOrderCellClick={handleOrderCellClick}
+          handleSelectOrderId={handleSelectOrderId}
           formatCurrency={formatCurrency}
         />
-        {selectedOrder && (
-          <div className="order-details-popup">
-            <button onClick={() => setSelectedOrder(null)}>Close</button>
-            <OrderPopup
-              orderId={selectedOrder.id}
-              order={selectedOrder}
-              closeOrderPopup={() => setSelectedOrder(null)}
-            />
-          </div>
-        )}
       </div>
     </>
   )
