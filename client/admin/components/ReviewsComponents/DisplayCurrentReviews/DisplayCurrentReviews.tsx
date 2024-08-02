@@ -5,12 +5,12 @@ import {
 } from '../../../../utils/formatDate'
 interface DisplayCurrentReviewsProps {
   getPaginatedReviews: () => AdminDisplayReview[]
-  setSelectedReviewById: (reviewId: number) => void
+  handleSelectReviewId: (reviewId: number) => void
 }
 
 const DisplayCurrentReviews = ({
   getPaginatedReviews,
-  setSelectedReviewById,
+  handleSelectReviewId,
 }: DisplayCurrentReviewsProps) => {
   return (
     <>
@@ -30,7 +30,7 @@ const DisplayCurrentReviews = ({
               <div
                 key={review.reviewId}
                 className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-                onClick={() => setSelectedReviewById(review.reviewId)}
+                onClick={() => handleSelectReviewId(review.reviewId)}
               >
                 <div
                   className="divCell py-3 px-8 text-left whitespace-nowrap"
