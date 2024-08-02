@@ -9,13 +9,13 @@ import {
 interface OrderTableProps {
   getPaginatedOrders: () => Order[]
   ordersPerPage: number
-  handleOrderCellClick: (orderId: number) => void
+  handleSelectOrderId: (orderId: number) => void
   formatCurrency: (amount: number) => string
 }
 
 function OrderTable({
   getPaginatedOrders,
-  handleOrderCellClick,
+  handleSelectOrderId,
   formatCurrency,
 }: OrderTableProps) {
   return (
@@ -36,7 +36,7 @@ function OrderTable({
               <div
                 key={order.id}
                 className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
-                onClick={() => handleOrderCellClick(order.id)}
+                onClick={() => handleSelectOrderId(order.id)}
               >
                 <div className="divCell py-3 px-8 text-left whitespace-nowrap">
                   {order.id}
