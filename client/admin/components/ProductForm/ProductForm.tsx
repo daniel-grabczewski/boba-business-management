@@ -32,6 +32,27 @@ function ProductForm({
   pageTitle,
 }: ProductFormProps) {
   const [originalButtonText] = useState(buttonText)
+  const [localStock, setLocalStock] = useState(product.stock)
+
+  const stockIncrement = 10
+
+  const handleStockChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target
+    setLocalStock(value === '' ? 0 : Math.max(parseInt(value), 0))
+    handleChange(event)
+  }
+
+  const addStock = () => {
+    const newStock = localStock + stockIncrement
+    setLocalStock(newStock)
+
+    const event = {
+      target: { name: 'stock', value: newStock },
+      currentTarget: { name: 'stock', value: newStock },
+    }
+
+    handleChange(event as unknown as React.ChangeEvent<HTMLInputElement>)
+  }
 
   return (
     <div
@@ -90,45 +111,59 @@ function ProductForm({
           ></textarea>
         </div>
         <div className="flex space-x-4 mb-4">
-          <div className="w-1/2">
+          <div className="w-1/3">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="price"
             >
               Price:
             </label>
-            <input
-              id="price"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+            <div
+              className={`flex shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
                 emptyFields.includes('price') || invalidFields.includes('price')
                   ? 'border-red-500'
                   : ''
               }`}
-              name="price"
-              type="number"
-              value={product.price}
-              onChange={handleChange}
-            />
+            >
+              <span className="self-center mr-2">$</span>
+              <input
+                id="price"
+                className="w-full focus:outline-none"
+                name="price"
+                type="number"
+                value={product.price}
+                onChange={handleChange}
+              />
+            </div>
           </div>
-          <div className="w-1/2">
+          <div className="w-2/3">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="stock"
             >
               Stock:
             </label>
-            <input
-              id="stock"
-              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                emptyFields.includes('stock') ? 'border-red-500' : ''
-              }`}
-              type="number"
-              name="stock"
-              min="0"
-              step="1"
-              value={product.stock}
-              onChange={handleChange}
-            />
+            <div className="flex justify-between gap-4">
+              <input
+                id="stock"
+                className={`shadow appearance-none border rounded w-1/2 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
+                  emptyFields.includes('stock') ? 'border-red-500' : ''
+                }`}
+                type="number"
+                name="stock"
+                min="0"
+                step="1"
+                value={localStock}
+                onChange={handleStockChange}
+              />
+              <button
+                className="text-white font-bold py-2 px-2 rounded bg-blue-500 hover:bg-blue-700 w-1/2"
+                onClick={addStock}
+                type="button"
+              >
+                Add +10 Stock
+              </button>
+            </div>
           </div>
         </div>
         <div className="flex space-x-4 mb-4">
