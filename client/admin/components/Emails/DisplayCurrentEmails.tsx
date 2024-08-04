@@ -2,10 +2,11 @@ import { Email } from '../../../../models/Emails'
 import { getUserNameByUserId } from '../../../services/users'
 import {
   format24HourTo12Hour,
-  formatDateToDDMMYYYY,
+  formatRelativeDate,
 } from '../../../utils/formatDate'
 import { faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { truncate } from '../../../utils/truncate'
 
 interface DisplayCurrentEmailsProps {
   getPaginatedEmails: () => Email[]
@@ -17,39 +18,61 @@ const DisplayCurrentEmails = ({
   handleSelectEmailId,
 }: DisplayCurrentEmailsProps) => {
   return (
-    <div className="text-gray-600 text-sm font-light">
-      {getPaginatedEmails().map((email) => (
-        <div
-          key={email.id}
-          onClick={() => handleSelectEmailId(email.id)}
-          className="flex border border-gray-300 cursor-pointer "
-        >
-          <div className="pl-1 flex flex-col items-center justify-center ">
-            <div>
-              {email.isRead ? (
-                <FontAwesomeIcon
-                  icon={faEnvelopeOpen}
-                  className="text-xl align-middle m-1"
-                />
-              ) : (
-                <FontAwesomeIcon
-                  icon={faEnvelope}
-                  className="text-xl align-middle m-1"
-                />
-              )}
+    <div className="divTable bg-white mt-4 border border-gray-300">
+      <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+        <div className="divCell py-3 px-8">Username</div>
+        <div className="divCell py-3 px-8">Title</div>
+        <div className="divCell py-3 px-8">Subject</div>
+        <div className="divCell py-3 px-8">Date Recieved</div>
+      </div>
+
+      <div className="divBody text-gray-600 text-sm font-light">
+        {getPaginatedEmails().map((email) => (
+          <div
+            key={email.id}
+            onClick={() => handleSelectEmailId(email.id)}
+            className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+          >
+            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/6">
+              <div className="flex flex-row items-center ">
+                <div className="mr-2">
+                  {email.isRead ? (
+                    <FontAwesomeIcon
+                      icon={faEnvelopeOpen}
+                      className="text-xl align-middle "
+                    />
+                  ) : (
+                    <FontAwesomeIcon
+                      icon={faEnvelope}
+                      className="text-xl align-middle "
+                    />
+                  )}
+                </div>
+                <div>{getUserNameByUserId(email.userId)}</div>
+              </div>
+            </div>
+
+            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/5">
+              {truncate(email.title, 25)}
+            </div>
+            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/5">
+              {truncate(email.description, 45)}
+            </div>
+            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/6">
+              <div
+                className={
+                  formatRelativeDate(email.createdAt) === 'Today'
+                    ? 'font-semibold'
+                    : ''
+                }
+              >
+                {formatRelativeDate(email.createdAt)}{' '}
+                {format24HourTo12Hour(email.createdAt)}
+              </div>
             </div>
           </div>
-
-          <div className="flex-1 py-3 px-1 text-left whitespace-nowrap">
-            {getUserNameByUserId(email.userId)}
-          </div>
-          <div className="flex-1 py-3 text-left">{email.title}</div>
-          <div className="flex-1 py-3 pl-6 text-left">
-            {format24HourTo12Hour(email.createdAt)}{' '}
-            {formatDateToDDMMYYYY(email.createdAt)}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   )
 }
