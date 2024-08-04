@@ -2,6 +2,7 @@ import { Email } from '../../../../models/Emails'
 import { getUserNameByUserId } from '../../../services/users'
 import {
   format24HourTo12Hour,
+  formatDateToDDMMYYYY,
   formatRelativeDate,
 } from '../../../utils/formatDate'
 import { faEnvelope, faEnvelopeOpen } from '@fortawesome/free-solid-svg-icons'
