@@ -31,7 +31,11 @@ const DisplayCurrentEmails = ({
           <div
             key={email.id}
             onClick={() => handleSelectEmailId(email.id)}
-            className="divRow border-b border-gray-200 hover:bg-gray-100 cursor-pointer"
+            className={`divRow border-b border-gray-200 ${
+              email.isRead
+                ? 'bg-gray-100 hover:bg-gray-200 cursor-pointer'
+                : 'hover:bg-gray-50 cursor-pointer'
+            }`}
           >
             <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/6">
               <div className="flex flex-row items-center ">
