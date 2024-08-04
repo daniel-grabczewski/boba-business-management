@@ -1,9 +1,6 @@
 import { useQuery } from 'react-query'
-import {
-  getEmailsFromLocalStorage,
-} from '../../../services/emails'
+import { getEmailsFromLocalStorage } from '../../../services/emails'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
-import EmailsColumnTitles from '../../components/Emails/EmailsColumnTitles'
 import DisplayCurrentEmails from '../../components/Emails/DisplayCurrentEmails'
 import { useEffect, useState } from 'react'
 import EmailsSortingControls from '../../components/Emails/EmailsSortingControls'
@@ -91,7 +88,7 @@ const Emails = () => {
     return sortedEmails.slice(start, end)
   }
 
-  const handleSelectEmailId = (id : number) => {
+  const handleSelectEmailId = (id: number) => {
     setSelectedEmailId(id)
     queryParams.set('email', `${id}`)
     navigate(`?${queryParams.toString()}`, { replace: true })
@@ -106,14 +103,11 @@ const Emails = () => {
   return (
     <>
       <LoadError status={emailStatus} />
-        <EmailPopup
-          emailId={selectedEmailId}
-          closeEmailPopup={closeEmailPopup}
-        />
+      <EmailPopup emailId={selectedEmailId} closeEmailPopup={closeEmailPopup} />
 
       {!isLoading && emails && sortedEmails && (
         <div className="flex justify-center overflow-x-auto">
-          <div className="p-4 w-full lg:w-11/12">
+          <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px'}}>
             <h1 className="text-center text-4xl font-semibold mb-4">Inbox</h1>
             {/* SortingControl */}
             <EmailsSortingControls
@@ -126,14 +120,11 @@ const Emails = () => {
               totalPages={totalPages}
               sortedEmailsCount={sortedEmails.length}
             />
-            <div className="w-full bg-white mt-4 border border-gray-300">
-              <EmailsColumnTitles />
-              <DisplayCurrentEmails
-                getPaginatedEmails={getPaginatedEmails}
-                handleSelectEmailId={handleSelectEmailId}
-                
-              />
-            </div>
+
+            <DisplayCurrentEmails
+              getPaginatedEmails={getPaginatedEmails}
+              handleSelectEmailId={handleSelectEmailId}
+            />
           </div>
         </div>
       )}
