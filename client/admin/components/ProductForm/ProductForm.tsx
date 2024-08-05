@@ -14,6 +14,7 @@ interface ProductFormProps {
   buttonText: string
   invalidFields: string[]
   pageTitle: string
+  originalProduct: UpsertProduct
 }
 
 // This is a reusable component for editing/adding a new product for admins
@@ -30,11 +31,27 @@ function ProductForm({
   invalidFields,
   placeholderImage,
   pageTitle,
+  originalProduct,
 }: ProductFormProps) {
   const [originalButtonText] = useState(buttonText)
   const [localStock, setLocalStock] = useState(
     product.stock !== null ? product.stock : ''
   )
+
+  const hasUnsavedChanges = (
+    original: UpsertProduct,
+    current: UpsertProduct
+  ) => {
+    for (const key in original) {
+      if (
+        original[key as keyof UpsertProduct] !==
+        current[key as keyof UpsertProduct]
+      ) {
+        return true
+      }
+    }
+    return false
+  }
 
   const stockIncrement = 10
 
@@ -61,7 +78,7 @@ function ProductForm({
   return (
     <div
       className="container mx-auto"
-      style={{ maxWidth: '500px', minHeight: '70vh' }}
+      style={{ maxWidth: '500px', marginTop: '50px' }}
     >
       <h1 className="text-3xl font-semibold mb-4">{pageTitle}</h1>
       <form onSubmit={handleSubmit}>
@@ -170,7 +187,7 @@ function ProductForm({
             </div>
           </div>
         </div>
-        <div className="flex space-x-4 mb-4">
+        <div className="flex space-x-4 mb-8">
           <div className="w-1/2 flex flex-col justify-center">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
@@ -212,17 +229,26 @@ function ProductForm({
         </div>
 
         <div className="mb-4">
-          <button
-            style={{ minWidth: '150px' }}
-            className={`${
-              buttonText === originalButtonText
-                ? 'bg-blue-500 hover:bg-blue-700'
-                : 'bg-green-500 hover:bg-green-700'
-            } text-white font-bold py-2 px-4 rounded`}
-            type="submit"
-          >
-            {buttonText}
-          </button>
+          <div className="flex flex-row justify-between">
+            <button
+              style={{ minWidth: '150px' }}
+              className={`${
+                buttonText === originalButtonText
+                  ? 'bg-blue-500 hover:bg-blue-700'
+                  : 'bg-green-500 hover:bg-green-700'
+              } text-white font-bold py-2 px-4 rounded`}
+              type="submit"
+            >
+              {buttonText}
+            </button>
+            {hasUnsavedChanges(originalProduct, product) ? (
+              <div className="bg-red-400 py-2 px-4 rounded">
+                <p>You have unsaved changes!</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
+          </div>
           <p className="text-red-500 mt-2" style={{ minHeight: '1.5em' }}>
             {errorMessage}
           </p>
