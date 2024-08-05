@@ -32,23 +32,27 @@ function ProductForm({
   pageTitle,
 }: ProductFormProps) {
   const [originalButtonText] = useState(buttonText)
-  const [localStock, setLocalStock] = useState(product.stock)
+  const [localStock, setLocalStock] = useState(
+    product.stock !== null ? product.stock : ''
+  )
 
   const stockIncrement = 10
 
   const handleStockChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target
-    setLocalStock(value === '' ? 0 : Math.max(parseInt(value), 0))
+    setLocalStock(value === '' ? '' : Math.max(parseInt(value), 0))
     handleChange(event)
   }
 
   const addStock = () => {
-    const newStock = localStock + stockIncrement
+    const newStock =
+      (localStock === '' ? 0 : parseInt(localStock as string, 10)) +
+      stockIncrement
     setLocalStock(newStock)
 
     const event = {
-      target: { name: 'stock', value: newStock },
-      currentTarget: { name: 'stock', value: newStock },
+      target: { name: 'stock', value: newStock.toString() },
+      currentTarget: { name: 'stock', value: newStock.toString() },
     }
 
     handleChange(event as unknown as React.ChangeEvent<HTMLInputElement>)
