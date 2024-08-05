@@ -37,7 +37,10 @@ const DisplayCurrentEmails = ({
                 : 'hover:bg-gray-50 cursor-pointer'
             }`}
           >
-            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/6">
+            <div
+              className="divCell py-3 px-8 text-left whitespace-nowrap"
+              style={{ minWidth: '150px', maxWidth: '150px' }}
+            >
               <div className="flex flex-row items-center ">
                 <div className="mr-2">
                   {email.isRead ? (
@@ -56,13 +59,22 @@ const DisplayCurrentEmails = ({
               </div>
             </div>
 
-            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/5">
+            <div
+              className="divCell py-3 px-8 text-left"
+              style={{ minWidth: '250px' }}
+            >
               {truncate(email.title, 25)}
             </div>
-            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/5">
+            <div
+              className="divCell py-3 px-8 text-left"
+              style={{ minWidth: '200px' }}
+            >
               {truncate(email.description, 45)}
             </div>
-            <div className="divCell py-3 px-8 text-left whitespace-nowrap w-1/6">
+            <div
+              className="divCell py-3 px-8 text-left"
+              style={{ minWidth: '200px' }}
+            >
               <div
                 className={
                   formatRelativeDate(email.createdAt) === 'Today'
