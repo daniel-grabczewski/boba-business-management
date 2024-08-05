@@ -16,6 +16,15 @@ const AddProduct = () => {
     stock: 0,
   })
 
+  const [originalProduct, setOriginalProduct] = useState<UpsertProduct>({
+    image: '',
+    isEnabled: true,
+    name: '',
+    price: 0,
+    description: '',
+    stock: 0,
+  })
+
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
   const [errorMessage, setErrorMessage] = useState('')
@@ -47,12 +56,15 @@ const AddProduct = () => {
     }
   )
 
+  //! Uncomment this if you want progress of form entry to be stored into localStorage, so it stays across refreshes
+  /*
   useEffect(() => {
     const savedProduct = localStorage.getItem('newProduct')
     if (savedProduct) {
       setNewProduct(JSON.parse(savedProduct) as UpsertProduct)
     }
   }, [])
+  */
 
   useEffect(() => {
     const { image, name, price, description } = newProduct
@@ -125,6 +137,14 @@ const AddProduct = () => {
     event.preventDefault()
     if (checkValues(newProduct)) {
       addProductMutation.mutate(newProduct)
+      setOriginalProduct({
+        image: '',
+        isEnabled: true,
+        name: '',
+        price: 0,
+        description: '',
+        stock: 0,
+      })
     } else {
       setErrorMessage('Please fill all empty fields and correct invalid inputs')
     }
@@ -133,7 +153,6 @@ const AddProduct = () => {
   return (
     <>
       <LoadError status={addProductMutation.status} />
-      <div style = {{height : '50px'}}></div>
       <ProductForm
         handleSubmit={handleSubmit}
         handleChange={handleChange}
@@ -145,8 +164,8 @@ const AddProduct = () => {
         buttonText={buttonText}
         invalidFields={invalidFields}
         pageTitle={'Add a product'}
+        originalProduct={originalProduct}
       />
-      <div style = {{height : '200px'}}></div>
     </>
   )
 }
