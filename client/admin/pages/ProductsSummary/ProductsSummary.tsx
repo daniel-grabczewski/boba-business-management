@@ -4,7 +4,11 @@ import { useEffect, useState } from 'react'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import ViewProducts from '../../components/ViewProducts/ViewProducts'
 import ProductsSortingControls from '../../components/ProductsSortingControls/ProductsSortingControls'
-import { changeFilter, changePage, changeSort } from '../../../utils/queryHelpers'
+import {
+  changeFilter,
+  changePage,
+  changeSort,
+} from '../../../utils/queryHelpers'
 import { useNavigate } from 'react-router-dom'
 
 const ProductsSummary = () => {
@@ -16,7 +20,6 @@ const ProductsSummary = () => {
   const initialSort = queryParams.get('sort') || 'a-z'
 
   const initialFilter = queryParams.get('filter') || 'all'
-
 
   const [page, setPage] = useState(initialPage)
   const [sort, setSort] = useState(initialSort)
@@ -64,10 +67,10 @@ const ProductsSummary = () => {
   }, [location.search])
 
   const searchedProducts = products
-  ? products.filter((product) =>
-      product.name.toLowerCase().includes(search.toLowerCase())
-    )
-  : []
+    ? products.filter((product) =>
+        product.name.toLowerCase().includes(search.toLowerCase())
+      )
+    : []
 
   const filteredProducts = searchedProducts
     ? searchedProducts.filter((product) => {
@@ -121,22 +124,25 @@ const ProductsSummary = () => {
       {products && sortedProducts && (
         <div
           className="flex flex-col items-center"
-          style={{ marginTop: '20px', marginBottom: '100px', minHeight : '100vh'}}
+          style={{
+            marginTop: '20px',
+            marginBottom: '100px',
+            minHeight: '100vh',
+            minWidth: '1000px',
+          }}
         >
-          <h1 className="text-center text-4xl font-semibold mb-4">
-              Products
-            </h1>
-          <ProductsSortingControls 
-            search = {search}
-            handleChangeSearch = {handleChangeSearch}
-            sort = {sort}
-            handleChangeSort = {handleChangeSort}
-            page = {page}
-            totalPages = {totalPages}
-            handleChangePage = {handleChangePage}
-            productsCount = {sortedProducts.length}
-            handleChangeFilter = {handleChangeFilter}
-            filter = {filter}
+          <h1 className="text-center text-4xl font-semibold mb-4">Products</h1>
+          <ProductsSortingControls
+            search={search}
+            handleChangeSearch={handleChangeSearch}
+            sort={sort}
+            handleChangeSort={handleChangeSort}
+            page={page}
+            totalPages={totalPages}
+            handleChangePage={handleChangePage}
+            productsCount={sortedProducts.length}
+            handleChangeFilter={handleChangeFilter}
+            filter={filter}
           />
           <ViewProducts
             hoveredProductId={hoveredProductId}
