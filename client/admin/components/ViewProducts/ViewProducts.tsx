@@ -29,17 +29,21 @@ const ViewProducts = ({
               }`}
               style={{ width: '750px', height: '200px' }}
             >
-              <div className="w-1/4">
+              <div
+                className="w-1/4 flex justify-center items-center px-2"
+                style={{ width: '150px', height: '150px', marginRight: '5px' }}
+              >
                 <Link
                   to={`/admin/edit/${product.id}`}
-                  className="w-full h-48 block"
-                  // style={{ marginBottom: "15px" }}
+                  className="block w-full h-full flex justify-center items-center"
                 >
                   <img
                     src={product.image}
                     alt={product.name}
-                    className="h-48"
-                    style={{ width: '150px' }}
+                    style={{
+                      maxHeight: '100%',
+                      maxWidth: '100%',
+                    }}
                   />
                 </Link>
               </div>
