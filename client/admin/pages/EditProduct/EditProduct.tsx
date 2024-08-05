@@ -1,29 +1,45 @@
 import { useEffect, useState, FormEvent } from 'react'
-import { UpsertProduct, AdminProduct } from '../../../../models/Products'
-import { updateProductById } from '../../../services/products'
-import { useMutation, useQueryClient } from 'react-query'
+import { UpsertProduct } from '../../../../models/Products'
+import {
+  getProductByIdAdmin,
+  updateProductById,
+} from '../../../services/products'
+import { useMutation, useQuery, useQueryClient } from 'react-query'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
-import ProductForm from '../ProductForm/ProductForm'
+import ProductForm from '../../components/ProductForm/ProductForm'
+import { useParams } from 'react-router-dom'
 
-interface EditProductProps {
-  product: AdminProduct
-}
+function EditProduct() {
+  const params = useParams()
+  const id = Number(params.id)
 
-function EditProduct({ product }: EditProductProps) {
+  const { data: product, status: statusProduct } = useQuery(
+    ['getProductByIdAdmin', id],
+    async () => getProductByIdAdmin(id)
+  )
+
   const [buttonText, setButtonText] = useState('Save Changes')
   const [editedProduct, setEditedProduct] = useState<UpsertProduct>({
-    image: product.image,
-    isEnabled: !!product.isEnabled,
-    name: product.name,
-    price: product.price,
-    description: product.description,
-    stock: product.stock,
+    image: '',
+    isEnabled: false,
+    name: '',
+    price: 0,
+    description: '',
+    stock: 0,
+  })
+
+  const [originalProduct, setOriginalProduct] = useState<UpsertProduct>({
+    image: '',
+    isEnabled: false,
+    name: '',
+    price: 0,
+    description: '',
+    stock: 0,
   })
 
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
   const [errorMessage, setErrorMessage] = useState('')
-
 
   const placeholderImage = '/images/placeholder-image.png'
 
@@ -31,7 +47,7 @@ function EditProduct({ product }: EditProductProps) {
 
   const updateProductMutation = useMutation(
     async (editedProduct: UpsertProduct) =>
-      updateProductById(product.id, editedProduct),
+      updateProductById(product!.id, editedProduct),
     {
       onSuccess: () => {
         setButtonText('Changes Saved')
@@ -46,7 +62,20 @@ function EditProduct({ product }: EditProductProps) {
     }
   )
 
-
+  useEffect(() => {
+    if (product) {
+      const productForState = {
+        image: product.image,
+        isEnabled: !!product.isEnabled,
+        name: product.name,
+        price: product.price,
+        description: product.description,
+        stock: product.stock,
+      }
+      setEditedProduct(productForState)
+      setOriginalProduct(productForState)
+    }
+  }, [product])
 
   useEffect(() => {
     const { image, name, price, description } = editedProduct
@@ -118,6 +147,7 @@ function EditProduct({ product }: EditProductProps) {
     event.preventDefault()
     if (checkValues(editedProduct)) {
       updateProductMutation.mutate(editedProduct)
+      setOriginalProduct(editedProduct)
     } else {
       setErrorMessage('Please fill all empty fields and correct invalid inputs')
     }
@@ -125,21 +155,20 @@ function EditProduct({ product }: EditProductProps) {
 
   return (
     <>
-      <LoadError status={updateProductMutation.status} />
-      <div style = {{marginTop : '-35px'}}>
-      <ProductForm 
-      handleSubmit={handleSubmit}
-      handleChange={handleChange}
-      toggleEnabled={toggleEnabled}
-      product={editedProduct}
-      placeholderImage={placeholderImage}
-      emptyFields={emptyFields}
-      errorMessage={errorMessage}
-      buttonText={buttonText}
-      invalidFields={invalidFields}
-      pageTitle={'Edit product'}
+      <LoadError status={statusProduct} />
+      <ProductForm
+        handleSubmit={handleSubmit}
+        handleChange={handleChange}
+        toggleEnabled={toggleEnabled}
+        product={editedProduct}
+        placeholderImage={placeholderImage}
+        emptyFields={emptyFields}
+        errorMessage={errorMessage}
+        buttonText={buttonText}
+        invalidFields={invalidFields}
+        pageTitle={'Edit product'}
+        originalProduct={originalProduct}
       />
-      </div>
     </>
   )
 }

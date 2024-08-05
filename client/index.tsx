@@ -27,7 +27,7 @@ import {
   Dashboard,
   Emails,
   ProductsSummary,
-  IndividualProduct,
+  EditProduct,
 } from './admin/pages/'
 
 import Redirect from './shopper/pages/Redirect/Redirect'
@@ -104,7 +104,7 @@ export const routes = createRoutesFromElements(
     />
     <Route
       path="admin/edit/:id"
-      element={<ProtectedComponent component={IndividualProduct} />}
+      element={<ProtectedComponent component={EditProduct} />}
     />
 
     <Route
