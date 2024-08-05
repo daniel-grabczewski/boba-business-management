@@ -144,29 +144,26 @@ const Reviews = () => {
 
       {reviews && sortedReviews && (
         <>
-          {' '}
-          <h1 className="text-center text-4xl font-semibold mt-4">Reviews</h1>
-          <div className="flex justify-center">
-            <div className="p-4" style={{ width: '1000px' }}>
-              <ReviewSortingControls
-                search={search}
-                handleChangeSearch={handleChangeSearch}
-                filter={filter}
-                handleChangeFilter={handleChangeFilter}
-                sort={sort}
-                handleChangeSort={handleChangeSort}
-                page={page}
-                handleChangePage={handleChangePage}
-                totalPages={totalPages}
-                reviewsCount={sortedReviews.length}
-              />
+          <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '1000px' }}>
+            <h1 className="text-center text-4xl font-semibold mb-4">Reviews</h1>
+            <ReviewSortingControls
+              search={search}
+              handleChangeSearch={handleChangeSearch}
+              filter={filter}
+              handleChangeFilter={handleChangeFilter}
+              sort={sort}
+              handleChangeSort={handleChangeSort}
+              page={page}
+              handleChangePage={handleChangePage}
+              totalPages={totalPages}
+              reviewsCount={sortedReviews.length}
+            />
 
-              {/* TABLE */}
-              <DisplayCurrentReviews
-                getPaginatedReviews={getPaginatedReviews}
-                handleSelectReviewId={handleSelectReviewId}
-              />
-            </div>
+            {/* TABLE */}
+            <DisplayCurrentReviews
+              getPaginatedReviews={getPaginatedReviews}
+              handleSelectReviewId={handleSelectReviewId}
+            />
           </div>
         </>
       )}
