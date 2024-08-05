@@ -118,7 +118,7 @@ function AllOrders() {
     <>
       <LoadError status={ordersStatus} />
       <OrderPopup orderId={selectedOrderId} closeOrderPopup={closeOrderPopup} />
-      <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px' }}>
+      <div className="w-1/2 mx-auto pt-4" style={{ width: '1000px' }}>
         <h1 className="text-center text-4xl font-semibold mb-4">Orders</h1>
         <OrderSortingControls
           search={search}
@@ -130,7 +130,6 @@ function AllOrders() {
           handleChangePage={handleChangePage}
           ordersCount={sortedOrders.length}
         />
-        <LoadError status={ordersStatus} />
         <OrderTable
           getPaginatedOrders={getPaginatedOrders}
           ordersPerPage={ordersPerPage}

@@ -23,7 +23,7 @@ function OrderSortingControls({
   const firstIndex = lastIndex - 10
 
   return (
-    <div className="border p-2 rounded flex justify-between items-center">
+    <div className="border p-2 rounded flex flex-row justify-between items-center">
       <div className="flex items-center">
         {/* SEARCH */}
         <input
@@ -54,9 +54,8 @@ function OrderSortingControls({
       {/* PAGINATION */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
-          
-          Showing {ordersCount === 0 ? 0 : firstIndex + 1}-{Math.min(lastIndex, ordersCount)} of{' '}
-          {ordersCount}
+          Showing {ordersCount === 0 ? 0 : firstIndex + 1}-
+          {Math.min(lastIndex, ordersCount)} of {ordersCount}
         </div>
         <button
           className={`${
