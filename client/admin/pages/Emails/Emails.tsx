@@ -11,6 +11,9 @@ import {
   changePage,
   changeSort,
 } from '../../../utils/queryHelpers'
+import { Email } from '../../../../models/Emails'
+import { getUserNameByUserId } from '../../../services/users'
+import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 
 const Emails = () => {
   const navigate = useNavigate()
@@ -25,6 +28,7 @@ const Emails = () => {
   const [page, setPage] = useState(initialPage)
   const [filter, setFilter] = useState(initialFilter)
   const [sort, setSort] = useState(initialSort)
+  const [search, setSearch] = useState<string>('')
   const [selectedEmailId, setSelectedEmailId] = useState(initialSelectedEmailId)
 
   const emailsPerPage = 10
@@ -37,6 +41,11 @@ const Emails = () => {
   } = useQuery(['getEmailsFromLocalStorage'], async () =>
     getEmailsFromLocalStorage()
   )
+
+  const handleChangeSearch = (search: string) => {
+    localStorage.setItem('emailSearch', JSON.stringify(search))
+    setSearch(search)
+  }
 
   const handleChangePage = (newPage: number) => {
     changePage(newPage, setPage, navigate, location.search)
@@ -51,16 +60,36 @@ const Emails = () => {
   }
 
   useEffect(() => {
+    const searchInLocalStorage = localStorage.getItem('emailSearch')
+    if (searchInLocalStorage) {
+      setSearch(JSON.parse(searchInLocalStorage))
+    }
+  }, [])
+
+  useEffect(() => {
     if (!location.search) {
       setPage(1)
       setSort('newest-first')
       setFilter('all')
+      handleChangeSearch('')
       queryParams.delete('email')
     }
   }, [location.search])
 
-  const filteredEmails = emails
-    ? emails.filter((email) => {
+  const searchedOrders = emails
+    ? emails.filter(
+        (email: Email) =>
+          getUserNameByUserId(email.userId)
+            .toLowerCase()
+            .includes(search.toLowerCase()) ||
+          email.title.toLowerCase().includes(search.toLowerCase()) ||
+          email.description.toLowerCase().includes(search.toLowerCase()) ||
+          formatDateToDDMMYYYY(email.createdAt).includes(search.toLowerCase())
+      )
+    : []
+
+  const filteredEmails = searchedOrders
+    ? searchedOrders.filter((email) => {
         if (filter === 'all') return true
         if (filter === 'unread') return !email.isRead
         return true
@@ -106,26 +135,26 @@ const Emails = () => {
       <EmailPopup emailId={selectedEmailId} closeEmailPopup={closeEmailPopup} />
 
       {!isLoading && emails && sortedEmails && (
-        <div className="flex justify-center overflow-x-auto">
-          <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '700px'}}>
-            <h1 className="text-center text-4xl font-semibold mb-4">Inbox</h1>
-            {/* SortingControl */}
-            <EmailsSortingControls
-              filter={filter}
-              handleChangeFilter={handleChangeFilter}
-              sort={sort}
-              handleChangeSort={handleChangeSort}
-              page={page}
-              handleChangePage={handleChangePage}
-              totalPages={totalPages}
-              sortedEmailsCount={sortedEmails.length}
-            />
+        <div className="w-1/2 mx-auto pt-4" style={{ minWidth: '1000px' }}>
+          <h1 className="text-center text-4xl font-semibold mb-4">Inbox</h1>
+          {/* SortingControl */}
+          <EmailsSortingControls
+            search={search}
+            handleChangeSearch={handleChangeSearch}
+            filter={filter}
+            handleChangeFilter={handleChangeFilter}
+            sort={sort}
+            handleChangeSort={handleChangeSort}
+            page={page}
+            handleChangePage={handleChangePage}
+            totalPages={totalPages}
+            sortedEmailsCount={sortedEmails.length}
+          />
 
-            <DisplayCurrentEmails
-              getPaginatedEmails={getPaginatedEmails}
-              handleSelectEmailId={handleSelectEmailId}
-            />
-          </div>
+          <DisplayCurrentEmails
+            getPaginatedEmails={getPaginatedEmails}
+            handleSelectEmailId={handleSelectEmailId}
+          />
         </div>
       )}
     </>

@@ -1,15 +1,19 @@
 interface EmailSortingControlsProps {
+  search: string
+  handleChangeSearch: (search: string) => void
   filter: string
-  handleChangePage: (newPage : number) => void
+  handleChangePage: (newPage: number) => void
   sort: string
-  handleChangeSort: (newSort : string) => void
+  handleChangeSort: (newSort: string) => void
   page: number
-  handleChangeFilter: (newFilter : string) => void
+  handleChangeFilter: (newFilter: string) => void
   totalPages: number
   sortedEmailsCount: number
 }
 
 const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
+  search,
+  handleChangeSearch,
   filter,
   handleChangeFilter,
   sort,
@@ -24,6 +28,17 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
   return (
     <div className="border p-2 rounded flex flex-row justify-between items-center">
       <div className="flex items-center">
+        {/* SEARCH */}
+        <input
+          className="border p-2 rounded mr-2"
+          type="text"
+          placeholder="Search for email..."
+          value={search}
+          onChange={(e) => {
+            handleChangeSearch(e.target.value)
+            handleChangePage(1)
+          }}
+        />
         {/* FILTER */}
         <p className="mx-2 font-semibold">Filter by:</p>
         <select
