@@ -276,10 +276,14 @@ export function getOrderCountFromDate(date: string): number {
 export function getTotalSaleOfOrderById(id: number): number {
   try {
     const order = getOrderById(id)
+
     if (!order) {
       console.log(`Order with id ${id} not found`)
       return 0
     }
+
+    const shippingPrice = getShippingOptionById(order.shippingId)?.price ?? 0
+    console.log(shippingPrice)
 
     const totalSale = order.orderItems.reduce((total, orderItem) => {
       try {
@@ -298,7 +302,7 @@ export function getTotalSaleOfOrderById(id: number): number {
       return total
     }, 0)
 
-    return totalSale
+    return totalSale + shippingPrice
   } catch (error) {
     console.error('Failed to get total sale of order by id:', error)
     return 0
