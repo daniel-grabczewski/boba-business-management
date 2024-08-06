@@ -51,7 +51,9 @@ const DisplayCurrentReviews = ({
                   {review.reviewRating}
                 </div>
                 <div
-                  className="divCell py-3 px-8 text-left"
+                  className={`divCell py-3 px-8 text-left ${
+                    review.reviewIsEnabled ? 'bg-green-200' : 'bg-red-300'
+                  }`}
                   style={{ minWidth: '100px' }}
                 >
                   {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
