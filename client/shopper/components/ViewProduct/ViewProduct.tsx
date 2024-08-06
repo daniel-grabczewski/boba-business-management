@@ -10,6 +10,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
+import { formatCurrency } from '../../../utils/formatCurrency'
 
 interface ViewProductProps {
   product: ShopperProduct
@@ -114,13 +115,15 @@ function ViewProduct({
           </div>
         </div>
 
-        <h2 className="text-xl font-bold">${product.price}</h2>
+        <h2 className="text-xl font-semibold">
+          {formatCurrency(product.price)}
+        </h2>
         <div className="flex">
           <StarRating rating={averageRating} size={1} />
           <p>{averageRating}</p>
         </div>
 
-        <p className="mt-4 mb-4" style={{ paddingRight: '30px' }}>
+        <p className="mt-8 mb-2" style={{ paddingRight: '30px' }}>
           {product.description}
         </p>
         <button
