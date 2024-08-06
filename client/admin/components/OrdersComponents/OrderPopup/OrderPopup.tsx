@@ -1,12 +1,16 @@
 import { useEffect, useRef } from 'react'
 import { useQuery } from 'react-query'
-import { getOrderExtraDetailsById } from '../../../../services/orders'
+import {
+  getOrderExtraDetailsById,
+  getTotalSaleOfOrderById,
+} from '../../../../services/orders'
 import { formatCurrency } from '../../../../utils/formatCurrency'
 import LoadError from '../../../../shopper/components/LoadError/LoadError'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
 } from '../../../../utils/formatDate'
+import { truncate } from '../../../../utils/truncate'
 
 interface OrderPopupProps {
   orderId: number
@@ -47,12 +51,12 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             ref={popupRef}
-            className="bg-white p-8 w-[70%] max-w-full max-h-[80%] overflow-y-auto shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            className="bg-white p-8 w-1/2 max-w-full h0 shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md flex flex-col"
+            style={{ height: '80vh' }}
           >
             <div className="mb-4">
-              <h2 className="text-xl font-semibold">Order #{order.orderId}</h2>
+              <h2 className="text-2xl font-semibold">Order #{order.orderId}</h2>
               <p>
-                Order made on:{' '}
                 {`
                 ${formatDateToDDMMYYYY(order.purchasedAt)},
                 ${format24HourTo12Hour(order.purchasedAt)}  `}
@@ -61,71 +65,63 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
             <div className="mb-4">
               <h3 className="text-lg font-semibold">Information:</h3>
               <p>
-                Name: {order.firstName} {order.lastName}
+                {order.firstName} {order.lastName}
               </p>
-              <p>Address: {order.address}</p>
-              <p>City: {order.city}</p>
-              <p>Country: {order.country}</p>
-              <p>Zip Code: {order.zipCode}</p>
-              <p>Email: {order.email}</p>
-              <p>Phone Number: {order.phoneNumber}</p>
+              <p>
+                {order.address}, {order.city}
+              </p>
+              <p>
+                {order.zipCode}, {order.country}{' '}
+              </p>
+              <p>{order.email}</p>
+              <p>{order.phoneNumber}</p>
             </div>
 
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold">Order Items:</h3>
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr className="bg-gray-200">
-                    <th className="py-2 px-4 border">Product Name</th>
-                    <th className="py-2 px-4 border">Item Quantity</th>
-                    <th className="py-2 px-4 border">Cost</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {order.orderItemsExtraDetails.map((item) => (
-                    <tr key={item.productSale} className="border-b">
-                      <td className="py-2 px-4 border">
-                        <div className="flex items-center">
-                          <img
-                            src={item.productImage}
-                            alt={item.productName}
-                            className="w-16 h-16 object-contain mr-2"
-                          />
-                          {item.productName}
-                        </div>
-                      </td>
-                      <td className="py-2 px-4 border">{item.itemQuantity}</td>
-                      <td className="py-2 px-4 border">$ {item.productSale}</td>
-                    </tr>
-                  ))}
-                </tbody>
-                <tfoot>
-                  <tr className="bg-gray-200">
-                    <td className="py-2 px-4 border">
-                      <span className="font-bold">Shipping: </span>
-                      {order.shippingType}
-                    </td>
-                    <td className="py-2 px-4 border"></td>
-                    <td className="py-2 px-4 border">
-                      {formatCurrency(order.shippingPrice)}
-                    </td>
-                  </tr>
-                  <tr className="bg-gray-200">
-                    <td className="py-2 px-4 border font-bold text-xl">
-                      Total Cost:
-                    </td>
-                    <td className="py-2 px-4 border"></td>
-                    <td className="bg-gray-300 py-2 px-4 border">
-                      {formatCurrency(
-                        order.orderItemsExtraDetails.reduce(
-                          (total, item) => total + item.productSale,
-                          0
-                        ) + order.shippingPrice
-                      )}
-                    </td>
-                  </tr>
-                </tfoot>
-              </table>
+            <div className="flex-1 overflow-y-auto mb-4 rounded-md">
+              <div className="sticky top-0 bg-gray-200 flex text font-semibold">
+                <div className="py-2 px-4 border w-1/2">Product</div>
+                <div className="py-2 px-4 border w-1/3"> Quantity</div>
+                <div className="py-2 px-4 border w-1/3">Sale</div>
+              </div>
+              <div>
+                {order.orderItemsExtraDetails.map((item) => (
+                  <div key={item.productSale} className="border-b flex">
+                    <div className="py-2 px-4 border w-1/2 flex items-center">
+                      <div>
+                        <img
+                          src={item.productImage}
+                          alt={item.productName}
+                          className="object-contain mr-2"
+                          style={{ height: '40px' }}
+                        />
+                      </div>
+                      {truncate(item.productName, 30)}
+                    </div>
+                    <div className="py-2 px-4 border w-1/3 flex items-center">
+                      {item.itemQuantity}
+                    </div>
+                    <div className="py-2 px-4 border w-1/3 flex items-center">
+                      {formatCurrency(item.productSale)}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="sticky bottom-0 bg-gray-200 flex flex-row">
+                <div className="py-2 px-4 border w-1/2">
+                  {`Shipping: ${order.shippingType}`}
+                </div>
+                <div className="py-2 px-4  w-1/3"></div>
+                <div className="py-2 px-4  w-1/3">
+                  {formatCurrency(order.shippingPrice)}
+                </div>
+              </div>
+              <div className="sticky bottom-0 bg-gray-300 flex font-semibold text-lg">
+                <div className="py-2 px-4  w-1/2 ">Total Sale:</div>
+                <div className="py-2 px-4 w-1/3"></div>
+                <div className="py-2 px-4 w-1/3">
+                  {formatCurrency(getTotalSaleOfOrderById(order.orderId))}
+                </div>
+              </div>
             </div>
 
             <hr className="border-t border-gray-300" />
