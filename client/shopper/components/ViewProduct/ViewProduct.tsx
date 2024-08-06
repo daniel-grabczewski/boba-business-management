@@ -35,7 +35,7 @@ function ViewProduct({
     {
       onSuccess: () => {
         setButtonText('Item added')
-        setButtonColor('bg-gray-500')
+        setButtonColor('bg-green-500')
         setIsButtonDisabled(true)
         setTimeout(() => {
           setButtonText('Add to cart')
