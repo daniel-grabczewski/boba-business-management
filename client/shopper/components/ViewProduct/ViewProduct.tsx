@@ -78,23 +78,40 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex items-center max-w-5xl" style={{ padding: '10px' }}>
-      <div className="w-1/2">
-        <img src={product.image} alt={product.name} className="w-full" />
+    <div
+      className="flex items-center "
+      style={{ padding: '10px', width: '1000px', maxWidth: '1100px' }}
+    >
+      <div className="w-1/2 ">
+        <img
+          src={product.image}
+          alt={product.name}
+          className="w-full h-48 object-contain"
+          style={{ height: '400px', maxWidth: '400px' }}
+        />
       </div>
       <div className="w-1/2 ml-4">
-        <div className="flex items-center">
-          <h1 className="text-3xl font-bold">{product.name}</h1>
-          <button className="flex items-center" onClick={handleWishlistClick}>
-            <FontAwesomeIcon
-              icon={wishlistStatus ? solidHeart : regularHeart}
-              className={wishlistStatus ? 'text-red-500' : 'text-black'}
-              style={{ fontSize: '1.875rem', marginLeft: '10px' }}
-            />
-            <span className="ml-2 self-center">
-              {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
-            </span>
-          </button>
+        <div className="flex items-center justify-between">
+          <div style={{ width: '320px' }}>
+            <h1 className="text-3xl font-bold">{product.name}</h1>
+          </div>
+          <div>
+            <button onClick={handleWishlistClick}>
+              <div
+                className="flex items-center justify-start"
+                style={{ width: '200px' }}
+              >
+                <FontAwesomeIcon
+                  icon={wishlistStatus ? solidHeart : regularHeart}
+                  className={wishlistStatus ? 'text-red-500' : 'text-black'}
+                  style={{ fontSize: '1.875rem', marginLeft: '10px' }}
+                />
+                <span className="ml-2 self-center">
+                  {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
+                </span>
+              </div>
+            </button>
+          </div>
         </div>
 
         <h2 className="text-xl font-bold">${product.price}</h2>
@@ -103,7 +120,9 @@ function ViewProduct({
           <p>{averageRating}</p>
         </div>
 
-        <p className="mt-2">{product.description}</p>
+        <p className="mt-4 mb-4" style={{ paddingRight: '30px' }}>
+          {product.description}
+        </p>
         <button
           className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded`}
           onClick={handleAddToCart}
@@ -111,7 +130,6 @@ function ViewProduct({
         >
           {buttonText}
         </button>
-        {cartMutation.isError ? <p>Please login to add to cart</p> : null}
       </div>
     </div>
   )
