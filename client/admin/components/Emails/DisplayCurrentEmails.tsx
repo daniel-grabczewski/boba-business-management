@@ -18,7 +18,7 @@ const DisplayCurrentEmails = ({
   handleSelectEmailId,
 }: DisplayCurrentEmailsProps) => {
   return (
-    <div className="divTable bg-white mt-4 border border-gray-300">
+    <div className="divTable bg-white mt-4 border border-gray-300 mb-8">
       <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
         <div className="divCell py-3 px-8">Username</div>
         <div className="divCell py-3 px-8">Title</div>
@@ -26,7 +26,7 @@ const DisplayCurrentEmails = ({
         <div className="divCell py-3 px-8">Date Recieved</div>
       </div>
 
-      <div className="divBody text-gray-600 text-sm font-light">
+      <div className="divBody text-gray-600 text-sm font-light ">
         {getPaginatedEmails().map((email) => (
           <div
             key={email.id}

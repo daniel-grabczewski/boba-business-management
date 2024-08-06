@@ -17,7 +17,7 @@ const DisplayCurrentReviews = ({
       {getPaginatedReviews().length === 0 ? (
         <p className="text-center mt-4 font-semi-bold">No reviews found</p>
       ) : (
-        <div className="divTable bg-white mt-4 border border-gray-300">
+        <div className="divTable bg-white mt-4 border border-gray-300 mb-8">
           <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
             <div className="divCell py-3 px-8">Reviewer Username</div>
             <div className="divCell py-3 px-8">Reviewed Product</div>
