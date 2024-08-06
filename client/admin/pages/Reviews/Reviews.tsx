@@ -76,7 +76,7 @@ const Reviews = () => {
     if (!location.search) {
       setPage(1)
       setFilter('all')
-      setSort('getPaginatedReviews')
+      setSort('newest-first')
       handleChangeSearch('')
     }
   }, [location.search])
