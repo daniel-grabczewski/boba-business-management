@@ -11,6 +11,7 @@ import {
 import LoadError from '../../components/LoadError/LoadError'
 import EmptyCart from '../../components/EmptyCart/EmptyCart'
 import { useEffect } from 'react'
+import { formatCurrency } from '../../../utils/formatCurrency'
 
 const Cart = () => {
   const queryClient = useQueryClient()
@@ -24,10 +25,10 @@ const Cart = () => {
     navigate(link)
   }
 
-    // Scroll to top when the component is mounted
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    }, [])
+  // Scroll to top when the component is mounted
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const modifyQuantityMutation = useMutation<
     void,
@@ -72,7 +73,10 @@ const Cart = () => {
       {data?.length === 0 ? (
         <EmptyCart />
       ) : (
-        <div className="flex justify-center items-center min-h-screen mt-4">
+        <div
+          className="flex justify-center items-center"
+          style={{ marginTop: '50px', marginBottom: '50px' }}
+        >
           <div className="flex w-3/5 justify-center items-center">
             <div className="w-3/5 pl-6">
               <h1 className="text-3xl font-bold tracking-wider">CART</h1>
@@ -90,12 +94,15 @@ const Cart = () => {
                         <img
                           src={item.image}
                           alt={item.name}
-                          className="max-w-full h-auto"
+                          style={{ maxHeight: '120px', maxWidth: '150px' }}
+                          className="w-full h-48 object-contain"
                         />
                       </div>
                       <div className="flex-1">
                         <h3 className="font-bold">{item.name}</h3>
-                        <p className="text-gray-600">Price: ${item.price}</p>
+                        <p className="text-gray-600">
+                          {formatCurrency(item.price)}
+                        </p>
                         <div className="flex items-center mt-2">
                           <button
                             onClick={() => {
@@ -132,7 +139,7 @@ const Cart = () => {
                         </button>
                       </div>
                       <p className="font-bold text-right">
-                        $ {(item.price * item.quantity).toFixed(2)}
+                        {formatCurrency(item.price * item.quantity)}
                       </p>
                     </div>
                   ))}
