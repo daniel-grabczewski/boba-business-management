@@ -36,7 +36,11 @@ const Cart = () => {
     { productId: number; quantity: number }
   >(
     async ({ productId, quantity }) => {
-      updateCartItemQuantityByProductId(productId, quantity)
+      if (quantity > 0) {
+        updateCartItemQuantityByProductId(productId, quantity)
+      } else {
+        deleteItemFromCartByProductId(productId)
+      }
     },
     {
       onSuccess: async () => {
@@ -106,10 +110,14 @@ const Cart = () => {
                         <div className="flex items-center mt-2">
                           <button
                             onClick={() => {
-                              modifyQuantityMutation.mutate({
-                                productId: item.productId,
-                                quantity: item.quantity - 1,
-                              })
+                              if (item.quantity > 1) {
+                                modifyQuantityMutation.mutate({
+                                  productId: item.productId,
+                                  quantity: item.quantity - 1,
+                                })
+                              } else {
+                                deleteProductMutation.mutate(item.productId)
+                              }
                             }}
                             className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
                           >
@@ -133,7 +141,7 @@ const Cart = () => {
                           onClick={() =>
                             deleteProductMutation.mutate(item.productId)
                           }
-                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300"
+                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300"
                         >
                           Remove
                         </button>
@@ -180,7 +188,7 @@ const Cart = () => {
                 </div>
                 <button
                   onClick={() => goTo('/checkout')}
-                  className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-100 hover:text-white focus:outline-none focus:ring focus:ring-black"
+                  className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black"
                 >
                   Checkout
                 </button>
