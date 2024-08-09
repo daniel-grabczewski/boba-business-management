@@ -10,6 +10,7 @@ import {
   updateReviewStatusById,
 } from '../../../../services/reviews'
 import LoadError from '../../../../shopper/components/LoadError/LoadError'
+import ToggleSwitch from '../../../../UI/ToggleSwitch'
 
 interface ReviewPopupProps {
   reviewId: number
@@ -58,8 +59,11 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
     }
   )
 
-  const onToggle = async (reviewId: number, isEnabled: boolean) => {
-    mutation.mutate({ reviewId, isEnabled })
+  const onToggle = async (isEnabled: boolean) => {
+    if (review) {
+      const reviewId = review.reviewId
+      mutation.mutate({ reviewId, isEnabled })
+    }
   }
 
   return (
@@ -115,18 +119,14 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
               style={{ marginTop: '90px' }}
             />
             <div className="flex justify-between items-center">
-              <button
-                onClick={() =>
-                  onToggle(review.reviewId, !review.reviewIsEnabled)
-                }
-                className="px-2 py-1 text-white rounded mt-8 mb-2 w-[80px]"
-                style={{
-                  backgroundColor: review.reviewIsEnabled ? 'green' : 'red',
-                }}
-              >
-                {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
-              </button>
-
+              <div className="mt-3">
+                <ToggleSwitch
+                  checked={review.reviewIsEnabled}
+                  label={review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
+                  scale={1.45}
+                  onChange={onToggle}
+                />
+              </div>
               <button
                 onClick={closeReviewPopup}
                 className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-2 mt-8"
