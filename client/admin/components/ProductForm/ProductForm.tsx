@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
+import ToggleSwitch from '../../../UI/ToggleSwitch'
 
 interface ProductFormProps {
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void
@@ -82,8 +83,8 @@ function ProductForm({
     >
       <h1 className="text-3xl font-semibold mb-4">{pageTitle}</h1>
       <form onSubmit={handleSubmit}>
-        <div className="flex space-x-4 mb-4">
-          <div className="mb-4 w-full">
+        <div className="flex justify-between items-center mb-4">
+          <div className="mb-4 w-3/4">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="name"
@@ -101,16 +102,13 @@ function ProductForm({
               onChange={handleChange}
             />
           </div>
-          <div className="flex items-center w-1/2 mt-2">
-            <button
-              className={`font-bold text-white py-2 px-4 rounded ${
-                product.isEnabled ? 'bg-green-500' : 'bg-red-500'
-              }`}
-              type="button"
-              onClick={toggleEnabled}
-            >
-              {product.isEnabled ? 'Enabled' : 'Disabled'}
-            </button>
+          <div>
+            <ToggleSwitch
+              checked={product.isEnabled}
+              scale={1.5}
+              label={product.isEnabled ? 'ENABLED' : 'DISABLED'}
+              onChange={toggleEnabled}
+            />
           </div>
         </div>
         <div className="mb-4">
@@ -230,6 +228,13 @@ function ProductForm({
 
         <div className="mb-4">
           <div className="flex flex-row justify-between">
+            {hasUnsavedChanges(originalProduct, product) ? (
+              <div className="bg-red-400 py-2 px-4 rounded">
+                <p>You have unsaved changes!</p>
+              </div>
+            ) : (
+              <div></div>
+            )}
             <button
               style={{ minWidth: '150px' }}
               className={`${
@@ -241,13 +246,6 @@ function ProductForm({
             >
               {buttonText}
             </button>
-            {hasUnsavedChanges(originalProduct, product) ? (
-              <div className="bg-red-400 py-2 px-4 rounded">
-                <p>You have unsaved changes!</p>
-              </div>
-            ) : (
-              <div></div>
-            )}
           </div>
           <p className="text-red-500 mt-2" style={{ minHeight: '1.5em' }}>
             {errorMessage}
