@@ -100,7 +100,7 @@ export function getProductByIdShopper(id: number): ShopperProduct | undefined {
   }
 }
 
-// Get id, name and image of products below given stockThreshold
+// Get id, name, stock and image of products below given stock threshold, sorting from lowest to highest stock
 export function getProductsBelowStockThreshold(
   stockThreshold: number
 ): LowStockProduct[] {
@@ -109,6 +109,7 @@ export function getProductsBelowStockThreshold(
     return products
       .filter((product) => product.stock < stockThreshold)
       .map(({ id, name, image, stock }) => ({ id, name, image, stock }))
+      .sort((a, b) => a.stock - b.stock)
   } catch (error) {
     console.error(
       `Failed to get products below stock threshold: ${stockThreshold}`,
@@ -181,9 +182,7 @@ export function deleteProductById(id: number): void {
   try {
     const products = getAllProductsAdmin()
 
-    const newProducts = products.filter(
-      (product) => product.id !== id
-    )
+    const newProducts = products.filter((product) => product.id !== id)
 
     setProductsInLocalStorage(newProducts)
   } catch (error) {
