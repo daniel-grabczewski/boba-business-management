@@ -165,6 +165,7 @@ const AddProduct = () => {
         invalidFields={invalidFields}
         pageTitle={'Add a product'}
         originalProduct={originalProduct}
+        isErrorMessageEnabled={false}
       />
     </>
   )
