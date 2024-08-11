@@ -102,7 +102,9 @@ const Dashboard = () => {
           </div>
           <button
             className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all mt-4"
-            onClick={() => goTo('/admin/products-summary')}
+            onClick={() =>
+              goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
+            }
             style={{ minWidth: '130px' }}
           >
             Restock
