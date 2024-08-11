@@ -16,6 +16,7 @@ interface ProductFormProps {
   invalidFields: string[]
   pageTitle: string
   originalProduct: UpsertProduct
+  isErrorMessageEnabled : boolean
 }
 
 // This is a reusable component for editing/adding a new product for admins
@@ -33,6 +34,7 @@ function ProductForm({
   placeholderImage,
   pageTitle,
   originalProduct,
+  isErrorMessageEnabled
 }: ProductFormProps) {
   const [originalButtonText] = useState(buttonText)
   const [localStock, setLocalStock] = useState(
@@ -232,7 +234,7 @@ function ProductForm({
 
         <div className="mb-4">
           <div className="flex flex-row justify-between">
-            {hasUnsavedChanges(originalProduct, product) ? (
+            {isErrorMessageEnabled && hasUnsavedChanges(originalProduct, product) ? (
               <div className="bg-red-400 py-2 px-4 rounded">
                 <p>You have unsaved changes!</p>
               </div>
