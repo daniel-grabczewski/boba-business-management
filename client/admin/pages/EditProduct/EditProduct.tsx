@@ -168,6 +168,7 @@ function EditProduct() {
         invalidFields={invalidFields}
         pageTitle={'Edit product'}
         originalProduct={originalProduct}
+        isErrorMessageEnabled={true}
       />
     </>
   )
