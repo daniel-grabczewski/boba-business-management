@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
 import ToggleSwitch from '../../../UI/ToggleSwitch'
 
@@ -38,6 +38,10 @@ function ProductForm({
   const [localStock, setLocalStock] = useState(
     product.stock !== null ? product.stock : ''
   )
+
+  useEffect(() => {
+    setLocalStock(product.stock)
+  }, [product.stock])
 
   const hasUnsavedChanges = (
     original: UpsertProduct,
