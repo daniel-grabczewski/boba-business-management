@@ -19,10 +19,11 @@ export interface AdminProduct {
   averageRating: number
 }
 
-export interface LowStockProducts {
+export interface LowStockProduct {
   id: number
   name: string
   image: string
+  stock : number
 }
 
 export interface UpsertProduct {

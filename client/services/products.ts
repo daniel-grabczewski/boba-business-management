@@ -2,7 +2,7 @@ import {
   ShopperProduct,
   UpsertProduct,
   AdminProduct,
-  LowStockProducts,
+  LowStockProduct,
 } from '../../models/Products'
 import initialProducts from '../data/productsData'
 
@@ -103,12 +103,12 @@ export function getProductByIdShopper(id: number): ShopperProduct | undefined {
 // Get id, name and image of products below given stockThreshold
 export function getProductsBelowStockThreshold(
   stockThreshold: number
-): LowStockProducts[] {
+): LowStockProduct[] {
   try {
     const products = getAllProductsAdmin()
     return products
       .filter((product) => product.stock < stockThreshold)
-      .map(({ id, name, image }) => ({ id, name, image }))
+      .map(({ id, name, image, stock }) => ({ id, name, image, stock }))
   } catch (error) {
     console.error(
       `Failed to get products below stock threshold: ${stockThreshold}`,
