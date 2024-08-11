@@ -2,11 +2,11 @@ import { useQuery } from 'react-query'
 import { getOrderCountFromDate } from '../../../services/orders'
 import { countUnreadEmailsFromDate } from '../../../services/emails'
 import { getCountOfReviewsFromDate } from '../../../services/reviews'
-import { countProductsBelowStockThreshold } from '../../../services/products'
+import { getProductsBelowStockThreshold } from '../../../services/products'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import { useNavigate } from 'react-router-dom'
-import { getDemoUserDetails } from '../../../services/users'
 import { generateCurrentDate } from '../../../utils/generateDate'
+import { LowStockProduct } from '../../../../models/Products'
 
 const Dashboard = () => {
   const stockThreshold = 5
@@ -24,10 +24,6 @@ const Dashboard = () => {
     async () => getOrderCountFromDate(dateOfToday)
   )
 
-  const profileQuery = useQuery('getDemoUserDetails', async () =>
-    getDemoUserDetails()
-  )
-
   // Get count of emails that were received today, which are also unread
   const { data: unreadEmailCount, status: unreadEmailCountStatus } = useQuery(
     'countUnreadEmailsFromDate',
@@ -40,15 +36,16 @@ const Dashboard = () => {
     async () => getCountOfReviewsFromDate(dateOfToday)
   )
 
-  const lowStockQuery = useQuery('countProductsBelowStockThreshold', async () =>
-    countProductsBelowStockThreshold(stockThreshold)
+  const { data: lowStockProducts, status: lowStockProductsStatus } = useQuery(
+    'getProductsBelowStockThreshold',
+    async () => getProductsBelowStockThreshold(stockThreshold)
   )
+
   const statuses = [
     orderCountStatus,
-    profileQuery.status,
     unreadEmailCountStatus,
     reviewsCountStatus,
-    lowStockQuery.status,
+    lowStockProductsStatus,
   ]
 
   return (
@@ -67,6 +64,7 @@ const Dashboard = () => {
           </div>
           <button
             className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            style={{ minWidth: '130px' }}
             onClick={() => goTo('/admin/orders')}
           >
             View Orders
@@ -76,26 +74,36 @@ const Dashboard = () => {
         {/* Low Stock */}
         <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4">
           <div>
-            <h1 className="text-2xl mb-2 text-red-500">Low Stock Alert!</h1>
+            <h1 className="text-2xl mb-2 text-red-500 mb-4 font-semibold">
+              Low Stock Alert!
+            </h1>
             <div className="flex flex-row justify-center gap-7">
-              {/* //!NEED ADDITIONAL FUNCTION TO GET THE LOW STOCK PRODUCTS THEMSELVES?
-              lowStockQuery.data?.lowStockProducts.map(
-                (product: AdminProduct) => (
-                  <div key={product.id}>
+              {lowStockProducts &&
+                lowStockProducts.length > 0 &&
+                lowStockProducts.map((product: LowStockProduct) => (
+                  <div
+                    key={product.id}
+                    className="flex flex-col items-center bg-gray-300 rounded-md p-2 border border-red-500 border-2"
+                    style={{ maxWidth: '150px', minWidth: '150px' }}
+                  >
+                    <p className="text-red-500 mb-2 font-semibold">
+                      {product.stock} left in stock
+                    </p>
                     <img
                       src={product.image}
                       alt={product.name}
-                      className="h-28"
+                      className="w-full h-28 object-contain"
+                      style={{ maxHeight: '112px' }}
                     />
+                    <p className="mt-2 text-center">{product.name}</p>
                   </div>
-                )
-              )
-              */}
+                ))}
             </div>
           </div>
           <button
             className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all mt-4"
             onClick={() => goTo('/admin/products-summary')}
+            style={{ minWidth: '130px' }}
           >
             Restock
           </button>
@@ -112,6 +120,7 @@ const Dashboard = () => {
           <button
             className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
             onClick={() => goTo('/admin/inbox')}
+            style={{ minWidth: '130px' }}
           >
             View Emails
           </button>
@@ -128,6 +137,7 @@ const Dashboard = () => {
           <button
             className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
             onClick={() => goTo('/admin/reviews')}
+            style={{ minWidth: '130px' }}
           >
             View Reviews
           </button>
