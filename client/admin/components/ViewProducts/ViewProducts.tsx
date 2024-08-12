@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { AdminProduct } from '../../../../models/Products'
 import StarRating from '../../../shopper/components/StarRating/StarRating'
+import { lowStockThreshold } from '../../../data/lowStockThreshold'
 
 interface ViewProductsProps {
   hoveredProductId: number | null
@@ -23,7 +24,7 @@ const ViewProducts = ({
             <div
               key={product.id}
               className={`box-border rounded-md flex flex-row items-center justify-between ${
-                product.stock < 5
+                product.stock < lowStockThreshold
                   ? 'border-2 border-red-600'
                   : 'border-2 border-gray-200'
               }`}
@@ -108,7 +109,7 @@ const ViewProducts = ({
               </div>
 
               <div className="flex-col w-1/4">
-                {product.stock < 5 && (
+                {product.stock < lowStockThreshold && (
                   <Link
                     to={`/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}

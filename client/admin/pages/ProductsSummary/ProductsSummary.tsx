@@ -10,6 +10,7 @@ import {
   changeSort,
 } from '../../../utils/queryHelpers'
 import { useNavigate } from 'react-router-dom'
+import { lowStockThreshold } from '../../../data/lowStockThreshold'
 
 const ProductsSummary = () => {
   const navigate = useNavigate()
@@ -76,7 +77,7 @@ const ProductsSummary = () => {
     ? searchedProducts.filter((product) => {
         switch (filter) {
           case 'low-stock':
-            return product.stock < 5
+            return product.stock < lowStockThreshold
           case 'enabled':
             return product.isEnabled
           case 'disabled':
