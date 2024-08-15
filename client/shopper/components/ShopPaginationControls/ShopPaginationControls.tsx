@@ -2,22 +2,25 @@ interface ShopPaginationControlsProps {
   page: number
   totalPages: number
   handleChangePage: (newPage: number) => void
+  shownProducts: number
 }
 
 const ShopPaginationControls = ({
   page,
   totalPages,
   handleChangePage,
+  shownProducts,
 }: ShopPaginationControlsProps) => {
+  console.log(shownProducts)
   return (
     <div className="flex mt-4 justify-center" style={{ marginTop: '40px' }}>
       <button
         className={`${
-          page === 1
+          page === 1 || shownProducts === 0
             ? 'bg-gray-300 cursor-default'
             : 'bg-blue-500 hover:bg-blue-700'
         } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
-        disabled={page === 1}
+        disabled={page === 1 || shownProducts === 0}
         onClick={() => handleChangePage(page - 1)}
       >
         Prev Page
@@ -27,11 +30,11 @@ const ShopPaginationControls = ({
       </div>
       <button
         className={`${
-          page === totalPages
+          page === totalPages || shownProducts === 0
             ? 'bg-gray-300 cursor-default'
             : 'bg-blue-500 hover:bg-blue-700'
         } text-white font-bold py-2 px-4 mt-2 rounded-full w-128`}
-        disabled={page === totalPages}
+        disabled={page === totalPages || shownProducts === 0}
         onClick={() => handleChangePage(page + 1)}
       >
         Next Page

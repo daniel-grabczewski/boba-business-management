@@ -140,6 +140,7 @@ const Shop = () => {
               page={page}
               totalPages={totalPages}
               handleChangePage={handleChangePage}
+              shownProducts={getPaginatedProducts().length}
             />
           </div>
         </div>
