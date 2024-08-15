@@ -19,19 +19,21 @@ const Shop = () => {
   const initialPage = parseInt(queryParams.get('page') || '1', 10)
   const initialSort = queryParams.get('sort') || ''
   const initialFilter = queryParams.get('filter') || ''
+  const initialSearch = queryParams.get('search') || ''
 
   const [page, setPage] = useState(initialPage)
   const [sort, setSort] = useState(initialSort)
   const [filter, setFilter] = useState(initialFilter)
-
-  const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
+  const [search, setSearch] = useState(initialSearch)
   const productsPerPage = 15
+  const [hoveredProductId, setHoveredProductId] = useState<number | null>(null)
 
   useEffect(() => {
     if (!location.search) {
       setPage(1)
       setSort('')
       setFilter('')
+      setSearch('')
     }
   }, [location.search])
 
@@ -52,26 +54,40 @@ const Shop = () => {
     changeSort(newSort, setSort, setPage, navigate, location.search)
   }
 
+  const handleChangeSearch = (newSearch: string) => {
+    localStorage.setItem('shopSearch', JSON.stringify(newSearch))
+    setSearch(newSearch)
+    setPage(1) // Reset to the first page on new search
+  }
+
+  useEffect(() => {
+    const searchInLocalStorage = localStorage.getItem('shopSearch')
+    if (searchInLocalStorage) {
+      setSearch(JSON.parse(searchInLocalStorage))
+    }
+  }, [])
+
   const filteredProducts = products
     ? products.filter((product) => {
         const lowerCaseName = product.name.toLowerCase()
+        const matchesSearch = lowerCaseName.includes(search.toLowerCase())
         switch (filter) {
           case 'with-pearls':
-            return lowerCaseName.includes('pearl')
+            return matchesSearch && lowerCaseName.includes('pearl')
           case 'without-pearls':
-            return !lowerCaseName.includes('pearl')
+            return matchesSearch && !lowerCaseName.includes('pearl')
           case 'teas':
-            return lowerCaseName.includes('tea')
+            return matchesSearch && lowerCaseName.includes('tea')
           case 'smoothies':
-            return lowerCaseName.includes('smoothie')
+            return matchesSearch && lowerCaseName.includes('smoothie')
           case 'yogurts':
-            return lowerCaseName.includes('yogurt')
+            return matchesSearch && lowerCaseName.includes('yogurt')
           case 'fruit-drinks':
-            return lowerCaseName.includes('drink')
+            return matchesSearch && lowerCaseName.includes('drink')
           case 'dairy-free':
-            return !/milk|smoothie|yogurt/.test(lowerCaseName)
+            return matchesSearch && !/milk|smoothie|yogurt/.test(lowerCaseName)
           default:
-            return true
+            return matchesSearch
         }
       })
     : []
@@ -108,6 +124,8 @@ const Shop = () => {
           <div>
             <h1 className="text-4xl font-bold mt-2">Shop for Bubble Tea</h1>
             <SortFilterControls
+              search={search}
+              handleChangeSearch={handleChangeSearch}
               filter={filter}
               sort={sort}
               handleChangeFilter={handleChangeFilter}
