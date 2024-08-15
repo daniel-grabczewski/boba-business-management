@@ -10,7 +10,6 @@ interface ProductsSortingControlsProps {
   handleChangeFilter: (newFilter: string) => void
   filter: string
 }
-
 function ProductsSortingControls({
   search,
   handleChangeSearch,
@@ -27,7 +26,7 @@ function ProductsSortingControls({
   const firstIndex = lastIndex - 10
 
   return (
-    <div className="border p-2 rounded flex justify-between items-center mb-4">
+    <div className="border p-2 rounded flex justify-between items-center mb-4 bg-white sticky top-0 z-10">
       <div className="flex items-center">
         {/* SEARCH */}
         <input
@@ -78,8 +77,8 @@ function ProductsSortingControls({
       {/* PAGINATION */}
       <div className="flex justify-between items-center">
         <div className="flex flex-col justify-center mx-2 font-semibold">
-          Showing {productsCount === 0 ? 0 : firstIndex + 1}-{Math.min(lastIndex, productsCount)} of{' '}
-          {productsCount}
+          Showing {productsCount === 0 ? 0 : firstIndex + 1}-
+          {Math.min(lastIndex, productsCount)} of {productsCount}
         </div>
         <button
           className={`${
@@ -96,7 +95,7 @@ function ProductsSortingControls({
           className={`${
             page === totalPages || productsCount === 0
               ? 'bg-gray-300 cursor-default'
-              : 'bg-blue-500 hover.bg-blue-700'
+              : 'bg-blue-500 hover:bg-blue-700'
           } text-white font-bold py-2 px-4 rounded ml-2`}
           disabled={page === totalPages || productsCount === 0}
           onClick={() => handleChangePage(page + 1)}
