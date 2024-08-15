@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface SortFilterControlsProps {
   filter: string
   sort: string
@@ -9,14 +7,14 @@ interface SortFilterControlsProps {
   handleChangeSearch: (search: string) => void
 }
 
-const SortFilterControls: React.FC<SortFilterControlsProps> = ({
+const SortFilterControls = ({
   filter,
   sort,
   handleChangeFilter,
   handleChangeSort,
   search,
   handleChangeSearch,
-}) => {
+}: SortFilterControlsProps) => {
   return (
     <div
       style={{
@@ -49,7 +47,7 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
             id="filter"
             onChange={(e) => handleChangeFilter(e.target.value)}
             value={filter}
-            className="border rounded-md p-2 "
+            className="border rounded-md p-2"
           >
             <option value="">...</option>
             <option value="with-pearls">With pearls</option>
@@ -80,6 +78,8 @@ const SortFilterControls: React.FC<SortFilterControlsProps> = ({
             <option value="price-low-to-high">Price (Low to High)</option>
             <option value="price-high-to-low">Price (High to Low)</option>
             <option value="a-z">Alphabetical (A to Z)</option>
+            <option value="rating-low-to-high">Rating (Low to High)</option>
+            <option value="rating-high-to-low">Rating (High to Low)</option>
           </select>
         </div>
       </div>

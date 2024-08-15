@@ -100,6 +100,10 @@ const Shop = () => {
         return b.price - a.price
       case 'a-z':
         return a.name.localeCompare(b.name)
+      case 'rating-low-to-high':
+        return a.averageRating - b.averageRating
+      case 'rating-high-to-low':
+        return b.averageRating - a.averageRating
       default:
         return 0
     }
