@@ -13,7 +13,6 @@ const ViewShopProducts = ({
   setHoveredProductId,
   getPaginatedProducts,
 }: ViewShopProductsProps) => {
-  console.log(getPaginatedProducts.length)
   return (
     <>
       {getPaginatedProducts().length === 0 ? (
