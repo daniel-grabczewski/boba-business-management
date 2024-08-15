@@ -26,22 +26,22 @@ const ViewShopProducts = ({
           {getPaginatedProducts().map((product) => (
             <div
               key={product.id}
-              className="border p-4 rounded-md flex flex-col flex-top"
+              className="border p-4 rounded-md flex flex-col flex-top justify-between"
               style={{ width: '320px' }}
             >
-              <Link
-                to={`/shop/${product.id}`}
-                className="w-full h-48 block"
-                style={{ marginBottom: '15px' }}
-              >
-                <img
-                  src={product.image}
-                  alt={product.name}
-                  className="w-full h-48 object-contain"
-                />
-              </Link>
-
               <div>
+                <Link
+                  to={`/shop/${product.id}`}
+                  className="w-full h-48 block"
+                  style={{ marginBottom: '15px' }}
+                >
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    className="w-full h-48 object-contain"
+                  />
+                </Link>
+
                 <Link
                   to={`/shop/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
@@ -67,18 +67,33 @@ const ViewShopProducts = ({
                 >
                   ${product.price.toFixed(2)}
                 </Link>
-
+              </div>
+              <div>
                 <Link
                   to={`/shop/${product.id}`}
                   className="block cursor-pointer"
                 >
-                  <div className="flex items-center mt-2">
-                    <span className="text-yellow-400">
-                      <StarRating rating={product.averageRating} size={1.5} />
-                    </span>
-                    <span className="ml-2 text-sm text-gray-500">
-                      ({product.averageRating})
-                    </span>
+                  <div className="flex items-center mt-2 ">
+                    {product.averageRating === 0 ? (
+                      <p
+                        className="text-gray-500"
+                        style={{ marginBottom: '9px' }}
+                      >
+                        No reviews yet
+                      </p>
+                    ) : (
+                      <>
+                        <span className="text-yellow-400">
+                          <StarRating
+                            rating={product.averageRating}
+                            size={1.5}
+                          />
+                        </span>
+                        <span className="ml-2 text-sm text-gray-500">
+                          ({product.averageRating})
+                        </span>
+                      </>
+                    )}
                   </div>
                 </Link>
               </div>

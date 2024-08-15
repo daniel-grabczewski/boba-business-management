@@ -115,29 +115,38 @@ function ViewProductReviews({
         className="flex flex-row items-center max-w-5xl"
         style={{ marginBottom: '20px' }}
       >
-        <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
-        <StarRating rating={product.averageRating} size={2} />
+        {reviews.length === 0 ? (
+          <h2 className="text-xl font-normal mr-2 text-gray-500">
+            No reviews yet
+          </h2>
+        ) : (
+          <>
+            <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
+            <StarRating rating={product.averageRating} size={2} />
+          </>
+        )}
       </div>
 
-      {reviewsWithFullNames.map((review) => (
-        <div
-          key={review.userName}
-          className="flex flex-col border border-black rounded"
-          style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
-        >
+      {reviews.length > 0 &&
+        reviewsWithFullNames.map((review) => (
           <div
-            className="flex flex-row justify-between font-bold"
-            style={{ marginBottom: '5px' }}
+            key={review.userName}
+            className="flex flex-col border border-black rounded"
+            style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
           >
-            <h2>{review.fullName}</h2>
-            <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+            <div
+              className="flex flex-row justify-between font-bold"
+              style={{ marginBottom: '5px' }}
+            >
+              <h2>{review.fullName}</h2>
+              <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+            </div>
+            <p style={{ marginBottom: '20px' }}>{review.description}</p>
+            <div className="flex">
+              <StarRating rating={review.rating} size={1} />
+            </div>
           </div>
-          <p style={{ marginBottom: '20px' }}>{review.description}</p>
-          <div className="flex">
-            <StarRating rating={review.rating} size={1} />
-          </div>
-        </div>
-      ))}
+        ))}
 
       {isAddingReview ? (
         <div className="flex flex-col" style={{ width: '400px' }}>

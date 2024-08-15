@@ -119,8 +119,14 @@ function ViewProduct({
           {formatCurrency(product.price)}
         </h2>
         <div className="flex">
-          <StarRating rating={averageRating} size={1} />
-          <p>{averageRating}</p>
+          {averageRating === 0 ? (
+            <p className="text-gray-500">No reviews yet</p>
+          ) : (
+            <>
+              <StarRating rating={averageRating} size={1} />
+              <p>{averageRating}</p>
+            </>
+          )}
         </div>
 
         <p className="mt-8 mb-2" style={{ paddingRight: '30px' }}>
