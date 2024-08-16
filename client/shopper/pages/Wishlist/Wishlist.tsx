@@ -120,10 +120,14 @@ const Wishlist = () => {
                       {formatCurrency(item.productPrice)}
                     </p>
                     <button
-                      style={{ minWidth: '100px', width: '100px' }}
+                      style={{
+                        minWidth: '100px',
+                        width: '100px',
+                        marginRight: '-12px',
+                      }}
                       className={` text-sm text-white p-2 rounded-md ${
                         buttonStatus[item.productId]?.color ||
-                        'bg-black hover:bg-gray-700'
+                        'bg-blue-500 hover:bg-blue-700 transition-all duration-300'
                       }`}
                       onClick={() => handleAddToCart(item.productId)}
                       disabled={
@@ -134,11 +138,13 @@ const Wishlist = () => {
                       {buttonStatus[item.productId]?.text || 'Add to cart'}
                     </button>
                     <button
-                      className="flex flex-col items-center text-black hover:text-red-500 transition"
+                      className="flex flex-col items-center text-red-500 hover:text-red-800 transition-all duration-300"
                       onClick={() => removeFromWishList(item.productId)}
                     >
+                      {/* Using a heart icon for a delete operation may be counterintuitive design
                       <FontAwesomeIcon icon={faHeart} className="text-2xl" />
-                      <p className="text-sm mt-1">Remove</p>
+                      */}
+                      <p className="text-medium">Remove</p>
                     </button>
                   </div>
                 </div>
