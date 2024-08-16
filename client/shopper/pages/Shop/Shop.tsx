@@ -33,7 +33,7 @@ const Shop = () => {
       setPage(1)
       setSort('')
       setFilter('')
-      setSearch('')
+      handleChangeSearch('')
     }
   }, [location.search])
 
