@@ -185,13 +185,13 @@ function ViewProductReviews({
                 reviewDescription.trim() === ''
                   ? 'bg-gray-300 cursor-not-allowed'
                   : 'bg-green-500 hover:bg-green-700'
-              } text-white font-bold py-2 px-4 w-128 rounded-full`}
+              } text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 w-128`}
             >
               Submit
             </button>
             <button
               onClick={handleCancelClick}
-              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 w-128 rounded-full"
+              className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 w-128"
             >
               Cancel
             </button>
@@ -200,7 +200,7 @@ function ViewProductReviews({
       ) : (
         <button
           onClick={handleAddReviewClick}
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 w-128 rounded-full mt-4"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300"
         >
           Add review
         </button>

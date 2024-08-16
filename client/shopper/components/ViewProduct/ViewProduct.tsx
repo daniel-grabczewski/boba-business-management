@@ -133,7 +133,7 @@ function ViewProduct({
           {product.description}
         </p>
         <button
-          className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded`}
+          className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300`}
           onClick={handleAddToCart}
           disabled={isButtonDisabled || cartMutation.isLoading}
         >
