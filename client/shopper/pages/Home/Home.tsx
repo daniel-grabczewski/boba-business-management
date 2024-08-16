@@ -6,10 +6,10 @@ const Home = () => {
   function goTo(link: string) {
     navigate(link)
   }
-    // Scroll to top when the component is mounted
-    useEffect(() => {
-      window.scrollTo(0, 0)
-    }, [])
+  // Scroll to top when the component is mounted
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <div style={{ background: '#FFC5C7' }}>
       <div
@@ -45,7 +45,7 @@ const Home = () => {
 
                 <button
                   onClick={() => goTo('shop')}
-                  className="w-1/2 border border-white border-2 text-white px-6 py-2 rounded-2xl hover:bg-white hover:text-rose-300 transition-all"
+                  className="w-1/2 border border-white border-2 text-white px-6 py-2 rounded-2xl hover:bg-white hover:text-rose-300 transition-all duration-300"
                 >
                   Shop
                 </button>
