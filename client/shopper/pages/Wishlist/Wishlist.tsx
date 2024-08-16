@@ -10,12 +10,17 @@ import { DisplayWishlistItem } from '../../../../models/Wishlist'
 import { addItemToCartByProductId } from '../../../services/cart'
 import { useState } from 'react'
 import { formatCurrency } from '../../../utils/formatCurrency'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Wishlist = () => {
   const queryClient = useQueryClient()
   const [buttonStatus, setButtonStatus] = useState<{
     [key: number]: { text: string; color: string; disabled: boolean }
   }>({})
+  const navigate = useNavigate()
+  const goTo = (link: string) => {
+    navigate(link)
+  }
 
   const wishListQuery = useQuery('getDisplayWishlistItems', async () =>
     getDisplayWishlistItems()
@@ -100,7 +105,10 @@ const Wishlist = () => {
                   key={item.id}
                   className="bg-white w-3/4 flex flex-row gap-10 items-center justify-between border-b border-gray-300 py-4"
                 >
-                  <div className="flex gap-8 items-center">
+                  <div
+                    className="flex gap-8 items-center cursor-pointer"
+                    onClick={() => goTo(`/shop/${item.productId}`)}
+                  >
                     <div style={{ width: '80px' }}>
                       <img
                         src={item.productImage}
