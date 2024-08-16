@@ -78,21 +78,21 @@ const Cart = () => {
         <EmptyCart />
       ) : (
         <div
-          className="flex justify-center items-center"
-          style={{ marginTop: '50px', marginBottom: '50px' }}
+          className="flex flex-col justify-center items-center"
+          style={{ marginTop: '50px', marginBottom: '160px' }}
         >
-          <div className="flex w-3/5 justify-center items-center">
-            <div className="w-3/5 pl-6">
-              <h1 className="text-3xl font-bold tracking-wider">CART</h1>
+          <h1 className="text-3xl font-bold tracking-wider">CART</h1>
+          <div className="flex w-3/5 justify-center items-start mt-8">
+            <div className="w-3/5 pl-6 ">
               <div
-                className="mt-4 space-y-4 overflow-y-auto "
+                className="space-y-4 overflow-y-auto "
                 style={{ maxHeight: '650px' }}
               >
                 {data &&
                   data.map((item: DisplayCartItem) => (
                     <div
                       key={item.productId}
-                      className="flex items-center justify-between mb-6 border p-4 rounded-md"
+                      className="flex items-center justify-between mb-8 border p-4 rounded-md"
                     >
                       <div className="flex-shrink-0 w-1/4 pr-4">
                         <img
@@ -108,7 +108,7 @@ const Cart = () => {
                           {formatCurrency(item.price)}
                         </p>
                         <div className="flex items-center mt-2">
-                          <button
+                          <div
                             onClick={() => {
                               if (item.quantity > 1) {
                                 modifyQuantityMutation.mutate({
@@ -119,29 +119,40 @@ const Cart = () => {
                                 deleteProductMutation.mutate(item.productId)
                               }
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300 cursor-pointer"
+                            style={{ width: '26px' }}
                           >
-                            -
-                          </button>
+                            <p
+                              style={{
+                                marginBottom: '2px',
+                                paddingLeft: '2px',
+                              }}
+                            >
+                              -
+                            </p>
+                          </div>
                           <p className="px-3">{item.quantity}</p>
-                          <button
+                          <div
                             onClick={() => {
                               modifyQuantityMutation.mutate({
                                 productId: item.productId,
                                 quantity: item.quantity + 1,
                               })
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-colors hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
+                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300 cursor-pointer"
+                            style={{ width: '26px' }}
                           >
-                            +
-                          </button>
+                            <p style={{ marginBottom: '2px', paddingLeft: '' }}>
+                              +
+                            </p>
+                          </div>
                         </div>
 
                         <button
                           onClick={() =>
                             deleteProductMutation.mutate(item.productId)
                           }
-                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-colors hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300"
+                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300"
                         >
                           Remove
                         </button>
@@ -154,23 +165,22 @@ const Cart = () => {
               </div>
               <button
                 onClick={() => deleteCartItemsMutation.mutate()}
-                className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+                className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
               >
                 Clear Cart
               </button>
             </div>
 
-            <div className="w-1/3 pl-6">
+            <div className="w-1/3 pl-6 flex justify-end ">
               <div
-                className="p-8 rounded-md bg-gray-500 text-white"
-                style={{ maxWidth: '340px' }}
+                className="p-8 rounded-md bg-gray-500 text-white flex flex-col"
+                style={{ width: '340px' }}
               >
                 {data && (
-                  <div className="flex justify-between">
+                  <div className="flex justify-between mb-2">
                     <p className="font-bold">Total: </p>
-                    <p className="">
-                      {' '}
-                      ${' '}
+                    <p>
+                      $
                       {data
                         .reduce(
                           (total, item) => total + item.price * item.quantity,
@@ -180,15 +190,15 @@ const Cart = () => {
                     </p>
                   </div>
                 )}
-                <div className="flex justify-between">
+
+                <div className="flex justify-between mb-4">
                   <p className="font-bold">Shipping: </p>
-                  <div>
-                    <p className="">TBC</p>
-                  </div>
+                  <p>TBC</p>
                 </div>
+
                 <button
                   onClick={() => goTo('/checkout')}
-                  className="mt-4 w-full py-2 bg-gray-400 text-white font-bold rounded-md transition-colors hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black"
+                  className="mt-auto py-2 bg-gray-400 text-white font-bold rounded-md transition-all duration-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black w-128 ml-auto"
                 >
                   Checkout
                 </button>
