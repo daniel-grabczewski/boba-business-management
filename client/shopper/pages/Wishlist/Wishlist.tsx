@@ -1,5 +1,5 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-regular-svg-icons'
+//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+//import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   deleteWishlistItemByProductId,
@@ -10,7 +10,7 @@ import { DisplayWishlistItem } from '../../../../models/Wishlist'
 import { addItemToCartByProductId } from '../../../services/cart'
 import { useState } from 'react'
 import { formatCurrency } from '../../../utils/formatCurrency'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 const Wishlist = () => {
   const queryClient = useQueryClient()
