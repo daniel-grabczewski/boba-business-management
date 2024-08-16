@@ -31,10 +31,11 @@ const Nav = () => {
   console.log(isShopperView)
   return (
     <nav
-      className="h-16 flex justify-between items-center px-6 md:px-12 lg:px-16"
+      className=" flex justify-between items-center px-6 md:px-12 lg:px-16"
       style={{
         background: isShopperView ? '#292929' : '#292929',
-        height: '80px',
+        minHeight: '80px',
+        maxHeight: '80px',
       }}
     >
       <div className="flex flex-row justify-between items-center">
