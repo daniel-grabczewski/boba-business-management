@@ -10,11 +10,15 @@ const ThankYou = () => {
   useEffect(() => {
     const orderCompleted = localStorage.getItem('orderCompleted')
     if (!orderCompleted) {
-      navigate('/') 
+      navigate('/')
     } else {
-      localStorage.removeItem('orderCompleted') 
+      localStorage.removeItem('orderCompleted')
     }
   }, [navigate])
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
 
   const { data: demoUserOrder, status: statusDemoUserOrder } = useQuery(
     ['getLatestOrderOfDemoUser'],
@@ -24,38 +28,43 @@ const ThankYou = () => {
   return (
     <>
       <LoadError status={statusDemoUserOrder} />
-      <div className="mt-8 text-2xl text-center font-bold">
-        <div>THANK YOU</div>
-        {demoUserOrder && (
-          <div>{`${demoUserOrder.firstName} ${demoUserOrder.lastName}`}</div>
-        )}
-        <div>FOR YOUR ORDER!</div>
-      </div>
-
-      {demoUserOrder && (
-        <div className="mt-8 mb-8 ml-2 rounded-md px-3 py-2 text-center">
-          ORDER NUMBER #{demoUserOrder.id}
-        </div>
-      )}
-
-      <div className="mt-8 mb-8 ml-2 rounded-md px-3 py-2 text-center">
-        <div className="text-xl">Your order will be shipped to</div>
-        {demoUserOrder && (
-          <div className="mb-8">
-            <div>{demoUserOrder.address}</div>
-            <div>{demoUserOrder.city}</div>
-            <div>
-              {demoUserOrder.country}, {demoUserOrder.zipCode}
-            </div>
+      <div className="flex justify-center items-center h-full">
+        <div style={{ paddingTop: '5vh' }}>
+          <div className="text-center text-3xl">
+            <img
+              src="/images/thank-you.svg"
+              alt="thank you"
+              style={{ maxWidth: '250px', margin: 'auto' }}
+            />
+            <div>Thank you for being a Boba Buddy! 😊</div>
           </div>
-        )}
-        <button
-          type="button"
-          onClick={() => navigate('/')}
-          className="ml-2 mr-2 mt-8 rounded-md bg-black text-white p-4 text-2xl font-bold"
-        >
-          Back to home
-        </button>
+
+          {demoUserOrder && (
+            <div className="mt-2 mb-8 ml-2 rounded-md px-3 py-2 text-center text-xl">
+              ORDER NUMBER #{demoUserOrder.id}
+            </div>
+          )}
+
+          <div className="mt-8 mb-8 ml-2 rounded-md px-3 py-2 text-center text-xl">
+            <div className="">Your order will be shipped to</div>
+            {demoUserOrder && (
+              <div className="mb-8 font-normal">
+                <p>{demoUserOrder.address}</p>
+                <p>{demoUserOrder.city}</p>
+                <p>
+                  {demoUserOrder.country}, {demoUserOrder.zipCode}
+                </p>
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => navigate('/')}
+              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300"
+            >
+              Back to home
+            </button>
+          </div>
+        </div>
       </div>
     </>
   )
