@@ -65,8 +65,10 @@ const Nav = () => {
           }}
         ></div>
       </div>
-      {isShopperView ? (
-        <div className="flex space-x-6 text-white">
+      {isShopperView === null ? (
+        <div></div>
+      ) : isShopperView ? (
+        <div className="flex text-white" style={{ gap: '4rem' }}>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
             onClick={() => goTo('/')}
@@ -100,7 +102,12 @@ const Nav = () => {
                 <img
                   src="/images/user.svg"
                   alt="Profile Icon"
-                  className="h-5 w-5"
+                  style={{
+                    height: '20px',
+                    width: '20px',
+                    minHeight: '20px',
+                    minWidth: '20px',
+                  }}
                 />
               </button>
               <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
@@ -119,7 +126,7 @@ const Nav = () => {
           </div>
         </div>
       ) : (
-        <div className="flex space-x-6 text-white">
+        <div className="flex space-x-6 text-white" style={{ gap: '2rem' }}>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
             onClick={() => goTo('/admin')}
