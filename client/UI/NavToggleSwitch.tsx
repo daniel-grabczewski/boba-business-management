@@ -72,8 +72,6 @@ const NavToggleSwitch = ({
     transform: isShopperView ? 'translateX(0)' : `translateX(${17 * scale}px)`,
     transition: enableTransition ? 'transform .3s ease' : 'none',
   }
-  console.log('isShopperView', isShopperView)
-  console.log('isShopperHovered', isShopperHovered)
   return (
     <div style={containerStyles}>
       {/* Shopper View label */}

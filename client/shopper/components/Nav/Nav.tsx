@@ -28,7 +28,6 @@ const Nav = () => {
   const adminNavigateTo = '/admin'
   const shopperNavigateTo = '/'
 
-  console.log(isShopperView)
   return (
     <nav
       className=" flex justify-between items-center px-6 md:px-12 lg:px-16"
