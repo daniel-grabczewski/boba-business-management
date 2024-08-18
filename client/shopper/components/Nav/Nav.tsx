@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import NavToggleSwitch from '../../../UI/NavToggleSwitch'
 
 const Nav = () => {
@@ -99,16 +99,7 @@ const Nav = () => {
                 className="hover:text-purple-700 transition-colors duration-300 flex items-center"
                 onClick={() => goTo('/profile')}
               >
-                <img
-                  src="/images/user.svg"
-                  alt="Profile Icon"
-                  style={{
-                    height: '20px',
-                    width: '20px',
-                    minHeight: '20px',
-                    minWidth: '20px',
-                  }}
-                />
+                <FontAwesomeIcon icon={faUser} className="text-xl" />
               </button>
               <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                 Profile
@@ -116,7 +107,10 @@ const Nav = () => {
             </div>
 
             <div className="group relative">
-              <button onClick={() => goTo('/wishlist')}>
+              <button
+                className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                onClick={() => goTo('/wishlist')}
+              >
                 <FontAwesomeIcon icon={faHeart} className="text-xl" />
               </button>
               <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
