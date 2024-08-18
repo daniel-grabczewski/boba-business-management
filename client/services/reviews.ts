@@ -50,14 +50,16 @@ export function getReviewsFromLocalStorage(): Review[] {
   }
 }
 
-// Get all reviews associated with given product id as ProductPageDisplayReview[]
+// Get all ENABLED reviews associated with given product id as ProductPageDisplayReview[]
 export function getReviewsByProductId(
   productId: number
 ): ProductPageDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const reviewsForProduct = reviews
-      .filter((review) => review.productId === productId)
+      .filter(
+        (review) => review.productId === productId && review.isEnabled === true
+      )
       .map(({ productId, userId, rating, createdAt, description }) => {
         try {
           const userName =
