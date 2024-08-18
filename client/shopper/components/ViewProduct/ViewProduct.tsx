@@ -104,7 +104,11 @@ function ViewProduct({
               >
                 <FontAwesomeIcon
                   icon={wishlistStatus ? solidHeart : regularHeart}
-                  className={wishlistStatus ? 'text-red-500' : 'text-black'}
+                  className={`${
+                    wishlistStatus ? 'text-red-500' : 'text-black'
+                  } ${
+                    !wishlistStatus && 'hover:text-red-500'
+                  } transition-colors duration-300`}
                   style={{ fontSize: '1.875rem', marginLeft: '10px' }}
                 />
                 <span className="ml-2 self-center">
