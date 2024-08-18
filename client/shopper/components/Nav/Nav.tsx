@@ -7,7 +7,7 @@ import NavToggleSwitch from '../../../UI/NavToggleSwitch'
 const Nav = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [isShopperView, setIsShopperView] = useState(true)
+  const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
 
   useEffect(() => {
     // Check if the current path starts with '/admin'

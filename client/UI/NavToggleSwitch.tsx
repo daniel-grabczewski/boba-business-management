@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 type NavToggleSwitchProps = {
-  isShopperView: boolean
+  isShopperView: boolean | null
   handleIsShopperView: (checked: boolean) => void
   scale?: number
   goTo: (link: string) => void
@@ -18,7 +18,7 @@ const NavToggleSwitch = ({
   shopperNavigateTo,
 }: NavToggleSwitchProps) => {
   const [enableTransition, setEnableTransition] = useState(false)
-  const [isShopperHovered, setIsShopperHovered] = useState(isShopperView)
+  const [isShopperHovered, setIsShopperHovered] = useState(false)
   const [isAdminHovered, setIsAdminHovered] = useState(false)
 
   useEffect(() => {
@@ -72,6 +72,7 @@ const NavToggleSwitch = ({
     transform: isShopperView ? 'translateX(0)' : `translateX(${17 * scale}px)`,
     transition: enableTransition ? 'transform .3s ease' : 'none',
   }
+
   return (
     <div style={containerStyles}>
       {/* Shopper View label */}
@@ -79,7 +80,12 @@ const NavToggleSwitch = ({
         style={{
           ...labelStyles,
           width: '120px',
-          color: isShopperHovered || isShopperView ? 'white' : '#b0b0b0',
+          color:
+            isShopperView === null
+              ? '#b0b0b0'
+              : isShopperHovered || isShopperView
+              ? 'white'
+              : '#b0b0b0',
           cursor: !isShopperView ? 'pointer' : '',
         }}
         className={`flex justify-end`}
@@ -96,7 +102,7 @@ const NavToggleSwitch = ({
       {/* Toggle Switch */}
       <input
         type="checkbox"
-        checked={isShopperView}
+        checked={isShopperView === null ? true : isShopperView}
         onChange={() => handleIsShopperView(!isShopperView)}
         style={{ display: 'none' }}
       />
@@ -119,7 +125,12 @@ const NavToggleSwitch = ({
         style={{
           ...labelStyles,
           width: '100px',
-          color: isAdminHovered || !isShopperView ? 'white' : '#b0b0b0',
+          color:
+            isShopperView === null
+              ? '#b0b0b0'
+              : isAdminHovered || !isShopperView
+              ? 'white'
+              : '#b0b0b0',
           cursor: isShopperView ? 'pointer' : '',
         }}
         className={`flex justify-start`}
