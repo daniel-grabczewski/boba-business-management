@@ -5,6 +5,7 @@ export interface ProductPageDisplayReview {
   rating: number
   createdAt: string
   description: string
+  isEnabled : boolean
 }
 
 // Interface for review displayed for the Shopper's viewing in their profile
