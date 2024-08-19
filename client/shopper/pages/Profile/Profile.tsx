@@ -4,6 +4,7 @@ import { getDemoUserDetails } from '../../../services/users'
 import {
   deleteReviewOfDemoUserByProductId,
   getReviewsOfDemoUser,
+  isDemoUserReviewEnabled,
 } from '../../../services/reviews'
 import LoadError from '../../components/LoadError/LoadError'
 import { ShopperDisplayReview } from '../../../../models/Reviews'
@@ -201,13 +202,30 @@ const Profile = () => {
                           </div>
                         </div>
                         <p className="mb-4">{review.reviewDescription}</p>
-                        <div className="flex items-center">
-                          <span className="text-gray-600 text-sm mr-2">
-                            {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
-                          </span>
-                          <div className="flex items-center">
-                            <StarRating rating={review.reviewRating} size={1} />
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <span className="text-gray-600 text-sm mr-2">
+                              {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
+                            </span>
+                            <div className="flex items-center">
+                              <StarRating
+                                rating={review.reviewRating}
+                                size={1}
+                              />
+                            </div>
                           </div>
+                          {isDemoUserReviewEnabled(review.productId) ===
+                          false ? (
+                            <div
+                              className="text-red-500 text-sm"
+                              style={{ marginTop: '5px' }}
+                            >
+                              <p>This review has been disabled by an admin.</p>
+                              <p>It is not visible to other shoppers.</p>
+                            </div>
+                          ) : (
+                            <p></p>
+                          )}
                         </div>
                         <button
                           onClick={() =>
