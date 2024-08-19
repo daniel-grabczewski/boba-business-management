@@ -27,7 +27,6 @@ function ViewProductReviews({
   demoUserName,
   updateAverageRating,
   isEligable,
-  isEnabled,
   refetchCanDemoUserAddReview,
   updateDisplayReviews,
 }: ProductReviewsProps) {
