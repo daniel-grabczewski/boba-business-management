@@ -16,7 +16,7 @@ interface ProductFormProps {
   invalidFields: string[]
   pageTitle: string
   originalProduct: UpsertProduct
-  isErrorMessageEnabled : boolean
+  isErrorMessageEnabled: boolean
 }
 
 // This is a reusable component for editing/adding a new product for admins
@@ -34,7 +34,7 @@ function ProductForm({
   placeholderImage,
   pageTitle,
   originalProduct,
-  isErrorMessageEnabled
+  isErrorMessageEnabled,
 }: ProductFormProps) {
   const [originalButtonText] = useState(buttonText)
   const [localStock, setLocalStock] = useState(
@@ -182,7 +182,7 @@ function ProductForm({
                 onChange={handleStockChange}
               />
               <button
-                className="text-white font-bold py-2 px-2 rounded bg-gray-500 hover:bg-gray-600 w-1/2"
+                className="text-white font-bold py-2 px-2 rounded bg-gray-500 hover:bg-gray-600 w-1/2 transition-all duration-300"
                 onClick={addStock}
                 type="button"
               >
@@ -234,7 +234,8 @@ function ProductForm({
 
         <div className="mb-4">
           <div className="flex flex-row justify-between">
-            {isErrorMessageEnabled && hasUnsavedChanges(originalProduct, product) ? (
+            {isErrorMessageEnabled &&
+            hasUnsavedChanges(originalProduct, product) ? (
               <div className="bg-red-400 py-2 px-4 rounded">
                 <p>You have unsaved changes!</p>
               </div>
@@ -247,7 +248,7 @@ function ProductForm({
                 buttonText === originalButtonText
                   ? 'bg-blue-500 hover:bg-blue-700'
                   : 'bg-green-500 hover:bg-green-700'
-              } text-white font-bold py-2 px-4 rounded`}
+              } text-white font-bold py-2 px-4 rounded transition-all duration-300`}
               type="submit"
             >
               {buttonText}

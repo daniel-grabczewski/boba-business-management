@@ -32,7 +32,7 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
         <input
           className="border p-2 rounded mr-2"
           type="text"
-          placeholder="Search for email..."
+          placeholder="Search for Email..."
           value={search}
           onChange={(e) => {
             handleChangeSearch(e.target.value)
@@ -74,7 +74,7 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
               page === 1
                 ? 'bg-gray-300 cursor-default'
                 : 'bg-blue-500 hover:bg-blue-700'
-            } text-white font-bold py-2 px-4 rounded`}
+            } text-white font-bold py-2 px-4 rounded transition-all duration-300`}
             disabled={page === 1}
             onClick={() => handleChangePage(page - 1)}
           >
@@ -85,7 +85,7 @@ const EmailsSortingControls: React.FC<EmailSortingControlsProps> = ({
               page === totalPages
                 ? 'bg-gray-300 cursor-default'
                 : 'bg-blue-500 hover:bg-blue-700'
-            } text-white font-bold py-2 px-4 rounded ml-2`}
+            } text-white font-bold py-2 px-4 rounded ml-2 transition-all duration-300`}
             disabled={page === totalPages}
             onClick={() => handleChangePage(page + 1)}
           >

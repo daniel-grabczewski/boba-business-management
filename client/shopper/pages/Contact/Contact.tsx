@@ -9,7 +9,6 @@ function Contact() {
   )
   const [alertMessage, setAlertMessage] = useState('')
 
-
   const [newEmail, setNewEmail] = useState({
     title: '',
     description: '',
@@ -23,7 +22,9 @@ function Contact() {
     setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
 
     if (value) {
-      setEmptyFields((prevFields) => prevFields.filter((field) => field !== name))
+      setEmptyFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
     }
   }
 
@@ -39,14 +40,18 @@ function Contact() {
     setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
 
     if (value) {
-      setEmptyFields((prevFields) => prevFields.filter((field) => field !== name))
+      setEmptyFields((prevFields) =>
+        prevFields.filter((field) => field !== name)
+      )
     }
   }
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
 
-    const emptyKeys = Object.keys(newEmail).filter((key) => !newEmail[key as keyof NewEmail])
+    const emptyKeys = Object.keys(newEmail).filter(
+      (key) => !newEmail[key as keyof NewEmail]
+    )
     if (emptyKeys.length > 0) {
       setEmptyFields(emptyKeys)
       setShowError(true)
@@ -98,7 +103,9 @@ function Contact() {
           </label>
           <textarea
             className={`mt-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full ${
-              showError && emptyFields.includes('description') ? 'border-red-500' : ''
+              showError && emptyFields.includes('description')
+                ? 'border-red-500'
+                : ''
             }`}
             style={{ height: '150px', maxHeight: '300px', minHeight: '150px' }}
             name="description"
@@ -110,22 +117,25 @@ function Contact() {
         </div>
         <div className="mx-auto flex flex-col items-center">
           <button
-            className="bg-black text-white py-2 px-4 rounded-md w-full text-lg font-semibold hover:bg-gray-800 hover:text-gray-100 transition-all duration-300"
-            style={{maxWidth:'125px'}}
+            className="bg-blue-500 text-white py-2 px-4 rounded-md w-full text-lg font-semibold hover:bg-blue-700 hover:text-gray-100 transition-all duration-300"
+            style={{ maxWidth: '125px' }}
             type="submit"
           >
             Submit
           </button>
-          <p className={`text-red-500 mt-2 ${showError ? 'visible' : 'invisible'}`}>
+          <p
+            className={`text-red-500 mt-2 ${
+              showError ? 'visible' : 'invisible'
+            }`}
+          >
             Please fill out all fields
           </p>
           {alertMessage && (
-      <div className="bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-1/2">
-          {alertMessage}
+            <div className="bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-1/2">
+              {alertMessage}
+            </div>
+          )}
         </div>
-  )}
-        </div>
-        
       </form>
     </div>
   )

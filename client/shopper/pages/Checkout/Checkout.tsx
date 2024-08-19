@@ -85,7 +85,7 @@ function Checkout() {
     async () => getShippingOptionsFromLocalStorage()
   )
 
-  useEffect(()=> {
+  useEffect(() => {
     if (shippingOptions) {
       setSelectedShipping(shippingOptions[0])
     }
@@ -286,7 +286,7 @@ function Checkout() {
               />
               <div className="flex flex-row w-full justify-between items-center">
                 <button
-                  className="bg-gray-500 text-white p-4 w-half text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+                  className="bg-blue-500 text-white p-4 w-half text-lg font-bold rounded-md transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
                   type="submit"
                 >
                   COMPLETE ORDER

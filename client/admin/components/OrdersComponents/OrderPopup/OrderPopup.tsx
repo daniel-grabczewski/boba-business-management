@@ -128,7 +128,7 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
             <div className="mt-4 text-right">
               <button
                 onClick={closeOrderPopup}
-                className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700"
+                className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700 transition-all duration-300"
               >
                 Back to orders
               </button>

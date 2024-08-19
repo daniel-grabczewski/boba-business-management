@@ -94,13 +94,13 @@ const EmailPopup = ({ emailId, closeEmailPopup }: EmailPopupProps) => {
               <div className=" flex flex-row justify-between">
                 <button
                   onClick={closeEmailPopup}
-                  className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-5"
+                  className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700 mb-5 transition-all duration-300"
                 >
                   Back to inbox
                 </button>
                 <button
                   onClick={() => deleteEmailMutation.mutate(emailId)}
-                  className="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 mb-5"
+                  className="px-2 py-1 text-white bg-red-500 rounded hover:bg-red-700 mb-5 transition-all duration-300"
                 >
                   Delete
                 </button>

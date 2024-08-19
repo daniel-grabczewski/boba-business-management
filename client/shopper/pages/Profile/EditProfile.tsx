@@ -322,10 +322,10 @@ const EditProfile = () => {
         <div className="items-center flex flex-col">
           <button
             type="submit"
-            className={`w-1/6 py-2 px-4 text-white font-semibold rounded focus:outline-none focus:ring ${
+            className={`w-1/6 py-2 px-4 text-white font-semibold rounded focus:outline-none focus:ring transition-all duration-300 ${
               mutation.isLoading
                 ? 'bg-gray-300 cursor-not-allowed'
-                : 'bg-blue-500 hover:bg-blue-600'
+                : 'bg-blue-500 hover:bg-blue-700'
             }`}
           >
             Submit

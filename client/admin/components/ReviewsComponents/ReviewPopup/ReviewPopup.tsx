@@ -129,7 +129,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
               </div>
               <button
                 onClick={closeReviewPopup}
-                className="px-2 py-1 text-white bg-blue-600 rounded hover:bg-blue-700 mb-2 mt-8"
+                className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700 mb-2 mt-8 transition-all duration-300"
               >
                 Back to reviews
               </button>

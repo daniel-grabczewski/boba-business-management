@@ -62,7 +62,7 @@ function OrderSortingControls({
             page === 1
               ? 'bg-gray-300 cursor-default'
               : 'bg-blue-500 hover:bg-blue-700'
-          } text-white font-bold py-2 px-4 rounded`}
+          } text-white font-bold py-2 px-4 rounded transition-all duration-300`}
           disabled={page === 1}
           onClick={() => handleChangePage(page - 1)}
         >
@@ -72,8 +72,8 @@ function OrderSortingControls({
           className={`${
             page === totalPages || ordersCount === 0
               ? 'bg-gray-300 cursor-default'
-              : 'bg-blue-500 hover.bg-blue-700'
-          } text-white font-bold py-2 px-4 rounded ml-2`}
+              : 'bg-blue-500 hover:bg-blue-700'
+          } text-white font-bold py-2 px-4 rounded ml-2 transition-all duration-300`}
           disabled={page === totalPages || ordersCount === 0}
           onClick={() => handleChangePage(page + 1)}
         >

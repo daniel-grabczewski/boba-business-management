@@ -54,7 +54,7 @@ const ViewProducts = ({
                   to={`/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
-                  className="text-2xl font-bold mt-2 block cursor-pointer"
+                  className="text-2xl font-bold mt-2 block cursor-pointer transition-all duration-300"
                   style={{
                     color:
                       hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
@@ -83,7 +83,7 @@ const ViewProducts = ({
                   to={`/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
-                  className="text-xl font-bold block cursor-pointer"
+                  className="text-xl font-bold block cursor-pointer transition-all duration-300"
                   style={{
                     color:
                       hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
@@ -98,7 +98,7 @@ const ViewProducts = ({
                   to={`/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
-                  className="text-xl font-bold block cursor-pointer"
+                  className="text-xl font-bold block cursor-pointer transition-all duration-300"
                   style={{
                     color:
                       hoveredProductId === product.id ? '#1D4ED8' : 'inherit',

@@ -34,7 +34,7 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
           <input
             className="border p-2 rounded mr-2"
             type="text"
-            placeholder="Search product or user"
+            placeholder="Search Product or User..."
             value={search}
             onChange={(e) => {
               handleChangeSearch(e.target.value)
@@ -75,8 +75,8 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
         {/* PAGINATION */}
         <div className="flex justify-between items-center">
           <div className="flex flex-col justify-center mx-2 font-semibold">
-            Showing {reviewsCount === 0 ? 0 : firstIndex + 1}-{Math.min(lastIndex, reviewsCount)} of{' '}
-            {reviewsCount}
+            Showing {reviewsCount === 0 ? 0 : firstIndex + 1}-
+            {Math.min(lastIndex, reviewsCount)} of {reviewsCount}
           </div>
           <div className="flex justify-center">
             <button
@@ -84,7 +84,7 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
                 page === 1
                   ? 'bg-gray-300 cursor-default'
                   : 'bg-blue-500 hover:bg-blue-700'
-              } text-white font-bold py-2 px-4 rounded`}
+              } text-white font-bold py-2 px-4 rounded transition-all duration-300`}
               disabled={page === 1}
               onClick={() => handleChangePage(page - 1)}
             >
@@ -95,7 +95,7 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
                 page === totalPages || reviewsCount === 0
                   ? 'bg-gray-300 cursor-default'
                   : 'bg-blue-500 hover:bg-blue-700'
-              } text-white font-bold py-2 px-4 rounded ml-2`}
+              } text-white font-bold py-2 px-4 rounded ml-2 transition-all duration-300`}
               disabled={page === totalPages || reviewsCount === 0}
               onClick={() => handleChangePage(page + 1)}
             >

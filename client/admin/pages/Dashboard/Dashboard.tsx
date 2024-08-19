@@ -64,7 +64,7 @@ const Dashboard = () => {
             </h1>
           </div>
           <button
-            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
             style={{ minWidth: '135px' }}
             onClick={() => goTo('/admin/orders')}
           >
@@ -79,7 +79,7 @@ const Dashboard = () => {
               All Products are in stock
             </h1>
             <button
-              className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+              className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
               style={{ minWidth: '135px' }}
               onClick={() => goTo('/admin/products-summary')}
             >
@@ -126,7 +126,7 @@ const Dashboard = () => {
               </div>
             </div>
             <button
-              className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all mt-4"
+              className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 mt-4"
               onClick={() =>
                 goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
               }
@@ -146,7 +146,7 @@ const Dashboard = () => {
             </h1>
           </div>
           <button
-            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
             onClick={() => goTo('/admin/inbox')}
             style={{ minWidth: '135px' }}
           >
@@ -163,7 +163,7 @@ const Dashboard = () => {
             </h1>
           </div>
           <button
-            className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all"
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
             onClick={() => goTo('/admin/reviews')}
             style={{ minWidth: '135px' }}
           >

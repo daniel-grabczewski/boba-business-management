@@ -184,7 +184,7 @@ const Profile = () => {
                     .map((review: ShopperDisplayReview) => (
                       <li
                         key={review.productId}
-                        className="border p-4 rounded-md shadow-md hover:shadow-lg transition duration-300"
+                        className="border p-4 rounded-md shadow-md"
                       >
                         <div className="flex justify-between items-center mb-2">
                           <h3 className="text-lg font-semibold">
@@ -213,7 +213,7 @@ const Profile = () => {
                           onClick={() =>
                             deleteReviewMutation.mutate(review.productId)
                           }
-                          className="mt-2 text-red-500 hover:text-red-600 cursor-pointer"
+                          className="mt-2 text-red-500 hover:text-red-800 cursor-pointer transition-all duration-300"
                         >
                           Delete
                         </button>

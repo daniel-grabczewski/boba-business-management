@@ -40,7 +40,7 @@ function DeliveryAddress({
         <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
         <button
           type="button"
-          className="px-3 text-sm bg-gray-500 text-white rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+          className="px-3 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
           style={{ width: '190px' }}
           onClick={fillDetailsWithDefaults}
           onMouseEnter={handlePreviewMouseEnter}
