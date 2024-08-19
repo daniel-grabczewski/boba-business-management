@@ -94,6 +94,36 @@ export function getReviewsByProductId(
   }
 }
 
+// Return true if the demo user is eligable to review the product and/or their review is enabled. If the user has reviewed the product, and their review is disabled, return false.
+export function isDemoUserReviewEnabled(productId: number): boolean {
+  try {
+    if (canDemoUserAddReview(productId)) {
+      return true
+    }
+
+    const demoUser = getDemoUserDetails()
+    if (!demoUser) {
+      return false
+    }
+    const reviews = getReviewsFromLocalStorage()
+
+    const isReviewEnabled = reviews.some(
+      (review) =>
+        review.productId === productId &&
+        review.userId === demoUser.userId &&
+        review.isEnabled
+    )
+
+    return isReviewEnabled
+  } catch (error) {
+    console.error(
+      `Error checking if demo user's review is enabled for product ID: ${productId}`,
+      error
+    )
+    return false
+  }
+}
+
 // Get review associated with given id as AdminDisplayReview
 export function getAdminDisplayReviewById(
   id: number
@@ -330,8 +360,6 @@ export function canDemoUserAddReview(productId: number): boolean {
     return false
   }
 }
-
-
 
 // Update isEnabled status of review associated with given id, to the given status
 export function updateReviewStatusById(id: number, status: boolean): void {
