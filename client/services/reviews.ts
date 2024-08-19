@@ -50,35 +50,43 @@ export function getReviewsFromLocalStorage(): Review[] {
   }
 }
 
-// Get all ENABLED reviews associated with given product id as ProductPageDisplayReview[]
+// Get all reviews associated with given product id as ProductPageDisplayReview[]
 export function getReviewsByProductId(
   productId: number
 ): ProductPageDisplayReview[] {
   try {
     const reviews = getReviewsFromLocalStorage()
     const reviewsForProduct = reviews
-      .filter(
-        (review) => review.productId === productId && review.isEnabled === true
-      )
-      .map(({ productId, userId, rating, createdAt, description }) => {
-        try {
-          const userName =
-            getUserByUserId(userId)?.userName || 'Error Retrieving User'
-          return { productId, userName, rating, createdAt, description }
-        } catch (userError) {
-          console.error(
-            `Failed to retrieve user details for user ID: ${userId}`,
-            userError
-          )
-          return {
-            productId,
-            userName: 'Error Retrieving User',
-            rating,
-            createdAt,
-            description,
+      .filter((review) => review.productId === productId)
+      .map(
+        ({ productId, userId, rating, createdAt, description, isEnabled }) => {
+          try {
+            const userName =
+              getUserByUserId(userId)?.userName || 'Error Retrieving User'
+            return {
+              productId,
+              userName,
+              rating,
+              createdAt,
+              description,
+              isEnabled,
+            }
+          } catch (userError) {
+            console.error(
+              `Failed to retrieve user details for user ID: ${userId}`,
+              userError
+            )
+            return {
+              productId,
+              userName: 'Error Retrieving User',
+              rating,
+              createdAt,
+              description,
+              isEnabled,
+            }
           }
         }
-      })
+      )
     return reviewsForProduct
   } catch (error) {
     console.error(`Failed to get reviews for product ID: ${productId}`, error)
@@ -322,6 +330,8 @@ export function canDemoUserAddReview(productId: number): boolean {
     return false
   }
 }
+
+
 
 // Update isEnabled status of review associated with given id, to the given status
 export function updateReviewStatusById(id: number, status: boolean): void {
