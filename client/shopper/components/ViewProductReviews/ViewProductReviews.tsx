@@ -13,8 +13,10 @@ import { getUserFullNameByUserName } from '../../../services/users'
 interface ProductReviewsProps {
   product: ShopperProduct
   reviews: ProductPageDisplayReview[]
+  demoUserName: string
   updateAverageRating: () => void
   isEligable: boolean
+  isEnabled: boolean
   refetchCanDemoUserAddReview: () => void
   updateDisplayReviews: () => void
 }
@@ -22,8 +24,10 @@ interface ProductReviewsProps {
 function ViewProductReviews({
   product,
   reviews,
+  demoUserName,
   updateAverageRating,
   isEligable,
+  isEnabled,
   refetchCanDemoUserAddReview,
   updateDisplayReviews,
 }: ProductReviewsProps) {
@@ -128,25 +132,40 @@ function ViewProductReviews({
       </div>
 
       {reviews.length > 0 &&
-        reviewsWithFullNames.map((review) => (
-          <div
-            key={review.userName}
-            className="flex flex-col border border-black rounded"
-            style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
-          >
+        reviewsWithFullNames.map((review) =>
+          review.userName !== demoUserName && !review.isEnabled ? (
+            <div key={review.userName}></div>
+          ) : (
             <div
-              className="flex flex-row justify-between font-bold"
-              style={{ marginBottom: '5px' }}
+              key={review.userName}
+              className="flex flex-col border border-black rounded"
+              style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
             >
-              <h2>{review.fullName}</h2>
-              <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+              <div
+                className="flex flex-row justify-between font-bold"
+                style={{ marginBottom: '5px' }}
+              >
+                <h2>{review.fullName}</h2>
+                <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+              </div>
+              <p style={{ marginBottom: '20px' }}>{review.description}</p>
+              <div className="flex justify-between">
+                <StarRating rating={review.rating} size={1} />
+                {review.isEnabled === false ? (
+                  <div
+                    className="text-red-500 text-xs"
+                    style={{ marginTop: '-3px' }}
+                  >
+                    <p>Your review has been disabled by an admin.</p>
+                    <p>It is not visible to other shoppers.</p>
+                  </div>
+                ) : (
+                  <p></p>
+                )}
+              </div>
             </div>
-            <p style={{ marginBottom: '20px' }}>{review.description}</p>
-            <div className="flex">
-              <StarRating rating={review.rating} size={1} />
-            </div>
-          </div>
-        ))}
+          )
+        )}
 
       {isAddingReview ? (
         <div className="flex flex-col" style={{ width: '400px' }}>

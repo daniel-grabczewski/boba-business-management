@@ -4,12 +4,14 @@ import { getProductByIdShopper } from '../../../services/products'
 import {
   getReviewsByProductId,
   canDemoUserAddReview,
+  isDemoUserReviewEnabled,
 } from '../../../services/reviews'
 import ViewProduct from '../../components/ViewProduct/ViewProduct'
 import LoadError from '../../components/LoadError/LoadError'
 import ViewProductReviews from '../../components/ViewProductReviews/ViewProductReviews'
 import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 import { useEffect, useState } from 'react'
+import { getDemoUserDetails } from '../../../services/users'
 
 const ProductPage = () => {
   const params = useParams()
@@ -29,9 +31,24 @@ const ProductPage = () => {
   )
 
   const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
-    useQuery(['canDemoUserAddReview', id], async () => 
-      canDemoUserAddReview(id)
-    )
+    useQuery(['canDemoUserAddReview', id], async () => canDemoUserAddReview(id))
+
+  const { data: isEnabled } = useQuery(
+    ['isDemoUserReviewEnabled', id],
+    async () => {
+      isDemoUserReviewEnabled(id)
+    }
+  )
+
+  const { data: demoUserName = '' } = useQuery(
+    ['getDemoUserDetails', id],
+    async () => {
+      const demoUserDetails = getDemoUserDetails()
+      if (demoUserDetails) {
+        return demoUserDetails.userName
+      }
+    }
+  )
 
   const {
     data: reviews = [],
@@ -99,8 +116,10 @@ const ProductPage = () => {
           <ViewProductReviews
             product={product}
             reviews={displayReviews}
+            demoUserName={demoUserName}
             updateAverageRating={updateAverageRating}
             isEligable={isEligable}
+            isEnabled={!!isEnabled}
             refetchCanDemoUserAddReview={refetchCanDemoUserAddReview}
             updateDisplayReviews={updateDisplayReviews}
           />
