@@ -4,6 +4,9 @@ import { futureEmails } from '../data/futureData/futureEmailData'
 import { generateCurrentDate } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { generateRandomNumber } from '../utils/generateRandomNumber'
+import { processFutureOrders } from './orders'
+import { processFutureReviews } from './reviews'
+import { processFutureEmails } from './emails'
 
 const minItems = 2
 const maxItems = 5
@@ -34,8 +37,11 @@ export function addFutureData(): void {
     )
 
     const orderCount = generateRandomNumber(minItems, maxItems)
-    const reviewCount = generateRandomNumber(minItems, maxItems)
-    const emailCount = generateRandomNumber(minItems, maxItems)
+    const reviewCount = generateRandomNumber(minItems, maxItems, [orderCount])
+    const emailCount = generateRandomNumber(minItems, maxItems, [
+      orderCount,
+      reviewCount,
+    ])
 
     localStorage.setItem(
       'latestIdsInStorage',
@@ -52,13 +58,13 @@ export function addFutureData(): void {
 
     // Process data if arrays are not empty
     if (selectedFutureOrders.length > 0) {
-      //processFutureOrders(selectedFutureOrders)
+      processFutureOrders(selectedFutureOrders)
     }
     if (selectedFutureReviews.length > 0) {
-      //processFutureReviews(selectedFutureReviews)
+      processFutureReviews(selectedFutureReviews)
     }
     if (selectedFutureEmails.length > 0) {
-      //processFutureEmails(selectedFutureEmails)
+      processFutureEmails(selectedFutureEmails)
     }
 
     return
@@ -74,8 +80,11 @@ export function addFutureData(): void {
   const latestIds = JSON.parse(latestIdsInStorage)
 
   const orderCount = generateRandomNumber(minItems, maxItems)
-  const reviewCount = generateRandomNumber(minItems, maxItems)
-  const emailCount = generateRandomNumber(minItems, maxItems)
+  const reviewCount = generateRandomNumber(minItems, maxItems, [orderCount])
+  const emailCount = generateRandomNumber(minItems, maxItems, [
+    orderCount,
+    reviewCount,
+  ])
 
   const selectedFutureOrders = cutArray(
     futureOrders,
@@ -95,15 +104,15 @@ export function addFutureData(): void {
 
   // Process data if arrays are not empty
   if (selectedFutureOrders.length > 0) {
-    //processFutureOrders(selectedFutureOrders)
+    processFutureOrders(selectedFutureOrders)
   }
 
   if (selectedFutureReviews.length > 0) {
-    //processFutureReviews(selectedFutureReviews)
+    processFutureReviews(selectedFutureReviews)
   }
 
   if (selectedFutureEmails.length > 0) {
-    //processFutureEmails(selectedFutureEmails)
+    processFutureEmails(selectedFutureEmails)
   }
 
   // Update the latest IDs in local storage
