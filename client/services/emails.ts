@@ -1,7 +1,10 @@
 import { NewEmail, Email } from '../../models/Emails'
 import { getDemoUserDetails } from './users'
 import initialEmails from '../data/emailsData'
-import { generateCurrentDateTime } from '../utils/generateDate'
+import {
+  generateCurrentDateTime,
+  getRandomDateTimeWithinLastDays,
+} from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { generateUniqueId } from '../utils/generateUniqueId'
 
@@ -73,6 +76,28 @@ export function sendEmailFromDemoUser(newEmail: NewEmail): void {
     setEmailsInLocalStorage(emails)
   } catch (error) {
     console.error('Failed to send email:', error)
+  }
+}
+
+export function processFutureEmails(newEmails: Email[]): void {
+  try {
+    const emails = getEmailsFromLocalStorage()
+    const processedNewEmails = newEmails.map((newEmail) => {
+      const randomTimeToday = getRandomDateTimeWithinLastDays(1)
+      const uniqueEmailId = generateUniqueId(
+        getRandomDateTimeWithinLastDays(30)
+      )
+
+      return {
+        ...newEmail,
+        id: uniqueEmailId,
+        createdAt: randomTimeToday,
+      }
+    })
+
+    setEmailsInLocalStorage([...emails, ...processedNewEmails])
+  } catch (error) {
+    console.error(`Failed to add new emails data to local storage:`, error)
   }
 }
 
