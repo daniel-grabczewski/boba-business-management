@@ -84,8 +84,9 @@ export function processFutureEmails(newEmails: Email[]): void {
     const emails = getEmailsFromLocalStorage()
     const processedNewEmails = newEmails.map((newEmail) => {
       const randomTimeToday = getRandomDateTimeWithinLastDays(1)
+      //Increased date range specifically for generating unique ID, to decrease chance that Order IDs are the same
       const uniqueEmailId = generateUniqueId(
-        getRandomDateTimeWithinLastDays(30)
+        getRandomDateTimeWithinLastDays(50)
       )
 
       return {
