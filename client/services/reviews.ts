@@ -7,7 +7,10 @@ import {
 } from '../../models/Reviews'
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { generateCurrentDateTime } from '../utils/generateDate'
+import {
+  generateCurrentDateTime,
+  getRandomDateTimeWithinLastDays,
+} from '../utils/generateDate'
 import { generateUniqueId } from '../utils/generateUniqueId'
 import {
   getAllProductsAdmin,
@@ -15,8 +18,6 @@ import {
   setProductsInLocalStorage,
 } from './products'
 import { getUserByUserId, getDemoUserDetails } from './users'
-
-//!What if we have a system where we add a bunch of reviews as soon as the user boots up the app, so they are each added with the current date, with a time that is before the current time. So that way, when the user goes into the admin dashboard, it isn't competely empty.
 
 // Initialize new key 'reviews' to be equal to value of initialReviews IF localStorage 'reviews' key doesn't exist
 export function setReviewsInLocalStorageInitial(): void {
@@ -328,6 +329,31 @@ export function addDemoUserReview(newReview: CreateReview): void {
     }
   } catch (error) {
     console.error(`Error adding new review ${JSON.stringify(newReview)}`, error)
+  }
+}
+
+export function processFutureReviews(newReviews: Review[]): void {
+  try {
+    const reviews = getReviewsFromLocalStorage()
+
+    const processedNewReviews = newReviews.map((newReview) => {
+      const randomTimeToday = getRandomDateTimeWithinLastDays(1)
+      //Increased date range specifically for generating unique ID, to decrease chance that Order IDs are the same
+      const uniqueReviewId = generateUniqueId(
+        getRandomDateTimeWithinLastDays(50)
+      )
+
+      return {
+        ...newReview,
+        id: uniqueReviewId,
+        createdAt: randomTimeToday,
+      }
+    })
+
+    setReviewsInLocalStorage([...reviews, ...processedNewReviews])
+    recalculateAllProductsAverageRating()
+  } catch (error) {
+    console.error(`Failed to add new reviews data to local storage:`, error)
   }
 }
 
