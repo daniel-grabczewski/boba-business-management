@@ -8,6 +8,7 @@ import {
 import initialReviews from '../data/reviewsData'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { generateCurrentDateTime } from '../utils/generateDate'
+import { generateUniqueId } from '../utils/generateUniqueId'
 import {
   getAllProductsAdmin,
   getProductByIdAdmin,
@@ -174,15 +175,6 @@ export function getAllAdminDisplayReviews(): AdminDisplayReview[] {
   }
 }
 
-// Returns new review id, unique from every other review id
-export function generateNewReviewId(): number {
-  const reviews = getReviewsFromLocalStorage()
-  const newId =
-    reviews.length > 0 ? Math.max(...reviews.map((review) => review.id)) + 1 : 1
-
-  return newId
-}
-
 // Get count of amount of reviews that were created on given 'YYYY-MM-DD HH:MM:SS' date.
 export function getCountOfReviewsFromDate(date: string): number {
   try {
@@ -310,15 +302,17 @@ export function addDemoUserReview(newReview: CreateReview): void {
 
     const isDemoUserEligable = canDemoUserAddReview(newReview.productId)
 
+    const currentDateTime = generateCurrentDateTime()
+
     if (isDemoUserEligable) {
       const review = {
-        id: generateNewReviewId(),
+        id: generateUniqueId(currentDateTime),
         productId: newReview.productId,
         description: newReview.description,
         rating: newReview.rating,
         isEnabled: true,
         userId: demoUser.userId,
-        createdAt: generateCurrentDateTime(),
+        createdAt: currentDateTime,
       }
       reviews.push(review)
       setReviewsInLocalStorage(reviews)
