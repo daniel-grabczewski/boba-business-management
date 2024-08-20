@@ -24,30 +24,35 @@ export function generateCurrentDate(): string {
 }
 
 // Function to generate a random date within the last specified number of days in 'YYYY-MM-DD HH:MM:SS' format
-// Function to generate a random date within the last specified number of days in 'YYYY-MM-DD HH:MM:SS' format
 export function getRandomDateTimeWithinLastDays(days: number): string {
   const now = new Date()
-  const pastDate = new Date(
+
+  // Determine the start time based on the current time and the days parameter
+  const startTime = new Date(
     now.getFullYear(),
     now.getMonth(),
-    now.getDate() - days,
-    6
+    now.getDate() - days + 1,
+    6,
+    0,
+    0
   )
 
-  // Generate a random date and time between pastDate and now
-  const randomTime =
-    pastDate.getTime() + Math.random() * (now.getTime() - pastDate.getTime())
-  const randomDate = new Date(randomTime)
-
-  // Constrain the time to be no later than the current time
-  if (randomDate > now) {
-    randomDate.setTime(now.getTime())
+  // Adjust start time back to the previous day if it's currently before 6 AM and days is 1
+  if (now.getHours() < 6 && days === 1) {
+    startTime.setDate(startTime.getDate() - 1)
   }
 
-  // Constrain the hours to be no earlier than 6 AM of each day
-  if (randomDate.getHours() < 6) {
-    randomDate.setHours(6)
-  }
+  // The end time is always the current moment unless it's before 6 AM and days is 1
+  const endTime =
+    now.getHours() < 6 && days === 1
+      ? new Date(now.getFullYear(), now.getMonth(), now.getDate(), 6, 0, 0)
+      : now
+
+  // Generate a random date between the calculated start time and the current time
+  const randomTimestamp =
+    startTime.getTime() +
+    Math.random() * (endTime.getTime() - startTime.getTime())
+  const randomDate = new Date(randomTimestamp)
 
   // Format the date to 'YYYY-MM-DD HH:MM:SS'
   const year = randomDate.getFullYear()
