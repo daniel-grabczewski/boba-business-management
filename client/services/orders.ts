@@ -18,7 +18,7 @@ import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getProductByIdAdmin, getProductByIdShopper } from './products'
 import { getShippingOptionById } from './shipping'
 import { getUserByUserId } from './users'
-import { generateUniqueOrderId } from '../utils/generateUniqueOrderId'
+import { generateUniqueId } from '../utils/generateUniqueId'
 
 // Initialize new key 'orders' to be equal to value of initialOrders IF localStorage 'orders' key doesn't exist
 export function setOrdersInLocalStorageInitial(): void {
@@ -107,7 +107,7 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
     }))
 
     const newOrder: Order = {
-      id: generateUniqueOrderId(),
+      id: generateUniqueId(),
       userId: demoUser.userId,
       purchasedAt: generateCurrentDateTime(),
       shippingId: orderCheckoutDetails.shippingId,
@@ -141,7 +141,7 @@ export function processFutureOrders(newOrders: Order[]): void {
     const processedNewOrders = newOrders.map((newOrder) => {
       const randomTimeToday = getRandomDateTimeWithinLastDays(1)
       //Increased date range specifically for generating unique ID, to decrease chance that Order IDs are the same
-      const uniqueOrderId = generateUniqueOrderId(
+      const uniqueOrderId = generateUniqueId(
         getRandomDateTimeWithinLastDays(50)
       )
       return {

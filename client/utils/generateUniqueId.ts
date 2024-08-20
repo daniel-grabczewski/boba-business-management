@@ -6,9 +6,9 @@ function parseDateString(dateString: string): Date {
   return new Date(year, month - 1, day, hours, minutes, seconds)
 }
 
-// Generate a unique order ID based on current date/time.
+// Generate a unique ID based on current date/time.
 // Optionally, provide a date/time in 'YYYY-MM-DD HH:MM:SS' format, to generate a unique order ID based on it.
-export function generateUniqueOrderId(dateString?: string): number {
+export function generateUniqueId(dateString?: string): number {
   let date: Date
 
   if (dateString) {
