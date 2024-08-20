@@ -5,25 +5,25 @@ import { generateCurrentDate } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { generateRandomNumber } from '../utils/generateRandomNumber'
 
+const minItems = 2
+const maxItems = 5
+
 //Given start ID and end ID, cut the array (inclusively) to be between the two IDs, then return a deep copy of the cut array.
 function cutArray<T extends { id: number }>(
   array: T[],
   startId: number,
   endId: number
 ): T[] {
-  // Adjust to match indices to ID values: IDs start from 1, indices start from 0
-  const slicedArray = array.slice(startId - 1, endId)
+  const startIndex = Math.max(startId - 1, 0)
+  const endIndex = Math.min(endId, array.length)
+  const slicedArray = array.slice(startIndex, endIndex)
   return structuredClone(slicedArray)
 }
-
-const minItems = 2
-const maxItems = 5
 
 export function addFutureData(): void {
   const currentDate = formatDateToDDMMYYYY(generateCurrentDate())
 
   const latestDateInStorage = localStorage.getItem('latestDateInStorage')
-
   const latestIdsInStorage = localStorage.getItem('latestIdsInStorage')
 
   // Initialise the data for the first time it is used
@@ -50,24 +50,27 @@ export function addFutureData(): void {
     const selectedFutureReviews = cutArray(futureReviews, 1, reviewCount)
     const selectedFutureEmails = cutArray(futureEmails, 1, emailCount)
 
-    //Function to process selectedFutureOrders will go here
-    //Function to process selectedFutureReviews will go here
-    //Function to process selectedFutureEmails will go here
+    // Process data if arrays are not empty
+    if (selectedFutureOrders.length > 0) {
+      //processFutureOrders(selectedFutureOrders)
+    }
+    if (selectedFutureReviews.length > 0) {
+      //processFutureReviews(selectedFutureReviews)
+    }
+    if (selectedFutureEmails.length > 0) {
+      //processFutureEmails(selectedFutureEmails)
+    }
 
-    //There is nothing else to do in this function, so we leave
     return
   }
 
-  //Otherwise, we use the latest Ids we set as the start point, we generate the numbers again, use them to cut them up, set the numbers as the latest IDs, and then process the cut up arrays into the functions
-
   const latestDate = JSON.parse(latestDateInStorage).currentDate
 
-  //If the date in local storage is the same as the current day, do nothing
+  // If the date in local storage is the same as the current day, do nothing
   if (currentDate === latestDate) {
     return
   }
 
-  //Otherwise, we cut up the arrays
   const latestIds = JSON.parse(latestIdsInStorage)
 
   const orderCount = generateRandomNumber(minItems, maxItems)
@@ -90,10 +93,20 @@ export function addFutureData(): void {
     latestIds.latestEmailId + emailCount
   )
 
-  //Function to process selectedFutureOrders will go here
-  //Function to process selectedFutureReviews will go here
-  //Function to process selectedFutureEmails will go here
+  // Process data if arrays are not empty
+  if (selectedFutureOrders.length > 0) {
+    //processFutureOrders(selectedFutureOrders)
+  }
 
+  if (selectedFutureReviews.length > 0) {
+    //processFutureReviews(selectedFutureReviews)
+  }
+
+  if (selectedFutureEmails.length > 0) {
+    //processFutureEmails(selectedFutureEmails)
+  }
+
+  // Update the latest IDs in local storage
   localStorage.setItem(
     'latestIdsInStorage',
     JSON.stringify({
@@ -103,7 +116,7 @@ export function addFutureData(): void {
     })
   )
 
-  //Set local storage date to current date, so when this function is run again, it won't get past the if statement 'currentDate === latestDate' check
+  // Set local storage date to current date
   localStorage.setItem(
     'latestDateInStorage',
     JSON.stringify({ currentDate: currentDate })
