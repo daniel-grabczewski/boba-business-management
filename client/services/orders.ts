@@ -10,7 +10,10 @@ import initialOrders from '../data/ordersData'
 import { deleteAllCartItems, getCartItemsFromLocalStorage } from './cart'
 import { CartItem } from '../../models/Cart'
 import { getDemoUserDetails } from './users'
-import { generateCurrentDateTime } from '../utils/generateDate'
+import {
+  generateCurrentDateTime,
+  getRandomDateTimeWithinLastDays,
+} from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
 import { getProductByIdAdmin, getProductByIdShopper } from './products'
 import { getShippingOptionById } from './shipping'
@@ -81,7 +84,7 @@ export function getOrdersByUserId(userId: string): Order[] {
   }
 }
 
-// Create order using details entered into checkout and data of Demo user's cart in local storage, then delete Demo user's cart.
+// Create order using details entered into checkout and data of Demo user's cart in local storage, then delete Demo user's cart
 export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
   try {
     const cart: CartItem[] = getCartItemsFromLocalStorage()
@@ -127,6 +130,30 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
     console.log('Order created and cart cleared successfully.')
   } catch (error) {
     console.error('Failed to transfer demo user cart to orders:', error)
+  }
+}
+
+//Given orders as Order[], add them to the orders local storage
+export function processFutureOrders(newOrders: Order[]): void {
+  try {
+    const orders = getOrdersFromLocalStorage()
+
+    const processedNewOrders = newOrders.map((newOrder) => {
+      const randomTimeToday = getRandomDateTimeWithinLastDays(1)
+      //Increased date range specifically for generating unique ID, to decrease chance that Order IDs are the same
+      const uniqueOrderId = generateUniqueOrderId(
+        getRandomDateTimeWithinLastDays(50)
+      )
+      return {
+        ...newOrder,
+        id: uniqueOrderId,
+        purchasedAt: randomTimeToday,
+      }
+    })
+
+    setOrdersInLocalStorage([...orders, ...processedNewOrders])
+  } catch (error) {
+    console.error(`Failed to add new orders data to local storage:`, error)
   }
 }
 
