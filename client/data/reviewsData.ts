@@ -1,5 +1,6 @@
 import { Review } from '../../models/Reviews'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
+import { generateUniqueId } from '../utils/generateUniqueId'
 
 const days = 120
 
@@ -383,4 +384,9 @@ const reviews = reviewsWithoutDateTime.map((review) => ({
   createdAt: getRandomDateTimeWithinLastDays(days),
 }))
 
-export default reviews
+const reviewsWithUniqueId = reviews.map((review) => ({
+  ...review,
+  id: generateUniqueId(review.createdAt),
+}))
+
+export default reviewsWithUniqueId
