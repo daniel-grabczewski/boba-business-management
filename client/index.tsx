@@ -35,9 +35,11 @@ import AllOrders from './admin/pages/Orders/Orders'
 import ProtectedComponent from './UI/ProtectedComponent'
 import AddProduct from './admin/pages/AddProduct/AddProduct'
 import { initializeLocalStorage } from './services/initializeLocalStorage'
+import { addFutureData } from './services/addFutureData'
 
-// Initialize local storage before rendering app
+// Initialize local storage and generate daily data before rendering app
 initializeLocalStorage()
+addFutureData()
 
 export const routes = createRoutesFromElements(
   <Route
