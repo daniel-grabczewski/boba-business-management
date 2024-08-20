@@ -310,7 +310,6 @@ export function getTotalSaleOfOrderById(id: number): number {
     }
 
     const shippingPrice = getShippingOptionById(order.shippingId)?.price ?? 0
-    console.log(shippingPrice)
 
     const totalSale = order.orderItems.reduce((total, orderItem) => {
       try {
