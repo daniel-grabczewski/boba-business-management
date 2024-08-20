@@ -23,8 +23,8 @@ const ReviewSortingControls: React.FC<ReviewSortingControlsProps> = ({
   totalPages,
   reviewsCount,
 }) => {
-  const lastIndex = page * 20
-  const firstIndex = lastIndex - 20
+  const lastIndex = page * 10
+  const firstIndex = lastIndex - 10
 
   return (
     <>
