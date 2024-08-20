@@ -1,5 +1,6 @@
 import { Email } from '../../models/Emails'
 import { getRandomDateTimeWithinLastDays } from '../utils/generateDate'
+import { generateUniqueId } from '../utils/generateUniqueId'
 
 const days = 120
 
@@ -148,4 +149,9 @@ const emails = emailsWithoutDateTime.map((email) => ({
   createdAt: getRandomDateTimeWithinLastDays(days),
 }))
 
-export default emails
+const emailsWithUniqueId = emails.map((email) => ({
+  ...email,
+  id: generateUniqueId(email.createdAt),
+}))
+
+export default emailsWithUniqueId
