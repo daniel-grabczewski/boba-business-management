@@ -3,6 +3,7 @@ import { getDemoUserDetails } from './users'
 import initialEmails from '../data/emailsData'
 import { generateCurrentDateTime } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
+import { generateUniqueId } from '../utils/generateUniqueId'
 
 // Initialize localStorage key 'emails' to be equal to value of initialEmails, if localStorage 'emails' key doesn't exist,
 export function setEmailsInLocalStorageInitial(): void {
@@ -37,15 +38,6 @@ export function getEmailsFromLocalStorage(): Email[] {
   }
 }
 
-// Returns new email id, unique from every other email id
-export function generateNewEmailId(): number {
-  const emails = getEmailsFromLocalStorage()
-  const newId =
-    emails.length > 0 ? Math.max(...emails.map((email) => email.id)) + 1 : 1
-
-  return newId
-}
-
 // Get email that matches given id
 export function getEmailById(id: number): Email | undefined {
   try {
@@ -63,8 +55,8 @@ export function sendEmailFromDemoUser(newEmail: NewEmail): void {
   try {
     const emails = getEmailsFromLocalStorage()
     const demoUser = getDemoUserDetails()
-    const newEmailId = generateNewEmailId()
     const currentDateTime = generateCurrentDateTime()
+    const newEmailId = generateUniqueId(currentDateTime)
 
     if (!demoUser) {
       return
