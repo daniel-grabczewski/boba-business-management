@@ -121,6 +121,22 @@ export function getProductIdBySlug(slug: string): number | undefined {
   }
 }
 
+//Given a product name, returns true if it doesn't match the name of any existing products, otherwise it returns false
+export function isProductNameUnique(productName: string): boolean {
+  try {
+    const productNameSlug = convertStringToSlug(productName)
+    const products = getAllProductsAdmin()
+
+    return !products.some((product) => product.slug === productNameSlug)
+  } catch (error) {
+    console.error(
+      `Failed to check if product name '${productName}' is unique`,
+      error
+    )
+    return false
+  }
+}
+
 // Given a product ID, return the stock of the product
 export function getStockByProductId(productId: number): number {
   try {
