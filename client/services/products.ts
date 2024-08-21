@@ -91,16 +91,33 @@ export function updateStockOfProductById(id: number, newStock: number) {
 }
 
 // Given a product ID, return the slug associated with it
-export function getSlugByProductId(id: number): string {
+export function getSlugByProductId(id: number): string | undefined {
   try {
     const product = getProductByIdAdmin(id)
     if (product) {
       return product.slug
     }
-    return 'default-slug'
+    console.log(`Could not find product with ID of ${id}`)
+    return undefined
   } catch (error) {
     console.error(`Failed to get slug of Product ID: ${id}`, error)
-    return 'default-slug'
+    return undefined
+  }
+}
+
+//Given a slug, return the product ID associated with it
+export function getProductIdBySlug(slug: string): number | undefined {
+  try {
+    const products = getAllProductsAdmin()
+    const product = products.find((product) => product.slug === slug)
+    if (product) {
+      return product.id
+    }
+    console.log(`Could not find product with slug of ${slug}`)
+    return undefined
+  } catch (error) {
+    console.error(`Failed to get product ID of slug: ${slug}`, error)
+    return undefined
   }
 }
 
