@@ -6,6 +6,7 @@ import {
   LowStockProduct,
 } from '../../models/Products'
 import initialProducts from '../data/productsData'
+import { convertStringToSlug } from '../utils/convertStringToSlug'
 
 // Initialize new key 'products' to be equal to value of initialProducts IF localStorage 'products' key doesn't exist
 export function setProductsInLocalStorageInitial(): void {
@@ -86,6 +87,20 @@ export function updateStockOfProductById(id: number, newStock: number) {
       `Error updating stock of product with ID: ${id} to given stock of ${newStock}`,
       error
     )
+  }
+}
+
+// Given a product ID, return the slug associated with it
+export function getSlugByProductId(id: number): string {
+  try {
+    const product = getProductByIdAdmin(id)
+    if (product) {
+      return product.slug
+    }
+    return 'default-slug'
+  } catch (error) {
+    console.error(`Failed to get slug of Product ID: ${id}`, error)
+    return 'default-slug'
   }
 }
 
@@ -234,8 +249,11 @@ export function createProduct(newProduct: UpsertProduct): void {
 
     const newProductId = generateNewProductId()
 
+    const productSlug = convertStringToSlug(newProduct.name)
+
     products.push({
       id: newProductId,
+      slug: productSlug,
       ...newProduct,
       averageRating: 0,
     })
