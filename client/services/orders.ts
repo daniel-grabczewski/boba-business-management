@@ -15,7 +15,11 @@ import {
   getRandomDateTimeWithinLastDays,
 } from '../utils/generateDate'
 import { formatDateToDDMMYYYY } from '../utils/formatDate'
-import { getProductByIdAdmin, getProductByIdShopper } from './products'
+import {
+  deductProductStockByOrderItem,
+  getProductByIdAdmin,
+  getProductByIdShopper,
+} from './products'
 import { getShippingOptionById } from './shipping'
 import { getUserByUserId } from './users'
 import { generateUniqueId } from '../utils/generateUniqueId'
@@ -133,23 +137,46 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
   }
 }
 
-//Given orders as Order[], add them to the orders local storage
+//Given orders as Order[], add them to the orders local storage, while taking into consideration their requested quantities with the amount of stock available
 export function processFutureOrders(newOrders: Order[]): void {
   try {
     const orders = getOrdersFromLocalStorage()
 
-    const processedNewOrders = newOrders.map((newOrder) => {
-      const randomTimeToday = getRandomDateTimeWithinLastDays(1)
-      //Increased date range specifically for generating unique ID, to decrease chance that Order IDs are the same
-      const uniqueOrderId = generateUniqueId(
-        getRandomDateTimeWithinLastDays(50)
-      )
-      return {
-        ...newOrder,
-        id: uniqueOrderId,
-        purchasedAt: randomTimeToday,
-      }
-    })
+    const processedNewOrders = newOrders
+      .map((newOrder) => {
+        const processedOrderItems = newOrder.orderItems
+          .map((orderItem) => {
+            const orderableQuantity = deductProductStockByOrderItem(orderItem)
+            if (orderableQuantity === 0) {
+              return undefined
+            }
+            return {
+              ...orderItem,
+              quantity: orderableQuantity,
+            }
+          })
+          .filter((orderItem) => orderItem !== undefined)
+
+        if (processedOrderItems.length === 0) {
+          return undefined
+        }
+
+        const randomTimeToday = getRandomDateTimeWithinLastDays(1)
+        const uniqueOrderId = generateUniqueId(
+          getRandomDateTimeWithinLastDays(50)
+        )
+        return {
+          ...newOrder,
+          id: uniqueOrderId,
+          purchasedAt: randomTimeToday,
+          orderItems: processedOrderItems,
+        }
+      })
+      .filter((newOrder) => newOrder !== undefined)
+
+    if (processedNewOrders.length === 0) {
+      return
+    }
 
     setOrdersInLocalStorage([...orders, ...processedNewOrders])
   } catch (error) {
