@@ -239,7 +239,8 @@ const products: AdminProduct[] = [
 const productsWithRandomStocks = assignRandomStocks(
   products,
   lowStockThreshold,
-  197
+  197,
+  [21]
 )
 
 export default productsWithRandomStocks
