@@ -105,10 +105,30 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
 
     const orders = getOrdersFromLocalStorage()
 
-    const newOrderItems = cart.map(({ productId, quantity }) => ({
+    const unprocessedOrderItems = cart.map(({ productId, quantity }) => ({
       productId,
       quantity,
     }))
+
+    const orderItems = unprocessedOrderItems
+      .map((orderItem) => {
+        const orderableQuantity = deductProductStockByOrderItem(orderItem)
+        if (orderableQuantity === 0) {
+          return null
+        }
+        return {
+          ...orderItem,
+          quantity: orderableQuantity,
+        }
+      })
+      .filter((orderItem) => orderItem !== null)
+
+    if (orderItems.length === 0) {
+      console.log(
+        'Order failed to process. All requested items are out of stock.'
+      )
+      return
+    }
 
     const newOrder: Order = {
       id: generateUniqueId(),
@@ -122,7 +142,7 @@ export function createOrder(orderCheckoutDetails: OrderCheckoutDetails): void {
       city: orderCheckoutDetails.city,
       zipCode: orderCheckoutDetails.zipCode,
       country: orderCheckoutDetails.country,
-      orderItems: newOrderItems,
+      orderItems: orderItems,
     }
 
     orders.push(newOrder)
