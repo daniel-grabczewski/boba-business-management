@@ -148,17 +148,17 @@ export function processFutureOrders(newOrders: Order[]): void {
           .map((orderItem) => {
             const orderableQuantity = deductProductStockByOrderItem(orderItem)
             if (orderableQuantity === 0) {
-              return undefined
+              return null
             }
             return {
               ...orderItem,
               quantity: orderableQuantity,
             }
           })
-          .filter((orderItem) => orderItem !== undefined)
+          .filter((orderItem) => orderItem !== null)
 
         if (processedOrderItems.length === 0) {
-          return undefined
+          return null
         }
 
         const randomTimeToday = getRandomDateTimeWithinLastDays(1)
@@ -172,7 +172,7 @@ export function processFutureOrders(newOrders: Order[]): void {
           orderItems: processedOrderItems,
         }
       })
-      .filter((newOrder) => newOrder !== undefined)
+      .filter((newOrder) => newOrder !== null)
 
     if (processedNewOrders.length === 0) {
       return
