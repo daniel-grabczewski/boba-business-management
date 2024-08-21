@@ -1,4 +1,5 @@
 import { AdminProduct } from '../../models/Products'
+import { convertStringToSlug } from '../utils/convertStringToSlug'
 import { assignRandomStocks } from '../utils/generateRandomNumber'
 import { lowStockThreshold } from './lowStockThreshold'
 
@@ -6,6 +7,7 @@ const products: AdminProduct[] = [
   {
     id: 1,
     name: 'Pearl Milk Tea',
+    slug: '',
     image: '/images/pearl-milk-tea.svg',
     price: 7.5,
     description:
@@ -17,6 +19,7 @@ const products: AdminProduct[] = [
   {
     id: 2,
     name: 'Original Milk Tea',
+    slug: '',
     image: '/images/original-milk-tea.svg',
     price: 7,
     description:
@@ -28,6 +31,7 @@ const products: AdminProduct[] = [
   {
     id: 3,
     name: 'Oolong Milk Tea',
+    slug: '',
     image: '/images/oolong-milk-tea.svg',
     price: 6.5,
     description:
@@ -39,6 +43,7 @@ const products: AdminProduct[] = [
   {
     id: 4,
     name: 'Earl Grey Milk Tea',
+    slug: '',
     image: '/images/earl-grey-milk-tea.svg',
     price: 6.5,
     description:
@@ -50,6 +55,7 @@ const products: AdminProduct[] = [
   {
     id: 5,
     name: 'Brown Sugar Milk Tea with Pearls',
+    slug: '',
     image: '/images/brown-sugar-milk-tea-and-pearls.svg',
     price: 8.9,
     description:
@@ -61,6 +67,7 @@ const products: AdminProduct[] = [
   {
     id: 6,
     name: 'Matcha Milk Tea',
+    slug: '',
     image: '/images/matcha-milk-tea.svg',
     price: 8,
     description:
@@ -72,6 +79,7 @@ const products: AdminProduct[] = [
   {
     id: 7,
     name: 'Taro Milk Tea with Pearls',
+    slug: '',
     image: '/images/taro-milk-tea-and-pearls.svg',
     price: 7.6,
     description:
@@ -83,6 +91,7 @@ const products: AdminProduct[] = [
   {
     id: 8,
     name: 'Chocolate Milk Tea with Pearls',
+    slug: '',
     image: '/images/chocolate-milk-tea-and-pearls.svg',
     price: 6.4,
     description:
@@ -94,6 +103,7 @@ const products: AdminProduct[] = [
   {
     id: 9,
     name: 'Coffee Milk Tea',
+    slug: '',
     image: '/images/coffee-milk-tea.svg',
     price: 6.4,
     description:
@@ -105,6 +115,7 @@ const products: AdminProduct[] = [
   {
     id: 10,
     name: 'Lychee Tea',
+    slug: '',
     image: '/images/lychee-tea.svg',
     price: 7,
     description:
@@ -116,6 +127,7 @@ const products: AdminProduct[] = [
   {
     id: 11,
     name: 'Green Tea',
+    slug: '',
     image: '/images/green-tea.svg',
     price: 5.99,
     description:
@@ -127,6 +139,7 @@ const products: AdminProduct[] = [
   {
     id: 12,
     name: 'Jasmine Tea',
+    slug: '',
     image: '/images/jasmine-tea.svg',
     price: 5.5,
     description:
@@ -138,6 +151,7 @@ const products: AdminProduct[] = [
   {
     id: 13,
     name: 'Kiwifruit Tea',
+    slug: '',
     image: '/images/kiwi-fruit-tea.svg',
     price: 7,
     description:
@@ -149,6 +163,7 @@ const products: AdminProduct[] = [
   {
     id: 14,
     name: 'Wintermelon Drink',
+    slug: '',
     image: '/images/wintermelon-drink.svg',
     price: 7,
     description:
@@ -160,6 +175,7 @@ const products: AdminProduct[] = [
   {
     id: 15,
     name: 'Honey Lemon Drink',
+    slug: '',
     image: '/images/honey-lemon-drink.svg',
     price: 7.5,
     description:
@@ -171,6 +187,7 @@ const products: AdminProduct[] = [
   {
     id: 16,
     name: 'Red Dragon Fruit Juice',
+    slug: '',
     image: '/images/red-dragon-fruit-juice.svg',
     price: 8.6,
     description:
@@ -182,6 +199,7 @@ const products: AdminProduct[] = [
   {
     id: 17,
     name: 'Purple Rice Yogurt',
+    slug: '',
     image: '/images/purple-rice-yogurt.svg',
     price: 7.8,
     description:
@@ -193,6 +211,7 @@ const products: AdminProduct[] = [
   {
     id: 18,
     name: 'Oreo Chocolate Smoothie',
+    slug: '',
     image: '/images/oreo-chocolate-smoothie.svg',
     price: 8.5,
     description:
@@ -204,6 +223,7 @@ const products: AdminProduct[] = [
   {
     id: 19,
     name: 'Taro Smoothie',
+    slug: '',
     image: '/images/taro-smoothie.svg',
     price: 7.8,
     description:
@@ -215,6 +235,7 @@ const products: AdminProduct[] = [
   {
     id: 20,
     name: 'Mango Smoothie',
+    slug: '',
     image: '/images/mango-smoothie.svg',
     price: 7.5,
     description:
@@ -226,6 +247,7 @@ const products: AdminProduct[] = [
   {
     id: 21,
     name: 'Forbidden Liquid',
+    slug: '',
     image: '/images/forbidden-liquid.svg',
     price: 100,
     description:
@@ -243,4 +265,9 @@ const productsWithRandomStocks = assignRandomStocks(
   [21]
 )
 
-export default productsWithRandomStocks
+const productsWithSlugs = productsWithRandomStocks.map((product) => ({
+  ...product,
+  slug: convertStringToSlug(product.name),
+}))
+
+export default productsWithSlugs
