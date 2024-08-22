@@ -2,20 +2,42 @@ import { useEffect, useState, FormEvent } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
 import {
   getProductByIdAdmin,
+  getProductIdBySlug,
+  getSlugByProductId,
   updateProductById,
 } from '../../../services/products'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import ProductForm from '../../components/ProductForm/ProductForm'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { isNumeric } from '../../../utils/isNumeric'
 
 function EditProduct() {
-  const params = useParams()
-  const id = Number(params.id)
+  const { idOrSlug } = useParams()
+  const navigate = useNavigate()
+  const [productId, setProductId] = useState(0)
+
+  // Determine whether we have an ID or a slug and fetch the product accordingly
+  useEffect(() => {
+    if (idOrSlug === undefined) {
+      return
+    }
+
+    if (isNumeric(idOrSlug)) {
+      const id = Number(idOrSlug)
+      setProductId(id)
+      const slug = getSlugByProductId(id)
+      navigate(`/admin/edit/${slug}`, { replace: true })
+    } else {
+      const id = getProductIdBySlug(idOrSlug)
+      setProductId(id)
+    }
+  }, [idOrSlug, navigate])
 
   const { data: product, status: statusProduct } = useQuery(
-    ['getProductByIdAdmin', id],
-    async () => getProductByIdAdmin(id)
+    ['getProductByIdAdmin', productId],
+    () => getProductByIdAdmin(productId),
+    { enabled: !!productId }
   )
 
   const [buttonText, setButtonText] = useState('Save Changes')
