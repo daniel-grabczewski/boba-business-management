@@ -1,3 +1,4 @@
+import { OrderItemExtraDetails, OrderItem } from '../../models/Orders'
 import {
   ShopperProduct,
   UpsertProduct,
@@ -62,6 +63,29 @@ export function getAllProductsShopper(): ShopperProduct[] {
   } catch (error) {
     console.error('Failed to get all products for shopper:', error)
     return []
+  }
+}
+
+// Given a product ID and a stock, change the stock associated with the product ID to the given stock
+export function updateStockByProductId(id: number, newStock: number) {
+  try {
+    const products = getProductsFromLocalStorage()
+    const updatedStockProducts = products.map((product) => {
+      if (product.id === id) {
+        return {
+          ...product,
+          stock: newStock,
+        }
+      }
+      return product
+    })
+
+    setProductsInLocalStorage(updatedStockProducts)
+  } catch (error) {
+    console.error(
+      `Error updating stock of product with ID: ${id} to given stock of ${newStock}`,
+      error
+    )
   }
 }
 
