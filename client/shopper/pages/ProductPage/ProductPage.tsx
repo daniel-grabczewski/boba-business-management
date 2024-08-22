@@ -1,6 +1,10 @@
 import { useQuery } from 'react-query'
-import { useParams } from 'react-router-dom'
-import { getProductByIdShopper } from '../../../services/products'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+  getProductByIdShopper,
+  getProductIdBySlug,
+  getSlugByProductId,
+} from '../../../services/products'
 import {
   getReviewsByProductId,
   canDemoUserAddReview,
@@ -12,10 +16,29 @@ import ViewProductReviews from '../../components/ViewProductReviews/ViewProductR
 import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 import { useEffect, useState } from 'react'
 import { getDemoUserDetails } from '../../../services/users'
+import { isNumeric } from '../../../utils/isNumeric'
 
 const ProductPage = () => {
-  const params = useParams()
-  const id = Number(params.id)
+  const { idOrSlug } = useParams()
+  const navigate = useNavigate()
+  const [productId, setProductId] = useState(0)
+
+  // Determine and set the product ID on parameter change
+  useEffect(() => {
+    if (idOrSlug === undefined) {
+      return
+    }
+
+    if (isNumeric(idOrSlug)) {
+      const id = Number(idOrSlug)
+      setProductId(id)
+      const slug = getSlugByProductId(id)
+      navigate(`/shop/${slug}`, { replace: true })
+    } else {
+      const id = getProductIdBySlug(idOrSlug)
+      setProductId(id)
+    }
+  }, [idOrSlug, navigate])
 
   // Scroll to top when the component is mounted
   useEffect(() => {
@@ -26,22 +49,24 @@ const ProductPage = () => {
     data: product,
     status: statusProducts,
     refetch: refetchGetProductByIdShopper,
-  } = useQuery(['getProductByIdShopper', id], async () =>
-    getProductByIdShopper(id)
+  } = useQuery(['getProductByIdShopper', productId], async () =>
+    getProductByIdShopper(productId)
   )
 
   const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
-    useQuery(['canDemoUserAddReview', id], async () => canDemoUserAddReview(id))
+    useQuery(['canDemoUserAddReview', productId], async () =>
+      canDemoUserAddReview(productId)
+    )
 
   const { data: isEnabled } = useQuery(
-    ['isDemoUserReviewEnabled', id],
+    ['isDemoUserReviewEnabled', productId],
     async () => {
-      isDemoUserReviewEnabled(id)
+      isDemoUserReviewEnabled(productId)
     }
   )
 
   const { data: demoUserName = '' } = useQuery(
-    ['getDemoUserDetails', id],
+    ['getDemoUserDetails', productId],
     async () => {
       const demoUserDetails = getDemoUserDetails()
       if (demoUserDetails) {
@@ -54,16 +79,16 @@ const ProductPage = () => {
     data: reviews = [],
     status: statusReviews,
     refetch: refetchGetReviewsByProductId,
-  } = useQuery(['getReviewsByProductId', id], async () =>
-    getReviewsByProductId(id)
+  } = useQuery(['getReviewsByProductId', productId], async () =>
+    getReviewsByProductId(productId)
   )
 
   const {
     data: wishlistStatus = false,
     refetch: refetchIsProductInWishlistItemsByProductId,
     status: statusWishlist,
-  } = useQuery(['isProductInWishlistItemsByProductId', id], async () =>
-    isProductInWishlistItemsByProductId(id)
+  } = useQuery(['isProductInWishlistItemsByProductId', productId], async () =>
+    isProductInWishlistItemsByProductId(productId)
   )
 
   const [averageRating, setAverageRating] = useState(
