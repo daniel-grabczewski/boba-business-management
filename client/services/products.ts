@@ -76,6 +76,25 @@ export function setDeprecatedSlugInLocalStorage(
   }
 }
 
+// Retrieves the product ID associated with a deprecated slug from local storage. If no matching product ID is found, return undefined
+export function getProductIdByDeprecatedSlug(slug: string): number | undefined {
+  try {
+    const localStorageSlugs = localStorage.getItem('deprecatedSlugs')
+    if (!localStorageSlugs) {
+      return undefined
+    }
+    const deprecatedSlugs: { slug: string; productId: number }[] =
+      JSON.parse(localStorageSlugs)
+    const matchedSlug = deprecatedSlugs.find(
+      (deprecatedSlug) => deprecatedSlug.slug === slug
+    )
+    return matchedSlug?.productId
+  } catch (error) {
+    console.error(`Error retrieving product ID for slug '${slug}':`, error)
+    return undefined
+  }
+}
+
 // Get all products from localStorage for admin use, INCLUDING the isEnabled field
 export function getAllProductsAdmin(): AdminProduct[] {
   try {
