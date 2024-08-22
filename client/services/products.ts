@@ -287,6 +287,13 @@ export function updateProductById(
 // Create a new product, given its data
 export function createProduct(newProduct: UpsertProduct): void {
   try {
+    if (!isProductNameUnique(newProduct.name)) {
+      console.log(
+        `Unable to create product. There already exists a product with the name ${newProduct.name}`
+      )
+      return
+    }
+
     const products = getAllProductsAdmin()
 
     const newProductId = generateNewProductId()
