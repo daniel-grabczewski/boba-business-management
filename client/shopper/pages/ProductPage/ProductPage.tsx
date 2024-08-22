@@ -1,7 +1,9 @@
 import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
+  doesSlugExist,
   getProductByIdShopper,
+  getProductIdByDeprecatedSlug,
   getProductIdBySlug,
   getSlugByProductId,
 } from '../../../services/products'
@@ -28,15 +30,26 @@ const ProductPage = () => {
     if (idOrSlug === undefined) {
       return
     }
+    let id = 0
 
     if (isNumeric(idOrSlug)) {
-      const id = Number(idOrSlug)
+      id = Number(idOrSlug)
       setProductId(id)
-      const slug = getSlugByProductId(id)
-      navigate(`/shop/${slug}`, { replace: true })
+      navigate(`/shop/${getSlugByProductId(id)}`, { replace: true })
     } else {
-      const id = getProductIdBySlug(idOrSlug)
-      setProductId(id)
+      if (doesSlugExist(idOrSlug)) {
+        setProductId(getProductIdBySlug(idOrSlug))
+      } else {
+        const deprecatedSlugId = getProductIdByDeprecatedSlug(idOrSlug)
+        if (deprecatedSlugId) {
+          navigate(`/shop/${getSlugByProductId(deprecatedSlugId)}`, {
+            replace: true,
+          })
+          setProductId(deprecatedSlugId)
+        } else {
+          setProductId(0)
+        }
+      }
     }
   }, [idOrSlug, navigate])
 
