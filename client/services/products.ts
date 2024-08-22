@@ -41,6 +41,41 @@ function getProductsFromLocalStorage(): AdminProduct[] {
   }
 }
 
+// Given a slug and a product ID associated with it, add it to the local storage deprecated slugs
+export function setDeprecatedSlugInLocalStorage(
+  slug: string,
+  productId: number
+): void {
+  try {
+    const localStorageSlugs = localStorage.getItem('deprecatedSlugs')
+    let deprecatedSlugs = []
+    if (localStorageSlugs) {
+      deprecatedSlugs = JSON.parse(localStorageSlugs)
+    }
+    // Check if the slug already exists and update the productId if it does
+    const existingSlugIndex = deprecatedSlugs.findIndex(
+      (item: { slug: string; productId: number }) => item.slug === slug
+    )
+    if (existingSlugIndex !== -1) {
+      deprecatedSlugs[existingSlugIndex].productId = productId
+    } else {
+      deprecatedSlugs.push({ slug, productId })
+    }
+
+    const maxHistorySize = 100
+    if (deprecatedSlugs.length > maxHistorySize) {
+      deprecatedSlugs = deprecatedSlugs.slice(0, maxHistorySize)
+    }
+
+    localStorage.setItem('deprecatedSlugs', JSON.stringify(deprecatedSlugs))
+  } catch (error) {
+    console.error(
+      `Error setting slug ${slug} with associated product ID of ${productId} into local storage: `,
+      error
+    )
+  }
+}
+
 // Get all products from localStorage for admin use, INCLUDING the isEnabled field
 export function getAllProductsAdmin(): AdminProduct[] {
   try {
