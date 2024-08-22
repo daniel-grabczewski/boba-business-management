@@ -2,7 +2,7 @@ import { useQuery } from 'react-query'
 import { useNavigate, useParams } from 'react-router-dom'
 import {
   doesSlugExist,
-  getProductByIdShopper,
+  getProductByIdAdmin,
   getProductIdByDeprecatedSlug,
   getProductIdBySlug,
   getSlugByProductId,
@@ -19,6 +19,7 @@ import { isProductInWishlistItemsByProductId } from '../../../services/wishlist'
 import { useEffect, useState } from 'react'
 import { getDemoUserDetails } from '../../../services/users'
 import { isNumeric } from '../../../utils/isNumeric'
+import ErrorPage from '../ErrorPage/ErrorPage'
 
 const ProductPage = () => {
   const { idOrSlug } = useParams()
@@ -61,9 +62,9 @@ const ProductPage = () => {
   const {
     data: product,
     status: statusProducts,
-    refetch: refetchGetProductByIdShopper,
-  } = useQuery(['getProductByIdShopper', productId], async () =>
-    getProductByIdShopper(productId)
+    refetch: refetchGetProductByIdAdmin,
+  } = useQuery(['getProductByIdAdmin', productId], async () =>
+    getProductByIdAdmin(productId)
   )
 
   const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
@@ -116,7 +117,7 @@ const ProductPage = () => {
   }, [product])
 
   const updateAverageRating = async () => {
-    const updatedProduct = await refetchGetProductByIdShopper()
+    const updatedProduct = await refetchGetProductByIdAdmin()
     if (updatedProduct?.data?.averageRating) {
       setAverageRating(updatedProduct.data.averageRating)
     }
@@ -138,7 +139,13 @@ const ProductPage = () => {
   return (
     <>
       <LoadError status={[statusProducts, statusReviews, statusWishlist]} />
-      {product && reviews && (
+      {product === undefined ? (
+        <ErrorPage />
+      ) : reviews && product.isEnabled === false ? (
+        <ErrorPage
+          errorMessage={'Sorry, this product is currently unavailable'}
+        />
+      ) : (
         <div
           className="flex flex-col items-center w-full"
           style={{ marginTop: '100px', marginBottom: '150px' }}
