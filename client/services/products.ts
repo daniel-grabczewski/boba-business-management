@@ -67,7 +67,7 @@ export function getAllProductsShopper(): ShopperProduct[] {
 }
 
 // Given a product ID and a stock, change the stock associated with the product ID to the given stock
-export function updateStockByProductId(id: number, newStock: number) {
+export function updateStockOfProductById(id: number, newStock: number) {
   try {
     const products = getProductsFromLocalStorage()
     const updatedStockProducts = products.map((product) => {
@@ -100,6 +100,34 @@ export function getStockByProductId(productId: number): number {
   } catch (error) {
     console.error(
       `Failed to retrieve stock of product associated with ID: ${productId}`,
+      error
+    )
+    return 0
+  }
+}
+
+// Given orderItem as OrderItem, return the number for how much stock was subtracted from the product with the given quantity of the order
+// E.g. if the product's stock is only 2, but the desired quantity is 5, then return 2
+// Additionally, this function will update the stock of the product by the orderable quantity
+export function deductProductStockByOrderItem(orderItem: OrderItem): number {
+  try {
+    const currentStock = getStockByProductId(orderItem.productId)
+
+    if (currentStock === 0) {
+      return 0
+    }
+
+    const orderableQuantity = Math.min(currentStock, orderItem.quantity)
+
+    updateStockOfProductById(
+      orderItem.productId,
+      currentStock - orderableQuantity
+    )
+
+    return orderableQuantity
+  } catch (error) {
+    console.error(
+      `Error recalculating stock of order item: ${JSON.stringify(orderItem)}`,
       error
     )
     return 0
