@@ -1,6 +1,7 @@
 export interface ShopperProduct {
   id: number
   name: string
+  slug: string
   image: string
   price: number
   description: string
@@ -11,6 +12,7 @@ export interface ShopperProduct {
 export interface AdminProduct {
   id: number
   name: string
+  slug: string
   image: string
   price: number
   description: string
@@ -23,7 +25,7 @@ export interface LowStockProduct {
   id: number
   name: string
   image: string
-  stock : number
+  stock: number
 }
 
 export interface UpsertProduct {
