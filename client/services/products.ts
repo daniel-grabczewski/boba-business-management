@@ -1,4 +1,4 @@
-import { OrderItemExtraDetails, OrderItem } from '../../models/Orders'
+import { OrderItem } from '../../models/Orders'
 import {
   ShopperProduct,
   UpsertProduct,
@@ -86,6 +86,23 @@ export function updateStockByProductId(id: number, newStock: number) {
       `Error updating stock of product with ID: ${id} to given stock of ${newStock}`,
       error
     )
+  }
+}
+
+// Given a product ID, return the stock of the product
+export function getStockByProductId(productId: number): number {
+  try {
+    const product = getProductByIdAdmin(productId)
+    if (product) {
+      return product.stock
+    }
+    return 0
+  } catch (error) {
+    console.error(
+      `Failed to retrieve stock of product associated with ID: ${productId}`,
+      error
+    )
+    return 0
   }
 }
 
