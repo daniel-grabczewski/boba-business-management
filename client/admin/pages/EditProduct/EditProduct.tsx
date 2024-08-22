@@ -4,6 +4,7 @@ import {
   getProductByIdAdmin,
   getProductIdBySlug,
   getSlugByProductId,
+  setDeprecatedSlugInLocalStorage,
   updateProductById,
 } from '../../../services/products'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
@@ -168,6 +169,8 @@ function EditProduct() {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (checkValues(editedProduct)) {
+      const slugBeforeUpdate = getSlugByProductId(productId)
+      setDeprecatedSlugInLocalStorage(slugBeforeUpdate, productId)
       updateProductMutation.mutate(editedProduct)
       setOriginalProduct(editedProduct)
     } else {
