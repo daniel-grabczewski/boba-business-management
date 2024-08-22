@@ -190,6 +190,17 @@ export function isProductNameUnique(
   )
 }
 
+//Given a slug, return true if it is associated with any product. Otherwise, return false
+export function doesSlugExist(slug: string): boolean {
+  try {
+    const products = getAllProductsAdmin()
+    return products.some((product) => product.slug === slug)
+  } catch (error) {
+    console.error(`Error checking if slug '${slug}' exists`, error)
+    return false
+  }
+}
+
 // Given a product ID, return the stock of the product
 export function getStockByProductId(productId: number): number {
   try {
