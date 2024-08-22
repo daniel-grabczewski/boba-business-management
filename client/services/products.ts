@@ -122,19 +122,18 @@ export function getProductIdBySlug(slug: string): number | undefined {
 }
 
 //Given a product name, returns true if it doesn't match the name of any existing products, otherwise it returns false
-export function isProductNameUnique(productName: string): boolean {
-  try {
-    const productNameSlug = convertStringToSlug(productName)
-    const products = getAllProductsAdmin()
+export function isProductNameUnique(
+  productName: string,
+  productId?: number
+): boolean {
+  const products = getAllProductsAdmin()
+  const productNameSlug = convertStringToSlug(productName)
 
-    return !products.some((product) => product.slug === productNameSlug)
-  } catch (error) {
-    console.error(
-      `Failed to check if product name '${productName}' is unique`,
-      error
-    )
-    return false
-  }
+  return !products.some(
+    (product) =>
+      convertStringToSlug(product.name) === productNameSlug &&
+      (productId === undefined || product.id !== productId)
+  )
 }
 
 // Given a product ID, return the stock of the product
@@ -258,6 +257,15 @@ export function updateProductById(
   updatedProduct: UpsertProduct
 ): void {
   try {
+    if (!isProductNameUnique(updatedProduct.name, id)) {
+      console.log(
+        `Unable to update product. There already exists a product with the name ${updatedProduct.name}`
+      )
+      return
+    }
+
+    const newSlug = convertStringToSlug(updatedProduct.name)
+
     const products = getAllProductsAdmin()
     const productIndex = products.findIndex((product) => product.id === id)
     if (productIndex !== -1) {
@@ -265,6 +273,7 @@ export function updateProductById(
       products[productIndex] = {
         ...products[productIndex],
         ...updatedProduct,
+        slug: newSlug,
       }
       setProductsInLocalStorage(products)
     } else {
