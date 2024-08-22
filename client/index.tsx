@@ -60,7 +60,7 @@ export const routes = createRoutesFromElements(
     />
 
     <Route
-      path="shop/:id"
+      path="shop/:idOrSlug"
       element={<ProtectedComponent component={ProductPage} />}
     />
     <Route
@@ -105,7 +105,7 @@ export const routes = createRoutesFromElements(
       element={<ProtectedComponent component={ProductsSummary} />}
     />
     <Route
-      path="admin/edit/:id"
+      path="admin/edit/:idOrSlug"
       element={<ProtectedComponent component={EditProduct} />}
     />
 
