@@ -31,10 +31,9 @@ const ProductPage = () => {
     if (idOrSlug === undefined) {
       return
     }
-    let id = 0
 
     if (isNumeric(idOrSlug)) {
-      id = Number(idOrSlug)
+      const id = Number(idOrSlug)
       setProductId(id)
       navigate(`/shop/${getSlugByProductId(id)}`, { replace: true })
     } else {
