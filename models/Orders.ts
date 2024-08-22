@@ -42,7 +42,7 @@ export interface OrderExtraDetails {
 }
 
 // ***** Initial Order Interfaces ***** //
-interface OrderItem {
+export interface OrderItem {
   productId: number
   quantity: number
 }
@@ -52,26 +52,26 @@ export interface Order {
   userId: string
   purchasedAt: string
   shippingId: number
-  phoneNumber : string
-  firstName : string
-  lastName : string
-  address : string
-  city : string
-  zipCode : string
-  country : string
+  phoneNumber: string
+  firstName: string
+  lastName: string
+  address: string
+  city: string
+  zipCode: string
+  country: string
   orderItems: OrderItem[]
 }
 
 // Interface for shopper's details entered in checkout page
 export interface OrderCheckoutDetails {
   shippingId: number
-  phoneNumber : string
-  firstName : string
-  lastName : string
-  address : string
-  city : string
-  zipCode : string
-  country : string
+  phoneNumber: string
+  firstName: string
+  lastName: string
+  address: string
+  city: string
+  zipCode: string
+  country: string
 }
 
 // ***** Cart Transfer Interfaces ***** //
