@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import StarRating from '../../components/StarRating/StarRating'
 import { ShopperProduct } from '../../../../models/Products'
+import { lowStockThreshold } from '../../../data/lowStockThreshold'
 
 interface ViewShopProductsProps {
   hoveredProductId: number | null
@@ -46,7 +47,7 @@ const ViewShopProducts = ({
                   to={`/shop/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
-                  className="text-xl font-bold mt-2 block cursor-pointer"
+                  className="text-xl font-bold mt-2 block cursor-pointer transition-all 300s"
                   style={{
                     color:
                       hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
@@ -59,13 +60,16 @@ const ViewShopProducts = ({
                   to={`/shop/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
-                  className="text-lg text-gray-600 block cursor-pointer"
+                  className="text-lg text-gray-600 block cursor-pointer transition-all 300s"
                   style={{
                     color:
                       hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
                   }}
                 >
-                  ${product.price.toFixed(2)}
+                  {' '}
+                  <div className="flex justify-between">
+                    <p>${product.price.toFixed(2)}</p>
+                  </div>
                 </Link>
               </div>
               <div>
@@ -73,27 +77,39 @@ const ViewShopProducts = ({
                   to={`/shop/${product.id}`}
                   className="block cursor-pointer"
                 >
-                  <div className="flex items-center mt-2 ">
-                    {product.averageRating === 0 ? (
-                      <p
-                        className="text-gray-500"
-                        style={{ marginBottom: '9px' }}
-                      >
-                        No reviews yet
-                      </p>
-                    ) : (
-                      <>
-                        <span className="text-yellow-400">
-                          <StarRating
-                            rating={product.averageRating}
-                            size={1.5}
-                          />
-                        </span>
-                        <span className="ml-2 text-sm text-gray-500">
-                          ({product.averageRating})
-                        </span>
-                      </>
-                    )}
+                  <div className="flex justify-between">
+                    <div className="flex items-center mt-2 ">
+                      {product.averageRating === 0 ? (
+                        <p
+                          className="text-gray-500"
+                          style={{ marginBottom: '9px' }}
+                        >
+                          No reviews yet
+                        </p>
+                      ) : (
+                        <>
+                          <span className="text-yellow-400">
+                            <StarRating
+                              rating={product.averageRating}
+                              size={1.5}
+                            />
+                          </span>
+                          <span className="ml-2 text-sm text-gray-500">
+                            ({product.averageRating})
+                          </span>
+                        </>
+                      )}
+                    </div>
+                    <p
+                      style={{ fontSize: '15px' }}
+                      className="text-red-500 mt-4"
+                    >
+                      {product.stock === 0
+                        ? 'Out of stock'
+                        : product.stock <= lowStockThreshold
+                        ? `${product.stock} left in stock`
+                        : ''}
+                    </p>
                   </div>
                 </Link>
               </div>
