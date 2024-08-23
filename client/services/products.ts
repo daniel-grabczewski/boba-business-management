@@ -105,7 +105,7 @@ export function getAllProductsAdmin(): AdminProduct[] {
   }
 }
 
-// Get all products from localStorage for shopper use, WITHOUT the isEnabled field
+// Get all products from localStorage for shopper use that are ENABLED
 export function getAllProductsShopper(): ShopperProduct[] {
   try {
     const products = getProductsFromLocalStorage()
