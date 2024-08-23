@@ -100,13 +100,28 @@ function ProductForm({
             <input
               id="name"
               className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline ${
-                emptyFields.includes('name') ? 'border-red-500' : ''
+                emptyFields.includes('name') || invalidFields.includes('name')
+                  ? 'border-red-500'
+                  : ''
               }`}
               type="text"
               name="name"
               value={product.name}
               onChange={handleChange}
             />
+            {
+              <p
+                className="text-red-500"
+                style={{
+                  marginBottom: '-25px',
+                  visibility: invalidFields.includes('name')
+                    ? 'visible'
+                    : 'hidden',
+                }}
+              >
+                A product with this name already exists
+              </p>
+            }
           </div>
           <div>
             <ToggleSwitch
