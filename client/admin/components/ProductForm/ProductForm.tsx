@@ -269,7 +269,10 @@ function ProductForm({
               {buttonText}
             </button>
           </div>
-          <p className="text-red-500 mt-2" style={{ minHeight: '1.5em' }}>
+          <p
+            className="text-red-500 mt-2"
+            style={{ minHeight: '1.5em', marginTop: '30px' }}
+          >
             {errorMessage}
           </p>
         </div>
