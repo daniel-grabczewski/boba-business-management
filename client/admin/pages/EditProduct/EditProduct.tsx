@@ -176,7 +176,7 @@ function EditProduct() {
       return false
     })
 
-    if (!isProductNameUnique(editedProduct.name)) {
+    if (!isProductNameUnique(editedProduct.name, productId)) {
       invalidKeys.push('name')
     }
     setInvalidFields(invalidKeys)
