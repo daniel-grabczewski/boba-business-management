@@ -1,7 +1,9 @@
 import { useEffect, useState, FormEvent } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
 import {
+  doesSlugExist,
   getProductByIdAdmin,
+  getProductIdByDeprecatedSlug,
   getProductIdBySlug,
   getSlugByProductId,
   setDeprecatedSlugInLocalStorage,
@@ -30,6 +32,17 @@ function EditProduct() {
       const slug = getSlugByProductId(id)
       navigate(`/admin/edit/${slug}`, { replace: true })
     } else {
+      if (doesSlugExist(idOrSlug)) {
+        setProductId(getProductIdBySlug(idOrSlug))
+      } else {
+        const deprecatedSlugId = getProductIdByDeprecatedSlug(idOrSlug)
+        if (deprecatedSlugId) {
+          navigate(`/admin/edit/${getSlugByProductId(deprecatedSlugId)}`, {
+            replace: true,
+          })
+          setProductId(deprecatedSlugId)
+        } else setProductId(0)
+      }
       const id = getProductIdBySlug(idOrSlug)
       setProductId(id)
     }
