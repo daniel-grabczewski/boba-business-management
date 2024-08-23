@@ -6,6 +6,7 @@ import {
   getProductIdByDeprecatedSlug,
   getProductIdBySlug,
   getSlugByProductId,
+  isProductNameUnique,
   setDeprecatedSlugInLocalStorage,
   updateProductById,
 } from '../../../services/products'
@@ -174,6 +175,10 @@ function EditProduct() {
       }
       return false
     })
+
+    if (!isProductNameUnique(editedProduct.name)) {
+      invalidKeys.push('name')
+    }
     setInvalidFields(invalidKeys)
 
     return emptyKeys.length === 0 && invalidKeys.length === 0
