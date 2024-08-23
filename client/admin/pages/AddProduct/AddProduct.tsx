@@ -1,5 +1,5 @@
 import { UpsertProduct } from '../../../../models/Products'
-import { createProduct } from '../../../services/products'
+import { createProduct, isProductNameUnique } from '../../../services/products'
 import { useMutation } from 'react-query'
 import React, { useEffect, useState } from 'react'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
@@ -128,6 +128,11 @@ const AddProduct = () => {
       }
       return false
     })
+
+    if (!isProductNameUnique(newProduct.name)) {
+      invalidKeys.push('name')
+    }
+
     setInvalidFields(invalidKeys)
 
     return emptyKeys.length === 0 && invalidKeys.length === 0
