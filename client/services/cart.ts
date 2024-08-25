@@ -1,5 +1,5 @@
 import { CartItem, DisplayCartItem } from '../../models/Cart'
-import { getProductByIdAdmin } from './products'
+import { getProductByIdAdmin, getStockByProductId } from './products'
 
 // Replace existing localStorage cart items data with given cart items data
 export function setCartItemsInLocalStorage(cartItems: CartItem[]): void {
@@ -61,12 +61,20 @@ export function generateNewCartItemId(): number {
   return newId
 }
 
-// Add a cart item with given productId and given quantity
+// Add a cart item with given productId and given quantity, ONLY if there is enough stock to allow it. If there isn't enough stock for the desired quantity, do nothing
 export function addItemToCartByProductId(
   productId: number,
   quantity = 1
 ): void {
   try {
+    const productStock = getStockByProductId(productId)
+    const currentCartItemQuantity = getQuantityFromCartByProductId(productId)
+
+    if (productStock < currentCartItemQuantity + quantity) {
+      console.log('Not enough stock available')
+      return
+    }
+
     const cartItems = getCartItemsFromLocalStorage()
     const index = cartItems.findIndex(
       (cartItem) => cartItem.productId === productId
@@ -75,13 +83,14 @@ export function addItemToCartByProductId(
     if (index !== -1) {
       cartItems[index].quantity += quantity
     } else {
-      const newCartItem: CartItem = {
+      const newCartItem = {
         id: generateNewCartItemId(),
         productId: productId,
         quantity: quantity,
       }
       cartItems.push(newCartItem)
     }
+
     setCartItemsInLocalStorage(cartItems)
   } catch (error) {
     console.error(
