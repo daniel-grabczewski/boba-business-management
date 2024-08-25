@@ -118,6 +118,21 @@ export function getQuantityFromCartByProductId(productId: number): number {
   }
 }
 
+//Given the product ID, return the available stock of the associated product by subtracting the product's quantity in cart from the stock of the product
+export function getAvailableStockByProductId(productId: number): number {
+  try {
+    return (
+      getStockByProductId(productId) - getQuantityFromCartByProductId(productId)
+    )
+  } catch (error) {
+    console.error(
+      `Error getting available stock for product with ID: ${productId}`,
+      error
+    )
+    return 0
+  }
+}
+
 // Delete a cart item from the cart that is has the given productId
 export function deleteItemFromCartByProductId(productId: number): void {
   try {
