@@ -91,6 +91,24 @@ export function addItemToCartByProductId(
   }
 }
 
+// Given a product ID, return the quantity of the associated product that is in the user's cart. If the product isn't in the cart, return 0
+export function getQuantityFromCartByProductId(productId: number): number {
+  try {
+    const cartItems = getCartItemsFromLocalStorage()
+    const cartItemQuantity = cartItems.find(
+      (cartItem) => cartItem.productId === productId
+    )?.quantity
+
+    return cartItemQuantity || 0
+  } catch (error) {
+    console.error(
+      `Error getting the quantity in cart of item with product ID: ${productId}`,
+      error
+    )
+    return 0
+  }
+}
+
 // Delete a cart item from the cart that is has the given productId
 export function deleteItemFromCartByProductId(productId: number): void {
   try {
