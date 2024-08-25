@@ -188,28 +188,3 @@ export function deleteAllCartItems(): void {
     console.error('Failed to delete all cart items:', error)
   }
 }
-
-// Update cart item quantity of product by given productId and quantity
-export function updateCartItemQuantityByProductId(
-  productId: number,
-  quantity: number
-): void {
-  try {
-    const cartItems = getCartItemsFromLocalStorage()
-    const index = cartItems.findIndex(
-      (cartItem) => cartItem.productId === productId
-    )
-
-    if (index !== -1) {
-      cartItems[index].quantity = quantity
-      setCartItemsInLocalStorage(cartItems)
-    } else {
-      console.error(`Product with ID: ${productId} not found in any cart items`)
-    }
-  } catch (error) {
-    console.error(
-      `Failed to modify cart item quantity associated with product ID: ${productId}`,
-      error
-    )
-  }
-}
