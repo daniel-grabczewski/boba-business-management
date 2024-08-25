@@ -1,18 +1,18 @@
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-
-import { DisplayCartItem } from '../../../../models/Cart'
 import {
   addItemToCartByProductId,
   deleteAllCartItems,
   deleteItemFromCartByProductId,
+  getAvailableStockByProductId,
   getDisplayCartItems,
   reduceCartItemQuantityByProductId,
 } from '../../../services/cart'
 import LoadError from '../../components/LoadError/LoadError'
 import EmptyCart from '../../components/EmptyCart/EmptyCart'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { formatCurrency } from '../../../utils/formatCurrency'
+import { lowStockThreshold } from '../../../data/lowStockThreshold'
 
 const Cart = () => {
   const queryClient = useQueryClient()
@@ -20,6 +20,13 @@ const Cart = () => {
   const { data, status } = useQuery('getDisplayCartItems', async () =>
     getDisplayCartItems()
   )
+
+  const cartItemsWithStock = useMemo(() => {
+    return (data || []).map((item) => ({
+      ...item,
+      availableStock: getAvailableStockByProductId(item.productId),
+    }))
+  }, [data])
 
   const navigate = useNavigate()
   function goTo(link: string) {
@@ -100,8 +107,8 @@ const Cart = () => {
                 className="space-y-4 overflow-y-auto "
                 style={{ maxHeight: '650px' }}
               >
-                {data &&
-                  data.map((item: DisplayCartItem) => (
+                {cartItemsWithStock &&
+                  cartItemsWithStock.map((item) => (
                     <div
                       key={item.productId}
                       className="flex items-center justify-between mb-8 border p-4 rounded-md"
@@ -151,6 +158,20 @@ const Cart = () => {
                           >
                             +
                           </button>
+                          <p
+                            style={{
+                              fontSize: '14px',
+                              marginLeft: '12px',
+                              marginBottom: '2px',
+                            }}
+                            className="text-red-500 font-semibold"
+                          >
+                            {item.availableStock === 0
+                              ? 'All available stock in your cart'
+                              : item.availableStock <= lowStockThreshold
+                              ? `${item.availableStock} left in stock`
+                              : ''}
+                          </p>
                         </div>
 
                         <button
