@@ -94,7 +94,7 @@ const Cart = () => {
                       key={item.productId}
                       className="flex items-center justify-between mb-8 border p-4 rounded-md"
                     >
-                      <div className="flex-shrink-0 w-1/4 pr-4">
+                      <div className="flex-shrink-0 w-1/4 pr-4 select-none">
                         <img
                           src={item.image}
                           alt={item.name}
@@ -107,8 +107,8 @@ const Cart = () => {
                         <p className="text-gray-600">
                           {formatCurrency(item.price)}
                         </p>
-                        <div className="flex items-center mt-2">
-                          <div
+                        <div className="flex items-center mt-2 select-none">
+                          <button
                             onClick={() => {
                               if (item.quantity > 1) {
                                 modifyQuantityMutation.mutate({
@@ -119,40 +119,35 @@ const Cart = () => {
                                 deleteProductMutation.mutate(item.productId)
                               }
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300 cursor-pointer"
-                            style={{ width: '26px' }}
+                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
+                            style={{
+                              width: '26px',
+                              marginBottom: '2px',
+                              paddingLeft: '7px',
+                            }}
                           >
-                            <p
-                              style={{
-                                marginBottom: '2px',
-                                paddingLeft: '2px',
-                              }}
-                            >
-                              -
-                            </p>
-                          </div>
+                            -
+                          </button>
                           <p className="px-3">{item.quantity}</p>
-                          <div
+                          <button
                             onClick={() => {
                               modifyQuantityMutation.mutate({
                                 productId: item.productId,
                                 quantity: item.quantity + 1,
                               })
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300 cursor-pointer"
-                            style={{ width: '26px' }}
+                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
+                            style={{ width: '26px', marginBottom: '2px' }}
                           >
-                            <p style={{ marginBottom: '2px', paddingLeft: '' }}>
-                              +
-                            </p>
-                          </div>
+                            +
+                          </button>
                         </div>
 
                         <button
                           onClick={() =>
                             deleteProductMutation.mutate(item.productId)
                           }
-                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300"
+                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 select-none"
                         >
                           Remove
                         </button>
@@ -165,7 +160,7 @@ const Cart = () => {
               </div>
               <button
                 onClick={() => deleteCartItemsMutation.mutate()}
-                className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300"
+                className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 select-none"
               >
                 Clear Cart
               </button>
@@ -198,7 +193,7 @@ const Cart = () => {
 
                 <button
                   onClick={() => goTo('/checkout')}
-                  className="mt-auto py-2 bg-gray-400 text-white font-bold rounded-md transition-all duration-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black w-128 ml-auto"
+                  className="mt-auto py-2 bg-gray-400 text-white font-bold rounded-md transition-all duration-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black w-128 ml-auto select-none"
                 >
                   Checkout
                 </button>
