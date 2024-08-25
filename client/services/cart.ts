@@ -67,24 +67,24 @@ export function addItemToCartByProductId(
   quantity = 1
 ): void {
   try {
+    const cartItems = getCartItemsFromLocalStorage()
+    const index = cartItems.findIndex(
+      (cartItem) => cartItem.productId === productId
+    )
+    const currentCartItemQuantity = index !== -1 ? cartItems[index].quantity : 0
+
     const productStock = getStockByProductId(productId)
-    const currentCartItemQuantity = getQuantityFromCartByProductId(productId)
 
     if (productStock < currentCartItemQuantity + quantity) {
       console.log('Not enough stock available')
       return
     }
 
-    const cartItems = getCartItemsFromLocalStorage()
-    const index = cartItems.findIndex(
-      (cartItem) => cartItem.productId === productId
-    )
-
     if (index !== -1) {
       cartItems[index].quantity += quantity
     } else {
       const newCartItem = {
-        id: generateNewCartItemId(),
+        id: generateNewCartItemId(), // Ensure this function generates a unique ID
         productId: productId,
         quantity: quantity,
       }
