@@ -20,6 +20,7 @@ import { useEffect, useState } from 'react'
 import { getDemoUserDetails } from '../../../services/users'
 import { isNumeric } from '../../../utils/isNumeric'
 import ErrorPage from '../ErrorPage/ErrorPage'
+import { getAvailableStockByProductId } from '../../../services/cart'
 
 const ProductPage = () => {
   const { idOrSlug } = useParams()
@@ -64,6 +65,11 @@ const ProductPage = () => {
     refetch: refetchGetProductByIdAdmin,
   } = useQuery(['getProductByIdAdmin', productId], async () =>
     getProductByIdAdmin(productId)
+  )
+
+  const { data: availableStock } = useQuery(
+    ['getAvailableStockByProductId', productId],
+    async () => getAvailableStockByProductId(productId)
   )
 
   const { data: isEligable = false, refetch: refetchCanDemoUserAddReview } =
@@ -138,7 +144,7 @@ const ProductPage = () => {
   return (
     <>
       <LoadError status={[statusProducts, statusReviews, statusWishlist]} />
-      {product === undefined ? (
+      {product === undefined || availableStock === undefined ? (
         <ErrorPage />
       ) : reviews && product.isEnabled === false ? (
         <ErrorPage
@@ -156,6 +162,7 @@ const ProductPage = () => {
               refetchIsProductInWishlistItemsByProductId
             }
             averageRating={averageRating}
+            availableStock={availableStock}
           />
           <ViewProductReviews
             product={product}
