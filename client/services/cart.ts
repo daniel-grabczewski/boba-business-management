@@ -100,6 +100,37 @@ export function addItemToCartByProductId(
   }
 }
 
+// Given a product ID, reduce the associated product's quantity by the requested quantity to remove variable
+export function reduceCartItemQuantityByProductId(
+  productId: number,
+  quantityToRemove = 1
+): void {
+  try {
+    const cartItems = getCartItemsFromLocalStorage()
+    const index = cartItems.findIndex(
+      (cartItem) => cartItem.productId === productId
+    )
+
+    if (index === -1) {
+      return
+    }
+
+    const newQuantity = cartItems[index].quantity - quantityToRemove
+
+    if (newQuantity <= 0) {
+      deleteItemFromCartByProductId(productId)
+    } else {
+      cartItems[index].quantity = newQuantity
+      setCartItemsInLocalStorage(cartItems)
+    }
+  } catch (error) {
+    console.error(
+      `Error reducing cart item's quantity with product ID: ${productId}`,
+      error
+    )
+  }
+}
+
 // Given a product ID, return the quantity of the associated product that is in the user's cart. If the product isn't in the cart, return 0
 export function getQuantityFromCartByProductId(productId: number): number {
   try {
