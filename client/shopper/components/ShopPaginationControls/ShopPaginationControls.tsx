@@ -11,7 +11,6 @@ const ShopPaginationControls = ({
   handleChangePage,
   shownProducts,
 }: ShopPaginationControlsProps) => {
-  console.log(shownProducts)
   return (
     <div className="flex mt-4 justify-center" style={{ marginTop: '40px' }}>
       <button
