@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ShopperProduct } from '../../../../models/Products'
 import { addItemToCartByProductId } from '../../../services/cart'
 import StarRating from '../StarRating/StarRating'
-import { useMutation } from 'react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import {
   addProductToWishlistItemsByProductId,
   deleteWishlistItemByProductId,
@@ -11,12 +11,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons'
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons'
 import { formatCurrency } from '../../../utils/formatCurrency'
+import { lowStockThreshold } from '../../../data/lowStockThreshold'
 
 interface ViewProductProps {
   product: ShopperProduct
   wishlistStatus: boolean
   refetchIsProductInWishlistItemsByProductId: () => void
   averageRating: number
+  availableStock: number
 }
 
 function ViewProduct({
@@ -24,17 +26,22 @@ function ViewProduct({
   wishlistStatus,
   refetchIsProductInWishlistItemsByProductId,
   averageRating,
+  availableStock,
 }: ViewProductProps) {
+  const queryClient = useQueryClient()
   const [buttonText, setButtonText] = useState('Add to cart')
   const [buttonColor, setButtonColor] = useState(
     'bg-blue-500 hover:bg-blue-700'
   )
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
 
+  const [localStock, setLocalStock] = useState(100)
+
   const cartMutation = useMutation(
     async (productId: number) => addItemToCartByProductId(productId),
     {
       onSuccess: () => {
+        queryClient.invalidateQueries('getAvailableStockByProductId')
         setButtonText('Item added')
         setButtonColor('bg-green-500')
         setIsButtonDisabled(true)
@@ -72,6 +79,7 @@ function ViewProduct({
     if (!isButtonDisabled) {
       cartMutation.mutate(product.id)
     }
+    setLocalStock(localStock - 1)
   }
 
   const handleWishlistClick = () => {
@@ -136,13 +144,30 @@ function ViewProduct({
         <p className="mt-8 mb-2" style={{ paddingRight: '30px' }}>
           {product.description}
         </p>
-        <button
-          className={`${buttonColor} text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300`}
-          onClick={handleAddToCart}
-          disabled={isButtonDisabled || cartMutation.isLoading}
-        >
-          {buttonText}
-        </button>
+        <div className="flex">
+          <button
+            className={`text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 ${
+              availableStock === 0 ? `bg-gray-400 ` : `${buttonColor}`
+            }`}
+            style={{ maxWidth: '120px', minWidth: '120px' }}
+            onClick={handleAddToCart}
+            disabled={
+              availableStock === 0 || isButtonDisabled || cartMutation.isLoading
+            }
+          >
+            {buttonText}
+          </button>
+          <p
+            style={{ fontSize: '20px', marginLeft: '25px', marginTop: '11px' }}
+            className="text-red-500 font-semibold"
+          >
+            {availableStock === 0
+              ? 'Out of stock'
+              : availableStock <= lowStockThreshold
+              ? `${availableStock} left in stock`
+              : ''}
+          </p>
+        </div>
       </div>
     </div>
   )
