@@ -3,10 +3,11 @@ import { useNavigate } from 'react-router-dom'
 
 import { DisplayCartItem } from '../../../../models/Cart'
 import {
+  addItemToCartByProductId,
   deleteAllCartItems,
   deleteItemFromCartByProductId,
   getDisplayCartItems,
-  updateCartItemQuantityByProductId,
+  reduceCartItemQuantityByProductId,
 } from '../../../services/cart'
 import LoadError from '../../components/LoadError/LoadError'
 import EmptyCart from '../../components/EmptyCart/EmptyCart'
@@ -30,17 +31,28 @@ const Cart = () => {
     window.scrollTo(0, 0)
   }, [])
 
-  const modifyQuantityMutation = useMutation<
+  const increaseQuantityMutation = useMutation<
     void,
     Error,
-    { productId: number; quantity: number }
+    { productId: number }
   >(
-    async ({ productId, quantity }) => {
-      if (quantity > 0) {
-        updateCartItemQuantityByProductId(productId, quantity)
-      } else {
-        deleteItemFromCartByProductId(productId)
-      }
+    async ({ productId }) => {
+      addItemToCartByProductId(productId)
+    },
+    {
+      onSuccess: async () => {
+        queryClient.invalidateQueries('getDisplayCartItems')
+      },
+    }
+  )
+
+  const reduceQuantityMutation = useMutation<
+    void,
+    Error,
+    { productId: number }
+  >(
+    async ({ productId }) => {
+      reduceCartItemQuantityByProductId(productId)
     },
     {
       onSuccess: async () => {
@@ -111,9 +123,8 @@ const Cart = () => {
                           <button
                             onClick={() => {
                               if (item.quantity > 1) {
-                                modifyQuantityMutation.mutate({
+                                reduceQuantityMutation.mutate({
                                   productId: item.productId,
-                                  quantity: item.quantity - 1,
                                 })
                               } else {
                                 deleteProductMutation.mutate(item.productId)
@@ -131,9 +142,8 @@ const Cart = () => {
                           <p className="px-3">{item.quantity}</p>
                           <button
                             onClick={() => {
-                              modifyQuantityMutation.mutate({
+                              increaseQuantityMutation.mutate({
                                 productId: item.productId,
-                                quantity: item.quantity + 1,
                               })
                             }}
                             className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
