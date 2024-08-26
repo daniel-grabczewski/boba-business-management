@@ -107,64 +107,85 @@ function ViewProductReviews({
   }, [reviews])
 
   return (
-    <div
-      className="flex flex-col items-center max-w-5xl"
-      style={{ marginTop: '40px' }}
-    >
+    <>
       <div
-        className="flex flex-row items-center max-w-5xl"
-        style={{ marginBottom: '20px' }}
+        className="flex flex-col items-center max-w-5xl"
+        style={{ marginTop: '40px', marginBottom: '15px' }}
       >
-        {reviews.length === 0 ? (
-          <h2 className="text-xl font-normal mr-2 text-gray-500">
-            No reviews yet
-          </h2>
-        ) : (
-          <>
-            <StarRating rating={product.averageRating} size={2} />
-            <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
-          </>
+        <div
+          className="flex flex-row items-center max-w-5xl"
+          style={{ marginBottom: '20px' }}
+        >
+          {reviews.length === 0 ? (
+            <h2 className="text-xl font-normal mr-2 text-gray-500">
+              No reviews yet
+            </h2>
+          ) : (
+            <>
+              <h2 className="text-3xl font-bold mr-2">
+                {product.averageRating}
+              </h2>
+              <StarRating rating={product.averageRating} size={2} />
+            </>
+          )}
+        </div>
+
+        {reviews.length > 0 && (
+          <div
+            className="overflow-y-auto"
+            style={{
+              maxHeight: '400px',
+              width: '400px',
+              paddingRight: '10px', // For scrollbar space
+            }}
+          >
+            {[...reviewsWithFullNames].reverse().map((review) =>
+              review.userName !== demoUserName && !review.isEnabled ? (
+                <div key={review.userName}></div>
+              ) : (
+                <div
+                  key={review.userName}
+                  className="flex flex-col border border-black rounded"
+                  style={{
+                    marginBottom: '30px',
+                    padding: '10px',
+                    width: '100%', // Adjust to fit the container
+                  }}
+                >
+                  <div
+                    className="flex flex-row justify-between font-bold"
+                    style={{ marginBottom: '5px' }}
+                  >
+                    <h2>{review.fullName}</h2>
+                    <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+                  </div>
+                  <p style={{ marginBottom: '20px' }}>{review.description}</p>
+                  <div className="flex justify-between">
+                    <StarRating rating={review.rating} size={1} />
+                    {review.isEnabled === false ? (
+                      <div
+                        className="text-red-500 text-xs"
+                        style={{ marginTop: '-3px' }}
+                      >
+                        <p>Your review has been disabled by an admin.</p>
+                        <p>It is not visible to other shoppers.</p>
+                      </div>
+                    ) : (
+                      <p></p>
+                    )}
+                  </div>
+                </div>
+              )
+            )}
+          </div>
         )}
       </div>
 
-      {reviews.length > 0 &&
-        reviewsWithFullNames.map((review) =>
-          review.userName !== demoUserName && !review.isEnabled ? (
-            <div key={review.userName}></div>
-          ) : (
-            <div
-              key={review.userName}
-              className="flex flex-col border border-black rounded"
-              style={{ marginBottom: '30px', padding: '10px', width: '400px' }}
-            >
-              <div
-                className="flex flex-row justify-between font-bold"
-                style={{ marginBottom: '5px' }}
-              >
-                <h2>{review.fullName}</h2>
-                <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
-              </div>
-              <p style={{ marginBottom: '20px' }}>{review.description}</p>
-              <div className="flex justify-between">
-                <StarRating rating={review.rating} size={1} />
-                {review.isEnabled === false ? (
-                  <div
-                    className="text-red-500 text-xs"
-                    style={{ marginTop: '-3px' }}
-                  >
-                    <p>Your review has been disabled by an admin.</p>
-                    <p>It is not visible to other shoppers.</p>
-                  </div>
-                ) : (
-                  <p></p>
-                )}
-              </div>
-            </div>
-          )
-        )}
-
       {isAddingReview ? (
-        <div className="flex flex-col" style={{ width: '400px' }}>
+        <div
+          className="flex flex-col"
+          style={{ width: '400px', marginTop: '12px' }}
+        >
           <textarea
             onChange={(e) => setReviewDescription(e.target.value)}
             placeholder="Write your review here..."
@@ -217,7 +238,7 @@ function ViewProductReviews({
       >
         {errorMessage || 'Placeholder for error message'}
       </p>
-    </div>
+    </>
   )
 }
 
