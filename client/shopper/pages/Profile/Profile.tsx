@@ -188,7 +188,10 @@ const Profile = () => {
                         className="border p-4 rounded-md shadow-md"
                       >
                         <div className="flex justify-between items-center mb-2">
-                          <h3 className="text-lg font-semibold">
+                          <h3
+                            className="text-lg font-semibold cursor-pointer"
+                            onClick={() => goTo(`/shop/${review.productId}`)}
+                          >
                             {review.productName}
                           </h3>
 
