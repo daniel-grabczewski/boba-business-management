@@ -71,25 +71,37 @@ const Nav = () => {
         <div className="flex text-white" style={{ gap: '4rem' }}>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/')}
+            onClick={() => {
+              goTo('/')
+              window.scrollTo(0, 0)
+            }}
           >
             Home
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/shop')}
+            onClick={() => {
+              goTo('/shop')
+              window.scrollTo(0, 0)
+            }}
           >
             Shop
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/cart')}
+            onClick={() => {
+              goTo('/cart')
+              window.scrollTo(0, 0)
+            }}
           >
             Cart
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/contact')}
+            onClick={() => {
+              goTo('/contact')
+              window.scrollTo(0, 0)
+            }}
           >
             Contact
           </button>
@@ -97,7 +109,10 @@ const Nav = () => {
             <div className="group relative">
               <button
                 className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-                onClick={() => goTo('/profile')}
+                onClick={() => {
+                  goTo('/profile')
+                  window.scrollTo(0, 0)
+                }}
               >
                 <FontAwesomeIcon icon={faUser} className="text-xl" />
               </button>
@@ -109,7 +124,10 @@ const Nav = () => {
             <div className="group relative">
               <button
                 className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-                onClick={() => goTo('/wishlist')}
+                onClick={() => {
+                  goTo('/wishlist')
+                  window.scrollTo(0, 0)
+                }}
               >
                 <FontAwesomeIcon icon={faHeart} className="text-xl" />
               </button>
@@ -123,37 +141,55 @@ const Nav = () => {
         <div className="flex space-x-6 text-white" style={{ gap: '2rem' }}>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin')}
+            onClick={() => {
+              goTo('/admin')
+              window.scrollTo(0, 0)
+            }}
           >
             Dashboard
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin/inbox')}
+            onClick={() => {
+              goTo('/admin/inbox')
+              window.scrollTo(0, 0)
+            }}
           >
             Inbox
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin/orders')}
+            onClick={() => {
+              goTo('/admin/orders')
+              window.scrollTo(0, 0)
+            }}
           >
             Orders
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin/reviews')}
+            onClick={() => {
+              goTo('/admin/reviews')
+              window.scrollTo(0, 0)
+            }}
           >
             Reviews
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin/products-summary')}
+            onClick={() => {
+              goTo('/admin/products-summary')
+              window.scrollTo(0, 0)
+            }}
           >
             Products
           </button>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => goTo('/admin/add-product')}
+            onClick={() => {
+              goTo('/admin/add-product')
+              window.scrollTo(0, 0)
+            }}
           >
             Add Product
           </button>
