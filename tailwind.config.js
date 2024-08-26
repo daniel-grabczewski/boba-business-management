@@ -1,4 +1,9 @@
+import daisyui from 'daisyui'
+
 module.exports = {
+  daisyui: {
+    themes: ['light'],
+  },
   content: ['./client/**/*.{html,jsx,tsx}', './index.html'],
   theme: {
     extend: {
@@ -10,18 +15,19 @@ module.exports = {
         'purple-700': '#9B99FF',
       },
       width: {
-        '128': '128px',
+        128: '128px',
       },
       spacing: {
-        '128': '128px',
+        128: '128px',
       },
       maxWidth: {
         '1/2': '50%',
-        '3/5' : '60%',
+        '3/5': '60%',
       },
     },
   },
   plugins: [
+    daisyui,
     function ({ addUtilities }) {
       const newUtilities = {
         '.divTable': {
