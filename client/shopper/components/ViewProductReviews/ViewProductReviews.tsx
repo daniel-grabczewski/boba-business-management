@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo, useEffect, useRef } from 'react'
 import { useMutation } from 'react-query'
 import {
   CreateReview,
@@ -35,13 +35,13 @@ function ViewProductReviews({
   const [reviewDescription, setReviewDescription] = useState('')
   const [reviewRating, setReviewRating] = useState(2.5) // Default rating to 2.5
   const [errorMessage, setErrorMessage] = useState('')
+  const reviewsContainerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (errorMessage) {
       const timer = setTimeout(() => {
         setErrorMessage('')
       }, 2000)
-
       return () => clearTimeout(timer)
     }
   }, [errorMessage])
@@ -54,6 +54,9 @@ function ViewProductReviews({
         refetchCanDemoUserAddReview()
         updateDisplayReviews()
         setErrorMessage('')
+        if (reviewsContainerRef.current) {
+          reviewsContainerRef.current.scrollTo({ top: 0, behavior: 'smooth' })
+        }
       },
       onError: (error) => {
         console.error('An error occurred:', error)
@@ -132,6 +135,7 @@ function ViewProductReviews({
 
         {reviews.length > 0 && (
           <div
+            ref={reviewsContainerRef} // Attach the ref to the container
             className="overflow-y-auto"
             style={{
               maxHeight: '400px',
