@@ -113,7 +113,10 @@ const Cart = () => {
                       key={item.productId}
                       className="flex items-center justify-between mb-8 border p-4 rounded-md"
                     >
-                      <div className="flex-shrink-0 w-1/4 pr-4 select-none">
+                      <div
+                        className="flex-shrink-0 w-1/4 pr-4 select-none cursor-pointer"
+                        onClick={() => goTo(`/shop/${item.productId}`)}
+                      >
                         <img
                           src={item.image}
                           alt={item.name}
@@ -122,7 +125,12 @@ const Cart = () => {
                         />
                       </div>
                       <div className="flex-1">
-                        <h3 className="font-bold">{item.name}</h3>
+                        <h3
+                          className="font-bold cursor-pointer"
+                          onClick={() => goTo(`/shop/${item.productId}`)}
+                        >
+                          {item.name}
+                        </h3>
                         <p className="text-gray-600">
                           {formatCurrency(item.price)}
                         </p>
