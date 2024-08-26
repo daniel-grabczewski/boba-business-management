@@ -59,7 +59,7 @@ const Profile = () => {
         </h1>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <section className="border p-4 rounded-md shadow-md">
+          <div className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Order History</h2>
             <div
               style={{ maxHeight: '500px' }}
@@ -129,9 +129,9 @@ const Profile = () => {
                 <p>{`You haven't made any orders yet.`}</p>
               )}
             </div>
-          </section>
+          </div>
 
-          <section className="border p-4 rounded-md shadow-md">
+          <div className="border p-4 rounded-md shadow-md">
             <h2 className="text-xl font-semibold mb-4">Account Details</h2>
             <p>
               {demoUserDetails?.firstName} {demoUserDetails?.lastName}
@@ -165,10 +165,10 @@ const Profile = () => {
             >
               Edit Details
             </button>
-          </section>
+          </div>
         </div>
 
-        <section className="mt-8">
+        <div className="mt-8 overflow-y-auto" style={{ maxHeight: '700px' }}>
           <h2 className="text-xl font-semibold mb-4">{`Reviews you've posted`}</h2>
           {demoReviews?.length === 0 ? (
             <p>{`You haven't posted any reviews yet.`}</p>
@@ -241,7 +241,7 @@ const Profile = () => {
               </ul>
             </>
           )}
-        </section>
+        </div>
       </div>
     </div>
   )
