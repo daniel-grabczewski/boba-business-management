@@ -6,6 +6,7 @@ import {
 } from '../../../../models/Reviews'
 import { ShopperProduct } from '../../../../models/Products'
 import StarRating from '../StarRating/StarRating'
+import SetStarRating from '../../../UI/SetStarRating'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 import { addDemoUserReview } from '../../../services/reviews'
 import { getUserFullNameByUserName } from '../../../services/users'
@@ -32,7 +33,7 @@ function ViewProductReviews({
 }: ProductReviewsProps) {
   const [isAddingReview, setIsAddingReview] = useState(false)
   const [reviewDescription, setReviewDescription] = useState('')
-  const [reviewRating, setReviewRating] = useState(3)
+  const [reviewRating, setReviewRating] = useState(2.5) // Default rating to 2.5
   const [errorMessage, setErrorMessage] = useState('')
 
   useEffect(() => {
@@ -72,16 +73,12 @@ function ViewProductReviews({
   const handleCancelClick = () => {
     setIsAddingReview(false)
     setReviewDescription('')
-    setReviewRating(3)
+    setReviewRating(2.5) // Reset rating to default
     setErrorMessage('')
   }
 
-  const handleIncrementRating = () => {
-    if (reviewRating < 5) setReviewRating(reviewRating + 0.5)
-  }
-
-  const handleDecrementRating = () => {
-    if (reviewRating > 0.5) setReviewRating(reviewRating - 0.5)
+  const handleRatingChange = (rating: number) => {
+    setReviewRating(rating)
   }
 
   const handleSubmitReview = () => {
@@ -98,7 +95,7 @@ function ViewProductReviews({
 
     addReviewMutation.mutate(newReview)
     setReviewDescription('')
-    setReviewRating(3)
+    setReviewRating(2.5) // Reset rating to default
     setIsAddingReview(false)
   }
 
@@ -124,8 +121,8 @@ function ViewProductReviews({
           </h2>
         ) : (
           <>
-            <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
             <StarRating rating={product.averageRating} size={2} />
+            <h2 className="text-3xl font-bold mr-2">{product.averageRating}</h2>
           </>
         )}
       </div>
@@ -174,25 +171,15 @@ function ViewProductReviews({
             className="min-w-full max-w-2xl p-4 mt-2 bg-white border rounded-md shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-y transition duration-150 ease-in-out"
             rows={5}
           />
-          <div className="flex flex-col items-center">
-            <div>
-              <button
-                onClick={handleDecrementRating}
-                className="bg-red-500 hover:bg-red-700 text-white font-bold px-3 py-1 mt-2 rounded-full w-12 text-center"
-                disabled={reviewRating <= 0.5}
-              >
-                -
-              </button>
-              <div className="inline-block bg-gray-100 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mt-2 ml-2 mr-2 w-12 text-center">
-                {reviewRating}
-              </div>
-              <button
-                onClick={handleIncrementRating}
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold px-3 py-1 mt-2 rounded-full  w-12 text-center"
-                disabled={reviewRating >= 5}
-              >
-                +
-              </button>
+          <div className="flex justify-center mt-4">
+            <SetStarRating
+              initialRating={2.5}
+              onRatingChange={handleRatingChange}
+            />
+            <div
+              style={{ minWidth: '10px', maxWidth: '10px', marginTop: '2px' }}
+            >
+              <p className="font-bold text-3xl ml-4">{reviewRating}</p>
             </div>
           </div>
           <div className="flex flex-col items-center space-y-4 mt-4">
