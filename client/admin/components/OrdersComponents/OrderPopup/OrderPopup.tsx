@@ -11,6 +11,8 @@ import {
   formatDateToDDMMYYYY,
 } from '../../../../utils/formatDate'
 import { truncate } from '../../../../utils/truncate'
+import { useNavigate } from 'react-router-dom'
+import { getProductIdByProductName } from '../../../../services/products'
 
 interface OrderPopupProps {
   orderId: number
@@ -18,6 +20,10 @@ interface OrderPopupProps {
 }
 
 const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
+  const navigate = useNavigate()
+  const goTo = (link: string) => {
+    navigate(link)
+  }
   const popupRef = useRef<HTMLDivElement>(null)
 
   const { data: order, status: orderStatus } = useQuery(
@@ -87,7 +93,17 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
                 {order.orderItemsExtraDetails.map((item) => (
                   <div key={item.productSale} className="border-b flex">
                     <div className="py-2 px-4 border w-1/2 flex items-center">
-                      <div>
+                      <div
+                        onClick={() => {
+                          goTo(
+                            `/admin/edit/${getProductIdByProductName(
+                              item.productName
+                            )}`
+                          )
+                          window.scrollTo(0, 0)
+                        }}
+                        className="cursor-pointer"
+                      >
                         <img
                           src={item.productImage}
                           alt={item.productName}
@@ -95,7 +111,19 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
                           style={{ height: '40px' }}
                         />
                       </div>
-                      {truncate(item.productName, 30)}
+                      <p
+                        onClick={() => {
+                          goTo(
+                            `/admin/edit/${getProductIdByProductName(
+                              item.productName
+                            )}`
+                          )
+                          window.scrollTo(0, 0)
+                        }}
+                        className="cursor-pointer"
+                      >
+                        {truncate(item.productName, 30)}
+                      </p>
                     </div>
                     <div className="py-2 px-4 border w-1/3 flex items-center">
                       {item.itemQuantity}
