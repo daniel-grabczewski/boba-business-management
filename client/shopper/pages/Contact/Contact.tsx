@@ -80,7 +80,10 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <div className="mx-auto max-w-2xl p-8 flex flex-col">
+    <div
+      className="mx-auto max-w-2xl p-8 flex flex-col"
+      style={{ marginTop: '35px' }}
+    >
       <div className="text-3xl text-center font-bold mb-6">Contact Us</div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -137,6 +140,30 @@ function Contact() {
           )}
         </div>
       </form>
+      <div
+        className="mt-8 mx-auto mb-8 mx-auto flex gap-4"
+        style={{ width: '700px' }}
+      >
+        <div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6497.876987938504!2d174.72966999140917!3d-35.4810655719159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0b47a4f8e4efc3%3A0xf00ef62249bfa20!2sAorangi%20Island!5e0!3m2!1sen!2snz!4v1724716819889!5m2!1sen!2snz"
+            title="map"
+            height="400"
+            width="400px"
+            style={{ border: 0 }}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
+        </div>
+        <div className="w-1/2">
+          <h2 className="font-semibold text-2xl">Our Address</h2>
+          <p>42 Boba Street, Aorangi Island,</p>
+          <p>New Zealand</p>
+          <p className="font-semibold mt-2">Inquiries@boba.com</p>
+          <p className="font-semibold mt-2">Barry Bobus VI</p>
+          <p className="font-semibold">021 123 4567</p>
+        </div>
+      </div>
     </div>
   )
 }
