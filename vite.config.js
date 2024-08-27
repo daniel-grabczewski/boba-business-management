@@ -8,15 +8,18 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/boba-business-management/' : '/',
+  base:
+    process.env.NODE_ENV === 'production'
+      ? import.meta.env.VITE_APP_BASE_URL
+      : '/',
   plugins: [
     react(),
     viteStaticCopy({
       targets: [{ src: '404.html', dest: '.' }],
     }),
     EnvironmentPlugin({
-      NODE_ENV: process.env.NODE_ENV
-    })
+      NODE_ENV: process.env.NODE_ENV,
+    }),
   ],
   server: {
     proxy: {
