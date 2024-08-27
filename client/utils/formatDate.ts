@@ -25,13 +25,19 @@ export function format24HourTo12Hour(dateString: string): string {
   // Return the formatted time
   return `${twelveHour}:${minuteString}${ampm}`
 }
-
 // Given a date in 'YYYY-MM-DD HH-MM-SS' format, returns it as a relative string or 'DD/MM/YYYY' format
 export function formatRelativeDate(dateString: string): string {
   const date = new Date(dateString)
   const now = new Date()
 
-  const diffTime = now.getTime() - date.getTime()
+  // Normalize to the start of the day
+  const startOfDay = (d: Date) =>
+    new Date(d.getFullYear(), d.getMonth(), d.getDate())
+
+  const startDate = startOfDay(date)
+  const startNow = startOfDay(now)
+
+  const diffTime = startNow.getTime() - startDate.getTime()
   const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24))
 
   if (diffDays === 0) {
