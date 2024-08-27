@@ -187,57 +187,76 @@ const Profile = () => {
                         key={review.productId}
                         className="border p-4 rounded-md shadow-md"
                       >
-                        <div className="flex justify-between items-center mb-2">
-                          <h3
-                            className="text-lg font-semibold cursor-pointer"
+                        <div className="flex justify-between">
+                          <div
+                            className="flex-shrink-0 w-1/5 pr-4 select-none cursor-pointer"
                             onClick={() => goTo(`/shop/${review.productId}`)}
                           >
-                            {review.productName}
-                          </h3>
+                            <img
+                              src={review.productImage}
+                              alt={review.productName}
+                              style={{ maxHeight: '120px', maxWidth: '150px' }}
+                              className="w-full h-48 object-contain"
+                            />
+                          </div>
+                          <div className="w-4/5">
+                            <div className="flex justify-between items-center mb-2">
+                              <h3
+                                className="text-lg font-semibold cursor-pointer"
+                                onClick={() =>
+                                  goTo(`/shop/${review.productId}`)
+                                }
+                              >
+                                {review.productName}
+                              </h3>
 
-                          <div className="text-gray-500 flex gap-4">
-                            <p>
-                              {format24HourTo12Hour(review.reviewCreatedAt)}
-                            </p>
-                            <p>
-                              {formatDateToDDMMYYYY(review.reviewCreatedAt)}
-                            </p>
-                          </div>
-                        </div>
-                        <p className="mb-4">{review.reviewDescription}</p>
-                        <div className="flex items-center justify-between">
-                          <div>
-                            <span className="text-gray-600 text-sm mr-2">
-                              {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
-                            </span>
-                            <div className="flex items-center">
-                              <StarRating
-                                rating={review.reviewRating}
-                                size={1}
-                              />
+                              <div className="text-gray-500 flex gap-4">
+                                <p>
+                                  {format24HourTo12Hour(review.reviewCreatedAt)}
+                                </p>
+                                <p>
+                                  {formatDateToDDMMYYYY(review.reviewCreatedAt)}
+                                </p>
+                              </div>
                             </div>
-                          </div>
-                          {isDemoUserReviewEnabled(review.productId) ===
-                          false ? (
-                            <div
-                              className="text-red-500 text-sm"
-                              style={{ marginTop: '5px' }}
+                            <p className="mb-4">{review.reviewDescription}</p>
+                            <div className="flex items-center justify-between">
+                              <div>
+                                <span className="text-gray-600 text-sm mr-2">
+                                  {`${demoUserDetails?.firstName} ${demoUserDetails?.lastName}`}
+                                </span>
+                                <div className="flex items-center">
+                                  <StarRating
+                                    rating={review.reviewRating}
+                                    size={1}
+                                  />
+                                </div>
+                              </div>
+                              {isDemoUserReviewEnabled(review.productId) ===
+                              false ? (
+                                <div
+                                  className="text-red-500 text-sm"
+                                  style={{ marginTop: '5px' }}
+                                >
+                                  <p>
+                                    This review has been disabled by an admin.
+                                  </p>
+                                  <p>It is not visible to other shoppers.</p>
+                                </div>
+                              ) : (
+                                <p></p>
+                              )}
+                            </div>
+                            <button
+                              onClick={() =>
+                                deleteReviewMutation.mutate(review.productId)
+                              }
+                              className="mt-2 text-red-500 hover:text-red-800 cursor-pointer transition-all duration-300"
                             >
-                              <p>This review has been disabled by an admin.</p>
-                              <p>It is not visible to other shoppers.</p>
-                            </div>
-                          ) : (
-                            <p></p>
-                          )}
+                              Delete
+                            </button>
+                          </div>
                         </div>
-                        <button
-                          onClick={() =>
-                            deleteReviewMutation.mutate(review.productId)
-                          }
-                          className="mt-2 text-red-500 hover:text-red-800 cursor-pointer transition-all duration-300"
-                        >
-                          Delete
-                        </button>
                       </li>
                     ))
                 )}
