@@ -1,4 +1,4 @@
-import { useEffect, useState, FormEvent } from 'react'
+import { useEffect, useState, FormEvent, useMemo } from 'react'
 import { UpsertProduct } from '../../../../models/Products'
 import {
   doesSlugExist,
@@ -15,11 +15,19 @@ import LoadError from '../../../shopper/components/LoadError/LoadError'
 import ProductForm from '../../components/ProductForm/ProductForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import { isNumeric } from '../../../utils/isNumeric'
+import { getReviewsByProductId } from '../../../services/reviews'
+import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
+import StarRating from '../../../shopper/components/StarRating/StarRating'
+import { getUserFullNameByUserName } from '../../../services/users'
 
 function EditProduct() {
   const { idOrSlug } = useParams()
   const navigate = useNavigate()
   const [productId, setProductId] = useState(0)
+
+  const goTo = (link: string) => {
+    navigate(link)
+  }
 
   // Determine whether we have an ID or a slug and fetch the product accordingly
   useEffect(() => {
@@ -196,9 +204,21 @@ function EditProduct() {
     }
   }
 
+  const { data: reviews = [], status: statusReviews } = useQuery(
+    ['getReviewsByProductId', productId],
+    async () => getReviewsByProductId(productId)
+  )
+
+  const reviewsWithFullNames = useMemo(() => {
+    return reviews.map((review) => ({
+      ...review,
+      fullName: getUserFullNameByUserName(review.userName),
+    }))
+  }, [reviews])
+
   return (
     <>
-      <LoadError status={statusProduct} />
+      <LoadError status={[statusProduct, statusReviews]} />
       <ProductForm
         handleSubmit={handleSubmit}
         handleChange={handleChange}
@@ -213,6 +233,83 @@ function EditProduct() {
         originalProduct={originalProduct}
         isErrorMessageEnabled={true}
       />
+      <div
+        className="flex flex-col justify-center items-center"
+        style={{ marginBottom: '80px' }}
+      >
+        <div className="w-1/4 flex flex-col items-center">
+          <hr className="mt-2 mb-8 bg-gray-700" style={{ width: '400px' }} />
+          <h1 className="font-semibold text-2xl mb-8">Reviews from users:</h1>
+          <div
+            className="overflow-y-auto"
+            style={{
+              maxHeight: '400px',
+              width: '400px',
+              paddingRight: '10px', // For scrollbar space
+            }}
+          >
+            {[...reviewsWithFullNames].reverse().map((review) => (
+              <div
+                key={review.userName}
+                className="flex flex-col border border-black rounded"
+                style={{
+                  marginBottom: '30px',
+                  padding: '10px',
+                  width: '100%', // Adjust to fit the container
+                }}
+              >
+                <div
+                  className="flex flex-row justify-between font-bold"
+                  style={{ marginBottom: '5px' }}
+                >
+                  <h2>{review.fullName}</h2>
+                  <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
+                </div>
+                <p style={{ marginBottom: '20px' }}>{review.description}</p>
+                <div className="flex justify-between">
+                  <StarRating rating={review.rating} size={1} />
+                  {review.isEnabled === false ? (
+                    <div
+                      className="text-red-500 text-xs"
+                      style={{ marginTop: '-3px' }}
+                    >
+                      <p>This review has been disabled by an admin.</p>
+                      <p>It is not visible to shoppers.</p>
+                    </div>
+                  ) : (
+                    <p></p>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex mb-8 mt-4">
+            <h2
+              className="text-xl font-semibold"
+              style={{ marginTop: '8px', marginRight: '20px' }}
+            >
+              Average Rating:
+            </h2>
+            <StarRating rating={product?.averageRating || 0} size={2} />
+            <h2
+              className="text-3xl font-bold mr-2"
+              style={{ marginTop: '6px' }}
+            >
+              {product?.averageRating}
+            </h2>
+          </div>
+          <button
+            className="font-semibold text-blue-700 hover:text-gray-700 transition-all duration-300 text-xl"
+            style={{ marginTop: '-20px' }}
+            onClick={() => {
+              goTo(`/shop/${product?.id}`)
+              window.scrollTo(0, 0)
+            }}
+          >
+            Go to store page
+          </button>
+        </div>
+      </div>
     </>
   )
 }
