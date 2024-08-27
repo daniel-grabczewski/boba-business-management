@@ -127,9 +127,10 @@ const Dashboard = () => {
             </div>
             <button
               className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 mt-4"
-              onClick={() =>
+              onClick={() => {
+                localStorage.setItem('productSearch', JSON.stringify(''))
                 goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
-              }
+              }}
               style={{ minWidth: '135px', marginLeft: '5px' }}
             >
               View Products
