@@ -1,8 +1,8 @@
 {
-  "name": "boba-business-management-demo",
+  "name": "boba-business-management",
   "version": "0.2.3",
   "description": "A demo version of Boba Business Management with front-end only",
-  "repository": "https://github.com/daniel-grabczewski/boba-business-management-demo/tree/main",
+  "repository": "https://github.com/daniel-grabczewski/boba-business-management/tree/main",
   "author": "Daniel Grabczewski",
   "license": "ISC",
   "scripts": {

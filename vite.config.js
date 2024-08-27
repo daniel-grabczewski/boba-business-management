@@ -8,7 +8,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export default defineConfig({
-  base: process.env.NODE_ENV === 'production' ? '/boba-business-management-demo/' : '/',
+  base: process.env.NODE_ENV === 'production' ? '/boba-business-management/' : '/',
   plugins: [
     react(),
     viteStaticCopy({

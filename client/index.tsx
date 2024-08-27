@@ -45,7 +45,7 @@ export const routes = createRoutesFromElements(
   <Route
     path={
       process.env.NODE_ENV === 'production'
-        ? '/boba-business-management-demo/'
+        ? '/boba-business-management/'
         : '/'
     }
     element={<AppLayout />}
