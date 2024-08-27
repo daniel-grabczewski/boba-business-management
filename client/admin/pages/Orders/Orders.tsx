@@ -44,7 +44,6 @@ function AllOrders() {
       setPage(1)
       setSort('newest-first')
       handleChangeSearch('')
-      queryParams.delete('email')
     }
   }, [location.search])
 
