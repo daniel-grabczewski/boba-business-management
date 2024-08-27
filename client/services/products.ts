@@ -159,6 +159,30 @@ export function getSlugByProductId(id: number): string {
   }
 }
 
+// Given a product name, return the ID associated with it
+export function getProductIdByProductName(productName: string): number {
+  try {
+    const products = getProductsFromLocalStorage()
+    const productId = products.find(
+      (product) => product.name === productName
+    )?.id
+    if (productId !== undefined) {
+      return productId
+    } else {
+      console.log(
+        `Could not find any product IDs associated with given product name of ${productName}`
+      )
+      return 0
+    }
+  } catch (error) {
+    console.error(
+      `Failed to get product ID associated with given product name: ${productName}`,
+      error
+    )
+    return 0
+  }
+}
+
 //Given a slug, return the product ID associated with it
 export function getProductIdBySlug(slug: string): number {
   try {
