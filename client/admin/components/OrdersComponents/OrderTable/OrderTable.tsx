@@ -4,6 +4,7 @@ import { getUserNameByUserId } from '../../../../services/users'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
+  formatRelativeDate,
 } from '../../../../utils/formatDate'
 
 interface OrderTableProps {
@@ -27,8 +28,8 @@ function OrderTable({
           <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
             <div className="divCell py-3 px-8">Order ID</div>
             <div className="divCell py-3 px-8">Username</div>
-            <div className="divCell py-3 px-8">Purchase Date</div>
             <div className="divCell py-3 px-8">Total Sale</div>
+            <div className="divCell py-3 px-8">Purchase Date</div>
           </div>
 
           <div className="divBody text-gray-600 text-sm font-light">
@@ -44,16 +45,28 @@ function OrderTable({
                 <div className="divCell py-3 px-8 text-left">
                   {getUserNameByUserId(order.userId)}
                 </div>
+
                 <div className="divCell py-3 px-8 text-left">
-                  {format24HourTo12Hour(order.purchasedAt)}{' '}
-                  {formatDateToDDMMYYYY(order.purchasedAt)}
+                  {formatCurrency(getTotalSaleOfOrderById(order.id))}
                 </div>
 
-                {
-                  <div className="divCell py-3 px-8 text-left">
-                    {formatCurrency(getTotalSaleOfOrderById(order.id))}
+                <div
+                  className="divCell py-3 px-8 text-left"
+                  style={{ maxWidth: '100px' }}
+                >
+                  <div
+                    className={
+                      formatRelativeDate(order.purchasedAt) === 'Today'
+                        ? 'font-semibold'
+                        : ''
+                    }
+                  >
+                    {formatRelativeDate(order.purchasedAt) === 'Today'
+                      ? formatRelativeDate(order.purchasedAt)
+                      : formatDateToDDMMYYYY(order.purchasedAt)}{' '}
+                    {format24HourTo12Hour(order.purchasedAt)}
                   </div>
-                }
+                </div>
               </div>
             ))}
           </div>
