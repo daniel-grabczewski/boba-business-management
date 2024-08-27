@@ -11,6 +11,8 @@ import {
 } from '../../../../services/reviews'
 import LoadError from '../../../../shopper/components/LoadError/LoadError'
 import ToggleSwitch from '../../../../UI/ToggleSwitch'
+import { useNavigate } from 'react-router-dom'
+import { getProductIdByProductName } from '../../../../services/products'
 
 interface ReviewPopupProps {
   reviewId: number
@@ -19,6 +21,11 @@ interface ReviewPopupProps {
 
 const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
   const popupRef = useRef<HTMLDivElement>(null)
+
+  const navigate = useNavigate()
+  const goTo = (link: string) => {
+    navigate(link)
+  }
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -89,7 +96,17 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
                 </div>
               </div>
               <div className="flex mt-4 gap-4">
-                <div className="w-1/4">
+                <div
+                  className="w-1/4 cursor-pointer"
+                  onClick={() => {
+                    goTo(
+                      `/admin/edit/${getProductIdByProductName(
+                        review.productName
+                      )}`
+                    )
+                    window.scrollTo(0, 0)
+                  }}
+                >
                   <img
                     className="object-contain mx-auto mt-4"
                     style={{
@@ -101,15 +118,32 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
                     alt={review.productName}
                   />
                 </div>
-                <div>
-                  <div style={{ maxWidth: '320px' }}>
-                    <div className="flex gap-4 mt-4">
-                      <p className="font-semibold">{`User's Rating:`}</p>
-                      <StarRating rating={review.reviewRating} size={1} />
-                      <p className="font-semibold">({review.reviewRating})</p>
-                    </div>
+                <div className="flex flex-col justify">
+                  <div>
+                    <div style={{ maxWidth: '320px' }}>
+                      <div className="flex gap-4 mt-4">
+                        <p className="font-semibold">{`User's Rating:`}</p>
+                        <StarRating rating={review.reviewRating} size={1} />
+                        <p className="font-semibold">({review.reviewRating})</p>
+                      </div>
 
-                    <p>{review.reviewDescription}</p>
+                      <p>{review.reviewDescription}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      className="font-semibold text-blue-700 hover:text-gray-700 mb-2 mt-8 transition-all duration-300"
+                      onClick={() => {
+                        goTo(
+                          `/shop/${getProductIdByProductName(
+                            review.productName
+                          )}`
+                        )
+                        window.scrollTo(0, 0)
+                      }}
+                    >
+                      Go to store page
+                    </button>
                   </div>
                 </div>
               </div>
