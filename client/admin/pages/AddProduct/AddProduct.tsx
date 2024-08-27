@@ -4,6 +4,7 @@ import { useMutation } from 'react-query'
 import React, { useEffect, useState } from 'react'
 import LoadError from '../../../shopper/components/LoadError/LoadError'
 import ProductForm from '../../components/ProductForm/ProductForm'
+import { placeholderImage } from '../../../data/miscImages'
 
 const AddProduct = () => {
   const [buttonText, setButtonText] = useState('Add Product')
@@ -32,8 +33,6 @@ const AddProduct = () => {
   const saveToLocalStorage = (state: UpsertProduct) => {
     localStorage.setItem('newProduct', JSON.stringify(state))
   }
-
-  const placeholderImage = '/images/placeholder-image.png'
 
   const addProductMutation = useMutation(
     async (newProduct: UpsertProduct) => createProduct(newProduct),

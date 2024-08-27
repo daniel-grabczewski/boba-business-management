@@ -1,5 +1,8 @@
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { backgroundImage1, backgroundImage2 } from '../../../data/miscImages'
+import { homePageTeaImage } from '../../../data/miscImages'
+import { homePageTitleImage } from '../../../data/miscImages'
 
 const Home = () => {
   const navigate = useNavigate()
@@ -15,7 +18,7 @@ const Home = () => {
       <div
         className="flex items-center justify-center min-h-screen"
         style={{
-          backgroundImage: `url('/images/ellipse1.svg'), url('/images/ellipse2.svg')`,
+          backgroundImage: `url('${backgroundImage1}'), url('${backgroundImage2}')`,
           backgroundPosition: 'bottom left, top right',
           backgroundRepeat: 'no-repeat',
         }}
@@ -25,7 +28,7 @@ const Home = () => {
             {/* Welcome Card */}
             <div className="p-12 space-y-12 flex flex-col md:flex-row items-center w-4/5 md">
               <img
-                src="/images/home-tea.svg"
+                src={homePageTeaImage}
                 alt="Boba Buddies Logo"
                 className="max-w-full h-auto pr-10"
                 style={{ width: '65%', maxWidth: '100%' }}
@@ -33,7 +36,7 @@ const Home = () => {
 
               <div className="flex flex-col text-white text-xl space-y-8 p-10">
                 <img
-                  src="/images/home-title.svg"
+                  src={homePageTitleImage}
                   alt="Boba Buddies Logo"
                   className="max-w-full h-auto"
                   style={{ width: '90%', maxWidth: '100%' }}

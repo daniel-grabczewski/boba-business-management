@@ -19,6 +19,7 @@ import { getReviewsByProductId } from '../../../services/reviews'
 import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 import StarRating from '../../../shopper/components/StarRating/StarRating'
 import { getUserFullNameByUserName } from '../../../services/users'
+import { placeholderImage } from '../../../data/miscImages'
 
 function EditProduct() {
   const { idOrSlug } = useParams()
@@ -85,8 +86,6 @@ function EditProduct() {
   const [emptyFields, setEmptyFields] = useState<string[]>([])
   const [invalidFields, setInvalidFields] = useState<string[]>([])
   const [errorMessage, setErrorMessage] = useState('')
-
-  const placeholderImage = '/images/placeholder-image.png'
 
   const queryClient = useQueryClient()
 

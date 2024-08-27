@@ -3,6 +3,7 @@ import LoadError from '../../components/LoadError/LoadError'
 import { getLatestOrderOfDemoUser } from '../../../services/orders'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { thankYouImage } from '../../../data/miscImages'
 
 const ThankYou = () => {
   const navigate = useNavigate()
@@ -32,7 +33,7 @@ const ThankYou = () => {
         <div style={{ paddingTop: '5vh' }}>
           <div className="text-center text-3xl">
             <img
-              src="/images/thank-you.svg"
+              src={thankYouImage}
               alt="thank you"
               style={{ maxWidth: '250px', margin: 'auto' }}
             />
