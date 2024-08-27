@@ -2,6 +2,7 @@ import { AdminDisplayReview } from '../../../../../models/Reviews'
 import {
   format24HourTo12Hour,
   formatDateToDDMMYYYY,
+  formatRelativeDate,
 } from '../../../../utils/formatDate'
 interface DisplayCurrentReviewsProps {
   getPaginatedReviews: () => AdminDisplayReview[]
@@ -62,8 +63,18 @@ const DisplayCurrentReviews = ({
                   className="divCell py-3 px-8 text-left"
                   style={{ minWidth: '200px' }}
                 >
-                  {format24HourTo12Hour(review.reviewCreatedAt)}{' '}
-                  {formatDateToDDMMYYYY(review.reviewCreatedAt)}
+                  <div
+                    className={
+                      formatRelativeDate(review.reviewCreatedAt) === 'Today'
+                        ? 'font-semibold'
+                        : ''
+                    }
+                  >
+                    {formatRelativeDate(review.reviewCreatedAt) === 'Today'
+                      ? formatRelativeDate(review.reviewCreatedAt)
+                      : formatDateToDDMMYYYY(review.reviewCreatedAt)}{' '}
+                    {format24HourTo12Hour(review.reviewCreatedAt)}
+                  </div>
                 </div>
               </div>
             ))}
