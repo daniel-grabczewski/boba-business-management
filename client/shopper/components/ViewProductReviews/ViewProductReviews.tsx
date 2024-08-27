@@ -125,10 +125,10 @@ function ViewProductReviews({
             </h2>
           ) : (
             <>
+              <StarRating rating={product.averageRating} size={2} />
               <h2 className="text-3xl font-bold mr-2">
                 {product.averageRating}
               </h2>
-              <StarRating rating={product.averageRating} size={2} />
             </>
           )}
         </div>
