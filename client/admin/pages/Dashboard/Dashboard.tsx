@@ -9,11 +9,12 @@ import { generateCurrentDate } from '../../../utils/generateDate'
 import { LowStockProduct } from '../../../../models/Products'
 import { truncate } from '../../../utils/truncate'
 import { lowStockThreshold } from '../../../data/lowStockThreshold'
+import { baseURL } from '../../../../baseUrl'
 
 const Dashboard = () => {
   const navigate = useNavigate()
   function goTo(link: string) {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   // Generate today's date as YYYY-MM-DD HH:MM:SS

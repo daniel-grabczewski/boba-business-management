@@ -13,6 +13,7 @@ import LoadError from '../../../../shopper/components/LoadError/LoadError'
 import ToggleSwitch from '../../../../UI/ToggleSwitch'
 import { useNavigate } from 'react-router-dom'
 import { getProductIdByProductName } from '../../../../services/products'
+import { baseURL } from '../../../../../baseUrl'
 
 interface ReviewPopupProps {
   reviewId: number
@@ -24,7 +25,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
 
   const navigate = useNavigate()
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   useEffect(() => {

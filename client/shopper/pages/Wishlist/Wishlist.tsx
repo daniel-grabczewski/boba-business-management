@@ -11,6 +11,7 @@ import { addItemToCartByProductId } from '../../../services/cart'
 import { useState } from 'react'
 import { formatCurrency } from '../../../utils/formatCurrency'
 import { useNavigate } from 'react-router-dom'
+import { baseURL } from '../../../../baseUrl'
 
 const Wishlist = () => {
   const queryClient = useQueryClient()
@@ -19,7 +20,7 @@ const Wishlist = () => {
   }>({})
   const navigate = useNavigate()
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   const wishListQuery = useQuery('getDisplayWishlistItems', async () =>

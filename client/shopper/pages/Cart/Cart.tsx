@@ -13,6 +13,7 @@ import EmptyCart from '../../components/EmptyCart/EmptyCart'
 import { useEffect, useMemo } from 'react'
 import { formatCurrency } from '../../../utils/formatCurrency'
 import { lowStockThreshold } from '../../../data/lowStockThreshold'
+import { baseURL } from '../../../../baseUrl'
 
 const Cart = () => {
   const queryClient = useQueryClient()
@@ -30,7 +31,7 @@ const Cart = () => {
 
   const navigate = useNavigate()
   function goTo(link: string) {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   // Scroll to top when the component is mounted

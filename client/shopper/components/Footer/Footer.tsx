@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
+import { baseURL } from '../../../../baseUrl'
 
 const Footer = () => {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ const Footer = () => {
   }, [location.pathname])
 
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   return (

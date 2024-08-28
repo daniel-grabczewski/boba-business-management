@@ -15,12 +15,13 @@ import {
   formatDateToDDMMYYYY,
 } from '../../../utils/formatDate'
 import { formatCurrency } from '../../../utils/formatCurrency'
+import { baseURL } from '../../../../baseUrl'
 
 const Profile = () => {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   function goTo(link: string) {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   const { data: demoUserDetails, status: demoUserStatus } = useQuery(

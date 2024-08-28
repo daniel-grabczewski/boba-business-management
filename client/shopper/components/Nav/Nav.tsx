@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import NavToggleSwitch from '../../../UI/NavToggleSwitch'
+import { baseURL } from '../../../../baseUrl'
 
 const Nav = () => {
   const navigate = useNavigate()
@@ -19,7 +20,7 @@ const Nav = () => {
   }, [location.pathname])
 
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   const adminColor = '#ffa835'

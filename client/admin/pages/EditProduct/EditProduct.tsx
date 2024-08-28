@@ -20,6 +20,7 @@ import { formatDateToDDMMYYYY } from '../../../utils/formatDate'
 import StarRating from '../../../shopper/components/StarRating/StarRating'
 import { getUserFullNameByUserName } from '../../../services/users'
 import { placeholderImage } from '../../../data/miscImages'
+import { baseURL } from '../../../../baseUrl'
 
 function EditProduct() {
   const { idOrSlug } = useParams()
@@ -27,7 +28,7 @@ function EditProduct() {
   const [productId, setProductId] = useState(0)
 
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
 
   // Determine whether we have an ID or a slug and fetch the product accordingly

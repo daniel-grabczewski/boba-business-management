@@ -13,6 +13,7 @@ import {
 import { truncate } from '../../../../utils/truncate'
 import { useNavigate } from 'react-router-dom'
 import { getProductIdByProductName } from '../../../../services/products'
+import { baseURL } from '../../../../../baseUrl'
 
 interface OrderPopupProps {
   orderId: number
@@ -22,7 +23,7 @@ interface OrderPopupProps {
 const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
   const navigate = useNavigate()
   const goTo = (link: string) => {
-    navigate(link)
+    navigate(`${baseURL}${link}`)
   }
   const popupRef = useRef<HTMLDivElement>(null)
 
