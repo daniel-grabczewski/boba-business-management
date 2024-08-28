@@ -30,7 +30,6 @@ import {
   EditProduct,
 } from './admin/pages/'
 
-import Redirect from './shopper/pages/Redirect/Redirect'
 import AllOrders from './admin/pages/Orders/Orders'
 import ProtectedComponent from './UI/ProtectedComponent'
 import AddProduct from './admin/pages/AddProduct/AddProduct'
@@ -52,10 +51,6 @@ export const routes = createRoutesFromElements(
     <Route index element={<ProtectedComponent component={Home} />} />
     <Route path="cart" element={<ProtectedComponent component={Cart} />} />
     <Route path="shop" element={<ProtectedComponent component={Shop} />} />
-    <Route
-      path="redirect"
-      element={<ProtectedComponent component={Redirect} />}
-    />
 
     <Route
       path="shop/:idOrSlug"
