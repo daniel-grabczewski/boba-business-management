@@ -1879,10 +1879,6 @@ html {
   max-width: 32rem;
 }
 
-.max-w-screen-xl {
-  max-width: 1280px;
-}
-
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -2002,22 +1998,10 @@ html {
   margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
-.space-y-12 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(3rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(3rem * var(--tw-space-y-reverse));
-}
-
 .space-y-4 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-y-reverse: 0;
   margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
   margin-bottom: calc(1rem * var(--tw-space-y-reverse));
-}
-
-.space-y-8 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-y-reverse: 0;
-  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
-  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
 }
 
 .self-center {
@@ -2194,10 +2178,6 @@ html {
 
 .p-10 {
   padding: 2.5rem;
-}
-
-.p-12 {
-  padding: 3rem;
 }
 
 .p-2 {
@@ -2431,6 +2411,11 @@ html {
   color: rgb(239 68 68 / var(--tw-text-opacity));
 }
 
+.text-rose-300 {
+  --tw-text-opacity: 1;
+  color: rgb(253 164 175 / var(--tw-text-opacity));
+}
+
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -2539,9 +2524,52 @@ html {
   display: table-row-group;
 }
 
+/* Prevent dragging on all images globally */
+
+img {
+  -webkit-user-drag: none;
+  /* For Safari */
+  user-drag: none;
+  /* Standard CSS property */
+}
+
+/* Prevent text selection and highlighting on all buttons */
+
+button {
+  -webkit-user-select: none;
+  /* For Safari */
+  /* For Firefox */
+  /* For Internet Explorer/Edge */
+  user-select: none;
+  /* Standard CSS property */
+}
+
+a {
+  -webkit-user-select: none;
+  /* Prevent text selection for Safari */
+  /* Prevent text selection for Firefox */
+  /* Prevent text selection for Internet Explorer/Edge */
+  user-select: none;
+  /* Prevent text selection */
+  -webkit-user-drag: none;
+  /* Prevent dragging for Safari */
+  user-drag: none;
+  /* Standard CSS property */
+}
+
+.hover\:border-grape:hover {
+  --tw-border-opacity: 1;
+  border-color: rgb(155 153 255 / var(--tw-border-opacity));
+}
+
 .hover\:bg-blue-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(29 78 216 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-grape:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(155 153 255 / var(--tw-bg-opacity));
 }
 
 .hover\:bg-gray-100:hover {
@@ -2594,11 +2622,6 @@ html {
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
 }
 
-.hover\:bg-white:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-}
-
 .hover\:text-gray-100:hover {
   --tw-text-opacity: 1;
   color: rgb(243 244 246 / var(--tw-text-opacity));
@@ -2627,11 +2650,6 @@ html {
 .hover\:text-red-800:hover {
   --tw-text-opacity: 1;
   color: rgb(153 27 27 / var(--tw-text-opacity));
-}
-
-.hover\:text-rose-300:hover {
-  --tw-text-opacity: 1;
-  color: rgb(253 164 175 / var(--tw-text-opacity));
 }
 
 .hover\:text-white:hover {
@@ -2697,10 +2715,6 @@ html {
 @media (min-width: 768px) {
   .md\:grid-cols-2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .md\:flex-row {
-    flex-direction: row;
   }
 
   .md\:px-12 {
