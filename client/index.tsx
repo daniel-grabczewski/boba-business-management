@@ -42,7 +42,13 @@ initializeLocalStorage()
 addFutureData()
 
 export const routes = createRoutesFromElements(
-  <Route element={<AppLayout />} errorElement={<ErrorPage />}>
+  <Route
+    path={
+      process.env.NODE_ENV === 'production' ? '/boba-business-management/' : '/'
+    }
+    element={<AppLayout />}
+    errorElement={<ErrorPage />}
+  >
     <Route index element={<ProtectedComponent component={Home} />} />
     <Route path="cart" element={<ProtectedComponent component={Cart} />} />
     <Route path="shop" element={<ProtectedComponent component={Shop} />} />
