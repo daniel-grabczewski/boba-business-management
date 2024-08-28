@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { AdminProduct } from '../../../../models/Products'
 import StarRating from '../../../shopper/components/StarRating/StarRating'
 import { lowStockThreshold } from '../../../data/lowStockThreshold'
+import { baseURL } from '../../../../baseUrl'
 
 interface ViewProductsProps {
   hoveredProductId: number | null
@@ -35,7 +36,7 @@ const ViewProducts = ({
                 style={{ width: '150px', height: '150px', marginRight: '5px' }}
               >
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   className="block w-full h-full flex justify-center items-center"
                 >
                   <img
@@ -51,7 +52,7 @@ const ViewProducts = ({
 
               <div className="flex-col w-1/4 mr-6">
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
                   className="text-2xl font-bold mt-2 block cursor-pointer transition-all duration-300"
@@ -64,7 +65,7 @@ const ViewProducts = ({
                 </Link>
 
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   className="block cursor-pointer"
                 >
                   <div className="flex items-center mt-2">
@@ -80,7 +81,7 @@ const ViewProducts = ({
 
               <div className="w-1/5">
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
                   className="text-xl font-bold block cursor-pointer transition-all duration-300"
@@ -95,7 +96,7 @@ const ViewProducts = ({
 
               <div className="w-1/5">
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
                   className="text-xl font-bold block cursor-pointer transition-all duration-300"
@@ -111,7 +112,7 @@ const ViewProducts = ({
               <div className="flex-col w-1/4">
                 {product.stock < lowStockThreshold && (
                   <Link
-                    to={`/admin/edit/${product.id}`}
+                    to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
                     className="text-xl font-bold mt-2 block cursor-pointer pb-24"
@@ -125,7 +126,7 @@ const ViewProducts = ({
                 )}
 
                 <Link
-                  to={`/admin/edit/${product.id}`}
+                  to={`${baseURL}/admin/edit/${product.id}`}
                   onMouseEnter={() => setHoveredProductId(product.id)}
                   onMouseLeave={() => setHoveredProductId(null)}
                   className="text-xl font-bold block cursor-pointer"

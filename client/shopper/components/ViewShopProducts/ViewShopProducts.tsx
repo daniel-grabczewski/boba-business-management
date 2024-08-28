@@ -4,6 +4,7 @@ import { ShopperProduct } from '../../../../models/Products'
 import { lowStockThreshold } from '../../../data/lowStockThreshold'
 import { getAvailableStockByProductId } from '../../../services/cart'
 import { useMemo } from 'react'
+import { baseURL } from '../../../../baseUrl'
 
 interface ViewShopProductsProps {
   hoveredProductId: number | null
@@ -42,7 +43,7 @@ const ViewShopProducts = ({
               >
                 <div>
                   <Link
-                    to={`/shop/${product.id}`}
+                    to={`${baseURL}/shop/${product.id}`}
                     className="w-full h-48 block"
                     style={{ marginBottom: '15px' }}
                   >
@@ -54,7 +55,7 @@ const ViewShopProducts = ({
                   </Link>
 
                   <Link
-                    to={`/shop/${product.id}`}
+                    to={`${baseURL}/shop/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
                     className="text-xl font-bold mt-2 block cursor-pointer transition-all 300s"
@@ -67,7 +68,7 @@ const ViewShopProducts = ({
                   </Link>
 
                   <Link
-                    to={`/shop/${product.id}`}
+                    to={`${baseURL}/shop/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
                     className="text-lg text-gray-600 block cursor-pointer transition-all 300s"
@@ -84,7 +85,7 @@ const ViewShopProducts = ({
                 </div>
                 <div>
                   <Link
-                    to={`/shop/${product.id}`}
+                    to={`${baseURL}/shop/${product.id}`}
                     className="block cursor-pointer"
                   >
                     <div className="flex justify-between">
