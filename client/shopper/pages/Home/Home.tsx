@@ -17,43 +17,50 @@ const Home = () => {
   return (
     <div style={{ background: '#FFC5C7' }}>
       <div
-        className="flex items-center justify-center min-h-screen"
+        className="flex items-center justify-center"
         style={{
           backgroundImage: `url('${backgroundImage1}'), url('${backgroundImage2}')`,
           backgroundPosition: 'bottom left, top right',
           backgroundRepeat: 'no-repeat',
+          backgroundSize: '88vh, 80vh',
+          height: '95vh',
         }}
       >
-        <div className="flex items-center justify-center">
-          <div className="max-w-screen-xl flex flex-col items-center">
+        <div
+          className="flex items-center justify-center"
+          style={{ marginTop: '-50px' }}
+        >
+          <div className=" flex flex-row items-center justify-center mx-auto">
             {/* Welcome Card */}
-            <div className="p-12 space-y-12 flex flex-col md:flex-row items-center w-4/5 md">
+            <div
+              style={{ width: '38vh', marginLeft: '30vh' }}
+              className="w-1/2"
+            >
               <img
                 src={homePageTeaImage}
                 alt="Boba Buddies Logo"
                 className="max-w-full h-auto pr-10"
-                style={{ width: '65%', maxWidth: '100%' }}
               />
+            </div>
 
-              <div className="flex flex-col text-white text-xl space-y-8 p-10">
-                <img
-                  src={homePageTitleImage}
-                  alt="Boba Buddies Logo"
-                  className="max-w-full h-auto"
-                  style={{ width: '90%', maxWidth: '100%' }}
-                />
-                <p>
-                  Dive into our colorful world of delicious flavors, hand-shaken
-                  to perfection. Join the fun, and become a boba buddy today!
-                </p>
-
-                <button
-                  onClick={() => goTo('/shop')}
-                  className="w-1/2 border border-white border-2 text-white px-6 py-2 rounded-2xl hover:bg-white hover:text-rose-300 transition-all duration-300"
-                >
-                  Shop
-                </button>
-              </div>
+            <div className="flex flex-col text-white text-xl p-10 w-1/2">
+              <img
+                src={homePageTitleImage}
+                alt="Boba Buddies Logo"
+                className="max-w-full h-auto"
+                style={{ width: '47vh' }}
+              />
+              <p className="text-2xl w-3/4 mt-4">
+                Dive into our colorful world of delicious flavors, hand-shaken
+                to perfection. Join the fun, and become a boba buddy today!
+              </p>
+              <button
+                onClick={() => goTo('/shop')}
+                className="w-1/3 border border-white text-rose-300 bg-white px-6 py-2 rounded-2xl hover:bg-grape hover:text-white hover:border-grape transition-all duration-300 mt-8 "
+                style={{ borderWidth: '3px' }}
+              >
+                Shop
+              </button>
             </div>
           </div>
         </div>
