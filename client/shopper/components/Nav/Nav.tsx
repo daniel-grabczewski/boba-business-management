@@ -12,7 +12,7 @@ const Nav = () => {
 
   useEffect(() => {
     // Check if the current path starts with '/admin'
-    if (location.pathname.startsWith('/admin')) {
+    if (location.pathname.startsWith(`${baseURL}/admin`)) {
       setIsShopperView(false)
     } else {
       setIsShopperView(true)
