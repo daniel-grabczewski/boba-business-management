@@ -19,6 +19,7 @@ import {
   checkIfStringIsOnlyNumbers,
 } from '../../../utils/checkInput'
 import EmptyCart from '../../components/EmptyCart/EmptyCart'
+import { baseURL } from '../../../../baseUrl'
 
 function Checkout() {
   const navigate = useNavigate()
@@ -219,7 +220,7 @@ function Checkout() {
     if (checkValues(userDetails)) {
       purchaseMutation.mutate({ shippingId })
       localStorage.setItem('orderCompleted', 'true')
-      navigate('/thankyou')
+      navigate(`${baseURL}/thankyou`)
     } else {
       setErrorMessage('Please fill all empty fields and correct invalid inputs')
     }

@@ -21,6 +21,7 @@ import { getDemoUserDetails } from '../../../services/users'
 import { isNumeric } from '../../../utils/isNumeric'
 import ErrorPage from '../ErrorPage/ErrorPage'
 import { getAvailableStockByProductId } from '../../../services/cart'
+import { baseURL } from '../../../../baseUrl'
 
 const ProductPage = () => {
   const { idOrSlug } = useParams()
@@ -36,14 +37,14 @@ const ProductPage = () => {
     if (isNumeric(idOrSlug)) {
       const id = Number(idOrSlug)
       setProductId(id)
-      navigate(`/shop/${getSlugByProductId(id)}`, { replace: true })
+      navigate(`${baseURL}/shop/${getSlugByProductId(id)}`, { replace: true })
     } else {
       if (doesSlugExist(idOrSlug)) {
         setProductId(getProductIdBySlug(idOrSlug))
       } else {
         const deprecatedSlugId = getProductIdByDeprecatedSlug(idOrSlug)
         if (deprecatedSlugId) {
-          navigate(`/shop/${getSlugByProductId(deprecatedSlugId)}`, {
+          navigate(`${baseURL}/shop/${getSlugByProductId(deprecatedSlugId)}`, {
             replace: true,
           })
           setProductId(deprecatedSlugId)

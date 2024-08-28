@@ -4,6 +4,7 @@ import { getLatestOrderOfDemoUser } from '../../../services/orders'
 import { useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { thankYouImage } from '../../../data/miscImages'
+import { baseURL } from '../../../../baseUrl'
 
 const ThankYou = () => {
   const navigate = useNavigate()
@@ -11,7 +12,7 @@ const ThankYou = () => {
   useEffect(() => {
     const orderCompleted = localStorage.getItem('orderCompleted')
     if (!orderCompleted) {
-      navigate('/')
+      navigate(`${baseURL}/`)
     } else {
       localStorage.removeItem('orderCompleted')
     }
@@ -59,7 +60,7 @@ const ThankYou = () => {
             )}
             <button
               type="button"
-              onClick={() => navigate('/')}
+              onClick={() => navigate(`${baseURL}/`)}
               className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300"
             >
               Back to home

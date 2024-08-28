@@ -41,14 +41,14 @@ function EditProduct() {
       const id = Number(idOrSlug)
       setProductId(id)
       const slug = getSlugByProductId(id)
-      navigate(`/admin/edit/${slug}`, { replace: true })
+      navigate(`${baseURL}/admin/edit/${slug}`, { replace: true })
     } else {
       if (doesSlugExist(idOrSlug)) {
         setProductId(getProductIdBySlug(idOrSlug))
       } else {
         const deprecatedSlugId = getProductIdByDeprecatedSlug(idOrSlug)
         if (deprecatedSlugId) {
-          navigate(`/admin/edit/${getSlugByProductId(deprecatedSlugId)}`, {
+          navigate(`${baseURL}/admin/edit/${getSlugByProductId(deprecatedSlugId)}`, {
             replace: true,
           })
           setProductId(deprecatedSlugId)

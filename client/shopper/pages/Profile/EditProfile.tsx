@@ -12,6 +12,7 @@ import {
   checkIfStringIsOnlyLetters,
   checkIfStringIsOnlyNumbers,
 } from '../../../utils/checkInput'
+import { baseURL } from '../../../../baseUrl'
 
 const EditProfile = () => {
   const navigate = useNavigate()
@@ -64,7 +65,7 @@ const EditProfile = () => {
         queryClient.invalidateQueries('getDemoUserDetails')
         queryClient.invalidateQueries('getReviewsByProductId')
         queryClient.invalidateQueries('getReviewsOfDemoUser')
-        navigate('/profile')
+        navigate(`${baseURL}/profile`)
       },
     }
   )

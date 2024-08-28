@@ -1,11 +1,16 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import {baseURL} from '../../../../baseUrl'
 
 const ErrorPage = ({ errorMessage = "Sorry, we couldn't find that page" }) => {
-  const navigate = useNavigate()
   const location = useLocation()
 
+  const navigate = useNavigate()
+  function goTo(link: string) {
+    navigate(`${baseURL}${link}`)
+  }
+
   // Determine whether the user is a shopper or admin based on the URL
-  const isShopper = !location.pathname.includes('/admin')
+  const isShopper = !location.pathname.includes(`${baseURL}/admin`)
 
   const buttonText = isShopper ? 'Continue shopping' : 'Back to dashboard'
   const navigatePath = isShopper ? '/shop' : '/admin'
@@ -17,7 +22,7 @@ const ErrorPage = ({ errorMessage = "Sorry, we couldn't find that page" }) => {
       </h1>
       <button
         className="bg-gray-500 text-white p-4 w-auto whitespace-nowrap text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
-        onClick={() => navigate(navigatePath)}
+        onClick={() => goTo(navigatePath)}
       >
         {buttonText}
       </button>
