@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script type="text/javascript">
+      // Current URL path
+      var path = window.location.pathname;
+      var hash = window.location.hash;
+    
+      // Check if the URL includes your base path '/boba-business-manangement'
+      if (path.includes("/boba-business-management")) {
+        // Replace the URL with the root path and append a hash for React to pick up
+        window.location.replace("/boba-business-management/#" + path.replace("/boba-business-management/", "") + hash);
+      } else {
+        // Redirect to the home page for any other 404
+        window.location.replace("/boba-business-management/");
+      }
+    </script>
+        <title>Boba Business Management</title>
+        <script type="module" crossorigin src="/boba-business-management/assets/index-01365ceb.js"></script>
+        <link rel="stylesheet" href="/boba-business-management/output.css">
+
+  </head>
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
