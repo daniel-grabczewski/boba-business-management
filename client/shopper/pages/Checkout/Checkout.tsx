@@ -287,8 +287,9 @@ function Checkout() {
               />
               <div className="flex flex-row w-full justify-between items-center">
                 <button
-                  className="bg-blue-500 text-white p-4 w-half text-lg font-bold rounded-md transition-all duration-300 hover:bg-blue-700 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+                  className="bg-green-500 text-white p-4 w-half text-lg font-bold rounded-md transition-all duration-300 hover:bg-green-700 focus:outline-none mt-4"
                   type="submit"
+                  style={{ width: '200px', minWidth: '200px' }}
                 >
                   COMPLETE ORDER
                 </button>
