@@ -5,7 +5,7 @@
 Boba Business Management is an overhauled version of Boba Buddies Store, which was a group project we made together as a team of four. 
 You can view the repository of Boba Buddies Store [here.](https://github.com/Boba-Buddies/boba-buddies-store)
 
-After we finished Boba Buddies, I had to take a 6 month hiatus from coding. When I came back, I needed some coding practise to refresh my knowledge of web development.
+After we finished Boba Buddies Store, I had to take a 6 month hiatus from coding. When I came back, I needed some coding practise to refresh my knowledge of web development.
 We never ended up deploying Boba Buddies Store to the web, so I thought why not make a live version of it?
 
 With that, I got to work!
