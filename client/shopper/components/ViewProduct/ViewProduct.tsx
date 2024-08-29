@@ -107,21 +107,25 @@ function ViewProduct({
           <div>
             <button onClick={handleWishlistClick}>
               <div
-                className="flex items-center justify-start"
-                style={{ width: '200px' }}
+                className="flex items-center justify-between"
+                style={{ width: '200px', marginTop: '8px' }}
               >
-                <FontAwesomeIcon
-                  icon={wishlistStatus ? solidHeart : regularHeart}
-                  className={`${
-                    wishlistStatus ? 'text-red-500' : 'text-black'
-                  } ${
-                    !wishlistStatus && 'hover:text-red-500'
-                  } transition-colors duration-300`}
-                  style={{ fontSize: '1.875rem', marginLeft: '10px' }}
-                />
-                <span className="ml-2 self-center">
-                  {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
-                </span>
+                <div className="flex ">
+                  <FontAwesomeIcon
+                    icon={wishlistStatus ? solidHeart : regularHeart}
+                    className={`${
+                      wishlistStatus ? 'text-red-500' : 'text-black'
+                    } ${
+                      !wishlistStatus && 'hover:text-red-500'
+                    } transition-colors duration-300`}
+                    style={{ fontSize: '1.875rem', marginLeft: '10px' }}
+                  />
+                  <p className="ml-2 self-center" style={{}}>
+                    {wishlistStatus
+                      ? 'Remove from wishlist'
+                      : 'Add to wishlist'}
+                  </p>
+                </div>
               </div>
             </button>
           </div>
