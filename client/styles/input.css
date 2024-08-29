@@ -6,6 +6,8 @@
 img {
   -webkit-user-drag: none; /* For Safari */
   user-drag: none; /* Standard CSS property */
+  outline: none; /* Removes any focus outline */
+  pointer-events: none; /* Prevents interaction */
 }
 
 /* Prevent text selection and highlighting on all buttons */
@@ -24,4 +26,18 @@ a {
   
   -webkit-user-drag: none; /* Prevent dragging for Safari */
   user-drag: none; /* Standard CSS property */
+}
+
+h1, h2, h3, h4, h5, h6, p, span, div {
+  outline: none;
+  user-select: none; /* Prevents text selection */
+}
+
+/* Remove accidental focus from all elements */
+* {
+  user-select: none; /* Prevents text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto; /* Ensure buttons and links still function */
 }
