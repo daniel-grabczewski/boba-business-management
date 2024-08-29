@@ -35,7 +35,7 @@ const Wishlist = () => {
           ...prevStatus,
           [variables]: {
             text: 'Item added',
-            color: 'bg-gray-500',
+            color: 'bg-green-500',
             disabled: true,
           },
         }))
@@ -44,7 +44,8 @@ const Wishlist = () => {
             ...prevStatus,
             [variables]: {
               text: 'Add to cart',
-              color: 'bg-black hover:bg-gray-700',
+              color:
+                'bg-blue-500 hover:bg-blue-700 transition-all duration-300',
               disabled: true,
             },
           }))
