@@ -1,4 +1,4 @@
-# Boba Business Management Demo
+# Boba Business Management
 
 
 ## Some quick context
