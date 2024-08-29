@@ -37,7 +37,7 @@ const NavToggleSwitch = ({
   }
 
   const labelStyles = {
-    fontSize: `${18}px`,
+    fontSize: `${19}px`,
     lineHeight: `${20}px`,
     textAlign: 'center' as const,
     userSelect: 'none' as const,
@@ -124,7 +124,7 @@ const NavToggleSwitch = ({
       <span
         style={{
           ...labelStyles,
-          width: '100px',
+          width: '120px',
           color:
             isShopperView === null
               ? '#b0b0b0'

@@ -69,7 +69,7 @@ const Nav = () => {
       {isShopperView === null ? (
         <div></div>
       ) : isShopperView ? (
-        <div className="flex text-white" style={{ gap: '4rem' }}>
+        <div className="flex text-white text-xl" style={{ gap: '4rem' }}>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
             onClick={() => {
@@ -115,7 +115,7 @@ const Nav = () => {
                   window.scrollTo(0, 0)
                 }}
               >
-                <FontAwesomeIcon icon={faUser} className="text-xl" />
+                <FontAwesomeIcon icon={faUser} className="text-2xl" />
               </button>
               <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                 Profile
@@ -130,7 +130,7 @@ const Nav = () => {
                   window.scrollTo(0, 0)
                 }}
               >
-                <FontAwesomeIcon icon={faHeart} className="text-xl" />
+                <FontAwesomeIcon icon={faHeart} className="text-2xl" />
               </button>
               <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                 Wishlist
@@ -139,7 +139,10 @@ const Nav = () => {
           </div>
         </div>
       ) : (
-        <div className="flex space-x-6 text-white" style={{ gap: '2rem' }}>
+        <div
+          className="flex space-x-6 text-white text-xl"
+          style={{ gap: '2rem' }}
+        >
           <button
             className="hover:text-purple-700 transition-colors duration-300"
             onClick={() => {
