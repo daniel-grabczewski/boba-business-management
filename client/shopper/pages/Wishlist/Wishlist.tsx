@@ -31,14 +31,15 @@ const Wishlist = () => {
     async (productId: number) => addItemToCartByProductId(productId),
     {
       onSuccess: (data, variables) => {
-        setButtonStatus((prevStatus) => ({
-          ...prevStatus,
-          [variables]: {
-            text: 'Item added',
-            color: 'bg-green-500',
-            disabled: true,
-          },
-        }))
+        queryClient.invalidateQueries('getDisplayCartItems'),
+          setButtonStatus((prevStatus) => ({
+            ...prevStatus,
+            [variables]: {
+              text: 'Item added',
+              color: 'bg-green-500',
+              disabled: true,
+            },
+          }))
         setTimeout(() => {
           setButtonStatus((prevStatus) => ({
             ...prevStatus,

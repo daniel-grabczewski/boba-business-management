@@ -4,11 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
 import NavToggleSwitch from '../../../UI/NavToggleSwitch'
 import { baseURL } from '../../../../baseUrl'
+import { getDisplayCartItems } from '../../../services/cart'
+import { useQuery } from 'react-query'
 
 const Nav = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
+  const [amountInCart, setAmountInCart] = useState(0)
 
   useEffect(() => {
     // Check if the current path starts with '/admin'
@@ -18,6 +21,17 @@ const Nav = () => {
       setIsShopperView(true)
     }
   }, [location.pathname])
+
+  const { data } = useQuery('getDisplayCartItems', async () =>
+    getDisplayCartItems()
+  )
+
+  useEffect(() => {
+    if (data) {
+      const total = data.reduce((total, item) => total + item.quantity, 0)
+      setAmountInCart(total)
+    }
+  }, [data])
 
   const goTo = (link: string) => {
     navigate(`${baseURL}${link}`)
@@ -88,15 +102,30 @@ const Nav = () => {
           >
             Shop
           </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/cart')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Cart
-          </button>
+          <div className="relative inline-block">
+            <button
+              className="hover:text-purple-700 transition-colors duration-300 relative"
+              onClick={() => {
+                goTo('/cart')
+                window.scrollTo(0, 0)
+              }}
+            >
+              Cart
+              {/* Red bubble only shows when itemCount is greater than 0 */}
+              {amountInCart > 0 && (
+                <span
+                  className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5"
+                  style={{
+                    marginLeft: '2px',
+                    paddingLeft: '6px',
+                    paddingRight: '6px',
+                  }}
+                >
+                  {amountInCart}
+                </span>
+              )}
+            </button>
+          </div>
           <button
             className="hover:text-purple-700 transition-colors duration-300"
             onClick={() => {

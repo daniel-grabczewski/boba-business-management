@@ -41,8 +41,9 @@ function ViewProduct({
     async (productId: number) => addItemToCartByProductId(productId),
     {
       onSuccess: () => {
-        queryClient.invalidateQueries('getAvailableStockByProductId')
-        setButtonText('Item added')
+        queryClient.invalidateQueries('getAvailableStockByProductId'),
+          queryClient.invalidateQueries('getDisplayCartItems'),
+          setButtonText('Item added')
         setButtonColor('bg-green-500')
         setIsButtonDisabled(true)
         setTimeout(() => {
