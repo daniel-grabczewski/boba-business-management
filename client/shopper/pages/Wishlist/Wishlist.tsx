@@ -94,19 +94,26 @@ const Wishlist = () => {
           <h1 className="text-4xl font-semibold text-black">WISHLIST</h1>
         </div>
         {wishListQuery.data && wishListQuery.data.length === 0 ? (
-          <div className="bg-white w-10/12 flex flex-row gap-10 items-center border-b border-gray-300 py-4">
-            <h1 className="text-2xl font-medium text-black">
+          <div className="bg-white flex flex-col items-center justify-center mt-8">
+            <h1 className="text-3xl text-black mb-2">
               Your wishlist is empty 😔
             </h1>
+            <button
+              className="bg-gray-500 text-white p-4 w-auto whitespace-nowrap text-lg font-bold rounded-md transition-colors hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 mt-4"
+              onClick={() => goTo('/shop')}
+            >
+              Continue shopping
+            </button>
           </div>
         ) : (
-          <div className="bg-white w-10/12 flex flex-col items-center">
+          <div className="bg-white w-2/3 flex flex-col items-center">
             {!wishListQuery.isLoading &&
               wishListQuery.data &&
               wishListQuery.data.map((item: DisplayWishlistItem) => (
                 <div
                   key={item.id}
-                  className="bg-white w-3/4 flex flex-row gap-10 items-center justify-between border-b border-gray-300 py-4"
+                  className="bg-white w-3/5 flex flex-row gap-10 items-center justify-between border-b border-gray-300 py-4"
+                  style={{ minWidth: '600px' }}
                 >
                   <div
                     className="flex gap-8 items-center cursor-pointer"
