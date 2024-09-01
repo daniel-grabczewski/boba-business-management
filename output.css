@@ -1669,30 +1669,6 @@ html {
   top: 1rem;
 }
 
-.right-0 {
-  right: 0px;
-}
-
-.right-5 {
-  right: 1.25rem;
-}
-
-.top-1 {
-  top: 0.25rem;
-}
-
-.top-2 {
-  top: 0.5rem;
-}
-
-.top-5 {
-  top: 1.25rem;
-}
-
-.right-10 {
-  right: 2.5rem;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -1978,10 +1954,6 @@ html {
   align-items: flex-start;
 }
 
-.items-end {
-  align-items: flex-end;
-}
-
 .items-center {
   align-items: center;
 }
@@ -2196,11 +2168,6 @@ html {
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
 }
 
-.bg-red-600 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
-}
-
 .bg-opacity-70 {
   --tw-bg-opacity: 0.7;
 }
@@ -2254,6 +2221,16 @@ html {
   padding-right: 2rem;
 }
 
+.py-0 {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+
+.py-0\.5 {
+  padding-top: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -2277,16 +2254,6 @@ html {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.py-0 {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.py-0\.5 {
-  padding-top: 0.125rem;
-  padding-bottom: 0.125rem;
 }
 
 .pb-24 {
@@ -2576,8 +2543,20 @@ img {
   /* Standard CSS property */
   outline: none;
   /* Removes any focus outline */
-  pointer-events: none;
-  /* Prevents interaction */
+  user-select: none;
+  /* Prevents text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto;
+  /* Ensure buttons and links still function */
+}
+
+div {
+  -webkit-user-drag: none;
+  /* For Safari */
+  user-drag: none;
+  /* Standard CSS property */
 }
 
 /* Prevent text selection and highlighting on all buttons */
@@ -2602,25 +2581,6 @@ a {
   /* Prevent dragging for Safari */
   user-drag: none;
   /* Standard CSS property */
-}
-
-h1, h2, h3, h4, h5, h6, p, span, div {
-  outline: none;
-  -webkit-user-select: none;
-          user-select: none;
-  /* Prevents text selection */
-}
-
-/* Remove accidental focus from all elements */
-
-* {
-  user-select: none;
-  /* Prevents text selection */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  pointer-events: auto;
-  /* Ensure buttons and links still function */
 }
 
 .hover\:border-grape:hover {
@@ -2686,11 +2646,6 @@ h1, h2, h3, h4, h5, h6, p, span, div {
 .hover\:bg-red-700:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(220 38 38 / var(--tw-bg-opacity));
-}
-
-.hover\:bg-blue-600:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
 }
 
 .hover\:text-gray-100:hover {
