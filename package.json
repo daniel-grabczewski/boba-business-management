@@ -7,6 +7,7 @@
   "license": "ISC",
 "scripts": {
   "predeploy": "npm run build",
+  "clean": "rm -rf node_modules/.vite dist",
   "deploy": "gh-pages -d dist",
   "dev": "run-p dev:client dev:server dev:css",
   "dev:client": "vite",
