@@ -7,8 +7,17 @@ img {
   -webkit-user-drag: none; /* For Safari */
   user-drag: none; /* Standard CSS property */
   outline: none; /* Removes any focus outline */
-  pointer-events: none; /* Prevents interaction */
+  user-select: none; /* Prevents text selection */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  pointer-events: auto; /* Ensure buttons and links still function */
 }
+
+div {
+  -webkit-user-drag: none; /* For Safari */
+  user-drag: none; /* Standard CSS property */
+} 
 
 /* Prevent text selection and highlighting on all buttons */
 button {
@@ -23,21 +32,6 @@ a {
   -moz-user-select: none;    /* Prevent text selection for Firefox */
   -ms-user-select: none;     /* Prevent text selection for Internet Explorer/Edge */
   user-select: none;         /* Prevent text selection */
-  
   -webkit-user-drag: none; /* Prevent dragging for Safari */
   user-drag: none; /* Standard CSS property */
-}
-
-h1, h2, h3, h4, h5, h6, p, span, div {
-  outline: none;
-  user-select: none; /* Prevents text selection */
-}
-
-/* Remove accidental focus from all elements */
-* {
-  user-select: none; /* Prevents text selection */
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  pointer-events: auto; /* Ensure buttons and links still function */
 }
