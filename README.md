@@ -1,7 +1,12 @@
-# Boba Business Management
+<p align="center">
+  <img src="public/images/thank-you.svg" alt="Logo" width="175"/>
+</p>
 
+<h1 align="center" style="font-size: 5rem;">
+Boba Business Management
+</h1>
 
-## Some quick context
+### Some quick context
 Boba Business Management is an overhauled version of Boba Buddies Store, which was a group project we made together as a team of four. 
 You can view the repository of Boba Buddies Store [here.](https://github.com/Boba-Buddies/boba-buddies-store)
 
