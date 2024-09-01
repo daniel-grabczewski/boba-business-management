@@ -113,6 +113,7 @@ function Checkout() {
       }),
     {
       onSuccess: async () => {
+        queryClient.invalidateQueries('getDisplayCartItems')
         queryClient.invalidateQueries('getOrderById')
         queryClient.invalidateQueries('getOrdersFromLocalStorage')
         queryClient.invalidateQueries('getLatestOrderOfDemoUser')
@@ -220,6 +221,7 @@ function Checkout() {
     if (checkValues(userDetails)) {
       purchaseMutation.mutate({ shippingId })
       localStorage.setItem('orderCompleted', 'true')
+
       navigate(`${baseURL}/thankyou`)
     } else {
       setErrorMessage('Please fill all empty fields and correct invalid inputs')
