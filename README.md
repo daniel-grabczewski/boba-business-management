@@ -99,16 +99,38 @@ Boba Business Management introduces numerous new features, quality of life impro
 ### New UI
 
 star rating system
+The new UI changes how the rating system works when user is making a review. As mentioned before, it uses a traditional staring system one would expect to see, instead of the '+' '-' buttons.
+[Insert image comparison]
+
 order popup
+[Insert image comparison]
+
+
 review popup
+[Insert image comparison]
+
 email popup
+[Insert image comparison]
+
 edit product
+[Insert image comparison]
+
 cart
+[Insert GIF comparison]
+
+
 checkout
+[Insert image comparison]
+
 order history
-user reviews history
+[Insert image comparison]
+
+
+user review in profile
+[Insert image comparison]
+
 disabled message for your own review
-wishlist
+
 
 
 
