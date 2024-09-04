@@ -92,7 +92,9 @@ Boba Business Management introduces numerous new features, quality of life impro
   - The product rating system now uses a 'staring' system with half-star increments, providing a more intuitive experience for users. Previously, the ratings were set with a '+' and a '-' button, each increasing/decreasing the review by 0.5. Upon doing user testing, many were confused with the old rating system.
   - Also, the product page's reviews section now supports scrolling within the reviews container. In the older version, each review would add to the total length of the page. So, if there are too many reviews, the shopper would have to endlessly scroll down the page itself. This could lead to a bad user experience if they, for example, wanted to access the footer of the page.
  
-ALSO, auto set to newest-first when clicking from dashboard that shows the daily orders notification. Something which is only possible with the new query params setting. Since, the params can be hard coded as a link now, e.g. /admin/orders?sort=newest-first&page=1. So better user experience as you can immediately see the daily orders, rather than searching for them when reaching the page in the old version
+- **Auto-Sorting for Daily Orders**
+  - When navigating from the dashboard that shows the daily orders notification, the orders are automatically set to display in "newest-first" order. This improvement is made possible by the new query parameters setting, which allows links to be hard-coded with specific parameters, such as `/admin/orders?sort=newest-first&page=1`. 
+  - In the previous version, the user would have to manually sort and search for the newest orders upon reaching the page, resulting in a less efficient user experience. Now, users can immediately see the most recent daily orders without extra steps.
 
 ### New UI
 
