@@ -96,7 +96,7 @@ Boba Business Management introduces numerous new features, quality of life impro
   - When navigating from the dashboard that shows the daily orders notification, the orders are automatically set to display in "newest-first" order. This improvement is made possible by the new query parameters setting, which allows links to be hard-coded with specific parameters, such as `/admin/orders?sort=newest-first&page=1`. 
   - In the previous version, the user would have to manually sort and search for the newest orders upon reaching the page, resulting in a less efficient user experience. Now, users can immediately see the most recent daily orders without extra steps.
 
-### New UI
+# New UI
 
 star rating system
 The new UI changes how the rating system works when user is making a review. As mentioned before, it uses a traditional staring system one would expect to see, instead of the '+' '-' buttons.
@@ -122,7 +122,8 @@ cart
 checkout
 [Insert image comparison]
 
-<div style="display: flex; gap: 10px;">
+# Checkout page : Before and After
+<div style="display: flex; gap: 50px;">
   <img src="public/images/old-checkout-processed.png" alt="old checkout" style="width: 49%;"/>
   <img src="public/images/new-checkout-processed.png" alt="new checkout" style="width: 49%;"/>
 </div>
