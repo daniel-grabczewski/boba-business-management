@@ -122,6 +122,11 @@ cart
 checkout
 [Insert image comparison]
 
+<div style="display: flex; gap: 10px;">
+  <img src="public/images/old-checkout-processed.png" alt="old checkout" style="width: 49%;"/>
+  <img src="public/images/new-checkout-processed.png" alt="new checkout" style="width: 49%;"/>
+</div>
+
 order history
 [Insert image comparison]
 
