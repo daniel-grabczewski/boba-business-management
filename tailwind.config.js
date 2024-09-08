@@ -13,7 +13,6 @@ module.exports = {
         'green-500': '#38a169',
         'green-700': '#2f855a',
         'purple-700': '#9B99FF',
-        grape: '#9b99ff',
         'home-rose': '#ffc5c7',
       },
       width: {
