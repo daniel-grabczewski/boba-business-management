@@ -4,7 +4,12 @@ module.exports = {
   daisyui: {
     themes: ['light'],
   },
-  content: ['./client/**/*.{html,jsx,tsx}', './index.html'],
+  content: [
+    './client/**/*.{html,jsx,tsx}',
+    './index.html',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+  ],
   theme: {
     extend: {
       colors: {
