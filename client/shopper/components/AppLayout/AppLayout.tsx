@@ -32,7 +32,7 @@ function AppLayout() {
   }, [navigate])
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="min-w-[362px] flex flex-col min-h-screen">
       <Nav />
       <div className="flex-grow">
         <Outlet />
