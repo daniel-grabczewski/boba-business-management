@@ -15,7 +15,7 @@ const Home = () => {
     window.scrollTo(0, 0)
   }, [])
   return (
-    <div style={{ background: '#FFC5C7' }}>
+    <div className="bg-home-rose">
       <div
         className="flex items-center justify-center"
         style={{
