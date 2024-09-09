@@ -171,6 +171,7 @@ const Nav = () => {
           )}
         </div>
       </div>
+
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="absolute top-20 left-0 w-full bg-gray-800 text-white flex flex-col items-center space-y-4 py-4 md:hidden z-50">

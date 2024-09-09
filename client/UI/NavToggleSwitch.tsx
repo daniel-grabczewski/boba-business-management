@@ -12,7 +12,7 @@ type NavToggleSwitchProps = {
 const NavToggleSwitch = ({
   isShopperView,
   handleIsShopperView,
-  scale = 1,
+  scale = 1.2,
   goTo,
   adminNavigateTo,
   shopperNavigateTo,
@@ -37,20 +37,20 @@ const NavToggleSwitch = ({
   }
 
   const labelStyles = {
-    fontSize: `${19}px`,
-    lineHeight: `${20}px`,
+    fontSize: '0.9rem',
+    lineHeight: '1rem',
     textAlign: 'center' as const,
     userSelect: 'none' as const,
-    margin: `0 ${8 * scale}px`,
+    margin: `0 ${6 * scale}px`,
     transition: 'color 0.3s ease',
   }
 
   const switchStyles = {
-    width: `${38 * scale}px`,
-    height: `${21 * scale}px`,
+    width: `${30 * scale}px`,
+    height: `${15 * scale}px`,
     backgroundColor: isShopperView ? '#5754ff' : '#ffa835',
-    border: `${1 * scale}px solid white`,
-    borderRadius: `${9 * scale}px`,
+    border: `${0.8 * scale}px solid white`,
+    borderRadius: `${7 * scale}px`,
     position: 'relative' as const,
     cursor: 'pointer',
     transition: enableTransition
@@ -64,12 +64,12 @@ const NavToggleSwitch = ({
     content: "''",
     display: 'block',
     position: 'absolute' as const,
-    left: `${2 * scale}px`,
-    width: `${15 * scale}px`,
-    height: `${15 * scale}px`,
-    borderRadius: '45%',
+    left: `${1.5 * scale}px`,
+    width: `${13 * scale}px`,
+    height: `${13 * scale}px`,
+    borderRadius: '50%',
     backgroundColor: '#fff',
-    transform: isShopperView ? 'translateX(0)' : `translateX(${17 * scale}px)`,
+    transform: isShopperView ? 'translateX(0)' : `translateX(${14 * scale}px)`,
     transition: enableTransition ? 'transform .3s ease' : 'none',
   }
 
@@ -79,7 +79,6 @@ const NavToggleSwitch = ({
       <span
         style={{
           ...labelStyles,
-          width: '120px',
           color:
             isShopperView === null
               ? '#b0b0b0'
@@ -124,7 +123,6 @@ const NavToggleSwitch = ({
       <span
         style={{
           ...labelStyles,
-          width: '120px',
           color:
             isShopperView === null
               ? '#b0b0b0'
