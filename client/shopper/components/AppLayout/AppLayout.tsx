@@ -32,12 +32,11 @@ function AppLayout() {
   }, [navigate])
 
   return (
-    <div className="flex flex-col" style={{ height: '105vh' }}>
+    <div className="flex flex-col min-h-screen">
       <Nav />
       <div className="flex-grow">
         <Outlet />
       </div>
-
       <Footer />
     </div>
   )
