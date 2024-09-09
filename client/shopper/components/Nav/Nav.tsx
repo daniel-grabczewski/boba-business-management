@@ -40,7 +40,7 @@ const Nav = () => {
 
   const goTo = (link: string) => {
     navigate(`${baseURL}${link}`)
-    setMenuOpen(false) // Close the menu when navigating
+    setMenuOpen(false)
   }
 
   const adminColor = '#ffa835'
@@ -50,24 +50,16 @@ const Nav = () => {
   const shopperNavigateTo = '/'
 
   return (
-    <nav
-      className="flex justify-between items-center h-20 w-screen bg-gray-900"
-      style={{ background: '#292929' }}
-    >
+    <nav className="flex justify-between items-center h-20 w-full bg-gray-900 px-4 md:px-8 relative">
       <div className="flex items-center">
-        <div
-          className="p-2 flex justify-center"
-          style={{ height: '70px', width: 'auto' }}
-        >
-          <NavToggleSwitch
-            isShopperView={isShopperView}
-            handleIsShopperView={setIsShopperView}
-            scale={2}
-            adminNavigateTo={adminNavigateTo}
-            shopperNavigateTo={shopperNavigateTo}
-            goTo={goTo}
-          />
-        </div>
+        <NavToggleSwitch
+          isShopperView={isShopperView}
+          handleIsShopperView={setIsShopperView}
+          scale={2}
+          adminNavigateTo={adminNavigateTo}
+          shopperNavigateTo={shopperNavigateTo}
+          goTo={goTo}
+        />
         <div
           className="ml-4"
           style={{
@@ -85,6 +77,7 @@ const Nav = () => {
         >
           <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
         </button>
+
         <div
           className={`hidden md:flex items-center space-x-8 text-white text-xl`}
         >
@@ -180,7 +173,7 @@ const Nav = () => {
       </div>
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute top-20 left-0 w-full bg-gray-800 text-white flex flex-col items-center space-y-4 py-4 md:hidden">
+        <div className="absolute top-20 left-0 w-full bg-gray-800 text-white flex flex-col items-center space-y-4 py-4 md:hidden z-50">
           {isShopperView ? (
             <>
               <button
