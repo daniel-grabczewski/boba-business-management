@@ -50,7 +50,7 @@ const Nav = () => {
   const shopperNavigateTo = '/'
 
   return (
-    <nav className="flex justify-between items-center h-20 w-full bg-gray-900 px-4 md:px-8 relative">
+    <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
       <div className="flex items-center">
         <NavToggleSwitch
           isShopperView={isShopperView}
@@ -173,7 +173,7 @@ const Nav = () => {
       </div>
       {/* Mobile Menu */}
       {menuOpen && (
-        <div className="absolute top-20 left-0 w-full bg-gray-800 text-white flex flex-col items-center space-y-4 py-4 md:hidden z-50">
+        <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 md:hidden z-50">
           {isShopperView ? (
             <>
               <button
