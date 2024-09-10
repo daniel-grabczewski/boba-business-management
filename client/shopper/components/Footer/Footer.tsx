@@ -23,21 +23,13 @@ const Footer = () => {
   }
 
   return (
-    <footer
-      className=" flex justify-between items-center px-6 md:px-12 lg:px-16"
-      style={{
-        background: '#9B99FF',
-        minHeight: '80px',
-        maxHeight: '80px',
-      }}
-    >
-      <div className="flex flex-row justify-between items-center"></div>
+    <footer className="flex justify-between items-center bg-[#9B99FF] px-4 md:px-12 lg:px-16 py-4 min-h-[80px] max-h-[80px]">
       {isShopperView === null ? (
         <div></div>
       ) : isShopperView ? (
-        <div className="flex text-white" style={{ gap: '4rem' }}>
+        <div className="flex flex-wrap justify-center md:justify-end text-white gap-4 md:gap-8 lg:gap-16 w-full">
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/')
               window.scrollTo(0, 0)
@@ -46,7 +38,7 @@ const Footer = () => {
             Home
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/shop')
               window.scrollTo(0, 0)
@@ -55,7 +47,7 @@ const Footer = () => {
             Shop
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/cart')
               window.scrollTo(0, 0)
@@ -64,7 +56,7 @@ const Footer = () => {
             Cart
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/contact')
               window.scrollTo(0, 0)
@@ -72,42 +64,45 @@ const Footer = () => {
           >
             Contact
           </button>
-          <div className="flex space-x-6 text-white">
+          <div className="flex space-x-4 md:space-x-6">
             <div className="group relative">
               <button
-                className="hover:text-gray-600 transition-colors duration-300 flex items-center"
+                className="hover:text-gray-600 transition-colors duration-300 flex items-center text-sm md:text-base"
                 onClick={() => {
                   goTo('/profile')
                   window.scrollTo(0, 0)
                 }}
               >
-                <FontAwesomeIcon icon={faUser} className="text-xl" />
+                <FontAwesomeIcon icon={faUser} className="text-lg md:text-xl" />
               </button>
-              <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+              <span className="absolute left-1/2 -bottom-6 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                 Profile
               </span>
             </div>
 
             <div className="group relative">
               <button
-                className="hover:text-gray-600 transition-colors duration-300 flex items-center"
+                className="hover:text-gray-600 transition-colors duration-300 flex items-center text-sm md:text-base"
                 onClick={() => {
                   goTo('/wishlist')
                   window.scrollTo(0, 0)
                 }}
               >
-                <FontAwesomeIcon icon={faHeart} className="text-xl" />
+                <FontAwesomeIcon
+                  icon={faHeart}
+                  className="text-lg md:text-xl"
+                />
               </button>
-              <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+              <span className="absolute left-1/2 -bottom-6 transform -translate-x-1/2 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                 Wishlist
               </span>
             </div>
           </div>
         </div>
       ) : (
-        <div className="flex space-x-6 text-white" style={{ gap: '2rem' }}>
+        <div className="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-6 lg:space-x-8 text-white gap-2 md:gap-4 w-full">
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin')
               window.scrollTo(0, 0)
@@ -116,7 +111,7 @@ const Footer = () => {
             Dashboard
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin/inbox')
               window.scrollTo(0, 0)
@@ -125,7 +120,7 @@ const Footer = () => {
             Inbox
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin/orders')
               window.scrollTo(0, 0)
@@ -134,7 +129,7 @@ const Footer = () => {
             Orders
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin/reviews')
               window.scrollTo(0, 0)
@@ -143,7 +138,7 @@ const Footer = () => {
             Reviews
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin/products-summary')
               window.scrollTo(0, 0)
@@ -152,7 +147,7 @@ const Footer = () => {
             Products
           </button>
           <button
-            className="hover:text-gray-600 transition-colors duration-300"
+            className="hover:text-gray-600 transition-colors duration-300 text-sm md:text-base"
             onClick={() => {
               goTo('/admin/add-product')
               window.scrollTo(0, 0)
