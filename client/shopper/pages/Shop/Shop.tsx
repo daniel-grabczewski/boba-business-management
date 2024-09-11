@@ -122,11 +122,13 @@ const Shop = () => {
       <LoadError status={statusProducts} />
       {products && (
         <div
-          className="flex flex-col items-center"
+          className="flex flex-col items-center px-4 sm:px-8"
           style={{ marginTop: '60px', marginBottom: '100px' }}
         >
-          <div>
-            <h1 className="text-4xl font-bold mt-2">Shop for Bubble Tea</h1>
+          <div className="w-full max-w-screen-lg">
+            <h1 className="text-2xl sm:text-4xl font-bold mt-2 text-center">
+              Shop for Bubble Tea
+            </h1>
             <SortFilterControls
               search={search}
               handleChangeSearch={handleChangeSearch}
