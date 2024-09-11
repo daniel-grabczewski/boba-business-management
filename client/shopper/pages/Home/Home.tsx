@@ -39,11 +39,11 @@ const Home = () => {
           <div className="relative z-10 flex items-center justify-center min-h-screen max-w-screen-lg mx-auto p-6 overflow-y-auto">
             <div className="flex flex-col md:flex-row items-center justify-center mx-auto space-y-6 md:space-y-0 md:space-x-8">
               {/* Boba Image */}
-              <div className="w-2/3 md:w-1/3 lg:w-1/4">
+              <div className="flex justify-center items-center">
                 <img
                   src={homePageTeaImage}
                   alt="Boba Buddies Drink"
-                  className="w-full h-auto"
+                  className="h-auto w-[40%] sm:w-[20%] md:w-[70%] lg:w-[70%]"
                 />
               </div>
 
@@ -52,7 +52,7 @@ const Home = () => {
                 <img
                   src={homePageTitleImage}
                   alt="Boba Buddies Logo"
-                  className="w-3/4 md:w-full h-auto"
+                  className="w-2/3 md:w-full h-auto"
                 />
                 <p className="text-lg md:text-xl lg:text-2xl">
                   Dive into our colorful world of delicious flavors, hand-shaken
