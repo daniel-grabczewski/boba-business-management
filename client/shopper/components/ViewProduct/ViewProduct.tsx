@@ -88,73 +88,51 @@ function ViewProduct({
   }
 
   return (
-    <div
-      className="flex items-center "
-      style={{ padding: '10px', width: '1000px', maxWidth: '1100px' }}
-    >
-      <div className="w-1/2 ">
+    <div className="flex flex-col lg:flex-row items-center p-4 w-full lg:w-[1100px]">
+      <div className="w-full lg:w-1/2 mb-4 lg:mb-0">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-48 object-contain"
-          style={{ height: '400px', maxWidth: '400px' }}
+          className="w-full h-auto lg:h-96 object-contain"
         />
       </div>
-      <div className="w-1/2 ml-4">
-        <div className="flex items-center justify-between">
-          <div style={{ width: '320px' }}>
-            <h1 className="text-3xl font-bold">{product.name}</h1>
-          </div>
-          <div>
-            <button onClick={handleWishlistClick}>
-              <div
-                className="flex items-center justify-between"
-                style={{ width: '200px', marginTop: '8px' }}
-              >
-                <div className="flex ">
-                  <FontAwesomeIcon
-                    icon={wishlistStatus ? solidHeart : regularHeart}
-                    className={`${
-                      wishlistStatus ? 'text-red-500' : 'text-black'
-                    } ${
-                      !wishlistStatus && 'hover:text-red-500'
-                    } transition-colors duration-300`}
-                    style={{ fontSize: '1.875rem', marginLeft: '10px' }}
-                  />
-                  <p className="ml-2 self-center" style={{}}>
-                    {wishlistStatus
-                      ? 'Remove from wishlist'
-                      : 'Add to wishlist'}
-                  </p>
-                </div>
-              </div>
-            </button>
-          </div>
+      <div className="w-full lg:w-1/2 lg:ml-4">
+        <div className="flex flex-col lg:flex-row items-start justify-between">
+          <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
+          <button onClick={handleWishlistClick} className="mt-4 lg:mt-0">
+            <FontAwesomeIcon
+              icon={wishlistStatus ? solidHeart : regularHeart}
+              className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
+                !wishlistStatus && 'hover:text-red-500'
+              } transition-colors duration-300`}
+              style={{ fontSize: '1.875rem' }}
+            />
+            <p className="ml-2 inline-block">
+              {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
+            </p>
+          </button>
         </div>
 
         <h2 className="text-xl font-semibold">
           {formatCurrency(product.price)}
         </h2>
-        <div className="flex">
+        <div className="flex items-center">
           {averageRating === 0 ? (
             <p className="text-gray-500">No reviews yet</p>
           ) : (
             <>
               <StarRating rating={averageRating} size={1} />
-              <p>{averageRating}</p>
+              <p className="ml-2">{averageRating}</p>
             </>
           )}
         </div>
 
-        <p className="mt-8 mb-2" style={{ paddingRight: '30px' }}>
-          {product.description}
-        </p>
-        <div className="flex">
+        <p className="mt-4">{product.description}</p>
+        <div className="flex flex-col lg:flex-row items-start lg:items-center mt-4">
           <button
             className={`text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 ${
               availableStock === 0 ? `bg-gray-400 ` : `${buttonColor}`
             }`}
-            style={{ maxWidth: '120px', minWidth: '120px' }}
             onClick={handleAddToCart}
             disabled={
               availableStock === 0 || isButtonDisabled || cartMutation.isLoading
@@ -162,10 +140,7 @@ function ViewProduct({
           >
             {buttonText}
           </button>
-          <p
-            style={{ fontSize: '20px', marginLeft: '25px', marginTop: '11px' }}
-            className="text-red-500 font-semibold"
-          >
+          <p className="text-red-500 font-semibold mt-2 lg:mt-0 lg:ml-6">
             {availableStock === 0
               ? 'Out of stock'
               : availableStock <= lowStockThreshold
