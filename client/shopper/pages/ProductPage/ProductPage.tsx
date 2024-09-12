@@ -152,10 +152,7 @@ const ProductPage = () => {
           errorMessage={'Sorry, this product is currently unavailable'}
         />
       ) : (
-        <div
-          className="flex flex-col items-center w-full"
-          style={{ marginTop: '100px', marginBottom: '150px' }}
-        >
+        <div className="flex flex-col items-center w-full mt-10">
           <ViewProduct
             product={product}
             wishlistStatus={wishlistStatus}
