@@ -89,11 +89,11 @@ function ViewProduct({
 
   return (
     <div className="flex flex-col lg:flex-row items-center p-4 w-full lg:w-[1100px]">
-      <div className="w-full lg:w-1/2 mb-4 lg:mb-0">
+      <div className="w-full lg:w-1/2 mb-10 lg:mb-0">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-auto lg:h-96 object-contain"
+          className="w-full h-auto md:h-65 lg:h-96 object-contain"
         />
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
