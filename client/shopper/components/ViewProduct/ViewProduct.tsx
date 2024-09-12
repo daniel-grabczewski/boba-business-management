@@ -97,9 +97,9 @@ function ViewProduct({
         />
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
-        <div className="flex flex-col lg:flex-row items-start justify-between">
+        <div className="flex flex-row items-center justify-between mb-4">
           <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
-          <button onClick={handleWishlistClick} className="mt-4 lg:mt-0">
+          <button onClick={handleWishlistClick} className="flex items-center">
             <FontAwesomeIcon
               icon={wishlistStatus ? solidHeart : regularHeart}
               className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
@@ -107,7 +107,7 @@ function ViewProduct({
               } transition-colors duration-300`}
               style={{ fontSize: '1.875rem' }}
             />
-            <p className="ml-2 inline-block">
+            <p className="ml-2">
               {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
             </p>
           </button>
