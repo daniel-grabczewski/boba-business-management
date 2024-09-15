@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useMutation, useQueryClient, useQuery } from 'react-query'
 import { useNavigate } from 'react-router-dom'
-
 import {
   getDemoUserDetails,
   updateDemoUserDetails,
@@ -16,7 +15,6 @@ import { baseURL } from '../../../../baseUrl'
 
 const EditProfile = () => {
   const navigate = useNavigate()
-
   const queryClient = useQueryClient()
 
   const { data: userData, status } = useQuery('getDemoUserDetails', async () =>
@@ -122,15 +120,15 @@ const EditProfile = () => {
   }
 
   return (
-    <div className="flex justify-center items-center h-full">
-      <div className="w-1/2 mx-auto p-4 bg-gray-100 rounded shadow-lg">
+    <div className="flex justify-center items-center h-full px-4 mt-10 mb-10">
+      <div className="w-full max-w-2xl mx-auto p-4 bg-gray-100 rounded shadow-lg">
         <LoadError status={status} />
         <h2 className="text-2xl text-center mb-4 font-semibold">
           Edit Profile
         </h2>
 
         <form onSubmit={handleSubmit}>
-          <div className="flex w-full gap-4 mb-4 ">
+          <div className="flex flex-col md:flex-row md:gap-4 mb-4">
             <div className="w-full">
               <label htmlFor="firstName" className="block font-semibold mb-1">
                 First Name:
@@ -190,38 +188,36 @@ const EditProfile = () => {
             </div>
           </div>
 
-          <div className=" w-full flex gap-4">
-            <div className="w-full">
-              <label htmlFor="phoneNumber" className="block font-semibold mb-1">
-                Phone Number:
-              </label>
-              <input
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                value={formData.phoneNumber}
-                onChange={(e) => handleFieldChange(e, 'numbers')}
-                className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
-                  emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
-                } ${
-                  invalidFields.includes('phoneNumber')
-                    ? 'border-red-500 text-red-500'
-                    : ''
-                }`}
-              />
-              <p
-                className={`text-sm ${
-                  invalidFields.includes('phoneNumber')
-                    ? 'text-red-500'
-                    : 'invisible'
-                }`}
-              >
-                Please enter a valid phone number
-              </p>
-            </div>
-            <div className="w-full"></div>
+          <div className="w-full mb-4">
+            <label htmlFor="phoneNumber" className="block font-semibold mb-1">
+              Phone Number:
+            </label>
+            <input
+              type="text"
+              id="phoneNumber"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={(e) => handleFieldChange(e, 'numbers')}
+              className={`w-full px-3 py-2 border rounded focus:outline-none focus:ring focus:border-blue-400 ${
+                emptyFields.includes('phoneNumber') ? 'border-red-500' : ''
+              } ${
+                invalidFields.includes('phoneNumber')
+                  ? 'border-red-500 text-red-500'
+                  : ''
+              }`}
+            />
+            <p
+              className={`text-sm ${
+                invalidFields.includes('phoneNumber')
+                  ? 'text-red-500'
+                  : 'invisible'
+              }`}
+            >
+              Please enter a valid phone number
+            </p>
           </div>
-          <div className="flex gap-4 mb-4">
+
+          <div className="flex flex-col md:flex-row md:gap-4 mb-4">
             <div className="w-full">
               <label htmlFor="address" className="block font-semibold mb-1">
                 Address:
@@ -267,7 +263,8 @@ const EditProfile = () => {
               </p>
             </div>
           </div>
-          <div className="flex gap-4 mb-8">
+
+          <div className="flex flex-col md:flex-row md:gap-4 mb-8">
             <div className="w-full">
               <label htmlFor="country" className="block font-semibold mb-1">
                 Country:
@@ -330,7 +327,7 @@ const EditProfile = () => {
           <div className="items-center flex flex-col">
             <button
               type="submit"
-              className={`w-1/6 py-2 px-4 text-white font-semibold rounded focus:outline-none focus:ring transition-all duration-300 ${
+              className={`w-full md:w-1/3 py-2 px-4 text-white font-semibold rounded focus:outline-none focus:ring transition-all duration-300 ${
                 mutation.isLoading
                   ? 'bg-gray-300 cursor-not-allowed'
                   : 'bg-blue-500 hover:bg-blue-700'
