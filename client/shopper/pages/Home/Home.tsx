@@ -43,7 +43,7 @@ const Home = () => {
                 <img
                   src={homePageTeaImage}
                   alt="Boba Buddies Drink"
-                  className="h-auto w-[40%] sm:w-[20%] md:w-[70%] lg:w-[70%]"
+                  className="h-auto w-[40%] sm:w-[50%] md:w-[70%] lg:w-[70%]"
                 />
               </div>
 
