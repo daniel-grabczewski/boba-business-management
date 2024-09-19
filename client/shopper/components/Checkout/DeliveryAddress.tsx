@@ -38,22 +38,17 @@ function DeliveryAddress({
     <>
       <div className="flex flex-col sm:flex-row w-full justify-between mb-4">
         <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
-        <button
-          type="button"
-          className="px-3 text-sm bg-blue-500 text-white rounded-md transition-all duration-300 hover:bg-blue-700 focus:outline-none"
-          style={{
-            width: '200px',
-            minWidth: '200px',
-            fontSize: '15px',
-            height: '50px',
-            minHeight: '50px',
-          }}
-          onClick={fillDetailsWithDefaults}
-          onMouseEnter={handlePreviewMouseEnter}
-          onMouseLeave={handlePreviewMouseLeave}
-        >
-          {loadDefaultButtonText}
-        </button>
+        <div className="flex justify-end w-full mb-4">
+          <button
+            type="button"
+            className="w-48 h-12 text-sm bg-blue-500 text-white rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none"
+            onClick={fillDetailsWithDefaults}
+            onMouseEnter={handlePreviewMouseEnter}
+            onMouseLeave={handlePreviewMouseLeave}
+          >
+            {loadDefaultButtonText}
+          </button>
+        </div>
       </div>
       {/* Phone Number */}
       <div className="flex flex-col sm:flex-row mb-4">
