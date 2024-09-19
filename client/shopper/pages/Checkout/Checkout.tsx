@@ -258,8 +258,8 @@ function Checkout() {
           <div className="text-4xl font-bold text-center mt-12">
             <h1>Checkout</h1>
           </div>
-          <div className="text-black p-8 flex justify-center items-center min-h-screen">
-            <form onSubmit={handleSubmit} className="w-3/5">
+          <div className="text-black p-4 lg:p-8 flex justify-center items-center min-h-screen">
+            <form onSubmit={handleSubmit} className="w-full lg:w-3/5">
               <DeliveryAddress
                 handleFieldChange={handleFieldChange}
                 fillDetailsWithDefaults={fillDetailsWithDefaults}
@@ -287,11 +287,10 @@ function Checkout() {
                 selectedShipping={selectedShipping}
                 total={total}
               />
-              <div className="flex flex-row w-full justify-between items-center">
+              <div className="flex flex-col sm:flex-row w-full justify-between items-center">
                 <button
-                  className="bg-green-500 text-white p-4 w-half text-lg font-bold rounded-md transition-all duration-300 hover:bg-green-700 focus:outline-none mt-4"
+                  className="bg-green-500 text-white p-4 w-full sm:w-auto text-lg font-bold rounded-md transition-all duration-300 hover:bg-green-700 focus:outline-none mt-4 sm:mt-0"
                   type="submit"
-                  style={{ width: '200px', minWidth: '200px' }}
                 >
                   COMPLETE ORDER
                 </button>
