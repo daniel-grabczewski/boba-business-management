@@ -20,7 +20,7 @@ const Dashboard = () => {
   // Generate today's date as YYYY-MM-DD HH:MM:SS
   const dateOfToday = generateCurrentDate()
 
-  // Get count of orders that were made on today's date
+  // Queries to fetch order, email, review, and low stock product data
   const { data: orderCount, status: orderCountStatus } = useQuery(
     'getOrderCountFromDate',
     async () => getOrderCountFromDate(dateOfToday)
@@ -51,22 +51,20 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center p-4 mt-4 mb-4">
       <LoadError status={statuses} />
-      <h1 className="text-center text-4xl font-semibold mb-4 mt-4">
-        Dashboard
-      </h1>
-      <div className="bg-white text-black w-1/2 rounded-lg shadow-lg mt-4 p-4">
+      <h1 className="text-center text-4xl font-semibold">Dashboard</h1>
+
+      <div className="bg-white text-black w-full sm:w-3/4 lg:w-1/2 rounded-lg shadow-lg mt-4 p-6 space-y-6">
         {/* Orders */}
-        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
+        <div className="bg-gray-200 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
               You have {orderCount} new order{orderCount !== 1 ? 's' : ''} today
             </h1>
           </div>
           <button
-            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
-            style={{ minWidth: '135px' }}
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 min-w-[135px]"
             onClick={() => goTo('/admin/orders')}
           >
             View Orders
@@ -75,13 +73,12 @@ const Dashboard = () => {
 
         {/* Low Stock */}
         {lowStockProducts && lowStockProducts.length === 0 ? (
-          <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4 min">
+          <div className="bg-gray-200 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center">
             <h1 className="text-2xl text-green-500 font-semibold">
               All Products are in stock
             </h1>
             <button
-              className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
-              style={{ minWidth: '135px' }}
+              className="bg-black rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 min-w-[135px]"
               onClick={() => goTo('/admin/products-summary')}
             >
               View Products
@@ -89,50 +86,37 @@ const Dashboard = () => {
           </div>
         ) : (
           <div className="bg-gray-200 p-4 rounded-lg mb-4">
-            <div>
-              <h1 className="text-2xl mb-2 text-red-500 mb-4 font-semibold">
-                Low Stock Alert!
-              </h1>
-              <div
-                className="flex flex-wrap justify-start gap-8"
-                style={{ paddingLeft: '5px' }}
-              >
-                {lowStockProducts &&
-                  lowStockProducts.map((product: LowStockProduct) => (
-                    <div
-                      key={product.id}
-                      onClick={() => goTo(`/admin/edit/${product.id}`)}
-                      className="flex flex-col items-center bg-gray-300 rounded-md p-2 border border-red-500 border-2 cursor-pointer"
-                      style={{
-                        maxWidth: '150px',
-                        minWidth: '150px',
-                        minHeight: '220px',
-                        maxHeight: '220px',
-                      }}
-                    >
-                      <p className="text-red-500 mb-2 font-semibold">
-                        {product.stock} left in stock
-                      </p>
-                      <img
-                        src={product.image}
-                        alt={product.name}
-                        className="w-full h-28 object-contain"
-                        style={{ maxHeight: '112px' }}
-                      />
-                      <p className="mt-2 text-center">
-                        {truncate(product.name, 32)}
-                      </p>
-                    </div>
-                  ))}
-              </div>
+            <h1 className="text-xl sm:text-2xl mb-4 text-red-500 font-semibold">
+              Low Stock Alert!
+            </h1>
+            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4">
+              {lowStockProducts &&
+                lowStockProducts.map((product: LowStockProduct) => (
+                  <div
+                    key={product.id}
+                    onClick={() => goTo(`/admin/edit/${product.id}`)}
+                    className="flex flex-col items-center bg-gray-300 rounded-md p-2 border-2 border-red-500 cursor-pointer"
+                  >
+                    <p className="text-red-500 mb-2 font-semibold">
+                      {product.stock} left in stock
+                    </p>
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-20 md:h-28 object-contain"
+                    />
+                    <p className="mt-2 text-center text-sm md:text-base">
+                      {truncate(product.name, 32)}
+                    </p>
+                  </div>
+                ))}
             </div>
             <button
-              className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 mt-4"
+              className="bg-gray-500 rounded-lg text-white py-2 px-4 mt-4 hover:bg-gray-800 transition-all duration-300"
               onClick={() => {
                 localStorage.setItem('productSearch', JSON.stringify(''))
                 goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
               }}
-              style={{ minWidth: '135px', marginLeft: '5px' }}
             >
               View Products
             </button>
@@ -140,7 +124,7 @@ const Dashboard = () => {
         )}
 
         {/* Emails */}
-        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center mb-4">
+        <div className="bg-gray-200 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
               You have {unreadEmailCount} unread email
@@ -148,26 +132,24 @@ const Dashboard = () => {
             </h1>
           </div>
           <button
-            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 min-w-[135px]"
             onClick={() => goTo('/admin/inbox')}
-            style={{ minWidth: '135px' }}
           >
             View Emails
           </button>
         </div>
 
         {/* Reviews */}
-        <div className="bg-gray-200 p-4 rounded-lg flex justify-between items-center">
+        <div className="bg-gray-200 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center">
           <div>
             <h1 className="text-2xl mb-2">
-              You have {reviewsCount} new review{reviewsCount !== 1 ? 's' : ''}{' '}
-              today
+              You have {reviewsCount} new review
+              {reviewsCount !== 1 ? 's' : ''} today
             </h1>
           </div>
           <button
-            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
+            className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300 min-w-[135px]"
             onClick={() => goTo('/admin/reviews')}
-            style={{ minWidth: '135px' }}
           >
             View Reviews
           </button>
