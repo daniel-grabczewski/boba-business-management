@@ -66,10 +66,10 @@ const ViewProducts = ({
                   >
                     {/* Star Rating */}
                     <div className="flex items-center mt-1 sm:mt-2">
-                      <span className="text-yellow-400">
+                      <span className="text-yellow-400 flex items-center">
                         <StarRating rating={product.averageRating} size={1} />
                       </span>
-                      <span className="text-xs sm:text-sm text-gray-500">
+                      <span className="text-xs sm:text-sm text-gray-500 sm:ml-2 flex items-center">
                         ({product.averageRating})
                       </span>
                     </div>
