@@ -67,7 +67,7 @@ const ViewProducts = ({
                     {/* Star Rating */}
                     <div className="flex items-center mt-1 sm:mt-2">
                       <span className="text-yellow-400">
-                        <StarRating rating={product.averageRating} size={1.1} />
+                        <StarRating rating={product.averageRating} size={1} />
                       </span>
                       <span className="text-xs sm:text-sm text-gray-500">
                         ({product.averageRating})
@@ -75,7 +75,7 @@ const ViewProducts = ({
                     </div>
                   </Link>
 
-                  {/* Price and Stock */}
+                  {/* Price and Stock (MOBILE VIEW) */}
                   <div className="block sm:hidden mt-2">
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
@@ -110,7 +110,7 @@ const ViewProducts = ({
                 </div>
 
                 {/* Price and Stock */}
-                <div className="w-1/5 hidden sm:block">
+                <div className="w-1/5 hidden sm:flex sm:flex-row sm:items-center sm:space-x-5 sm:whitespace-nowrap">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
@@ -128,7 +128,7 @@ const ViewProducts = ({
                     to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
-                    className="text-sm sm:text-xl font-bold block cursor-pointer mt-1 sm:mt-2 transition-all duration-300"
+                    className="text-sm sm:text-xl font-bold block cursor-pointer transition-all duration-300"
                     style={{
                       color:
                         hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
@@ -139,13 +139,7 @@ const ViewProducts = ({
                 </div>
 
                 {/* Enabled / Low Stock */}
-                <div
-                  className={`flex-col w-1/4 mt-2 ${
-                    product.stock >= lowStockThreshold
-                      ? 'flex items-center justify-center'
-                      : ''
-                  }`}
-                >
+                <div className="flex-col w-1/4 sm:ml-20 ml-5 sm:flex space-y-20">
                   {product.stock < lowStockThreshold && (
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
@@ -161,9 +155,7 @@ const ViewProducts = ({
                     to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
-                    className={`text-xs sm:text-xl font-bold block cursor-pointer ${
-                      product.stock >= lowStockThreshold ? '' : 'mt-20'
-                    }`}
+                    className="text-xs sm:text-xl font-bold block cursor-pointer"
                     style={{
                       color:
                         hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
