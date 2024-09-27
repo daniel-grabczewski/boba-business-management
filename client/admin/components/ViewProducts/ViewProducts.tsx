@@ -32,7 +32,7 @@ const ViewProducts = ({
                 }`}
               >
                 {/* Product Image */}
-                <div className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] sm:px-2 px-0 flex justify-center items-center">
+                <div className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] flex justify-center items-center">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
                     className="block w-full h-full flex justify-center items-center"
@@ -46,7 +46,7 @@ const ViewProducts = ({
                 </div>
 
                 {/* Product Info */}
-                <div className="flex-col w-1/4 mr-2 sm:mr-6">
+                <div className="flex flex-col w-1/4 mr-2 sm:mr-6">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
@@ -75,7 +75,7 @@ const ViewProducts = ({
                     </div>
                   </Link>
 
-                  {/* Price and Stock (MOBILE VIEW) */}
+                  {/* Price and Stock (Mobile View) */}
                   <div className="block sm:hidden mt-2">
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
@@ -109,7 +109,7 @@ const ViewProducts = ({
                   </div>
                 </div>
 
-                {/* Price and Stock */}
+                {/* Price and Stock (Desktop View) */}
                 <div className="w-1/5 hidden sm:flex sm:flex-row sm:items-center sm:space-x-5 sm:whitespace-nowrap">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
@@ -139,7 +139,7 @@ const ViewProducts = ({
                 </div>
 
                 {/* Enabled / Low Stock */}
-                <div className="flex-col w-1/4 sm:ml-20 ml-5 sm:flex space-y-20">
+                <div className="flex flex-col w-1/4 ml-5 sm:ml-20 sm:flex space-y-20">
                   {product.stock < lowStockThreshold && (
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
