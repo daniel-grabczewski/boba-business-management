@@ -25,7 +25,7 @@ const ViewProducts = ({
             {getPaginatedProducts().map((product) => (
               <div
                 key={product.id}
-                className={`box-border rounded-md flex items-center justify-between p-2 sm:p-6 ${
+                className={`box-border rounded-md flex items-center justify-between p-2 sm:p-4 ${
                   product.stock < lowStockThreshold
                     ? 'border-2 border-red-600'
                     : 'border-2 border-gray-200'
