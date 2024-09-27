@@ -32,7 +32,7 @@ const ViewProducts = ({
                 }`}
               >
                 {/* Product Image */}
-                <div className="w-[75px] h-[75px] sm:w-[150px] sm:h-[150px] flex justify-center items-center px-2 mr-2">
+                <div className="w-[100px] h-[100px] sm:w-[150px] sm:h-[150px] sm:px-2 px-0 flex justify-center items-center">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
                     className="block w-full h-full flex justify-center items-center"
@@ -64,17 +64,18 @@ const ViewProducts = ({
                     to={`${baseURL}/admin/edit/${product.id}`}
                     className="block cursor-pointer"
                   >
+                    {/* Star Rating */}
                     <div className="flex items-center mt-1 sm:mt-2">
                       <span className="text-yellow-400">
-                        <StarRating rating={product.averageRating} size={1} />
+                        <StarRating rating={product.averageRating} size={1.1} />
                       </span>
-                      <span className="ml-1 sm:ml-2 text-xs sm:text-sm text-gray-500">
+                      <span className="text-xs sm:text-sm text-gray-500">
                         ({product.averageRating})
                       </span>
                     </div>
                   </Link>
 
-                  {/* Price and Stock (for mobile below stars) */}
+                  {/* Price and Stock */}
                   <div className="block sm:hidden mt-2">
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
@@ -108,6 +109,7 @@ const ViewProducts = ({
                   </div>
                 </div>
 
+                {/* Price and Stock */}
                 <div className="w-1/5 hidden sm:block">
                   <Link
                     to={`${baseURL}/admin/edit/${product.id}`}
@@ -137,21 +139,21 @@ const ViewProducts = ({
                 </div>
 
                 {/* Enabled / Low Stock */}
-                <div className="flex-col w-1/4">
+                <div
+                  className={`flex-col w-1/4 mt-2 ${
+                    product.stock >= lowStockThreshold
+                      ? 'flex items-center justify-center'
+                      : ''
+                  }`}
+                >
                   {product.stock < lowStockThreshold && (
                     <Link
                       to={`${baseURL}/admin/edit/${product.id}`}
                       onMouseEnter={() => setHoveredProductId(product.id)}
                       onMouseLeave={() => setHoveredProductId(null)}
-                      className="text-sm sm:text-xl font-bold block cursor-pointer mt-1 sm:mt-2"
-                      style={{
-                        color:
-                          hoveredProductId === product.id
-                            ? '#1D4ED8'
-                            : 'inherit',
-                      }}
+                      className="text-xs sm:text-xl font-bold block cursor-pointer text-red-500"
                     >
-                      <span className="text-red-500">LOW STOCK</span>
+                      LOW STOCK
                     </Link>
                   )}
 
@@ -159,7 +161,9 @@ const ViewProducts = ({
                     to={`${baseURL}/admin/edit/${product.id}`}
                     onMouseEnter={() => setHoveredProductId(product.id)}
                     onMouseLeave={() => setHoveredProductId(null)}
-                    className="text-sm sm:text-xl font-bold block cursor-pointer"
+                    className={`text-xs sm:text-xl font-bold block cursor-pointer ${
+                      product.stock >= lowStockThreshold ? '' : 'mt-20'
+                    }`}
                     style={{
                       color:
                         hoveredProductId === product.id ? '#1D4ED8' : 'inherit',
