@@ -135,7 +135,7 @@ const Emails = () => {
       <EmailPopup emailId={selectedEmailId} closeEmailPopup={closeEmailPopup} />
 
       {!isLoading && emails && sortedEmails && (
-        <div className="w-full max-w-[1000px] mx-auto pt-4 px-4 sm:w-3/4 lg:w-1/2">
+        <div className="w-full mx-auto pt-4 px-4 sm:w-3/4 ">
           <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">
             Inbox
           </h1>
