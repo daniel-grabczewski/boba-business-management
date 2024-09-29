@@ -81,24 +81,27 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             ref={popupRef}
-            className="bg-white p-5 rounded-lg flex flex-col justify-between w-4/5 max-w-lg"
-            style={{ maxHeight: '500px' }}
+            className="bg-white p-5 rounded-lg flex flex-col justify-between w-11/12 sm:w-3/4 md:w-2/3 lg:w-1/2 xl:w-2/5 max-w-5xl max-h-[90vh] overflow-auto"
           >
-            <div style={{ marginBottom: '-55px' }}>
-              <div className="flex justify-between mt-2">
+            <div>
+              {/* Header with Username and Date */}
+              <div className="flex justify-between items-start mt-2">
                 <div>
                   <h2 className="font-bold text-lg">
                     {review.reviewerUserName}
                   </h2>
                 </div>
-                <div>
+                <div className="text-right">
                   <p>{formatDateToDDMMYYYY(review.reviewCreatedAt)}</p>
                   <p>{format24HourTo12Hour(review.reviewCreatedAt)}</p>
                 </div>
               </div>
+
+              {/* Review Content */}
               <div className="flex mt-4 gap-4">
+                {/* Product Image */}
                 <div
-                  className="w-1/4 cursor-pointer"
+                  className="cursor-pointer"
                   onClick={() => {
                     goTo(
                       `/admin/edit/${getProductIdByProductName(
@@ -110,67 +113,62 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
                 >
                   <img
                     className="object-contain mx-auto mt-4"
-                    style={{
-                      maxHeight: '125px',
-                      maxWidth: '118px',
-                      marginTop: '11px',
-                    }}
                     src={review.productImage}
                     alt={review.productName}
+                    style={{
+                      height: '160px', // Adjust for consistent height
+                      width: '160px',
+                    }}
                   />
                 </div>
-                <div className="flex flex-col justify">
-                  <div>
-                    <div style={{ maxWidth: '320px' }}>
-                      <div className="flex gap-4 mt-4">
-                        <p className="font-semibold">{`User's Rating:`}</p>
-                        <StarRating rating={review.reviewRating} size={1} />
-                        <p className="font-semibold">({review.reviewRating})</p>
-                      </div>
 
-                      <p>{review.reviewDescription}</p>
-                    </div>
-                  </div>
+                {/* Review Text and Rating */}
+                <div className="flex flex-col justify-between w-full">
                   <div>
-                    <button
-                      className="font-semibold text-blue-700 hover:text-gray-700 mb-2 mt-8 transition-all duration-300"
-                      onClick={() => {
-                        goTo(
-                          `/shop/${getProductIdByProductName(
-                            review.productName
-                          )}`
-                        )
-                        window.scrollTo(0, 0)
-                      }}
-                    >
-                      Go to store page
-                    </button>
+                    <div className="flex gap-4 items-center mt-2">
+                      <p className="font-semibold">User Rating:</p>
+                      <StarRating rating={review.reviewRating} size={1} />
+                      <p className="font-semibold">({review.reviewRating})</p>
+                    </div>
+
+                    <p className="mt-4 text-gray-700">
+                      {review.reviewDescription}
+                    </p>
                   </div>
+
+                  <button
+                    className="text-blue-600 hover:text-blue-800 mt-4 font-semibold"
+                    onClick={() => {
+                      goTo(
+                        `/shop/${getProductIdByProductName(review.productName)}`
+                      )
+                      window.scrollTo(0, 0)
+                    }}
+                  >
+                    Go to store page
+                  </button>
                 </div>
               </div>
             </div>
-            <hr
-              className="border-t border-gray-300"
-              style={{ marginTop: '90px' }}
-            />
+
+            <hr className="border-t border-gray-300 my-4" />
+
+            {/* Toggle Switch and Close Button */}
             <div className="flex justify-between items-center">
-              <div className="mt-3">
-                <ToggleSwitch
-                  checked={review.reviewIsEnabled}
-                  label={review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
-                  scale={1.45}
-                  onChange={onToggle}
-                />
-              </div>
+              <ToggleSwitch
+                checked={review.reviewIsEnabled}
+                label={review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
+                scale={1.45}
+                onChange={onToggle}
+              />
               <button
                 onClick={closeReviewPopup}
-                className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700 mb-2 mt-8 transition-all duration-300"
+                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 transition duration-300"
               >
                 Back to reviews
               </button>
             </div>
           </div>
-          <div></div>
         </div>
       )}
     </>
