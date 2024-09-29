@@ -19,74 +19,68 @@ const DisplayCurrentEmails = ({
   handleSelectEmailId,
 }: DisplayCurrentEmailsProps) => {
   return (
-    <div className="divTable bg-white mt-4 border border-gray-300 mb-8">
-      <div className="divRow bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
-        <div className="divCell py-3 px-8">Username</div>
-        <div className="divCell py-3 px-8">Title</div>
-        <div className="divCell py-3 px-8">Subject</div>
-        <div className="divCell py-3 px-8">Date Recieved</div>
+    <div className="bg-white mt-4 mb-8">
+      {/* Table Header (Visible only on desktop) */}
+      <div className="hidden sm:flex bg-gray-200 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
+        <div className="w-1/5 py-4 px-6 border-r border-gray-200">Username</div>
+        <div className="w-1/5 py-4 px-6 border-r border-gray-200">Title</div>
+        <div className="w-2/5 py-4 px-6 border-r border-gray-200">Subject</div>
+        <div className="w-1/5 py-4 px-6">Date Received</div>
       </div>
 
-      <div className="divBody text-gray-600 text-sm font-light ">
+      {/* Table Body */}
+      <div className="text-gray-600 text-sm font-light">
         {getPaginatedEmails().map((email) => (
           <div
             key={email.id}
             onClick={() => handleSelectEmailId(email.id)}
-            className={`divRow border-b border-gray-200 ${
+            className={`border-b border-gray-200 ${
               email.isRead
                 ? 'bg-gray-100 hover:bg-gray-200 cursor-pointer'
                 : 'hover:bg-gray-50 cursor-pointer'
-            }`}
+            } flex flex-col sm:flex-row`}
           >
-            <div
-              className="divCell py-3 px-8 text-left whitespace-nowrap"
-              style={{ minWidth: '150px', maxWidth: '150px' }}
-            >
-              <div className="flex flex-row items-center ">
-                <div className="mr-2">
-                  {email.isRead ? (
-                    <FontAwesomeIcon
-                      icon={faEnvelopeOpen}
-                      className="text-xl align-middle "
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      icon={faEnvelope}
-                      className="text-xl align-middle "
-                    />
-                  )}
-                </div>
-                <div>{getUserNameByUserId(email.userId)}</div>
+            {/* Username Column */}
+            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-200">
+              <div className="mr-2">
+                {email.isRead ? (
+                  <FontAwesomeIcon icon={faEnvelopeOpen} className="text-xl" />
+                ) : (
+                  <FontAwesomeIcon icon={faEnvelope} className="text-xl" />
+                )}
+              </div>
+              <div className="truncate">
+                {getUserNameByUserId(email.userId)}
               </div>
             </div>
 
-            <div
-              className="divCell py-3 px-8 text-left"
-              style={{ minWidth: '250px' }}
-            >
-              {truncate(email.title, 25)}
+            {/* Title Column */}
+            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-200">
+              <span className="truncate">{truncate(email.title, 25)}</span>
             </div>
-            <div
-              className="divCell py-3 px-8 text-left"
-              style={{ minWidth: '200px' }}
-            >
-              {truncate(email.description, 45)}
+
+            {/* Subject Column */}
+            <div className="flex w-full sm:w-2/5 py-5 px-6 sm:border-r border-gray-200">
+              <span className="truncate">
+                {truncate(email.description, 45)}
+              </span>
             </div>
-            <div
-              className="divCell py-3 px-8 text-left"
-              style={{ minWidth: '200px' }}
-            >
-              <div
-                className={
-                  formatRelativeDate(email.createdAt) === 'Today'
-                    ? 'font-semibold'
-                    : ''
-                }
-              >
-                {formatRelativeDate(email.createdAt) === 'Today'
-                  ? formatRelativeDate(email.createdAt)
-                  : formatDateToDDMMYYYY(email.createdAt)}{' '}
-                {format24HourTo12Hour(email.createdAt)}
+
+            {/* Date Column */}
+            <div className="flex w-full sm:w-1/5 py-5 px-6">
+              <div className="text-left">
+                <div
+                  className={
+                    formatRelativeDate(email.createdAt) === 'Today'
+                      ? 'font-semibold'
+                      : ''
+                  }
+                >
+                  {formatRelativeDate(email.createdAt) === 'Today'
+                    ? formatRelativeDate(email.createdAt)
+                    : formatDateToDDMMYYYY(email.createdAt)}{' '}
+                  {format24HourTo12Hour(email.createdAt)}
+                </div>
               </div>
             </div>
           </div>
