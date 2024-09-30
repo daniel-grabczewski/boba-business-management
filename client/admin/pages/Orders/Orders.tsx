@@ -117,8 +117,10 @@ function AllOrders() {
     <>
       <LoadError status={ordersStatus} />
       <OrderPopup orderId={selectedOrderId} closeOrderPopup={closeOrderPopup} />
-      <div className="w-1/2 mx-auto pt-4" style={{ width: '1000px' }}>
-        <h1 className="text-center text-4xl font-semibold mb-4">Orders</h1>
+      <div className="w-full mx-auto pt-4 px-4 sm:w-3/4">
+        <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">
+          Orders
+        </h1>
         <OrderSortingControls
           search={search}
           handleChangeSearch={handleChangeSearch}
