@@ -21,10 +21,10 @@ const DisplayCurrentEmails = ({
   return (
     <div className="bg-white mt-4 mb-8">
       {/* Table Header (Visible only on desktop) */}
-      <div className="hidden sm:flex bg-gray-200 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
-        <div className="w-1/5 py-4 px-6 border-r border-gray-200">Username</div>
-        <div className="w-1/5 py-4 px-6 border-r border-gray-200">Title</div>
-        <div className="w-2/5 py-4 px-6 border-r border-gray-200">Subject</div>
+      <div className="hidden sm:flex bg-gray-300 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
+        <div className="w-1/5 py-4 px-6 border-r border-gray-300">Username</div>
+        <div className="w-1/5 py-4 px-6 border-r border-gray-300">Title</div>
+        <div className="w-2/5 py-4 px-6 border-r border-gray-300">Subject</div>
         <div className="w-1/5 py-4 px-6">Date Received</div>
       </div>
 
@@ -34,14 +34,14 @@ const DisplayCurrentEmails = ({
           <div
             key={email.id}
             onClick={() => handleSelectEmailId(email.id)}
-            className={`border-b border-gray-200 ${
+            className={`border-b border-gray-300 ${
               email.isRead
                 ? 'bg-gray-100 hover:bg-gray-200 cursor-pointer'
                 : 'hover:bg-gray-50 cursor-pointer'
             } flex flex-col sm:flex-row`}
           >
             {/* Username Column */}
-            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-200">
+            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300">
               <div className="mr-2">
                 {email.isRead ? (
                   <FontAwesomeIcon icon={faEnvelopeOpen} className="text-xl" />
@@ -55,12 +55,12 @@ const DisplayCurrentEmails = ({
             </div>
 
             {/* Title Column */}
-            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-200">
+            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300">
               <span className="truncate">{truncate(email.title, 25)}</span>
             </div>
 
             {/* Subject Column */}
-            <div className="flex w-full sm:w-2/5 py-5 px-6 sm:border-r border-gray-200">
+            <div className="flex w-full sm:w-2/5 py-5 px-6 sm:border-r border-gray-300">
               <span className="truncate">
                 {truncate(email.description, 45)}
               </span>
