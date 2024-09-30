@@ -38,10 +38,47 @@ const DisplayCurrentEmails = ({
               email.isRead
                 ? 'bg-gray-100 hover:bg-gray-200 cursor-pointer'
                 : 'hover:bg-gray-50 cursor-pointer'
-            } flex flex-col sm:flex-row`}
+            } flex flex-col sm:flex-row relative`}
           >
-            {/* Username Column */}
-            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300">
+            {/* Mobile View */}
+            <div className="flex flex-col p-4 sm:hidden">
+              <div className="flex justify-between items-center mb-1">
+                <div className="flex items-center">
+                  <FontAwesomeIcon
+                    icon={email.isRead ? faEnvelopeOpen : faEnvelope}
+                    className="text-xl mr-2"
+                  />
+                  <span
+                    className={`truncate text-sm ${
+                      email.isRead ? 'font-normal' : 'font-bold'
+                    }`}
+                  >
+                    {getUserNameByUserId(email.userId)}
+                  </span>
+                </div>
+                <div className="text-xs text-gray-500">
+                  {formatRelativeDate(email.createdAt) === 'Today'
+                    ? `Today ${format24HourTo12Hour(email.createdAt)}`
+                    : `${formatDateToDDMMYYYY(
+                        email.createdAt
+                      )} ${format24HourTo12Hour(email.createdAt)}`}
+                </div>
+              </div>
+              <div
+                className={`truncate text-sm mb-1 ${
+                  email.isRead ? 'font-normal' : 'font-bold'
+                }`}
+              >
+                {truncate(email.title, 40)}
+              </div>
+              {/* Description */}
+              <div className="text-xs text-gray-500">
+                {truncate(email.description, 45)}
+              </div>
+            </div>
+
+            {/* Desktop View */}
+            <div className="hidden sm:flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300 items-center">
               <div className="mr-2">
                 {email.isRead ? (
                   <FontAwesomeIcon icon={faEnvelopeOpen} className="text-xl" />
@@ -49,25 +86,24 @@ const DisplayCurrentEmails = ({
                   <FontAwesomeIcon icon={faEnvelope} className="text-xl" />
                 )}
               </div>
-              <div className="truncate">
+              <div className="truncate text-sm sm:text-base">
                 {getUserNameByUserId(email.userId)}
               </div>
             </div>
 
-            {/* Title Column */}
-            <div className="flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300">
-              <span className="truncate">{truncate(email.title, 25)}</span>
+            <div className="hidden sm:flex w-full sm:w-1/5 py-5 px-6 sm:border-r border-gray-300 items-center">
+              <span className="truncate text-sm sm:text-base">
+                {truncate(email.title, 40)}
+              </span>
             </div>
 
-            {/* Subject Column */}
-            <div className="flex w-full sm:w-2/5 py-5 px-6 sm:border-r border-gray-300">
+            <div className="hidden sm:flex w-full sm:w-2/5 py-5 px-6 sm:border-r border-gray-300 items-center">
               <span className="truncate">
                 {truncate(email.description, 45)}
               </span>
             </div>
 
-            {/* Date Column */}
-            <div className="flex w-full sm:w-1/5 py-5 px-6">
+            <div className="hidden sm:flex w-full sm:w-1/5 py-5 px-6 items-center">
               <div className="text-left">
                 <div
                   className={
@@ -77,9 +113,10 @@ const DisplayCurrentEmails = ({
                   }
                 >
                   {formatRelativeDate(email.createdAt) === 'Today'
-                    ? formatRelativeDate(email.createdAt)
-                    : formatDateToDDMMYYYY(email.createdAt)}{' '}
-                  {format24HourTo12Hour(email.createdAt)}
+                    ? `Today ${format24HourTo12Hour(email.createdAt)}`
+                    : `${formatDateToDDMMYYYY(
+                        email.createdAt
+                      )} ${format24HourTo12Hour(email.createdAt)}`}
                 </div>
               </div>
             </div>
