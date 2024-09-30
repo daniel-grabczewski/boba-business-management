@@ -58,7 +58,11 @@ const DisplayCurrentEmails = ({
                 </div>
                 <div className="text-xs">
                   {formatRelativeDate(email.createdAt) === 'Today' ? (
-                    <span className="font-bold">
+                    <span
+                      className={`${
+                        email.isRead ? 'font-normal' : 'font-bold'
+                      }`}
+                    >
                       Today {format24HourTo12Hour(email.createdAt)}
                     </span>
                   ) : (
@@ -113,7 +117,9 @@ const DisplayCurrentEmails = ({
                 <div
                   className={
                     formatRelativeDate(email.createdAt) === 'Today'
-                      ? 'font-bold'
+                      ? email.isRead
+                        ? 'font-normal'
+                        : 'font-bold'
                       : ''
                   }
                 >
