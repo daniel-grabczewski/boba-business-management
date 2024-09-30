@@ -56,12 +56,17 @@ const DisplayCurrentEmails = ({
                     {getUserNameByUserId(email.userId)}
                   </span>
                 </div>
-                <div className="text-xs text-gray-500">
-                  {formatRelativeDate(email.createdAt) === 'Today'
-                    ? `Today ${format24HourTo12Hour(email.createdAt)}`
-                    : `${formatDateToDDMMYYYY(
-                        email.createdAt
-                      )} ${format24HourTo12Hour(email.createdAt)}`}
+                <div className="text-xs">
+                  {formatRelativeDate(email.createdAt) === 'Today' ? (
+                    <span className="font-bold">
+                      Today {format24HourTo12Hour(email.createdAt)}
+                    </span>
+                  ) : (
+                    <span>
+                      {formatDateToDDMMYYYY(email.createdAt)}{' '}
+                      {format24HourTo12Hour(email.createdAt)}
+                    </span>
+                  )}
                 </div>
               </div>
               <div
@@ -108,7 +113,7 @@ const DisplayCurrentEmails = ({
                 <div
                   className={
                     formatRelativeDate(email.createdAt) === 'Today'
-                      ? 'font-semibold'
+                      ? 'font-bold'
                       : ''
                   }
                 >
