@@ -52,6 +52,7 @@ const Nav = () => {
   return (
     <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
       <div className="flex items-center">
+        {/* Shopper and Admin Toggle */}
         <NavToggleSwitch
           isShopperView={isShopperView}
           handleIsShopperView={setIsShopperView}
@@ -70,156 +71,174 @@ const Nav = () => {
           }}
         ></div>
       </div>
-      <div className="flex items-center space-x-4">
-        <button
-          className="text-white text-2xl md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-        >
-          <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
-        </button>
 
-        <div
-          className={`hidden md:flex items-center space-x-8 text-white text-xl`}
-        >
-          {isShopperView ? (
-            <>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/')}
-              >
-                Home
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/shop')}
-              >
-                Shop
-              </button>
-              <div className="relative">
+      {/* Shopper */}
+      {isShopperView && (
+        <>
+          {/* Shopper Mobile/Tablet View */}
+          <div className="flex items-center space-x-4">
+            <button
+              className="text-white text-2xl md:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+            </button>
+
+            {/* Shopper Mobile/Tablet Menu */}
+            {menuOpen && (
+              <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300"
+                  onClick={() => goTo('/')}
+                >
+                  Home
+                </button>
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300"
+                  onClick={() => goTo('/shop')}
+                >
+                  Shop
+                </button>
                 <button
                   className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => goTo('/cart')}
                 >
                   Cart
                   {amountInCart > 0 && (
-                    <span className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
+                    <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
                       {amountInCart}
                     </span>
                   )}
                 </button>
-              </div>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/contact')}
-              >
-                Contact
-              </button>
-              <div className="flex space-x-4">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300"
+                  onClick={() => goTo('/contact')}
+                >
+                  Contact
+                </button>
                 <button
                   className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => goTo('/profile')}
                 >
-                  <FontAwesomeIcon icon={faUser} className="text-2xl" />
+                  Profile
                 </button>
                 <button
                   className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => goTo('/wishlist')}
                 >
-                  <FontAwesomeIcon icon={faHeart} className="text-2xl" />
+                  Wishlist
                 </button>
               </div>
-            </>
-          ) : (
-            <>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin')}
-              >
-                Dashboard
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin/inbox')}
-              >
-                Inbox
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin/orders')}
-              >
-                Orders
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin/reviews')}
-              >
-                Reviews
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin/products-summary')}
-              >
-                Products
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/admin/add-product')}
-              >
-                Add Product
-              </button>
-            </>
-          )}
-        </div>
-      </div>
-      {/* Mobile Menu */}
-      {menuOpen && (
-        <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 md:hidden z-50">
-          {isShopperView ? (
-            <>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/')}
-              >
-                Home
-              </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/shop')}
-              >
-                Shop
-              </button>
+            )}
+          </div>
+
+          {/* Shopper Desktop View */}
+          <div className="hidden md:flex items-center space-x-8 text-white text-xl">
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/')}
+            >
+              Home
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/shop')}
+            >
+              Shop
+            </button>
+            <div className="relative">
               <button
                 className="hover:text-purple-700 transition-colors duration-300"
                 onClick={() => goTo('/cart')}
               >
                 Cart
                 {amountInCart > 0 && (
-                  <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
+                  <span className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
                     {amountInCart}
                   </span>
                 )}
               </button>
-              <button
-                className="hover:text-purple-700 transition-colors duration-300"
-                onClick={() => goTo('/contact')}
-              >
-                Contact
-              </button>
+            </div>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/contact')}
+            >
+              Contact
+            </button>
+            <div className="flex space-x-4">
               <button
                 className="hover:text-purple-700 transition-colors duration-300"
                 onClick={() => goTo('/profile')}
               >
-                Profile
+                <FontAwesomeIcon icon={faUser} className="text-2xl" />
               </button>
               <button
                 className="hover:text-purple-700 transition-colors duration-300"
                 onClick={() => goTo('/wishlist')}
               >
-                Wishlist
+                <FontAwesomeIcon icon={faHeart} className="text-2xl" />
               </button>
-            </>
-          ) : (
-            <>
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Admin */}
+      {!isShopperView && (
+        <>
+          {/* Admin Mobile/Tablet View */}
+          <div className="flex items-center">
+            <button
+              className="text-white text-2xl lg:hidden"
+              onClick={() => setMenuOpen(!menuOpen)}
+            >
+              <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+            </button>
+          </div>
+
+          {/* Admin Desktop View */}
+          <div className="hidden lg:flex items-center space-x-8 text-white text-xl">
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin')}
+            >
+              Dashboard
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin/inbox')}
+            >
+              Inbox
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin/orders')}
+            >
+              Orders
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin/reviews')}
+            >
+              Reviews
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin/products-summary')}
+            >
+              Products
+            </button>
+            <button
+              className="hover:text-purple-700 transition-colors duration-300"
+              onClick={() => goTo('/admin/add-product')}
+            >
+              Add Product
+            </button>
+          </div>
+
+          {/* Admin Mobile/Tablet Menu */}
+          {menuOpen && (
+            <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 lg:hidden z-50">
               <button
                 className="hover:text-purple-700 transition-colors duration-300"
                 onClick={() => goTo('/admin')}
@@ -256,9 +275,9 @@ const Nav = () => {
               >
                 Add Product
               </button>
-            </>
+            </div>
           )}
-        </div>
+        </>
       )}
     </nav>
   )
