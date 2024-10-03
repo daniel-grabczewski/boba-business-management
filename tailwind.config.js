@@ -31,6 +31,10 @@ module.exports = {
         '1/2': '50%',
         '3/5': '60%',
       },
+
+      screens: {
+        custom: '1200px',
+      },
     },
   },
   plugins: [
