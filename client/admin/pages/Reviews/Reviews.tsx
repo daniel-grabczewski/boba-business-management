@@ -144,7 +144,7 @@ const Reviews = () => {
 
       {reviews && sortedReviews && (
         <>
-          <div className="w-full mx-auto pt-4 px-4 sm:w-3/4">
+          <div className="w-full mx-auto pt-4 px-4 sm:w-full md:w-full lg:w-full xl:w-3/4">
             <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">
               Reviews
             </h1>

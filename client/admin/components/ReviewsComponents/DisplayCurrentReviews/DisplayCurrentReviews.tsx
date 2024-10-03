@@ -25,16 +25,18 @@ const DisplayCurrentReviews = ({
             <div className="w-1/5 py-4 px-6 border-r border-gray-300 whitespace-nowrap">
               Reviewer Username
             </div>
-            <div className="w-2/5 py-4 px-6 border-r border-gray-300 whitespace-nowrap">
+            <div className="w-1/3 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 whitespace-nowrap">
               Reviewed Product
             </div>
-            <div className="w-1/6 py-4 px-6 border-r border-gray-300 text-center whitespace-nowrap">
+            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
               Review Rating
             </div>
-            <div className="w-1/6 py-4 px-6 border-r border-gray-300 text-center whitespace-nowrap">
+            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
               Status
             </div>
-            <div className="w-1/6 py-4 px-6 whitespace-nowrap">Date Posted</div>
+            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 whitespace-nowrap">
+              Date Posted
+            </div>
           </div>
 
           {/* Table Body */}
@@ -42,7 +44,7 @@ const DisplayCurrentReviews = ({
             {getPaginatedReviews().map((review) => (
               <div
                 key={review.reviewId}
-                className={`border-b border-gray-300 hover:bg-gray-100 cursor-pointer flex flex-col sm:flex-row`}
+                className={`border-b border-gray-300 hover:bg-gray-100 cursor-pointer flex flex-col md:flex-row w-full`}
                 onClick={() => handleSelectReviewId(review.reviewId)}
                 style={{ minHeight: '80px' }}
               >
@@ -91,24 +93,24 @@ const DisplayCurrentReviews = ({
                   {review.reviewerUserName}
                 </div>
 
-                <div className="hidden sm:flex w-full sm:w-2/5 py-4 px-6 sm:border-r border-gray-300 items-center text-left truncate">
+                <div className="hidden md:flex w-full md:w-1/3 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 items-center text-left truncate">
                   {review.productName}
                 </div>
 
-                {/* Review Rating Column (Centered) */}
-                <div className="hidden sm:flex w-full sm:w-1/6 py-4 px-6 sm:border-r border-gray-300 justify-center items-center text-center">
+                {/* Review Rating Column */}
+                <div className="hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 justify-center items-center text-center">
                   {review.reviewRating}
                 </div>
 
                 <div
-                  className={`hidden sm:flex w-full sm:w-1/6 py-4 px-6 sm:border-r border-gray-300 ${
+                  className={`hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 ${
                     review.reviewIsEnabled ? 'bg-green-200' : 'bg-red-300'
                   } justify-center items-center text-center`}
                 >
                   {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
                 </div>
 
-                <div className="hidden sm:flex w-full sm:w-1/6 py-4 px-6 justify-center items-center text-center">
+                <div className="hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 justify-center items-center text-center">
                   <span
                     className={
                       formatRelativeDate(review.reviewCreatedAt) === 'Today'
