@@ -62,12 +62,14 @@ const Nav = () => {
           goTo={goTo}
         />
         <div
-          className="ml-4"
+          className={`ml-4 ${
+            isShopperView
+              ? 'bg-[your-shopperColor-class]'
+              : 'bg-[your-adminColor-class]'
+          } 
+    h-10 w-1.5 mr-5 rounded-md sm:h-12 sm:w-2 md:h-16 md:w-2.5 lg:h-15 lg:w-3`}
           style={{
-            height: '60px',
-            width: '6px',
             backgroundColor: isShopperView ? shopperColor : adminColor,
-            borderRadius: '5px',
           }}
         ></div>
       </div>
