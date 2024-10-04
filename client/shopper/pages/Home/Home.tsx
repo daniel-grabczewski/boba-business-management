@@ -29,12 +29,16 @@ const Home = () => {
             }}
           ></div>
           <div
-            className="absolute top-0 right-0 w-1/3 h-1/2 bg-no-repeat"
+            className="absolute top-0 right-0 bg-no-repeat"
             style={{
+              width: window.innerWidth > 768 ? '50vw' : '80vw',
+              height: window.innerWidth > 768 ? '40vh' : '50vh',
               backgroundImage: `url('${backgroundImage2}')`,
+              backgroundSize: 'contain',
+              backgroundPosition: 'top right',
+              backgroundRepeat: 'no-repeat',
             }}
           ></div>
-
           {/* Main content */}
           <div className="relative z-10 flex items-center justify-center min-h-screen max-w-screen-lg mx-auto p-6 overflow-y-auto">
             <div className="flex flex-col md:flex-row items-center justify-center mx-auto space-y-6 md:space-y-0 md:space-x-8">
