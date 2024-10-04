@@ -18,7 +18,7 @@ const Nav = () => {
   const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
   const [amountInCart, setAmountInCart] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [scale, setScale] = useState(1) // Dynamic scale state
+  const [scale, setScale] = useState(1)
 
   useEffect(() => {
     if (location.pathname.startsWith(`${baseURL}/admin`)) {
@@ -72,10 +72,11 @@ const Nav = () => {
   return (
     <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
       <div className="flex items-center">
+        {/* Shopper and Admin Toggle */}
         <NavToggleSwitch
           isShopperView={isShopperView}
           handleIsShopperView={setIsShopperView}
-          scale={scale} // Pass dynamic scale
+          scale={scale}
           adminNavigateTo={adminNavigateTo}
           shopperNavigateTo={shopperNavigateTo}
           goTo={goTo}
@@ -103,6 +104,7 @@ const Nav = () => {
               <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
             </button>
 
+            {/* Shopper Mobile/Tablet Menu */}
             {menuOpen && (
               <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
                 {/* Menu Items */}
@@ -151,7 +153,7 @@ const Nav = () => {
             )}
           </div>
 
-          {/* Desktop Menu */}
+          {/* Shopper Desktop View */}
           <div className="hidden md:flex items-center space-x-8 text-white text-xl">
             <button
               className="hover:text-purple-700 transition-colors duration-300"
@@ -205,6 +207,7 @@ const Nav = () => {
       {/* Admin View */}
       {!isShopperView && (
         <>
+          {/* Admin Mobile/Tablet View */}
           <div className="flex items-center">
             <button
               className="text-white text-2xl lg:hidden"
@@ -213,6 +216,8 @@ const Nav = () => {
               <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
             </button>
           </div>
+
+          {/* Admin Desktop View */}
           <div className="hidden lg:flex items-center space-x-8 text-white text-xl">
             <button
               className="hover:text-purple-700 transition-colors duration-300"
@@ -251,6 +256,8 @@ const Nav = () => {
               Add Product
             </button>
           </div>
+
+          {/* Admin Mobile/Tablet Menu */}
           {menuOpen && (
             <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 lg:hidden z-50">
               <button
