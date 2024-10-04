@@ -18,6 +18,7 @@ const Nav = () => {
   const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
   const [amountInCart, setAmountInCart] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
+  const [scale, setScale] = useState(1) // Dynamic scale state
 
   useEffect(() => {
     if (location.pathname.startsWith(`${baseURL}/admin`)) {
@@ -49,35 +50,51 @@ const Nav = () => {
   const adminNavigateTo = '/admin'
   const shopperNavigateTo = '/'
 
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth
+
+      if (width < 640) {
+        setScale(1)
+      } else if (width < 1024) {
+        setScale(1.8)
+      } else {
+        setScale(2)
+      }
+    }
+
+    updateScale()
+    window.addEventListener('resize', updateScale)
+
+    return () => window.removeEventListener('resize', updateScale)
+  }, [])
+
   return (
     <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
       <div className="flex items-center">
-        {/* Shopper and Admin Toggle */}
         <NavToggleSwitch
           isShopperView={isShopperView}
           handleIsShopperView={setIsShopperView}
-          scale={2}
+          scale={scale} // Pass dynamic scale
           adminNavigateTo={adminNavigateTo}
           shopperNavigateTo={shopperNavigateTo}
           goTo={goTo}
         />
         <div
-          className={`ml-4 ${
-            isShopperView
-              ? 'bg-[your-shopperColor-class]'
-              : 'bg-[your-adminColor-class]'
-          } 
-    h-10 w-1.5 mr-5 rounded-md sm:h-12 sm:w-2 md:h-16 md:w-2.5 lg:h-15 lg:w-3`}
+          className="ml-4"
           style={{
+            height: `${10 * scale}px`,
+            width: `${1.5 * scale}px`,
             backgroundColor: isShopperView ? shopperColor : adminColor,
+            borderRadius: `${5 * scale}px`,
           }}
         ></div>
       </div>
 
-      {/* Shopper */}
+      {/* Shopper View */}
       {isShopperView && (
         <>
-          {/* Shopper Mobile/Tablet View */}
+          {/* Mobile Menu */}
           <div className="flex items-center space-x-4">
             <button
               className="text-white text-2xl md:hidden"
@@ -86,9 +103,9 @@ const Nav = () => {
               <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
             </button>
 
-            {/* Shopper Mobile/Tablet Menu */}
             {menuOpen && (
               <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
+                {/* Menu Items */}
                 <button
                   className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => goTo('/')}
@@ -105,7 +122,7 @@ const Nav = () => {
                   className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => goTo('/cart')}
                 >
-                  Cart
+                  Cart{' '}
                   {amountInCart > 0 && (
                     <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
                       {amountInCart}
@@ -134,7 +151,7 @@ const Nav = () => {
             )}
           </div>
 
-          {/* Shopper Desktop View */}
+          {/* Desktop Menu */}
           <div className="hidden md:flex items-center space-x-8 text-white text-xl">
             <button
               className="hover:text-purple-700 transition-colors duration-300"
@@ -153,7 +170,7 @@ const Nav = () => {
                 className="hover:text-purple-700 transition-colors duration-300"
                 onClick={() => goTo('/cart')}
               >
-                Cart
+                Cart{' '}
                 {amountInCart > 0 && (
                   <span className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
                     {amountInCart}
@@ -185,10 +202,9 @@ const Nav = () => {
         </>
       )}
 
-      {/* Admin */}
+      {/* Admin View */}
       {!isShopperView && (
         <>
-          {/* Admin Mobile/Tablet View */}
           <div className="flex items-center">
             <button
               className="text-white text-2xl lg:hidden"
@@ -197,8 +213,6 @@ const Nav = () => {
               <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
             </button>
           </div>
-
-          {/* Admin Desktop View */}
           <div className="hidden lg:flex items-center space-x-8 text-white text-xl">
             <button
               className="hover:text-purple-700 transition-colors duration-300"
@@ -237,8 +251,6 @@ const Nav = () => {
               Add Product
             </button>
           </div>
-
-          {/* Admin Mobile/Tablet Menu */}
           {menuOpen && (
             <div className="absolute top-20 left-0 w-full bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 lg:hidden z-50">
               <button
