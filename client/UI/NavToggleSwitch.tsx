@@ -20,13 +20,24 @@ const NavToggleSwitch = ({
   const [enableTransition, setEnableTransition] = useState(false)
   const [isShopperHovered, setIsShopperHovered] = useState(false)
   const [isAdminHovered, setIsAdminHovered] = useState(false)
+  const [fontSize, setFontSize] = useState('1.25rem')
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setEnableTransition(true)
     }, 50)
-
     return () => clearTimeout(timeoutId)
+  }, [])
+
+  // Update font size based on screen width
+  useEffect(() => {
+    const updateFontSize = () => {
+      setFontSize(window.innerWidth < 768 ? '0.8rem' : '1.25rem')
+    }
+
+    updateFontSize() // Set initial size
+    window.addEventListener('resize', updateFontSize)
+    return () => window.removeEventListener('resize', updateFontSize)
   }, [])
 
   const containerStyles = {
@@ -37,7 +48,7 @@ const NavToggleSwitch = ({
   }
 
   const labelStyles = {
-    fontSize: '0.9rem',
+    fontSize,
     lineHeight: '1rem',
     textAlign: 'center' as const,
     userSelect: 'none' as const,
