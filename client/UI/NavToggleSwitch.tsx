@@ -32,7 +32,7 @@ const NavToggleSwitch = ({
   // Update font size based on screen width
   useEffect(() => {
     const updateFontSize = () => {
-      setFontSize(window.innerWidth < 768 ? '0.8rem' : '1.25rem')
+      setFontSize(window.innerWidth < 430 ? '1rem' : '1.25rem')
     }
 
     updateFontSize() // Set initial size
