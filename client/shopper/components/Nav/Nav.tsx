@@ -75,8 +75,8 @@ const Nav = () => {
         <div
           className="ml-4"
           style={{
-            height: `${10 * scale}px`,
-            width: `${1.5 * scale}px`,
+            height: `${20 * scale}px`,
+            width: `${3 * scale}px`,
             backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
             borderRadius: `${5 * scale}px`,
           }}
