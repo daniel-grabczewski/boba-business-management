@@ -191,7 +191,7 @@ const Nav = () => {
         <>
           {/* Mobile Menu Icon (Admin View) */}
           <button
-            className="text-white text-2xl lg:hidden"
+            className="text-white text-2xl xl:hidden"
             onClick={() => setMenuOpen(!menuOpen)}
           >
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
@@ -240,7 +240,7 @@ const Nav = () => {
           )}
 
           {/* Desktop Menu (Admin View) */}
-          <div className="hidden lg:flex items-center space-x-8 text-white text-xl">
+          <div className="hidden xl:flex items-center space-x-8 text-white text-xl">
             <button
               className="hover:text-purple-700"
               onClick={() => goTo('/admin')}
