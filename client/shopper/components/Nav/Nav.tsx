@@ -18,7 +18,8 @@ const Nav = () => {
   const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
   const [amountInCart, setAmountInCart] = useState(0)
   const [menuOpen, setMenuOpen] = useState(false)
-  const [isMobile, setIsMobile] = useState(false)
+  const [responsiveView, setResponsiveView] = useState(false)
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
   const [scale, setScale] = useState(1)
 
   useEffect(() => {
@@ -46,7 +47,10 @@ const Nav = () => {
     }
 
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 1100)
+      const width = window.innerWidth
+
+      setResponsiveView(width < 1100)
+      setIsSmallScreen(width <= 380)
     }
 
     updateScale()
@@ -72,15 +76,17 @@ const Nav = () => {
           shopperNavigateTo="/"
           goTo={goTo}
         />
-        <div
-          className="ml-4"
-          style={{
-            height: `${20 * scale}px`,
-            width: `${3 * scale}px`,
-            backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
-            borderRadius: `${5 * scale}px`,
-          }}
-        ></div>
+        {!isSmallScreen && (
+          <div
+            className="ml-4"
+            style={{
+              height: `${20 * scale}px`,
+              width: `${3 * scale}px`,
+              backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
+              borderRadius: `${5 * scale}px`,
+            }}
+          ></div>
+        )}
       </div>
 
       {/* Mobile and Desktop Menu */}
@@ -95,7 +101,7 @@ const Nav = () => {
           </button>
 
           {/* Mobile Menu */}
-          {menuOpen && isMobile && (
+          {menuOpen && responsiveView && (
             <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
               <button
                 className="hover:text-purple-700"
@@ -198,7 +204,7 @@ const Nav = () => {
           </button>
 
           {/* Mobile Menu (Admin View) */}
-          {menuOpen && isMobile && (
+          {menuOpen && responsiveView && (
             <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
               <button
                 className="hover:text-purple-700"
