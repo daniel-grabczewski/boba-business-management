@@ -41,7 +41,7 @@ const Home = () => {
           ></div>
           {/* Main content */}
           <div className="relative z-10 flex items-center justify-center min-h-screen max-w-screen-lg mx-auto p-6 overflow-y-auto">
-            <div className="flex flex-col md:flex-row items-center justify-center mx-auto space-y-6 md:space-y-0 md:space-x-8">
+            <div className="flex flex-col sm:flex-row items-center justify-center mx-auto space-y-6 sm:space-y-0 sm:space-x-8">
               {/* Boba Image */}
               <div className="hidden md:flex justify-center">
                 <img
