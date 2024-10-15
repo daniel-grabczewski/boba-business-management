@@ -43,11 +43,11 @@ const Home = () => {
           <div className="relative z-10 flex items-center justify-center min-h-screen max-w-screen-lg mx-auto p-6 overflow-y-auto">
             <div className="flex flex-col md:flex-row items-center justify-center mx-auto space-y-6 md:space-y-0 md:space-x-8">
               {/* Boba Image */}
-              <div className="flex justify-center items-center">
+              <div className="hidden md:flex justify-center">
                 <img
                   src={homePageTeaImage}
                   alt="Boba Buddies Drink"
-                  className="h-auto w-[40%] sm:w-[50%] md:w-[70%] lg:w-[70%]"
+                  className="w-[40%] sm:w-[50%] md:w-[70%] h-auto"
                 />
               </div>
 
