@@ -40,14 +40,14 @@ const Home = () => {
       />
 
       {/* Main Content */}
-      <div className="relative z-10 max-w-screen-lg mx-auto p-6 md:p-10 w-full flex items-center justify-center">
+      <div className="relative max-w-screen-lg mx-auto p-6 md:p-10 w-full flex items-center justify-center">
         <div className="flex flex-col sm:flex-row items-center justify-center w-full">
           {/* Boba Image */}
-          <div className="hidden md:flex justify-center">
+          <div className="hidden sm:flex col items-center justify-center">
             <img
               src={homePageTeaImage}
               alt="Boba Buddies Drink"
-              className="w-[40%] sm:w-[50%] md:w-[70%] h-auto"
+              className="w-[70%] sm:w-[70%] md:w-[80%] h-auto"
             />
           </div>
 
@@ -56,9 +56,9 @@ const Home = () => {
             <img
               src={homePageTitleImage}
               alt="Boba Buddies Logo"
-              className="w-2/3 md:w-full h-auto"
+              className="w-3/4 xs:w-1/2 sm:w-2/3 md:w-full h-auto"
             />
-            <p className="text-lg w-2/3 md:w-full md:text-xl lg:text-2xl">
+            <p className="text-lg w-full  md:text-xl lg:text-2xl text-left">
               Dive into our colorful world of delicious flavors, hand-shaken to
               perfection. Join the fun, and become a boba buddy today!
             </p>
