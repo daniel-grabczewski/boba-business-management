@@ -80,7 +80,7 @@ const NavToggleSwitch = ({
     height: `${13 * scale}px`,
     borderRadius: '50%',
     backgroundColor: '#fff',
-    transform: isShopperView ? 'translateX(0)' : `translateX(${14 * scale}px)`,
+    transform: isShopperView ? 'translateX(0)' : `translateX(${20 * scale}px)`,
     transition: enableTransition ? 'transform .3s ease' : 'none',
   }
 
