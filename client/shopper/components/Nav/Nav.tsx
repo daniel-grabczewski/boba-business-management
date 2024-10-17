@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faHeart,
-  faUser,
-  faBars,
-  faTimes,
-} from '@fortawesome/free-solid-svg-icons'
+import { faUser, faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import NavToggleSwitch from '../../../UI/NavToggleSwitch'
 import { baseURL } from '../../../../baseUrl'
 import { getDisplayCartItems } from '../../../services/cart'
@@ -43,7 +39,7 @@ const Nav = () => {
   useEffect(() => {
     const updateScale = () => {
       const width = window.innerWidth
-      setScale(width < 360 ? 1.8 : 2)
+      setScale(width < 390 ? 1.8 : 2)
     }
 
     const handleResize = () => {
@@ -175,19 +171,35 @@ const Nav = () => {
             >
               Contact
             </button>
-            <div className="flex space-x-4">
+            <div className="flex space-x-6 text-white">
+              <div className="group relative">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                  onClick={() => {
+                    goTo('/profile')
+                    window.scrollTo(0, 0)
+                  }}
+                >
+                  <FontAwesomeIcon icon={faUser} className="text-2xl" />
+                </button>
+                <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                  Profile
+                </span>
+              </div>
+            </div>
+            <div className="group relative">
               <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/profile')}
-              >
-                <FontAwesomeIcon icon={faUser} className="text-2xl" />
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/wishlist')}
+                className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                onClick={() => {
+                  goTo('/wishlist')
+                  window.scrollTo(0, 0)
+                }}
               >
                 <FontAwesomeIcon icon={faHeart} className="text-2xl" />
               </button>
+              <span className="absolute left-1 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                Wishlist
+              </span>
             </div>
           </div>
         </>
