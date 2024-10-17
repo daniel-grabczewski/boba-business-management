@@ -40,8 +40,15 @@ const Home = () => {
       />
 
       {/* Main Content */}
-      <div className="relative max-w-screen-lg mx-auto p-6 md:p-10 w-full flex items-center justify-center">
-        <div className="flex flex-col sm:flex-row items-center justify-center w-full">
+      <div className="relative max-w-screen-lg mx-auto p-10 w-full flex items-center justify-center">
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+          className="flex flex-col sm:flex-row items-center justify-center w-full"
+        >
           {/* Boba Image */}
           <div className="hidden sm:flex col items-center justify-center">
             <img
