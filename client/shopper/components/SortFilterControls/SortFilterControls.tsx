@@ -17,12 +17,12 @@ const SortFilterControls = ({
 }: SortFilterControlsProps) => {
   return (
     <div
-      className="flex flex-col sm:flex-row items-start sm:items-center gap-4 bg-gray-200 p-4 rounded-md justify-between w-full"
+      className="flex flex-col lg:flex-row items-start lg:items-center gap-4 bg-gray-200 p-4 rounded-md justify-between w-full"
       style={{ marginTop: '20px', marginBottom: '40px' }}
     >
       {/* Search Input */}
       <input
-        className="border p-2 rounded w-full sm:max-w-md"
+        className="border p-2 rounded w-full lg:max-w-md"
         type="text"
         placeholder="Search Product Name..."
         value={search}
@@ -30,9 +30,9 @@ const SortFilterControls = ({
       />
 
       {/* Filter and Sort Controls */}
-      <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-        <div className="flex flex-col sm:flex-row items-start sm:items-center">
-          <label htmlFor="filter" className="font-bold mr-2 sm:mr-4">
+      <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center">
+          <label htmlFor="filter" className="font-bold mr-2 lg:mr-4">
             Filter by:
           </label>
           <select
@@ -40,7 +40,7 @@ const SortFilterControls = ({
             id="filter"
             onChange={(e) => handleChangeFilter(e.target.value)}
             value={filter}
-            className="border rounded-md p-2 w-full sm:w-auto"
+            className="border rounded-md p-2 w-full lg:w-auto"
           >
             <option value="">...</option>
             <option value="with-pearls">With pearls</option>
@@ -53,8 +53,8 @@ const SortFilterControls = ({
           </select>
         </div>
 
-        <div className="flex flex-col sm:flex-row items-start sm:items-center">
-          <label htmlFor="sort" className="font-bold mr-2 sm:mr-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center">
+          <label htmlFor="sort" className="font-bold mr-2 lg:mr-4">
             Sort by:
           </label>
           <select
@@ -62,7 +62,7 @@ const SortFilterControls = ({
             id="sort"
             onChange={(e) => handleChangeSort(e.target.value)}
             value={sort}
-            className="border rounded-md p-2 w-full sm:w-auto"
+            className="border rounded-md p-2 w-full lg:w-auto"
           >
             <option value="">...</option>
             <option value="price-low-to-high">Price (Low to High)</option>
