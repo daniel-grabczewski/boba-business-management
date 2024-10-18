@@ -99,7 +99,7 @@ const Cart = () => {
       ) : (
         <div className="flex flex-col justify-center items-center mt-10 mb-10 lg:min-h-auto px-4 pb-24 lg:pb-0">
           <h1 className="text-3xl font-bold tracking-wider mb-8">CART</h1>
-          <div className="w-full lg:w-3/5 flex flex-col lg:flex-row lg:gap-8">
+          <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-8">
             {/* Cart items */}
             <div className="w-full lg:w-2/3 lg:max-h-screen lg:overflow-y-auto mb-6 lg:mb-0">
               <div className="space-y-4">
