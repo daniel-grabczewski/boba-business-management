@@ -202,12 +202,12 @@ const Profile = () => {
                               {review.productName}
                             </h3>
 
-                            <div className="text-gray-500 flex gap-2 text-xs md:text-sm">
-                              <p>
-                                {format24HourTo12Hour(review.reviewCreatedAt)}
-                              </p>
-                              <p>
+                            <div className="flex flex-col sm:flex-row gap-1 px-4 text-gray-500 text-xs sm:text-sm lg:text-base">
+                              <p className="text-xs sm:text-sm lg:text-base whitespace-nowrap">
                                 {formatDateToDDMMYYYY(review.reviewCreatedAt)}
+                              </p>
+                              <p className="text-xs sm:text-sm lg:text-base whitespace-nowrap">
+                                {format24HourTo12Hour(review.reviewCreatedAt)}
                               </p>
                             </div>
                           </div>
