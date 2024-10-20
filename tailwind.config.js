@@ -19,7 +19,7 @@ module.exports = {
         'green-700': '#2f855a',
         'purple-700': '#9B99FF',
         'home-rose': '#ffc5c7',
-        'nav-grey': '#323232',
+        'nav-grey': '#2B2B2B',
       },
       width: {
         128: '128px',
