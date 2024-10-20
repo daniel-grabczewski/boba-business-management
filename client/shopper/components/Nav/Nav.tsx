@@ -197,7 +197,7 @@ const Nav = () => {
                 >
                   <FontAwesomeIcon icon={faHeart} className="text-2xl" />
                 </button>
-                <span className="absolute left-0 transform translate-x-0 -bottom-8 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                <span className="absolute left-0 transform translate-x-0 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
                   Wishlist
                 </span>
               </div>
