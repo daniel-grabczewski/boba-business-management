@@ -55,7 +55,7 @@ const Dashboard = () => {
       <LoadError status={statuses} />
       <h1 className="text-center text-4xl font-semibold">Dashboard</h1>
 
-      <div className="bg-white text-black w-full sm:w-3/4 lg:w-1/2 rounded-lg shadow-lg mt-4 p-6 space-y-6">
+      <div className="bg-white text-black w-full sm:w-3/4 xl:w-1/2 rounded-lg shadow-lg mt-4 p-6 space-y-6">
         {/* Orders */}
         <div className="bg-gray-200 p-4 rounded-lg flex flex-col sm:flex-row justify-between items-center">
           <div>
