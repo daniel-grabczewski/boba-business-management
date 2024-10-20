@@ -144,7 +144,7 @@ const Nav = () => {
           )}
 
           {/* Desktop Menu */}
-          <div className="hidden lg:flex items-center space-x-8 text-white text-xl">
+          <div className="hidden lg:flex items-center space-x-14 text-white text-xl">
             <button className="hover:text-purple-700" onClick={() => goTo('/')}>
               Home
             </button>
@@ -171,10 +171,11 @@ const Nav = () => {
             >
               Contact
             </button>
-            <div className="flex space-x-6 text-white">
+            {/* Profile and Wishlist Icons */}
+            <div className="flex items-center space-x-6">
               <div className="group relative">
                 <button
-                  className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                  className="hover:text-purple-700 transition-colors duration-300"
                   onClick={() => {
                     goTo('/profile')
                     window.scrollTo(0, 0)
@@ -186,20 +187,20 @@ const Nav = () => {
                   Profile
                 </span>
               </div>
-            </div>
-            <div className="group relative">
-              <button
-                className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-                onClick={() => {
-                  goTo('/wishlist')
-                  window.scrollTo(0, 0)
-                }}
-              >
-                <FontAwesomeIcon icon={faHeart} className="text-2xl" />
-              </button>
-              <span className="absolute left-1 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-                Wishlist
-              </span>
+              <div className="group relative">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                  onClick={() => {
+                    goTo('/wishlist')
+                    window.scrollTo(0, 0)
+                  }}
+                >
+                  <FontAwesomeIcon icon={faHeart} className="text-2xl" />
+                </button>
+                <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                  Wishlist
+                </span>
+              </div>
             </div>
           </div>
         </>
