@@ -190,7 +190,7 @@ const Profile = () => {
                           <img
                             src={review.productImage}
                             alt={review.productName}
-                            className="w-full h-32 md:h-48 object-contain"
+                            className="w-full h-32 object-contain"
                           />
                         </div>
                         <div className="w-3/4 md:w-4/5">
