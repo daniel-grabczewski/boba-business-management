@@ -17,12 +17,12 @@ const SortFilterControls = ({
 }: SortFilterControlsProps) => {
   return (
     <div
-      className="flex flex-col lg:flex-row items-start lg:items-center gap-4 bg-gray-200 p-4 rounded-md justify-between w-full"
+      className="flex flex-col lg:flex-row items-start lg:items-center gap-4 bg-gray-200 p-4 rounded-md justify-between w-full sm:w-2/3 lg:w-full mx-auto"
       style={{ marginTop: '20px', marginBottom: '40px' }}
     >
       {/* Search Input */}
       <input
-        className="border p-2 rounded w-full lg:max-w-md"
+        className="border p-2 rounded w-full xl:max-w-md"
         type="text"
         placeholder="Search Product Name..."
         value={search}
@@ -31,8 +31,11 @@ const SortFilterControls = ({
 
       {/* Filter and Sort Controls */}
       <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center">
-          <label htmlFor="filter" className="font-bold mr-2 lg:mr-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center lg:space-x-2 lg:w-auto">
+          <label
+            htmlFor="filter"
+            className="font-bold mr-2 lg:whitespace-nowrap"
+          >
             Filter by:
           </label>
           <select
@@ -53,8 +56,8 @@ const SortFilterControls = ({
           </select>
         </div>
 
-        <div className="flex flex-col lg:flex-row items-start lg:items-center">
-          <label htmlFor="sort" className="font-bold mr-2 lg:mr-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center lg:space-x-2 lg:w-auto">
+          <label htmlFor="sort" className="font-bold mr-2 lg:whitespace-nowrap">
             Sort by:
           </label>
           <select

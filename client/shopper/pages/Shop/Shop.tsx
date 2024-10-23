@@ -126,7 +126,7 @@ const Shop = () => {
           style={{ marginTop: '60px', marginBottom: '100px' }}
         >
           <div className="w-full max-w-screen-lg">
-            <h1 className="text-2xl sm:text-4xl font-bold mt-2 text-center">
+            <h1 className="text-4xl font-bold mt-2 text-center">
               Shop for Bubble Tea
             </h1>
             <SortFilterControls

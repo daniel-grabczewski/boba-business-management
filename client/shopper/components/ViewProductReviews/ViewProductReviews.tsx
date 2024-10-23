@@ -129,7 +129,7 @@ function ViewProductReviews({
 
         {reviews.length > 0 && (
           <div
-            ref={reviewsContainerRef} // Attach the ref to the container
+            ref={reviewsContainerRef}
             className="overflow-y-auto w-full md:w-[400px] max-h-[400px] p-2"
           >
             {[...reviewsWithFullNames].reverse().map((review) =>
