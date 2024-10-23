@@ -135,6 +135,11 @@ order history
 user review in profile
 [Insert image comparison]
 
+<div style="display: flex; gap: 50px;">
+  <img src="public/images/edit-product-before.svg" alt="edit product page before" style="width: 49%;"/>
+  <img src="public/images/edit-product-after.svg" alt="edit product page after" style="width: 49%;"/>
+</div>
+
 disabled message for your own review
 
 
