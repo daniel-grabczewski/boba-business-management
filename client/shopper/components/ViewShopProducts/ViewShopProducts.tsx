@@ -38,7 +38,11 @@ const ViewShopProducts = ({
             return (
               <div
                 key={product.id}
-                className="border p-4 rounded-md flex flex-col justify-between max-w-300px"
+                className="border p-4 rounded-md flex flex-col justify-between mx-auto"
+                style={{
+                  width: '100%',
+                  maxWidth: window.innerWidth < 640 ? '300px' : 'none',
+                }}
               >
                 <div>
                   <Link
