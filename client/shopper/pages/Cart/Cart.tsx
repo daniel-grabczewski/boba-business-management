@@ -91,6 +91,10 @@ const Cart = () => {
     }
   )
 
+  const maxHeightStyle = {
+    maxHeight: `${window.innerHeight - 200}px`, // Adjust 200px as needed for any headers or footers
+  }
+
   return (
     <>
       <LoadError status={status} />
@@ -101,7 +105,10 @@ const Cart = () => {
           <h1 className="text-3xl font-bold tracking-wider mb-8">CART</h1>
           <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-8">
             {/* Cart items */}
-            <div className="w-full lg:w-2/3 lg:max-h-screen lg:overflow-y-auto mb-6 lg:mb-0">
+            <div
+              className="w-full lg:w-2/3 mb-6 lg:mb-0 overflow-y-auto"
+              style={maxHeightStyle}
+            >
               <div className="space-y-4">
                 {cartItemsWithStock &&
                   cartItemsWithStock.map((item) => (
@@ -188,9 +195,12 @@ const Cart = () => {
                       </p>
                     </div>
                   ))}
+              </div>
+              {/* Clear Cart Button at the bottom of the product list */}
+              <div className="flex justify-start mt-6">
                 <button
                   onClick={() => deleteCartItemsMutation.mutate()}
-                  className="mt-6 mb-12 px-4 py-2 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 select-none"
+                  className="px-4 py-2 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 select-none"
                 >
                   Clear Cart
                 </button>
@@ -215,12 +225,10 @@ const Cart = () => {
                       </p>
                     </div>
                   )}
-
                   <div className="flex justify-between mb-6">
                     <p className="font-bold">Shipping: </p>
                     <p>TBC</p>
                   </div>
-
                   <button
                     onClick={() => goTo('/checkout')}
                     className="mt-auto py-2 bg-blue-500 text-white font-bold rounded-md transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 w-full"
