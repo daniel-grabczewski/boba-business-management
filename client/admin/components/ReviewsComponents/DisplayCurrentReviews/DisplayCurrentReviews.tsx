@@ -20,21 +20,21 @@ const DisplayCurrentReviews = ({
         <p className="text-center mt-4 font-semibold">No reviews found</p>
       ) : (
         <div className="bg-white mt-4 mb-8 border border-gray-300">
-          {/* Table Header (Visible only on desktop) */}
-          <div className="hidden sm:flex bg-gray-300 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
-            <div className="w-1/5 py-4 px-6 border-r border-gray-300 whitespace-nowrap">
+          {/* Table Header (Visible only on larger screens) */}
+          <div className="hidden md:flex bg-gray-300 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
+            <div className="flex-1 py-4 px-6 border-r border-gray-300 whitespace-nowrap">
               Reviewer Username
             </div>
-            <div className="w-1/3 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 whitespace-nowrap">
+            <div className="flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 whitespace-nowrap">
               Reviewed Product
             </div>
-            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
+            <div className="flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
               Review Rating
             </div>
-            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
+            <div className="flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 text-center whitespace-nowrap">
               Status
             </div>
-            <div className="w-1/6 py-4 px-2 md:px-4 lg:px-6 whitespace-nowrap">
+            <div className="flex-1 py-4 px-2 md:px-4 lg:px-6 whitespace-nowrap">
               Date Posted
             </div>
           </div>
@@ -49,7 +49,7 @@ const DisplayCurrentReviews = ({
                 style={{ minHeight: '80px' }}
               >
                 {/* Mobile Version (Stacked Info) */}
-                <div className="block sm:hidden p-4 border-b">
+                <div className="block md:hidden p-4 border-b">
                   <div className="mb-2 flex justify-between items-center">
                     <strong>Reviewer Username:</strong>
                     <span className="whitespace-nowrap truncate">
@@ -57,7 +57,7 @@ const DisplayCurrentReviews = ({
                     </span>
                   </div>
                   <div className="mb-2">
-                    <strong>Reviewed Product:</strong>{' '}
+                    <strong>Reviewed Product:</strong>
                     <span className="truncate">{review.productName}</span>
                   </div>
                   <div className="mb-2">
@@ -72,7 +72,7 @@ const DisplayCurrentReviews = ({
                     {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
                   </div>
                   <div>
-                    <strong>Date Posted:</strong>{' '}
+                    <strong>Date Posted:</strong>
                     <span
                       className={
                         formatRelativeDate(review.reviewCreatedAt) === 'Today'
@@ -89,28 +89,28 @@ const DisplayCurrentReviews = ({
                 </div>
 
                 {/* Desktop Version (Table) */}
-                <div className="hidden sm:flex w-full sm:w-1/5 py-4 px-6 sm:border-r border-gray-300 text-left items-center truncate">
+                <div className="hidden md:flex flex-1 py-4 px-6 border-r border-gray-300 text-left items-center truncate">
                   {review.reviewerUserName}
                 </div>
 
-                <div className="hidden md:flex w-full md:w-1/3 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 items-center text-left truncate">
+                <div className="hidden md:flex flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 items-center text-left truncate">
                   {review.productName}
                 </div>
 
                 {/* Review Rating Column */}
-                <div className="hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 justify-center items-center text-center">
+                <div className="hidden md:flex flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 justify-center items-center text-center">
                   {review.reviewRating}
                 </div>
 
                 <div
-                  className={`hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 md:border-r border-gray-300 ${
+                  className={`hidden md:flex flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 ${
                     review.reviewIsEnabled ? 'bg-green-200' : 'bg-red-300'
                   } justify-center items-center text-center`}
                 >
                   {review.reviewIsEnabled ? 'Enabled' : 'Disabled'}
                 </div>
 
-                <div className="hidden md:flex w-full md:w-1/6 py-4 px-2 md:px-4 lg:px-6 justify-center items-center text-center">
+                <div className="hidden md:flex flex-1 py-4 px-2 md:px-4 lg:px-6 justify-center items-center text-center">
                   <span
                     className={
                       formatRelativeDate(review.reviewCreatedAt) === 'Today'
