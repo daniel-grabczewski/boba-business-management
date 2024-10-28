@@ -48,9 +48,12 @@ function EditProduct() {
       } else {
         const deprecatedSlugId = getProductIdByDeprecatedSlug(idOrSlug)
         if (deprecatedSlugId) {
-          navigate(`${baseURL}/admin/edit/${getSlugByProductId(deprecatedSlugId)}`, {
-            replace: true,
-          })
+          navigate(
+            `${baseURL}/admin/edit/${getSlugByProductId(deprecatedSlugId)}`,
+            {
+              replace: true,
+            }
+          )
           setProductId(deprecatedSlugId)
         } else setProductId(0)
       }
@@ -233,57 +236,42 @@ function EditProduct() {
         originalProduct={originalProduct}
         isErrorMessageEnabled={true}
       />
-      <div
-        className="flex flex-col justify-center items-center"
-        style={{ marginBottom: '80px' }}
-      >
-        <div className="w-1/4 flex flex-col items-center">
-          <hr className="mt-2 mb-8 bg-gray-700" style={{ width: '400px' }} />
-          <h1 className="font-semibold text-2xl mb-8">Reviews from users:</h1>
+      <div className="flex flex-col justify-center items-center mb-20">
+        <div className="w-full max-w-md sm:w-3/4 md:w-1/2 lg:w-1/4 flex flex-col items-center">
+          <hr className="mt-2 mb-8 bg-gray-700 w-full" />
+          <h1 className="font-semibold text-2xl mb-8 text-center">
+            Reviews from users:
+          </h1>
           <div
-            className="overflow-y-auto"
+            className="overflow-y-auto p-4"
             style={{
               maxHeight: '400px',
-              width: '400px',
-              paddingRight: '10px', // For scrollbar space
+              width: '100%',
             }}
           >
             {[...reviewsWithFullNames].reverse().map((review) => (
               <div
                 key={review.userName}
-                className="flex flex-col border border-black rounded"
-                style={{
-                  marginBottom: '30px',
-                  padding: '10px',
-                  width: '100%', // Adjust to fit the container
-                }}
+                className="flex flex-col border border-black rounded mb-8 p-4"
               >
-                <div
-                  className="flex flex-row justify-between font-bold"
-                  style={{ marginBottom: '5px' }}
-                >
+                <div className="flex flex-row justify-between font-bold mb-2">
                   <h2>{review.fullName}</h2>
                   <h2>{formatDateToDDMMYYYY(review.createdAt)}</h2>
                 </div>
-                <p style={{ marginBottom: '20px' }}>{review.description}</p>
+                <p className="mb-4">{review.description}</p>
                 <div className="flex justify-between">
                   <StarRating rating={review.rating} size={1} />
-                  {review.isEnabled === false ? (
-                    <div
-                      className="text-red-500 text-xs"
-                      style={{ marginTop: '-3px' }}
-                    >
+                  {review.isEnabled === false && (
+                    <div className="text-red-500 text-xs mt-1">
                       <p>This review has been disabled by an admin.</p>
                       <p>It is not visible to shoppers.</p>
                     </div>
-                  ) : (
-                    <p></p>
                   )}
                 </div>
               </div>
             ))}
           </div>
-          <div className="flex mb-8 mt-4">
+          <div className="flex mb-8 mt-4 p-4">
             <h2
               className="text-xl font-semibold"
               style={{ marginTop: '8px', marginRight: '20px' }}
