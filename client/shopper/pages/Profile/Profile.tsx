@@ -51,11 +51,11 @@ const Profile = () => {
   )
 
   return (
-    <div className="flex justify-center items-center mt-10 mb-10">
+    <div className="flex justify-center items-center my-10">
       <div className="p-4 w-full max-w-5xl">
         <LoadError status={[demoUserStatus, demoOrdersStatus]} />
 
-        <h1 className="text-2xl md:text-3xl font-bold tracking-wider mb-6">
+        <h1 className="text-4xl md:text-3xl font-bold tracking-wider mb-6">
           Hello, {demoUserDetails?.firstName} {demoUserDetails?.lastName}!
         </h1>
 

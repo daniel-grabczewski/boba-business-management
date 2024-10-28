@@ -101,8 +101,8 @@ const Cart = () => {
       {data?.length === 0 ? (
         <EmptyCart />
       ) : (
-        <div className="flex flex-col justify-center items-center mt-10 mb-10 lg:min-h-auto px-4 pb-24 lg:pb-0">
-          <h1 className="text-3xl font-bold tracking-wider mb-8">CART</h1>
+        <div className="flex flex-col justify-center items-center  my-10 lg:min-h-auto px-4 pb-24 lg:pb-0">
+          <h1 className="text-4xl font-bold tracking-wider mb-8">Cart</h1>
           <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-8">
             {/* Cart items */}
             <div

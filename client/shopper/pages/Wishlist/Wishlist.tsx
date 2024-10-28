@@ -87,7 +87,7 @@ const Wishlist = () => {
   return (
     <>
       <LoadError status={wishListQuery.status} />
-      <div className="bg-white w-full xl:w-4/6 flex flex-col items-center py-8 px-8 mx-auto">
+      <div className="bg-white w-full xl:w-4/6 flex flex-col items-center  my-10 px-8 mx-auto">
         <div className="w-full sm:w-10/12 text-center mb-4">
           <h1 className="text-4xl font-semibold text-black">Wishlist</h1>
         </div>

@@ -76,8 +76,8 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <div className="mx-auto max-w-2xl p-4 sm:p-8 flex flex-col mt-8">
-      <div className="text-3xl text-center font-bold mb-6">Contact Us</div>
+    <div className="mx-auto max-w-2xl p-4 flex flex-col  my-8">
+      <div className="text-4xl text-center font-bold mb-6">Contact Us</div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title" className="block text-lg font-semibold">
