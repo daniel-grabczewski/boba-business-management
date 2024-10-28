@@ -33,7 +33,7 @@ module.exports = {
       },
 
       screens: {
-        custom: '1200px',
+        custom: '1050px',
       },
     },
   },
