@@ -117,7 +117,7 @@ function AllOrders() {
     <>
       <LoadError status={ordersStatus} />
       <OrderPopup orderId={selectedOrderId} closeOrderPopup={closeOrderPopup} />
-      <div className="w-full mx-auto my-10 sm:w-full md:w-full lg:w-full xl:w-3/4">
+      <div className="w-full mx-auto my-10 p-4 sm:w-full md:w-full lg:w-full xl:w-3/4">
         <h1 className="text-center text-4xl font-semibold mb-10">Orders</h1>
         <OrderSortingControls
           search={search}
