@@ -97,12 +97,13 @@ function ViewProduct({
         />
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
-        <div className="flex items-center justify-between mb-4">
-          <h1 className="text-2xl lg:text-3xl font-bold whitespace-nowrap">
-            {product.name}
-          </h1>
-          <div className="flex items-center ml-4">
-            <button onClick={handleWishlistClick} className="flex items-center">
+        <div className="flex items-start justify-between mb-4">
+          <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
+          <div className="flex items-center">
+            <button
+              onClick={handleWishlistClick}
+              className="flex items-center whitespace-nowrap"
+            >
               <FontAwesomeIcon
                 icon={wishlistStatus ? solidHeart : regularHeart}
                 className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
