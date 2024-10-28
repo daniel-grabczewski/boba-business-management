@@ -88,7 +88,7 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center p-4 w-full lg:w-[1100px]">
+    <div className="flex flex-col sm:flex-row items-center p-6 w-full lg:w-[1100px]">
       <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0">
         <img
           src={product.image}
@@ -97,22 +97,25 @@ function ViewProduct({
         />
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
-        <div className="flex flex-row items-center justify-between mb-4">
-          <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
-          <button onClick={handleWishlistClick} className="flex items-center">
-            <FontAwesomeIcon
-              icon={wishlistStatus ? solidHeart : regularHeart}
-              className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
-                !wishlistStatus && 'hover:text-red-500'
-              } transition-colors duration-300`}
-              style={{ fontSize: '1.8rem' }}
-            />
-            <p className="ml-2 text-xs sm:text-sm">
-              {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
-            </p>
-          </button>
+        <div className="flex items-center justify-between mb-4">
+          <h1 className="text-2xl lg:text-3xl font-bold whitespace-nowrap">
+            {product.name}
+          </h1>
+          <div className="flex items-center ml-4">
+            <button onClick={handleWishlistClick} className="flex items-center">
+              <FontAwesomeIcon
+                icon={wishlistStatus ? solidHeart : regularHeart}
+                className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
+                  !wishlistStatus && 'hover:text-red-500'
+                } transition-colors duration-300`}
+                style={{ fontSize: '1.8rem' }}
+              />
+              <p className="ml-1 text-[10px] sm:text-xs md:text-sm">
+                {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
+              </p>
+            </button>
+          </div>
         </div>
-
         <h2 className="text-xl font-semibold">
           {formatCurrency(product.price)}
         </h2>
