@@ -89,11 +89,11 @@ function ViewProduct({
 
   return (
     <div className="flex flex-col sm:flex-row items-center p-4 w-full lg:w-[1100px]">
-      <div className="w-full sm:w-1/2 mb-10 lg:mb-0">
+      <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0">
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-auto md:h-65 lg:h-96 object-contain"
+          className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain mx-auto"
         />
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
@@ -105,9 +105,9 @@ function ViewProduct({
               className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
                 !wishlistStatus && 'hover:text-red-500'
               } transition-colors duration-300`}
-              style={{ fontSize: '1.875rem' }}
+              style={{ fontSize: '1.8rem' }}
             />
-            <p className="ml-2">
+            <p className="ml-2 text-xs sm:text-sm">
               {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
             </p>
           </button>
