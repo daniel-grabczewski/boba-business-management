@@ -1,4 +1,5 @@
 import { ShippingOption } from '../../../../models/ShippingOptions'
+
 interface ShippingMethodProps {
   shippingOptions: ShippingOption[]
   handleShippingChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
@@ -11,7 +12,7 @@ function ShippingMethod({
   return (
     <div className="w-full mr-6 mb-4 flex flex-row">
       <div className="w-full mr-6">
-        <label htmlFor="shipping" className="font-medium">
+        <label htmlFor="shipping" className="font-medium whitespace-nowrap">
           SELECT SHIPPING METHOD
         </label>
         <select

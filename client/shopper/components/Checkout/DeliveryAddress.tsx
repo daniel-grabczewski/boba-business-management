@@ -37,11 +37,11 @@ function DeliveryAddress({
   return (
     <>
       <div className="flex flex-col sm:flex-row w-full justify-between mb-4">
-        <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
-        <div className="flex justify-end w-full mb-4">
+        <div className="flex-grow flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mr-4">YOUR DETAILS</h1>
           <button
             type="button"
-            className="w-48 h-12 text-sm bg-blue-500 text-white rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none"
+            className="w-48 h-12 text-sm bg-blue-500 text-white rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none text-xs sm:text-sm"
             onClick={fillDetailsWithDefaults}
             onMouseEnter={handlePreviewMouseEnter}
             onMouseLeave={handlePreviewMouseLeave}
@@ -50,9 +50,10 @@ function DeliveryAddress({
           </button>
         </div>
       </div>
+
       {/* Phone Number */}
       <div className="flex flex-col sm:flex-row mb-4">
-        <div className="w-full ">
+        <div className="w-full sm:w-1/2 sm:mr-6">
           <label htmlFor="phoneNumber" className="font-normal text-gray-600">
             Phone number
           </label>
@@ -78,13 +79,14 @@ function DeliveryAddress({
                 ? 'text-red-500'
                 : 'text-gray-600'
             }`}
-          >{`${
-            invalidFields.includes('phoneNumber')
-              ? `Please enter a valid phone number`
-              : `e.g. 020 000 0000`
-          }`}</p>
+          >
+            {invalidFields.includes('phoneNumber')
+              ? 'Please enter a valid phone number'
+              : 'e.g. 020 000 0000'}
+          </p>
         </div>
       </div>
+
       {/* First Name and Last Name */}
       <div className="flex flex-col sm:flex-row mb-4">
         <div className="w-full sm:w-1/2 sm:mr-6 mb-4 sm:mb-0">
@@ -156,6 +158,7 @@ function DeliveryAddress({
           </p>
         </div>
       </div>
+
       {/* Address and City */}
       <div className="flex flex-col sm:flex-row mb-4">
         <div className="w-full sm:w-1/2 sm:mr-6">
@@ -201,6 +204,7 @@ function DeliveryAddress({
           </p>
         </div>
       </div>
+
       {/* Zip Code and Country */}
       <div className="flex flex-col sm:flex-row mb-8">
         <div className="w-full sm:w-1/2 sm:mr-6">
