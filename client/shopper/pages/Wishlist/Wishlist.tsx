@@ -87,11 +87,9 @@ const Wishlist = () => {
   return (
     <>
       <LoadError status={wishListQuery.status} />
-      <div className="bg-white w-full flex flex-col items-center py-8 px-4">
+      <div className="bg-white w-full xl:w-4/6 flex flex-col items-center py-8 px-8 mx-auto">
         <div className="w-full sm:w-10/12 text-center mb-4">
-          <h1 className="text-2xl sm:text-4xl font-semibold text-black">
-            WISHLIST
-          </h1>
+          <h1 className="text-4xl font-semibold text-black">Wishlist</h1>
         </div>
         {wishListQuery.data && wishListQuery.data.length === 0 ? (
           <div className="bg-white flex flex-col items-center justify-center mt-8">
@@ -125,7 +123,7 @@ const Wishlist = () => {
                         className="w-full h-full object-contain"
                       />
                     </div>
-                    <div className="ml-4 flex flex-col">
+                    <div className="ml-2 mr-8 flex flex-col">
                       <p className="text-sm sm:text-xl font-semibold text-black">
                         {item.productName}
                       </p>
