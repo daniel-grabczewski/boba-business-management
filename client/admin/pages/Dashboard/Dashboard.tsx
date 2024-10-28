@@ -51,7 +51,7 @@ const Dashboard = () => {
   ]
 
   return (
-    <div className="flex flex-col items-center justify-center p-4 mt-4 mb-4">
+    <div className="flex flex-col items-center justify-center my-10">
       <LoadError status={statuses} />
       <h1 className="text-center text-4xl font-semibold">Dashboard</h1>
 
