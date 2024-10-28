@@ -121,10 +121,8 @@ const ProductsSummary = () => {
     <>
       <LoadError status={statusProducts} />
       {products && sortedProducts && (
-        <div className="flex flex-col items-center mb-16 min-h-screen w-full pt-4 px-4">
-          <h1 className="text-center text-2xl sm:text-3xl lg:text-4xl font-semibold mb-4">
-            Products
-          </h1>
+        <div className="flex flex-col items-center mx-auto my-10 p-4 min-h-screen w-full ">
+          <h1 className="text-center text-4xl font-semibold mb-10">Products</h1>
           <div className="w-full max-w-screen-lg">
             <ProductsSortingControls
               search={search}
