@@ -121,7 +121,7 @@ const Shop = () => {
     <>
       <LoadError status={statusProducts} />
       {products && (
-        <div className="flex flex-col items-center my-10">
+        <div className="flex flex-col items-center px-4 my-10">
           <div className="w-full max-w-screen-lg">
             <h1 className="text-4xl font-bold text-center">
               Shop for Bubble Tea
