@@ -89,12 +89,19 @@ function ViewProduct({
 
   return (
     <div className="flex flex-col sm:flex-row items-center p-6 w-full lg:w-[1100px]">
-      <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0">
-        <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain mx-auto"
-        />
+      <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0 overflow-hidden flex justify-center">
+        <div
+          style={{
+            marginLeft: '-3em',
+            marginRight: '-3em',
+          }}
+        >
+          <img
+            src={product.image}
+            alt={product.name}
+            className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain mx-auto"
+          />
+        </div>
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
         <div className="flex items-start justify-between mb-4">
