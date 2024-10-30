@@ -88,7 +88,7 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center mx-8 w-full lg:w-[1100px]">
+    <div className="flex flex-col sm:flex-row items-center mx-8 xl:w-1/2">
       <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0 overflow-hidden flex justify-center">
         <div
           style={{
@@ -99,7 +99,7 @@ function ViewProduct({
           <img
             src={product.image}
             alt={product.name}
-            className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg object-contain mx-auto"
+            className="w-full h-auto max-w-xs sm:max-w-sm md:max-w-md xl:max-w-lg object-contain mx-auto"
           />
         </div>
       </div>
@@ -142,7 +142,7 @@ function ViewProduct({
           )}
         </div>
 
-        <p className="mt-4">{product.description}</p>
+        <p className="mt-4 pr-2">{product.description}</p>
         <div className="flex flex-col lg:flex-row items-start lg:items-center mt-4">
           <button
             className={`text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 ${
