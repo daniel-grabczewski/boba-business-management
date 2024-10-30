@@ -88,7 +88,7 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center p-6 w-full lg:w-[1100px]">
+    <div className="flex flex-col sm:flex-row items-center mx-8 w-full lg:w-[1100px]">
       <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0 overflow-hidden flex justify-center">
         <div
           style={{
@@ -104,9 +104,9 @@ function ViewProduct({
         </div>
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
-        <div className="flex items-start justify-between mb-4">
+        <div className="flex items-start space-x-4 mr-2 sm:space-x-28">
           <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
-          <div className="flex items-center">
+          <div className="relative flex items-center">
             <button
               onClick={handleWishlistClick}
               className="flex items-center whitespace-nowrap"
@@ -118,7 +118,11 @@ function ViewProduct({
                 } transition-colors duration-300`}
                 style={{ fontSize: '1.8rem' }}
               />
-              <p className="ml-1 text-[10px] sm:text-xs md:text-sm">
+              <p
+                className={`absolute left-full top-1/2 transform -translate-y-1/2 pl-1 text-[10px] sm:text-xs md:text-sm transition-transform duration-300 ${
+                  wishlistStatus ? 'translate-x-1' : 'translate-x-0'
+                }`}
+              >
                 {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
               </p>
             </button>
