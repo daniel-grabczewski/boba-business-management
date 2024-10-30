@@ -92,7 +92,7 @@ const Cart = () => {
   )
 
   const maxHeightStyle = {
-    maxHeight: `${window.innerHeight - 200}px`, // Adjust 200px as needed for any headers or footers
+    maxHeight: `${window.innerHeight - 200}px`,
   }
 
   return (
@@ -103,10 +103,10 @@ const Cart = () => {
       ) : (
         <div className="flex flex-col justify-center items-center  my-10 lg:min-h-auto px-4 pb-24 lg:pb-0">
           <h1 className="text-4xl font-bold tracking-wider mb-8">Cart</h1>
-          <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-8">
+          <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-6">
             {/* Cart items */}
             <div
-              className="w-full lg:w-2/3 mb-6 lg:mb-0 overflow-y-auto"
+              className="w-full lg:w-4/5 mb-6 lg:mb-0 overflow-y-auto"
               style={maxHeightStyle}
             >
               <div className="space-y-4">
@@ -114,7 +114,7 @@ const Cart = () => {
                   cartItemsWithStock.map((item) => (
                     <div
                       key={item.productId}
-                      className="flex items-center justify-between mb-4 border p-4 rounded-md shadow-sm bg-white"
+                      className="flex items-center justify-between mb-4 border p-4 pr-10 rounded-md shadow-sm bg-white"
                     >
                       <div
                         className="flex-shrink-0 w-1/3 sm:w-1/4 cursor-pointer"
@@ -124,6 +124,7 @@ const Cart = () => {
                           src={item.image}
                           alt={item.name}
                           className="w-full h-20 sm:h-28 object-contain"
+                          style={{ marginLeft: '-1em' }}
                         />
                       </div>
                       <div className="flex-1 px-2 sm:px-4">
@@ -147,7 +148,7 @@ const Cart = () => {
                                 deleteProductMutation.mutate(item.productId)
                               }
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
+                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
                           >
                             -
                           </button>
@@ -160,8 +161,7 @@ const Cart = () => {
                                 productId: item.productId,
                               })
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
-                            style={{ width: '24px', marginBottom: '2px' }}
+                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full  min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
                           >
                             +
                           </button>
@@ -190,7 +190,7 @@ const Cart = () => {
                           Remove
                         </button>
                       </div>
-                      <p className="font-bold text-right mt-4 sm:mt-0 text-sm sm:text-base">
+                      <p className="font-bold mt-4 sm:mt-0 text-sm sm:text-base mr-9">
                         {formatCurrency(item.price * item.quantity)}
                       </p>
                     </div>
