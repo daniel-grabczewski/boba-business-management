@@ -114,7 +114,7 @@ function Contact() {
         </div>
         <div className="flex flex-col items-center">
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-md w-full sm:w-auto text-lg font-semibold hover:bg-blue-700 transition duration-300"
+            className="bg-blue-500 text-white py-2 px-10 rounded-md w-full sm:w-auto text-lg font-semibold hover:bg-blue-700 transition duration-300"
             type="submit"
           >
             Submit
