@@ -19,7 +19,7 @@ const DisplayCurrentEmails = ({
   handleSelectEmailId,
 }: DisplayCurrentEmailsProps) => {
   return (
-    <div className="bg-white mt-4 mb-8 border-l border-r border-gray-300">
+    <div className="bg-white mt-4 mb-8 border-l border-r border-t border-gray-300">
       {/* Table Header (Visible only on desktop) */}
       <div className="hidden sm:flex bg-gray-300 text-gray-700 uppercase text-sm leading-normal border-b border-gray-300">
         <div className="w-1/5 py-4 px-6 border-r border-gray-300">Username</div>
