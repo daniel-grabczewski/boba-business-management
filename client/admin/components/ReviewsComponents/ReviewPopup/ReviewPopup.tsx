@@ -116,7 +116,7 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
                     src={review.productImage}
                     alt={review.productName}
                     style={{
-                      height: '160px', // Adjust for consistent height
+                      height: '160px',
                       width: '160px',
                     }}
                   />
@@ -125,6 +125,9 @@ const ReviewPopup = ({ reviewId, closeReviewPopup }: ReviewPopupProps) => {
                 {/* Review Text and Rating */}
                 <div className="flex flex-col justify-between w-full">
                   <div>
+                    <h1 className="font-semibold text-2xl">
+                      {review.productName}
+                    </h1>
                     <div className="flex gap-4 items-center mt-2">
                       <p className="font-semibold">User Rating:</p>
                       <StarRating rating={review.reviewRating} size={1} />
