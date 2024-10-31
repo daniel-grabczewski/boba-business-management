@@ -55,7 +55,7 @@ function OrderTable({
                     {formatCurrency(getTotalSaleOfOrderById(order.id))}
                   </div>
                   <div className="mb-2">
-                    <strong>Purchase Date:</strong>
+                    <strong>Purchase Date: </strong>
                     <span
                       className={
                         formatRelativeDate(order.purchasedAt) === 'Today'
