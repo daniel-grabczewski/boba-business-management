@@ -85,11 +85,13 @@ const DisplayCurrentReviews = ({
                 </div>
 
                 {/* Desktop Version (Table) */}
+
+                {/* Username Column */}
                 <div className="hidden md:flex flex-1 py-4 px-6 border-r border-gray-300 text-left items-center truncate">
                   {review.reviewerUserName}
                 </div>
-
-                <div className="hidden md:flex flex-1 py-4 px-2 md:px-4 lg:px-6 border-r border-gray-300 items-center text-left truncate">
+                {/* Product Name Column */}
+                <div className="flex-1 py-8 px-2 md:px-4 lg:px-6 border-r border-gray-300 items-center text-left md:truncate">
                   {review.productName}
                 </div>
 
