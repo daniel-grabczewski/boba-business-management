@@ -111,15 +111,17 @@ const Dashboard = () => {
                   </div>
                 ))}
             </div>
-            <button
-              className="bg-gray-500 rounded-lg text-white py-2 px-4 mt-4 hover:bg-gray-800 transition-all duration-300"
-              onClick={() => {
-                localStorage.setItem('productSearch', JSON.stringify(''))
-                goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
-              }}
-            >
-              View Products
-            </button>
+            <div className="flex justify-center sm:justify-start mt-4">
+              <button
+                className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
+                onClick={() => {
+                  localStorage.setItem('productSearch', JSON.stringify(''))
+                  goTo('/admin/products-summary?sort=stock-low-to-high&page=1')
+                }}
+              >
+                View Products
+              </button>
+            </div>
           </div>
         )}
 
