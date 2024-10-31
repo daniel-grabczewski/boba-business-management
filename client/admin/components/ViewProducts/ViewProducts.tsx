@@ -23,13 +23,16 @@ const ViewProducts = ({
         <div className="flex flex-col items-center w-full">
           <div className="w-full mx-auto flex flex-col gap-4">
             {getPaginatedProducts().map((product) => (
-              <div
+              <Link
                 key={product.id}
+                to={`${baseURL}/admin/edit/${product.id}`}
+                onMouseEnter={() => setHoveredProductId(product.id)}
+                onMouseLeave={() => setHoveredProductId(null)}
                 className={`box-border rounded-md border-2 p-4 flex flex-col sm:flex-row items-start justify-between sm:items-center bg-white ${
                   product.stock < lowStockThreshold
                     ? 'border-red-600'
                     : 'border-gray-200'
-                }`}
+                } cursor-pointer`}
               >
                 {/* Mobile View */}
                 <div className="block sm:hidden w-full flex items-center">
@@ -185,7 +188,7 @@ const ViewProducts = ({
                     </Link>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
