@@ -218,7 +218,7 @@ function ProductForm({
         </div>
 
         {/* Image URL and Preview */}
-        <div className="flex flex-col sm:flex-row sm:space-x-4 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4 sm:space-x-4 mb-8">
           <div className="w-full sm:w-1/2">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
