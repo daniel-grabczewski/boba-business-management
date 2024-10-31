@@ -1,6 +1,6 @@
 function PaymentMethod() {
   return (
-    <div className="w-full mr-6 mb-4 flex flex-row">
+    <div className="w-full mr-6 my-8 flex flex-row">
       <div className="w-full mr-6">
         <label htmlFor="payment" className="font-medium whitespace-nowrap">
           SELECT PAYMENT METHOD

@@ -36,7 +36,7 @@ function DeliveryAddress({
 
   return (
     <>
-      <div className="flex flex-col sm:flex-row w-full justify-between mb-4">
+      <div className="flex flex-col sm:flex-row w-full justify-between mb-8">
         <div className="flex-grow flex justify-between items-center">
           <h1 className="text-2xl font-semibold mr-4">YOUR DETAILS</h1>
           <button
@@ -52,8 +52,8 @@ function DeliveryAddress({
       </div>
 
       {/* Phone Number */}
-      <div className="flex flex-col sm:flex-row mb-4">
-        <div className="w-full sm:w-1/2 sm:mr-6">
+      <div className="flex flex-col sm:flex-row mb-8">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="phoneNumber" className="font-normal text-gray-600">
             Phone number
           </label>
@@ -88,8 +88,8 @@ function DeliveryAddress({
       </div>
 
       {/* First Name and Last Name */}
-      <div className="flex flex-col sm:flex-row mb-4">
-        <div className="w-full sm:w-1/2 sm:mr-6 mb-4 sm:mb-0">
+      <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:gap-8">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="firstName" className="font-normal text-gray-600">
             First name
           </label>
@@ -160,8 +160,8 @@ function DeliveryAddress({
       </div>
 
       {/* Address and City */}
-      <div className="flex flex-col sm:flex-row mb-4">
-        <div className="w-full sm:w-1/2 sm:mr-6">
+      <div className="flex flex-col sm:flex-row gap-8 mb-4">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="address" className="font-normal text-gray-600">
             Address
           </label>
@@ -206,8 +206,8 @@ function DeliveryAddress({
       </div>
 
       {/* Zip Code and Country */}
-      <div className="flex flex-col sm:flex-row mb-8">
-        <div className="w-full sm:w-1/2 sm:mr-6">
+      <div className="flex flex-col sm:flex-row gap-8 mb-4">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="zipCode" className="font-normal text-gray-600">
             Zip code
           </label>
@@ -231,11 +231,11 @@ function DeliveryAddress({
                 ? 'text-red-500'
                 : 'text-gray-600'
             }`}
-          >{`${
-            invalidFields.includes('zipCode')
+          >
+            {invalidFields.includes('zipCode')
               ? `Please enter a valid zip code`
-              : `e.g. 2345`
-          }`}</p>
+              : `e.g. 2345`}
+          </p>
         </div>
         <div className="w-full sm:w-1/2">
           <label htmlFor="country" className="font-normal text-gray-600">
