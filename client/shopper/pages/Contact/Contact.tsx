@@ -76,7 +76,7 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <div className="mx-auto max-w-2xl p-4 flex flex-col  my-8">
+    <div className="mx-auto max-w-2xl p-4 flex flex-col my-8">
       <div className="text-4xl text-center font-bold mb-6">Contact Us</div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
@@ -126,11 +126,13 @@ function Contact() {
           >
             Please fill out all fields
           </p>
-          {alertMessage && (
-            <div className="bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-full sm:w-1/2">
-              {alertMessage}
-            </div>
-          )}
+          <div
+            className={`bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-full sm:w-1/2 transition-all duration-300 flex items-center justify-center ${
+              alertMessage ? 'h-20' : 'h-20 opacity-0'
+            }`}
+          >
+            {alertMessage}
+          </div>
         </div>
       </form>
       <div className="mt-8 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8">
