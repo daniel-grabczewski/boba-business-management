@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ShopperProduct } from '../../../../models/Products'
 import { addItemToCartByProductId } from '../../../services/cart'
 import StarRating from '../StarRating/StarRating'
@@ -36,6 +36,17 @@ function ViewProduct({
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
   const [localStock, setLocalStock] = useState(100)
   const [isHeartHovered, setIsHeartHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  const handleResize = () => {
+    setIsMobile(window.innerWidth < 1050)
+  }
+
+  useEffect(() => {
+    handleResize()
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
 
   const cartMutation = useMutation(
     async (productId: number) => addItemToCartByProductId(productId),
@@ -88,12 +99,12 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center mx-8 md:w-4/6 xl:w-4/6">
+    <div className="flex flex-col sm:flex-row items-center mx-8 md:w-5/6 xl:w-4/6">
       <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0 overflow-hidden flex justify-center">
         <div
           style={{
-            marginLeft: '-5em',
-            marginRight: '-3em',
+            marginLeft: isMobile ? '0' : '-5em',
+            marginRight: isMobile ? '0' : '-5em',
           }}
         >
           <img
