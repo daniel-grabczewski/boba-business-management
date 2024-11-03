@@ -111,7 +111,7 @@ const Dashboard = () => {
                   </div>
                 ))}
             </div>
-            <div className="flex justify-center sm:justify-start mt-4">
+            <div className="flex justify-center sm:justify-end mt-4">
               <button
                 className="bg-gray-500 rounded-lg text-white py-2 px-4 hover:bg-gray-800 transition-all duration-300"
                 onClick={() => {
