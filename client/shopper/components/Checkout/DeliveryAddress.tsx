@@ -52,7 +52,7 @@ function DeliveryAddress({
       </div>
 
       {/* Phone Number */}
-      <div className="flex flex-col sm:flex-row mb-8">
+      <div className="flex flex-col sm:flex-row mb-8 sm:pr-8">
         <div className="w-full sm:w-1/2">
           <label htmlFor="phoneNumber" className="font-normal text-gray-600">
             Phone number
