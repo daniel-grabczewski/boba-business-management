@@ -34,8 +34,8 @@ function ViewProduct({
     'bg-blue-500 hover:bg-blue-700'
   )
   const [isButtonDisabled, setIsButtonDisabled] = useState(false)
-
   const [localStock, setLocalStock] = useState(100)
+  const [isHeartHovered, setIsHeartHovered] = useState(false)
 
   const cartMutation = useMutation(
     async (productId: number) => addItemToCartByProductId(productId),
@@ -88,11 +88,11 @@ function ViewProduct({
   }
 
   return (
-    <div className="flex flex-col sm:flex-row items-center mx-8 xl:w-1/2">
+    <div className="flex flex-col sm:flex-row items-center mx-8 md:w-4/6 xl:w-4/6">
       <div className="w-full p-4 sm:w-1/2 mb-10 lg:mb-0 overflow-hidden flex justify-center">
         <div
           style={{
-            marginLeft: '-3em',
+            marginLeft: '-5em',
             marginRight: '-3em',
           }}
         >
@@ -104,34 +104,39 @@ function ViewProduct({
         </div>
       </div>
       <div className="w-full lg:w-1/2 lg:ml-4">
-        <div className="flex items-start space-x-4 mr-2 sm:space-x-28">
-          <h1 className="text-2xl lg:text-3xl font-bold">{product.name}</h1>
-          <div className="relative flex items-center">
+        <div className="flex justify-between items-start mb-2">
+          <h1 className="text-2xl lg:text-3xl font-bold max-w-xs">
+            {product.name}
+          </h1>
+          <div className="relative group">
             <button
               onClick={handleWishlistClick}
-              className="flex items-center whitespace-nowrap"
+              onMouseEnter={() => setIsHeartHovered(true)}
+              onMouseLeave={() => setIsHeartHovered(false)}
+              className="flex items-center p-1"
             >
               <FontAwesomeIcon
                 icon={wishlistStatus ? solidHeart : regularHeart}
-                className={`${wishlistStatus ? 'text-red-500' : 'text-black'} ${
-                  !wishlistStatus && 'hover:text-red-500'
-                } transition-colors duration-300`}
+                className={`transition-colors duration-300 ${
+                  wishlistStatus
+                    ? 'text-red-500'
+                    : 'text-black hover:text-red-500'
+                }`}
                 style={{ fontSize: '1.8rem' }}
               />
-              <p
-                className={`absolute left-full top-1/2 transform -translate-y-1/2 pl-1 text-[10px] sm:text-xs md:text-sm transition-transform duration-300 ${
-                  wishlistStatus ? 'translate-x-1' : 'translate-x-0'
-                }`}
-              >
-                {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
-              </p>
             </button>
+
+            {isHeartHovered && (
+              <div className="absolute right-0 -top-7 bg-gray-700 text-white text-xs px-1 py-1 rounded opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap">
+                {wishlistStatus ? 'Remove from wishlist' : 'Add to wishlist'}
+              </div>
+            )}
           </div>
         </div>
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-xl font-semibold mb-2">
           {formatCurrency(product.price)}
         </h2>
-        <div className="flex items-center">
+        <div className="flex items-center mb-4">
           {averageRating === 0 ? (
             <p className="text-gray-500">No reviews yet</p>
           ) : (
@@ -141,12 +146,11 @@ function ViewProduct({
             </>
           )}
         </div>
-
-        <p className="mt-4 pr-2">{product.description}</p>
+        <p className="mt-4 pr-2 mb-4">{product.description}</p>
         <div className="flex flex-col lg:flex-row items-start lg:items-center mt-4">
           <button
-            className={`text-white font-bold py-2 px-4 mt-2 rounded transition-all duration-300 ${
-              availableStock === 0 ? `bg-gray-400 ` : `${buttonColor}`
+            className={`text-white font-bold py-2 px-4 rounded transition-all duration-300 ${
+              availableStock === 0 ? `bg-gray-400` : `${buttonColor}`
             }`}
             onClick={handleAddToCart}
             disabled={
