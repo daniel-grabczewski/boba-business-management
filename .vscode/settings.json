@@ -1,4 +1,7 @@
 {
   "typescript.tsdk": "node_modules/typescript/lib",
-  "editor.wordWrap": "on"
+  "editor.wordWrap": "on",
+  "discord.removeDetails": true,
+  "discord.removeLowerDetails": true,
+  "discord.removeRemoteRepository": true
 }
