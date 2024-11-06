@@ -52,7 +52,7 @@ const Profile = () => {
 
   return (
     <div className="flex justify-center items-center my-10">
-      <div className="p-4 w-full max-w-5xl">
+      <div className="px-4 w-full max-w-5xl">
         <LoadError status={[demoUserStatus, demoOrdersStatus]} />
 
         <h1 className="text-4xl md:text-3xl font-bold tracking-wider mb-6">

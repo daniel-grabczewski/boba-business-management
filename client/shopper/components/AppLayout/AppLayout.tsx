@@ -34,7 +34,7 @@ function AppLayout() {
   return (
     <div className="min-w-[362px] flex flex-col min-h-screen">
       <Nav />
-      <div className="flex-grow">
+      <div className="flex-grow" style={{ minHeight: '100vh' }}>
         <Outlet />
       </div>
       <Footer />
