@@ -45,7 +45,7 @@ const Nav = () => {
     const handleResize = () => {
       const width = window.innerWidth
 
-      setResponsiveView(width < 1100)
+      setResponsiveView(width < 1300)
       setIsSmallScreen(width <= 380)
     }
 
