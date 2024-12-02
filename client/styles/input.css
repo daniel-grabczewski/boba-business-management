@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+body,
+html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
 /* Prevent dragging on all images globally */
 img {
   -webkit-user-drag: none; /* For Safari */
@@ -17,21 +24,21 @@ img {
 div {
   -webkit-user-drag: none; /* For Safari */
   user-drag: none; /* Standard CSS property */
-} 
+}
 
 /* Prevent text selection and highlighting on all buttons */
 button {
   -webkit-user-select: none; /* For Safari */
-  -moz-user-select: none;    /* For Firefox */
-  -ms-user-select: none;     /* For Internet Explorer/Edge */
-  user-select: none;         /* Standard CSS property */
+  -moz-user-select: none; /* For Firefox */
+  -ms-user-select: none; /* For Internet Explorer/Edge */
+  user-select: none; /* Standard CSS property */
 }
 
 a {
   -webkit-user-select: none; /* Prevent text selection for Safari */
-  -moz-user-select: none;    /* Prevent text selection for Firefox */
-  -ms-user-select: none;     /* Prevent text selection for Internet Explorer/Edge */
-  user-select: none;         /* Prevent text selection */
+  -moz-user-select: none; /* Prevent text selection for Firefox */
+  -ms-user-select: none; /* Prevent text selection for Internet Explorer/Edge */
+  user-select: none; /* Prevent text selection */
   -webkit-user-drag: none; /* Prevent dragging for Safari */
   user-drag: none; /* Standard CSS property */
 }

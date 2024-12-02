@@ -12,7 +12,7 @@ type NavToggleSwitchProps = {
 const NavToggleSwitch = ({
   isShopperView,
   handleIsShopperView,
-  scale = 1,
+  scale = 1.2,
   goTo,
   adminNavigateTo,
   shopperNavigateTo,
@@ -20,13 +20,24 @@ const NavToggleSwitch = ({
   const [enableTransition, setEnableTransition] = useState(false)
   const [isShopperHovered, setIsShopperHovered] = useState(false)
   const [isAdminHovered, setIsAdminHovered] = useState(false)
+  const [fontSize, setFontSize] = useState('1.25rem')
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setEnableTransition(true)
     }, 50)
-
     return () => clearTimeout(timeoutId)
+  }, [])
+
+  // Update font size based on screen width
+  useEffect(() => {
+    const updateFontSize = () => {
+      setFontSize(window.innerWidth < 430 ? '1rem' : '1.25rem')
+    }
+
+    updateFontSize() // Set initial size
+    window.addEventListener('resize', updateFontSize)
+    return () => window.removeEventListener('resize', updateFontSize)
   }, [])
 
   const containerStyles = {
@@ -37,11 +48,11 @@ const NavToggleSwitch = ({
   }
 
   const labelStyles = {
-    fontSize: `${19}px`,
-    lineHeight: `${20}px`,
+    fontSize,
+    lineHeight: '1rem',
     textAlign: 'center' as const,
     userSelect: 'none' as const,
-    margin: `0 ${8 * scale}px`,
+    margin: `0 ${6 * scale}px`,
     transition: 'color 0.3s ease',
   }
 
@@ -79,7 +90,6 @@ const NavToggleSwitch = ({
       <span
         style={{
           ...labelStyles,
-          width: '120px',
           color:
             isShopperView === null
               ? '#b0b0b0'
@@ -124,7 +134,6 @@ const NavToggleSwitch = ({
       <span
         style={{
           ...labelStyles,
-          width: '120px',
           color:
             isShopperView === null
               ? '#b0b0b0'

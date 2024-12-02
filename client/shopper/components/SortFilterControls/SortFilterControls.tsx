@@ -17,37 +17,33 @@ const SortFilterControls = ({
 }: SortFilterControlsProps) => {
   return (
     <div
-      style={{
-        marginTop: '20px',
-        marginBottom: '40px',
-        minWidth: '1000px',
-        maxWidth: '1000px',
-      }}
-      className="flex items-center gap-4 bg-gray-200 p-4 rounded-md justify-between"
+      className="flex flex-col lg:flex-row items-start lg:items-center gap-4 bg-gray-200 p-4 rounded-md justify-between w-full sm:w-2/3 lg:w-full mx-auto"
+      style={{ marginTop: '20px', marginBottom: '40px' }}
     >
+      {/* Search Input */}
       <input
-        style={{ maxWidth: '400px', minWidth: '400px' }}
-        className="border p-2 rounded w-full"
+        className="border p-2 rounded w-full xl:max-w-md"
         type="text"
         placeholder="Search Product Name..."
         value={search}
         onChange={(e) => handleChangeSearch(e.target.value)}
       />
-      <div className="flex gap-4">
-        <div>
+
+      {/* Filter and Sort Controls */}
+      <div className="flex flex-col lg:flex-row gap-4 w-full lg:w-auto">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center lg:space-x-2 lg:w-auto">
           <label
             htmlFor="filter"
-            className={'font-bold'}
-            style={{ marginRight: '4px' }}
+            className="font-bold mr-2 lg:whitespace-nowrap"
           >
-            Filter by:{' '}
+            Filter by:
           </label>
           <select
             name="filter"
             id="filter"
             onChange={(e) => handleChangeFilter(e.target.value)}
             value={filter}
-            className="border rounded-md p-2"
+            className="border rounded-md p-2 w-full lg:w-auto"
           >
             <option value="">...</option>
             <option value="with-pearls">With pearls</option>
@@ -59,20 +55,17 @@ const SortFilterControls = ({
             <option value="dairy-free">Dairy free</option>
           </select>
         </div>
-        <div>
-          <label
-            htmlFor="sort"
-            className="ml-4 font-bold"
-            style={{ marginRight: '4px' }}
-          >
-            Sort by:{' '}
+
+        <div className="flex flex-col lg:flex-row items-start lg:items-center lg:space-x-2 lg:w-auto">
+          <label htmlFor="sort" className="font-bold mr-2 lg:whitespace-nowrap">
+            Sort by:
           </label>
           <select
             name="sort"
             id="sort"
             onChange={(e) => handleChangeSort(e.target.value)}
             value={sort}
-            className="border rounded-md p-2"
+            className="border rounded-md p-2 w-full lg:w-auto"
           >
             <option value="">...</option>
             <option value="price-low-to-high">Price (Low to High)</option>

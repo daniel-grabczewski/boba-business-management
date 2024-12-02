@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHeart, faUser } from '@fortawesome/free-regular-svg-icons'
+import { faUser, faHeart } from '@fortawesome/free-regular-svg-icons'
+import { faBars, faTimes } from '@fortawesome/free-solid-svg-icons'
 import NavToggleSwitch from '../../../UI/NavToggleSwitch'
 import { baseURL } from '../../../../baseUrl'
 import { getDisplayCartItems } from '../../../services/cart'
@@ -12,19 +13,16 @@ const Nav = () => {
   const location = useLocation()
   const [isShopperView, setIsShopperView] = useState<boolean | null>(null)
   const [amountInCart, setAmountInCart] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [responsiveView, setResponsiveView] = useState(false)
+  const [isSmallScreen, setIsSmallScreen] = useState(false)
+  const [scale, setScale] = useState(1)
 
   useEffect(() => {
-    // Check if the current path starts with '/admin'
-    if (location.pathname.startsWith(`${baseURL}/admin`)) {
-      setIsShopperView(false)
-    } else {
-      setIsShopperView(true)
-    }
+    setIsShopperView(!location.pathname.startsWith(`${baseURL}/admin`))
   }, [location.pathname])
 
-  const { data } = useQuery('getDisplayCartItems', async () =>
-    getDisplayCartItems()
-  )
+  const { data } = useQuery('getDisplayCartItems', getDisplayCartItems)
 
   useEffect(() => {
     if (data) {
@@ -35,198 +33,271 @@ const Nav = () => {
 
   const goTo = (link: string) => {
     navigate(`${baseURL}${link}`)
+    setMenuOpen(false)
   }
 
-  const adminColor = '#ffa835'
-  const shopperColor = '#5b59fd'
+  useEffect(() => {
+    const updateScale = () => {
+      const width = window.innerWidth
+      setScale(width < 390 ? 1.8 : 2)
+    }
 
-  const adminNavigateTo = '/admin'
-  const shopperNavigateTo = '/'
+    const handleResize = () => {
+      const width = window.innerWidth
+
+      setResponsiveView(width < 1300)
+      setIsSmallScreen(width <= 380)
+    }
+
+    updateScale()
+    handleResize()
+    window.addEventListener('resize', updateScale)
+    window.addEventListener('resize', handleResize)
+
+    return () => {
+      window.removeEventListener('resize', updateScale)
+      window.removeEventListener('resize', handleResize)
+    }
+  }, [])
 
   return (
-    <nav
-      className=" flex justify-between items-center px-6 md:px-12 lg:px-16"
-      style={{
-        background: isShopperView ? '#292929' : '#292929',
-        minHeight: '80px',
-        maxHeight: '80px',
-      }}
-    >
-      <div className="flex flex-row justify-between items-center">
-        <div
-          style={{ background: '', height: '70px', width: '350px' }}
-          className="p-2 flex flex-row justify-center"
-        >
-          <NavToggleSwitch
-            isShopperView={isShopperView}
-            handleIsShopperView={(isShopperView) =>
-              setIsShopperView(isShopperView)
-            }
-            scale={2}
-            adminNavigateTo={adminNavigateTo}
-            shopperNavigateTo={shopperNavigateTo}
-            goTo={goTo}
-          />
-        </div>
-        <div
-          style={{
-            height: '60px',
-            color: 'red',
-            width: '6px',
-            backgroundColor: isShopperView ? shopperColor : adminColor,
-            marginLeft: '30px',
-            borderRadius: '5px',
-            marginRight: '40px',
-          }}
-        ></div>
+    <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
+      {/* Logo & Toggle */}
+      <div className="flex items-center">
+        <NavToggleSwitch
+          isShopperView={isShopperView}
+          handleIsShopperView={setIsShopperView}
+          scale={scale}
+          adminNavigateTo="/admin"
+          shopperNavigateTo="/"
+          goTo={goTo}
+        />
+        {!isSmallScreen && (
+          <div
+            className="ml-4"
+            style={{
+              height: `${30 * scale}px`,
+              width: `${3 * scale}px`,
+              backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
+              borderRadius: `${5 * scale}px`,
+            }}
+          ></div>
+        )}
       </div>
-      {isShopperView === null ? (
-        <div></div>
-      ) : isShopperView ? (
-        <div className="flex text-white text-xl" style={{ gap: '4rem' }}>
+
+      {/* Mobile and Desktop Menu */}
+      {isShopperView && (
+        <>
+          {/* Mobile Menu Icon */}
           <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/')
-              window.scrollTo(0, 0)
-            }}
+            className="text-white text-2xl lg:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
           >
-            Home
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
           </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/shop')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Shop
-          </button>
-          <div className="relative inline-block">
+
+          {/* Mobile Menu */}
+          {menuOpen && responsiveView && (
+            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/')}
+              >
+                Home
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/shop')}
+              >
+                Shop
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/cart')}
+              >
+                Cart{' '}
+                {amountInCart > 0 && (
+                  <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
+                    {amountInCart}
+                  </span>
+                )}
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/contact')}
+              >
+                Contact
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/profile')}
+              >
+                Profile
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/wishlist')}
+              >
+                Wishlist
+              </button>
+            </div>
+          )}
+
+          {/* Desktop Menu */}
+          <div className="hidden lg:flex items-center space-x-14 text-white text-xl">
+            <button className="hover:text-purple-700" onClick={() => goTo('/')}>
+              Home
+            </button>
             <button
-              className="hover:text-purple-700 transition-colors duration-300 relative"
-              onClick={() => {
-                goTo('/cart')
-                window.scrollTo(0, 0)
-              }}
+              className="hover:text-purple-700"
+              onClick={() => goTo('/shop')}
             >
-              Cart
-              {/* Red bubble only shows when itemCount is greater than 0 */}
+              Shop
+            </button>
+            <button
+              className="relative hover:text-purple-700"
+              onClick={() => goTo('/cart')}
+            >
+              Cart{' '}
               {amountInCart > 0 && (
-                <span
-                  className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5"
-                  style={{
-                    marginLeft: '2px',
-                    paddingLeft: '6px',
-                    paddingRight: '6px',
-                  }}
-                >
+                <span className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
                   {amountInCart}
                 </span>
               )}
             </button>
-          </div>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/contact')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Contact
-          </button>
-          <div className="flex space-x-6 text-white">
-            <div className="group relative">
-              <button
-                className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-                onClick={() => {
-                  goTo('/profile')
-                  window.scrollTo(0, 0)
-                }}
-              >
-                <FontAwesomeIcon icon={faUser} className="text-2xl" />
-              </button>
-              <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-                Profile
-              </span>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/contact')}
+            >
+              Contact
+            </button>
+            {/* Profile and Wishlist Icons */}
+            <div className="flex items-center space-x-6 pr-6">
+              <div className="group relative">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300"
+                  onClick={() => {
+                    goTo('/profile')
+                    window.scrollTo(0, 0)
+                  }}
+                >
+                  <FontAwesomeIcon icon={faUser} className="text-2xl" />
+                </button>
+                <span className="absolute left-0 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                  Profile
+                </span>
+              </div>
+              <div className="group relative">
+                <button
+                  className="hover:text-purple-700 transition-colors duration-300 flex items-center"
+                  onClick={() => {
+                    goTo('/wishlist')
+                    window.scrollTo(0, 0)
+                  }}
+                >
+                  <FontAwesomeIcon icon={faHeart} className="text-2xl" />
+                </button>
+                <span className="absolute left-0 transform translate-x-0 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
+                  Wishlist
+                </span>
+              </div>
             </div>
+          </div>
+        </>
+      )}
 
-            <div className="group relative">
+      {!isShopperView && (
+        <>
+          {/* Mobile Menu Icon (Admin View) */}
+          <button
+            className="text-white text-2xl xl:hidden"
+            onClick={() => setMenuOpen(!menuOpen)}
+          >
+            <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
+          </button>
+
+          {/* Mobile Menu (Admin View) */}
+          {menuOpen && responsiveView && (
+            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
               <button
-                className="hover:text-purple-700 transition-colors duration-300 flex items-center"
-                onClick={() => {
-                  goTo('/wishlist')
-                  window.scrollTo(0, 0)
-                }}
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin')}
               >
-                <FontAwesomeIcon icon={faHeart} className="text-2xl" />
+                Dashboard
               </button>
-              <span className="absolute left-1/2 -bottom-6 bg-gray-500 text-white px-2 py-1 rounded shadow text-xs opacity-0 pointer-events-none transition-opacity duration-300 group-hover:opacity-100">
-                Wishlist
-              </span>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin/inbox')}
+              >
+                Inbox
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin/orders')}
+              >
+                Orders
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin/reviews')}
+              >
+                Reviews
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin/products-summary')}
+              >
+                Products
+              </button>
+              <button
+                className="hover:text-purple-700"
+                onClick={() => goTo('/admin/add-product')}
+              >
+                Add Product
+              </button>
             </div>
+          )}
+
+          {/* Desktop Menu (Admin View) */}
+          <div className="hidden xl:flex items-center space-x-8 text-white text-xl">
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin')}
+            >
+              Dashboard
+            </button>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin/inbox')}
+            >
+              Inbox
+            </button>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin/orders')}
+            >
+              Orders
+            </button>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin/reviews')}
+            >
+              Reviews
+            </button>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin/products-summary')}
+            >
+              Products
+            </button>
+            <button
+              className="hover:text-purple-700"
+              onClick={() => goTo('/admin/add-product')}
+            >
+              Add Product
+            </button>
           </div>
-        </div>
-      ) : (
-        <div
-          className="flex space-x-6 text-white text-xl"
-          style={{ gap: '2rem' }}
-        >
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Dashboard
-          </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin/inbox')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Inbox
-          </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin/orders')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Orders
-          </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin/reviews')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Reviews
-          </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin/products-summary')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Products
-          </button>
-          <button
-            className="hover:text-purple-700 transition-colors duration-300"
-            onClick={() => {
-              goTo('/admin/add-product')
-              window.scrollTo(0, 0)
-            }}
-          >
-            Add Product
-          </button>
-        </div>
+        </>
       )}
     </nav>
   )

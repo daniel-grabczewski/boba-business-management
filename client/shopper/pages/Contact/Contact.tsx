@@ -8,7 +8,6 @@ function Contact() {
     sendEmailFromDemoUser(newEmail)
   )
   const [alertMessage, setAlertMessage] = useState('')
-
   const [newEmail, setNewEmail] = useState({
     title: '',
     description: '',
@@ -18,7 +17,6 @@ function Contact() {
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = event.target
-
     setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
 
     if (value) {
@@ -36,7 +34,6 @@ function Contact() {
 
   function handleMessageChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     const { name, value } = event.target
-
     setNewEmail((prevEmail) => ({ ...prevEmail, [name]: value }))
 
     if (value) {
@@ -48,7 +45,6 @@ function Contact() {
 
   async function handleSubmit(event: FormEvent) {
     event.preventDefault()
-
     const emptyKeys = Object.keys(newEmail).filter(
       (key) => !newEmail[key as keyof NewEmail]
     )
@@ -80,19 +76,18 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <div
-      className="mx-auto max-w-2xl p-8 flex flex-col"
-      style={{ marginTop: '35px' }}
-    >
-      <div className="text-3xl text-center font-bold mb-6">Contact Us</div>
+    <div className="mx-auto max-w-2xl  flex flex-col my-10">
+      <div className="text-4xl text-center font-bold mb-6">Contact Us</div>
       <form className="space-y-4" onSubmit={handleSubmit}>
-        <div className="mb-4">
+        <div>
           <label htmlFor="title" className="block text-lg font-semibold">
             Topic:
           </label>
           <input
-            className={`mt-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full ${
-              showError && emptyFields.includes('title') ? 'border-red-500' : ''
+            className={`mt-2 border rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 ${
+              showError && emptyFields.includes('title')
+                ? 'border-red-500 focus:ring-red-500'
+                : 'focus:ring-black'
             }`}
             type="text"
             name="title"
@@ -100,17 +95,16 @@ function Contact() {
             value={newEmail.title}
           />
         </div>
-        <div className="mb-4">
+        <div>
           <label htmlFor="description" className="block text-lg font-semibold">
             Message:
           </label>
           <textarea
-            className={`mt-2 border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-black w-full ${
+            className={`mt-2 border rounded-md px-3 py-2 w-full focus:outline-none focus:ring-2 ${
               showError && emptyFields.includes('description')
-                ? 'border-red-500'
-                : ''
+                ? 'border-red-500 focus:ring-red-500'
+                : 'focus:ring-black'
             }`}
-            style={{ height: '150px', maxHeight: '300px', minHeight: '150px' }}
             name="description"
             onChange={handleMessageChange}
             value={newEmail.description}
@@ -118,10 +112,9 @@ function Contact() {
             rows={6}
           />
         </div>
-        <div className="mx-auto flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <button
-            className="bg-blue-500 text-white py-2 px-4 rounded-md w-full text-lg font-semibold hover:bg-blue-700 hover:text-gray-100 transition-all duration-300"
-            style={{ maxWidth: '125px' }}
+            className="bg-blue-500 text-white py-2 px-10 rounded-md w-full sm:w-auto text-lg font-semibold hover:bg-blue-700 transition duration-300"
             type="submit"
           >
             Submit
@@ -133,30 +126,27 @@ function Contact() {
           >
             Please fill out all fields
           </p>
-          {alertMessage && (
-            <div className="bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-1/2">
-              {alertMessage}
-            </div>
-          )}
+          <div
+            className={`bg-green-200 text-green-800 p-2 mb-4 rounded text-center w-full sm:w-1/2 transition-all duration-300 flex items-center justify-center ${
+              alertMessage ? 'h-20' : 'h-20 opacity-0'
+            }`}
+          >
+            {alertMessage}
+          </div>
         </div>
       </form>
-      <div
-        className="mt-8 mx-auto mb-8 mx-auto flex gap-4"
-        style={{ width: '700px' }}
-      >
-        <div>
+      <div className="mt-8 flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-8">
+        <div className="w-full sm:w-auto">
           <iframe
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6497.876987938504!2d174.72966999140917!3d-35.4810655719159!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6d0b47a4f8e4efc3%3A0xf00ef62249bfa20!2sAorangi%20Island!5e0!3m2!1sen!2snz!4v1724716819889!5m2!1sen!2snz"
             title="map"
-            height="400"
-            width="400px"
-            style={{ border: 0 }}
+            className="rounded-md w-full h-64 sm:h-80 lg:h-96"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
         </div>
-        <div className="w-1/2">
-          <h2 className="font-semibold text-2xl">Our Address</h2>
+        <div className="w-full sm:w-1/2">
+          <h2 className="font-semibold text-2xl mb-2">Our Address</h2>
           <p>42 Boba Street, Aorangi Island,</p>
           <p>New Zealand</p>
           <p className="font-semibold mt-2">Inquiries@boba.com</p>

@@ -58,43 +58,54 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
         <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
           <div
             ref={popupRef}
-            className="bg-white p-8 w-1/2 max-w-full h0 shadow-xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 rounded-md flex flex-col"
-            style={{ height: '80vh' }}
+            className="bg-white p-6 w-11/12 sm:w-4/5 lg:w-3/5 max-w-full max-h-screen shadow-xl rounded-lg flex flex-col overflow-hidden m-4"
           >
-            <div className="mb-4">
-              <h2 className="text-2xl font-semibold">Order #{order.orderId}</h2>
-              <p>
-                {`
-                ${formatDateToDDMMYYYY(order.purchasedAt)},
-                ${format24HourTo12Hour(order.purchasedAt)}  `}
-              </p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-lg font-semibold">Information:</h3>
-              <p>
-                {order.firstName} {order.lastName}
-              </p>
-              <p>
-                {order.address}, {order.city}
-              </p>
-              <p>
-                {order.zipCode}, {order.country}{' '}
-              </p>
-              <p>{order.email}</p>
-              <p>{order.phoneNumber}</p>
-            </div>
-
-            <div className="flex-1 overflow-y-auto mb-4 rounded-md">
-              <div className="sticky top-0 bg-gray-200 flex text font-semibold">
-                <div className="py-2 px-4 border w-1/2">Product</div>
-                <div className="py-2 px-4 border w-1/3"> Quantity</div>
-                <div className="py-2 px-4 border w-1/3">Sale</div>
+            <div className="flex-1 overflow-y-auto">
+              <div className="mb-4">
+                <h2 className="text-xl sm:text-2xl font-semibold">
+                  Order #{order.orderId}
+                </h2>
+                <p>
+                  {`${formatDateToDDMMYYYY(
+                    order.purchasedAt
+                  )}, ${format24HourTo12Hour(order.purchasedAt)}`}
+                </p>
               </div>
+
+              {/* Customer Information */}
+              <div className="mb-4">
+                <h3 className="text-lg font-semibold">Information:</h3>
+                <p>
+                  {order.firstName} {order.lastName}
+                </p>
+                <p>
+                  {order.address}, {order.city}
+                </p>
+                <p>
+                  {order.zipCode}, {order.country}
+                </p>
+                <p>{order.email}</p>
+                <p>{order.phoneNumber}</p>
+              </div>
+
+              {/* Order Items */}
               <div>
+                <div className="sticky top-0 bg-gray-200 flex font-semibold">
+                  <div className="py-2 px-4 w-1/2">Product</div>
+                  <div className="py-2 px-4 w-1/4 text-center">Quantity</div>
+                  <div className="py-2 px-4 w-1/4 text-right">Sale</div>
+                </div>
+
                 {order.orderItemsExtraDetails.map((item) => (
-                  <div key={item.productSale} className="border-b flex">
-                    <div className="py-2 px-4 border w-1/2 flex items-center">
-                      <div
+                  <div
+                    key={item.productSale}
+                    className="flex items-center py-2 border-b"
+                  >
+                    <div className="w-1/2 flex items-center px-4">
+                      <img
+                        src={item.productImage}
+                        alt={item.productName}
+                        className="object-contain mr-2 w-12 h-12 cursor-pointer"
                         onClick={() => {
                           goTo(
                             `/admin/edit/${getProductIdByProductName(
@@ -103,16 +114,9 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
                           )
                           window.scrollTo(0, 0)
                         }}
-                        className="cursor-pointer"
-                      >
-                        <img
-                          src={item.productImage}
-                          alt={item.productName}
-                          className="object-contain mr-2"
-                          style={{ height: '40px' }}
-                        />
-                      </div>
+                      />
                       <p
+                        className="cursor-pointer truncate"
                         onClick={() => {
                           goTo(
                             `/admin/edit/${getProductIdByProductName(
@@ -121,43 +125,43 @@ const OrderPopup = ({ orderId, closeOrderPopup }: OrderPopupProps) => {
                           )
                           window.scrollTo(0, 0)
                         }}
-                        className="cursor-pointer"
                       >
                         {truncate(item.productName, 30)}
                       </p>
                     </div>
-                    <div className="py-2 px-4 border w-1/3 flex items-center">
-                      {item.itemQuantity}
-                    </div>
-                    <div className="py-2 px-4 border w-1/3 flex items-center">
+
+                    <div className="w-1/4 text-center">{item.itemQuantity}</div>
+                    <div className="w-1/4 text-right pr-4">
                       {formatCurrency(item.productSale)}
                     </div>
                   </div>
                 ))}
-              </div>
-              <div className="sticky bottom-0 bg-gray-200 flex flex-row">
-                <div className="py-2 px-4 border w-1/2">
-                  {`Shipping: ${order.shippingType}`}
+
+                <div className="flex bg-gray-200 font-semibold py-2">
+                  <div className="w-1/2 px-4">
+                    Shipping: {order.shippingType}
+                  </div>
+                  <div className="w-1/4 text-right"></div>
+                  <div className="w-1/4 text-right pr-4">
+                    {formatCurrency(order.shippingPrice)}
+                  </div>
                 </div>
-                <div className="py-2 px-4  w-1/3"></div>
-                <div className="py-2 px-4  w-1/3">
-                  {formatCurrency(order.shippingPrice)}
-                </div>
-              </div>
-              <div className="sticky bottom-0 bg-gray-300 flex font-semibold text-lg">
-                <div className="py-2 px-4  w-1/2 ">Total Sale:</div>
-                <div className="py-2 px-4 w-1/3"></div>
-                <div className="py-2 px-4 w-1/3">
-                  {formatCurrency(getTotalSaleOfOrderById(order.orderId))}
+
+                <div className="flex bg-gray-300 font-semibold text-lg py-2">
+                  <div className="w-1/2 px-4">Total Sale:</div>
+                  <div className="w-1/4 text-right"></div>
+                  <div className="w-1/4 text-right pr-4">
+                    {formatCurrency(getTotalSaleOfOrderById(order.orderId))}
+                  </div>
                 </div>
               </div>
             </div>
 
-            <hr className="border-t border-gray-300" />
+            {/* Footer */}
             <div className="mt-4 text-right">
               <button
                 onClick={closeOrderPopup}
-                className="px-2 py-1 text-white bg-blue-500 rounded hover:bg-blue-700 transition-all duration-300"
+                className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-700 transition-all duration-300"
               >
                 Back to orders
               </button>

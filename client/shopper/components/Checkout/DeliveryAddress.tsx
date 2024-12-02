@@ -36,27 +36,24 @@ function DeliveryAddress({
 
   return (
     <>
-      <div className="flex flex-row w-full justify-between ">
-        <h1 className="text-2xl font-semibold mb-4">YOUR DETAILS</h1>
-        <button
-          type="button"
-          className="px-3 text-sm bg-blue-500 text-white rounded-md transition-all duration-300 hover:bg-blue-700 focus:outline-none"
-          style={{
-            width: '200px',
-            minWidth: '200px',
-            fontSize: '15px',
-            height: '50px',
-            minHeight: '50px',
-          }}
-          onClick={fillDetailsWithDefaults}
-          onMouseEnter={handlePreviewMouseEnter}
-          onMouseLeave={handlePreviewMouseLeave}
-        >
-          {loadDefaultButtonText}
-        </button>
+      <div className="flex flex-col sm:flex-row w-full justify-between mb-8">
+        <div className="flex-grow flex justify-between items-center">
+          <h1 className="text-2xl font-semibold mr-4">YOUR DETAILS</h1>
+          <button
+            type="button"
+            className="w-48 h-12 text-sm bg-blue-500 text-white rounded-md transition duration-300 hover:bg-blue-700 focus:outline-none text-xs sm:text-sm"
+            onClick={fillDetailsWithDefaults}
+            onMouseEnter={handlePreviewMouseEnter}
+            onMouseLeave={handlePreviewMouseLeave}
+          >
+            {loadDefaultButtonText}
+          </button>
+        </div>
       </div>
-      <div className="flex flex-row mb-4">
-        <div className="w-full mr-6 flex flex-col">
+
+      {/* Phone Number */}
+      <div className="flex flex-col sm:flex-row mb-8 sm:pr-8">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="phoneNumber" className="font-normal text-gray-600">
             Phone number
           </label>
@@ -82,16 +79,17 @@ function DeliveryAddress({
                 ? 'text-red-500'
                 : 'text-gray-600'
             }`}
-          >{`${
-            invalidFields.includes('phoneNumber')
-              ? `Please enter a valid phone number`
-              : `e.g. 020 000 0000`
-          }`}</p>
+          >
+            {invalidFields.includes('phoneNumber')
+              ? 'Please enter a valid phone number'
+              : 'e.g. 020 000 0000'}
+          </p>
         </div>
-        <div className="w-full mb-4"></div>
       </div>
-      <div className="flex flex-row mb-4">
-        <div className="w-full mr-6">
+
+      {/* First Name and Last Name */}
+      <div className="flex flex-col gap-4 mb-4 sm:flex-row sm:gap-8">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="firstName" className="font-normal text-gray-600">
             First name
           </label>
@@ -101,7 +99,7 @@ function DeliveryAddress({
             id="firstName"
             className={`${getFieldClass(
               'firstName'
-            )} rounded border p-2 w-full mr-6 ${
+            )} rounded border p-2 w-full ${
               emptyFields.includes('firstName') ||
               invalidFields.includes('firstName')
                 ? 'border-red-500'
@@ -125,7 +123,7 @@ function DeliveryAddress({
             {`Please enter a valid first name`}
           </p>
         </div>
-        <div className="w-full">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="lastName" className="font-normal text-gray-600">
             Last name
           </label>
@@ -160,8 +158,10 @@ function DeliveryAddress({
           </p>
         </div>
       </div>
-      <div className="flex flex-row mb-4">
-        <div className="w-full mr-6">
+
+      {/* Address and City */}
+      <div className="flex flex-col sm:flex-row gap-8 mb-4">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="address" className="font-normal text-gray-600">
             Address
           </label>
@@ -176,7 +176,7 @@ function DeliveryAddress({
             onChange={(e) => handleFieldChange(e)}
           />
         </div>
-        <div className="w-full">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="city" className="font-normal text-gray-600">
             City
           </label>
@@ -204,8 +204,10 @@ function DeliveryAddress({
           </p>
         </div>
       </div>
-      <div className="flex flex-row mb-8">
-        <div className="w-full mr-6 flex flex-col">
+
+      {/* Zip Code and Country */}
+      <div className="flex flex-col sm:flex-row gap-8 mb-4">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="zipCode" className="font-normal text-gray-600">
             Zip code
           </label>
@@ -229,13 +231,13 @@ function DeliveryAddress({
                 ? 'text-red-500'
                 : 'text-gray-600'
             }`}
-          >{`${
-            invalidFields.includes('zipCode')
+          >
+            {invalidFields.includes('zipCode')
               ? `Please enter a valid zip code`
-              : `e.g. 2345`
-          }`}</p>
+              : `e.g. 2345`}
+          </p>
         </div>
-        <div className="w-full">
+        <div className="w-full sm:w-1/2">
           <label htmlFor="country" className="font-normal text-gray-600">
             Country
           </label>

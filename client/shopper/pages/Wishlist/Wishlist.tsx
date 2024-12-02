@@ -1,5 +1,3 @@
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-//import { faHeart } from '@fortawesome/free-regular-svg-icons'
 import { useMutation, useQuery, useQueryClient } from 'react-query'
 import {
   deleteWishlistItemByProductId,
@@ -89,13 +87,13 @@ const Wishlist = () => {
   return (
     <>
       <LoadError status={wishListQuery.status} />
-      <div className="bg-white w-full flex flex-col items-center py-8">
-        <div className="w-10/12 text-center mb-4">
-          <h1 className="text-4xl font-semibold text-black">WISHLIST</h1>
+      <div className="bg-white w-full xl:w-4/6 flex flex-col items-center  my-10 px-8 mx-auto">
+        <div className="w-full sm:w-10/12 text-center mb-4">
+          <h1 className="text-4xl font-semibold text-black">Wishlist</h1>
         </div>
         {wishListQuery.data && wishListQuery.data.length === 0 ? (
           <div className="bg-white flex flex-col items-center justify-center mt-8">
-            <h1 className="text-3xl text-black mb-2">
+            <h1 className="text-xl sm:text-3xl text-black mb-2">
               Your wishlist is empty 😔
             </h1>
             <button
@@ -106,64 +104,56 @@ const Wishlist = () => {
             </button>
           </div>
         ) : (
-          <div className="bg-white w-2/3 flex flex-col items-center">
+          <div className="bg-white w-full sm:w-3/4 flex flex-col items-center">
             {!wishListQuery.isLoading &&
               wishListQuery.data &&
               wishListQuery.data.map((item: DisplayWishlistItem) => (
                 <div
                   key={item.id}
-                  className="bg-white w-3/5 flex flex-row gap-10 items-center justify-between border-b border-gray-300 py-4"
-                  style={{ minWidth: '600px' }}
+                  className="bg-white w-full flex flex-row items-center justify-between border-b border-gray-300 py-4"
                 >
                   <div
-                    className="flex gap-8 items-center cursor-pointer"
+                    className="flex items-center cursor-pointer flex-1"
                     onClick={() => goTo(`/shop/${item.productId}`)}
                   >
-                    <div style={{ width: '80px' }}>
+                    <div className="w-24 h-24 flex-shrink-0">
                       <img
                         src={item.productImage}
                         alt={item.productName}
-                        style={{ maxHeight: '100px', maxWidth: '80px' }}
-                        className="w-full h-48 object-contain"
+                        className="w-full h-full object-contain"
                       />
                     </div>
-                    <div>
-                      <p className="text-xl font-semibold text-black">
+                    <div className="ml-2 mr-8 flex flex-col">
+                      <p className="text-sm sm:text-xl font-semibold text-black">
                         {item.productName}
+                      </p>
+                      <p className="mt-1 text-xs sm:text-base text-gray-700">
+                        {formatCurrency(item.productPrice)}
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-8 items-center">
-                    <p className="font-semibold">
-                      {formatCurrency(item.productPrice)}
-                    </p>
-                    <button
-                      style={{
-                        minWidth: '100px',
-                        width: '100px',
-                        marginRight: '-12px',
-                      }}
-                      className={` text-sm text-white p-2 rounded-md ${
-                        buttonStatus[item.productId]?.color ||
-                        'bg-blue-500 hover:bg-blue-700 transition-all duration-300'
-                      }`}
-                      onClick={() => handleAddToCart(item.productId)}
-                      disabled={
-                        cartMutation.isLoading ||
-                        buttonStatus[item.productId]?.disabled
-                      }
-                    >
-                      {buttonStatus[item.productId]?.text || 'Add to cart'}
-                    </button>
-                    <button
-                      className="flex flex-col items-center text-red-500 hover:text-red-800 transition-all duration-300"
-                      onClick={() => removeFromWishList(item.productId)}
-                    >
-                      {/* Using a heart icon for a delete operation may be counterintuitive design
-                      <FontAwesomeIcon icon={faHeart} className="text-2xl" />
-                      */}
-                      <p className="text-medium">Remove</p>
-                    </button>
+                  <div className="flex items-center justify-end gap-6">
+                    <div className="flex flex-col sm:flex-row items-center gap-2">
+                      <button
+                        className={`w-24 text-xs sm:text-sm text-white py-1 rounded-md ${
+                          buttonStatus[item.productId]?.color ||
+                          'bg-blue-500 hover:bg-blue-700 transition-all duration-300'
+                        }`}
+                        onClick={() => handleAddToCart(item.productId)}
+                        disabled={
+                          cartMutation.isLoading ||
+                          buttonStatus[item.productId]?.disabled
+                        }
+                      >
+                        {buttonStatus[item.productId]?.text || 'Add to cart'}
+                      </button>
+                      <button
+                        className="w-24 text-xs sm:text-sm text-red-500 hover:text-red-800 transition-all duration-300"
+                        onClick={() => removeFromWishList(item.productId)}
+                      >
+                        Remove
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

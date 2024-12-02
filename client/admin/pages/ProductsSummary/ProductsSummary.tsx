@@ -17,9 +17,7 @@ const ProductsSummary = () => {
   const queryParams = new URLSearchParams(location.search)
 
   const initialPage = parseInt(queryParams.get('page') || '1')
-
   const initialSort = queryParams.get('sort') || 'a-z'
-
   const initialFilter = queryParams.get('filter') || 'all'
 
   const [page, setPage] = useState(initialPage)
@@ -123,33 +121,27 @@ const ProductsSummary = () => {
     <>
       <LoadError status={statusProducts} />
       {products && sortedProducts && (
-        <div
-          className="flex flex-col items-center"
-          style={{
-            marginTop: '20px',
-            marginBottom: '100px',
-            minHeight: '100vh',
-            minWidth: '1000px',
-          }}
-        >
-          <h1 className="text-center text-4xl font-semibold mb-4">Products</h1>
-          <ProductsSortingControls
-            search={search}
-            handleChangeSearch={handleChangeSearch}
-            sort={sort}
-            handleChangeSort={handleChangeSort}
-            page={page}
-            totalPages={totalPages}
-            handleChangePage={handleChangePage}
-            productsCount={sortedProducts.length}
-            handleChangeFilter={handleChangeFilter}
-            filter={filter}
-          />
-          <ViewProducts
-            hoveredProductId={hoveredProductId}
-            setHoveredProductId={setHoveredProductId}
-            getPaginatedProducts={getPaginatedProducts}
-          />
+        <div className="flex flex-col items-center mx-auto my-10 p-4 min-h-screen w-full ">
+          <h1 className="text-center text-4xl font-semibold mb-10">Products</h1>
+          <div className="w-full max-w-screen-lg">
+            <ProductsSortingControls
+              search={search}
+              handleChangeSearch={handleChangeSearch}
+              sort={sort}
+              handleChangeSort={handleChangeSort}
+              page={page}
+              totalPages={totalPages}
+              handleChangePage={handleChangePage}
+              productsCount={sortedProducts.length}
+              handleChangeFilter={handleChangeFilter}
+              filter={filter}
+            />
+            <ViewProducts
+              hoveredProductId={hoveredProductId}
+              setHoveredProductId={setHoveredProductId}
+              getPaginatedProducts={getPaginatedProducts}
+            />
+          </div>
         </div>
       )}
     </>

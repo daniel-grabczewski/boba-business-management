@@ -91,51 +91,53 @@ const Cart = () => {
     }
   )
 
+  const maxHeightStyle = {
+    maxHeight: `${window.innerHeight - 200}px`,
+  }
+
   return (
     <>
       <LoadError status={status} />
       {data?.length === 0 ? (
         <EmptyCart />
       ) : (
-        <div
-          className="flex flex-col justify-center items-center"
-          style={{ marginTop: '50px', marginBottom: '160px' }}
-        >
-          <h1 className="text-3xl font-bold tracking-wider">CART</h1>
-          <div className="flex w-3/5 justify-center items-start mt-8">
-            <div className="w-3/5 pl-6 ">
-              <div
-                className="space-y-4 overflow-y-auto "
-                style={{ maxHeight: '650px' }}
-              >
+        <div className="flex flex-col justify-center items-center  my-10 lg:min-h-auto px-4 pb-24 lg:pb-0">
+          <h1 className="text-4xl font-bold tracking-wider mb-8">Cart</h1>
+          <div className="w-full lg:w-4/5 xl:w-3/5 flex flex-col lg:flex-row lg:gap-6">
+            {/* Cart items */}
+            <div
+              className="w-full lg:w-4/5 mb-6 lg:mb-0 overflow-y-auto"
+              style={maxHeightStyle}
+            >
+              <div className="space-y-4">
                 {cartItemsWithStock &&
                   cartItemsWithStock.map((item) => (
                     <div
                       key={item.productId}
-                      className="flex items-center justify-between mb-8 border p-4 rounded-md"
+                      className="flex items-center justify-between mb-4 border p-4 pr-10 rounded-md shadow-sm bg-white"
                     >
                       <div
-                        className="flex-shrink-0 w-1/4 pr-4 select-none cursor-pointer"
+                        className="flex-shrink-0 w-1/3 sm:w-1/4 cursor-pointer"
                         onClick={() => goTo(`/shop/${item.productId}`)}
                       >
                         <img
                           src={item.image}
                           alt={item.name}
-                          style={{ maxHeight: '120px', maxWidth: '150px' }}
-                          className="w-full h-48 object-contain"
+                          className="w-full h-20 sm:h-28 object-contain"
+                          style={{ marginLeft: '-1em' }}
                         />
                       </div>
-                      <div className="flex-1">
+                      <div className="flex-1 px-2 sm:px-4">
                         <h3
-                          className="font-bold cursor-pointer"
+                          className="font-bold text-sm sm:text-lg cursor-pointer mb-1 sm:mb-2"
                           onClick={() => goTo(`/shop/${item.productId}`)}
                         >
                           {item.name}
                         </h3>
-                        <p className="text-gray-600">
+                        <p className="text-gray-600 mb-1 sm:mb-2 text-sm sm:text-base">
                           {formatCurrency(item.price)}
                         </p>
-                        <div className="flex items-center mt-2 select-none">
+                        <div className="flex items-center mt-1 sm:mt-2 select-none">
                           <button
                             onClick={() => {
                               if (item.quantity > 1) {
@@ -146,31 +148,27 @@ const Cart = () => {
                                 deleteProductMutation.mutate(item.productId)
                               }
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
-                            style={{
-                              width: '26px',
-                              marginBottom: '2px',
-                              paddingLeft: '7px',
-                            }}
+                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
                           >
                             -
                           </button>
-                          <p className="px-3">{item.quantity}</p>
+                          <p className="px-2 text-sm sm:text-base">
+                            {item.quantity}
+                          </p>
                           <button
                             onClick={() => {
                               increaseQuantityMutation.mutate({
                                 productId: item.productId,
                               })
                             }}
-                            className="px-2 py-1 bg-gray-300 text-gray-600 rounded-full transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
-                            style={{ width: '26px', marginBottom: '2px' }}
+                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full  min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
                           >
                             +
                           </button>
                           <p
                             style={{
-                              fontSize: '14px',
-                              marginLeft: '12px',
+                              fontSize: '12px',
+                              marginLeft: '8px',
                               marginBottom: '2px',
                             }}
                             className="text-red-500 font-semibold"
@@ -187,56 +185,57 @@ const Cart = () => {
                           onClick={() =>
                             deleteProductMutation.mutate(item.productId)
                           }
-                          className="mt-3 px-3 py-1 text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-700 focus:outline-none focus:ring focus:ring-red-300 select-none"
+                          className="mt-2 sm:mt-3 px-2 py-1 text-xs sm:text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 select-none"
                         >
                           Remove
                         </button>
                       </div>
-                      <p className="font-bold text-right">
+                      <p className="font-bold mt-4 sm:mt-0 text-sm sm:text-base mr-9">
                         {formatCurrency(item.price * item.quantity)}
                       </p>
                     </div>
                   ))}
               </div>
-              <button
-                onClick={() => deleteCartItemsMutation.mutate()}
-                className="mt-3 px-3 py-1 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 select-none"
-              >
-                Clear Cart
-              </button>
+              {/* Clear Cart Button at the bottom of the product list */}
+              <div className="flex justify-start mt-6">
+                <button
+                  onClick={() => deleteCartItemsMutation.mutate()}
+                  className="px-4 py-2 text-sm bg-gray-500 text-white rounded-md transition-all duration-300 hover:bg-gray-600 focus:outline-none focus:ring focus:ring-gray-300 select-none"
+                >
+                  Clear Cart
+                </button>
+              </div>
             </div>
 
-            <div className="w-1/3 pl-6 flex justify-end ">
-              <div
-                className="p-8 rounded-md bg-gray-500 text-white flex flex-col"
-                style={{ width: '340px' }}
-              >
-                {data && (
-                  <div className="flex justify-between mb-2">
-                    <p className="font-bold">Total: </p>
-                    <p>
-                      $
-                      {data
-                        .reduce(
-                          (total, item) => total + item.price * item.quantity,
-                          0
-                        )
-                        .toFixed(2)}
-                    </p>
+            {/* Checkout section */}
+            <div className="w-full lg:w-1/3 lg:relative lg:top-0 lg:right-0 lg:h-auto lg:flex lg:flex-col lg:justify-start">
+              <div className="fixed lg:relative bottom-0 left-0 w-full lg:w-auto flex justify-center lg:justify-end bg-white lg:bg-transparent shadow-md lg:shadow-none p-4 lg:p-0 z-10">
+                <div className="p-6 rounded-md bg-gray-100 text-gray-800 shadow-md lg:shadow-none w-full lg:w-80">
+                  {data && (
+                    <div className="flex justify-between mb-4">
+                      <p className="font-bold">Total: </p>
+                      <p>
+                        $
+                        {data
+                          .reduce(
+                            (total, item) => total + item.price * item.quantity,
+                            0
+                          )
+                          .toFixed(2)}
+                      </p>
+                    </div>
+                  )}
+                  <div className="flex justify-between mb-6">
+                    <p className="font-bold">Shipping: </p>
+                    <p>TBC</p>
                   </div>
-                )}
-
-                <div className="flex justify-between mb-4">
-                  <p className="font-bold">Shipping: </p>
-                  <p>TBC</p>
+                  <button
+                    onClick={() => goTo('/checkout')}
+                    className="mt-auto py-2 bg-blue-500 text-white font-bold rounded-md transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 w-full"
+                  >
+                    Checkout
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => goTo('/checkout')}
-                  className="mt-auto py-2 bg-gray-400 text-white font-bold rounded-md transition-all duration-300 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring focus:ring-black w-128 ml-auto select-none"
-                >
-                  Checkout
-                </button>
               </div>
             </div>
           </div>

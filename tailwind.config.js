@@ -4,7 +4,12 @@ module.exports = {
   daisyui: {
     themes: ['light'],
   },
-  content: ['./client/**/*.{html,jsx,tsx}', './index.html'],
+  content: [
+    './client/**/*.{html,jsx,tsx}',
+    './index.html',
+    './components/**/*.{js,jsx,ts,tsx}',
+    './pages/**/*.{js,jsx,ts,tsx}',
+  ],
   theme: {
     extend: {
       colors: {
@@ -13,8 +18,8 @@ module.exports = {
         'green-500': '#38a169',
         'green-700': '#2f855a',
         'purple-700': '#9B99FF',
-        grape: '#9b99ff',
         'home-rose': '#ffc5c7',
+        'nav-grey': '#2B2B2B',
       },
       width: {
         128: '128px',
@@ -25,6 +30,10 @@ module.exports = {
       maxWidth: {
         '1/2': '50%',
         '3/5': '60%',
+      },
+
+      screens: {
+        custom: '1350px',
       },
     },
   },

@@ -83,14 +83,23 @@ function ProductForm({
   }
 
   return (
-    <div
-      className="container mx-auto"
-      style={{ maxWidth: '500px', marginTop: '50px' }}
-    >
-      <h1 className="text-3xl font-semibold mb-4">{pageTitle}</h1>
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-lg mt-10">
+      <h1 className="text-3xl font-semibold mb-6">{pageTitle}</h1>
+
       <form onSubmit={handleSubmit}>
-        <div className="flex justify-between items-center mb-4">
-          <div className="mb-4 w-3/4">
+        {/* Toggle switch for mobile */}
+        <div className="sm:hidden flex justify-end mr-4 mb-4">
+          <ToggleSwitch
+            checked={product.isEnabled}
+            scale={1.2}
+            label={product.isEnabled ? 'ENABLED' : 'DISABLED'}
+            onChange={toggleEnabled}
+          />
+        </div>
+
+        {/* Name and Toggle */}
+        <div className="flex flex-col sm:flex-row sm:items-center mb-6">
+          <div className="w-full">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="name"
@@ -109,29 +118,27 @@ function ProductForm({
               value={product.name}
               onChange={handleChange}
             />
-            {
-              <p
-                className="text-red-500"
-                style={{
-                  marginBottom: '-25px',
-                  visibility: invalidFields.includes('name')
-                    ? 'visible'
-                    : 'hidden',
-                }}
-              >
-                A product with this name already exists
-              </p>
-            }
+            <p
+              className={`text-red-500 mt-2 ${
+                invalidFields.includes('name') ? 'block' : 'hidden'
+              }`}
+            >
+              A product with this name already exists
+            </p>
           </div>
-          <div>
+
+          {/* Toggle Switch for larger screens */}
+          <div className="hidden sm:flex sm:justify-end sm:ml-10 mt-4 sm:mt-0 w-full sm:w-auto">
             <ToggleSwitch
               checked={product.isEnabled}
-              scale={1.5}
+              scale={1.2}
               label={product.isEnabled ? 'ENABLED' : 'DISABLED'}
               onChange={toggleEnabled}
             />
           </div>
         </div>
+
+        {/* Description */}
         <div className="mb-4">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
@@ -150,8 +157,10 @@ function ProductForm({
             onChange={handleChange}
           ></textarea>
         </div>
-        <div className="flex space-x-4 mb-4">
-          <div className="w-1/3">
+
+        {/* Price and Stock */}
+        <div className="flex flex-col sm:flex-row sm:space-x-4 mb-4">
+          <div className="w-full sm:w-1/3">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="price"
@@ -176,7 +185,8 @@ function ProductForm({
               />
             </div>
           </div>
-          <div className="w-2/3">
+
+          <div className="w-full sm:w-2/3 mt-4 sm:mt-0">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="stock"
@@ -206,8 +216,10 @@ function ProductForm({
             </div>
           </div>
         </div>
-        <div className="flex space-x-4 mb-8">
-          <div className="w-1/2 flex flex-col justify-center">
+
+        {/* Image URL and Preview */}
+        <div className="flex flex-col sm:flex-row gap-4 sm:space-x-4 mb-8">
+          <div className="w-full sm:w-1/2">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
               htmlFor="imageUrl"
@@ -225,30 +237,18 @@ function ProductForm({
               onChange={handleChange}
             />
           </div>
-          <div
-            className="w-1/2 flex justify-center items-center mt-2 border rounded"
-            style={{
-              maxHeight: '200px',
-              minHeight: '200px',
-              background: '#d0d0d0',
-              minWidth: '250px',
-            }}
-          >
+          <div className="w-full sm:w-1/2 flex justify-center items-center mt-4 sm:mt-0">
             <img
               src={product.image ? product.image : placeholderImage}
               alt="Image preview"
-              style={{
-                maxHeight: '200px',
-                maxWidth: '250px',
-                padding: '8px',
-                borderRadius: '12px',
-              }}
+              className="max-h-[200px] max-w-[250px] object-contain"
             />
           </div>
         </div>
 
+        {/* Save Button and Error Messages */}
         <div className="mb-4">
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-col sm:flex-row sm:justify-between">
             {isErrorMessageEnabled &&
             hasUnsavedChanges(originalProduct, product) ? (
               <div className="bg-red-400 py-2 px-4 rounded">
@@ -258,8 +258,7 @@ function ProductForm({
               <div></div>
             )}
             <button
-              style={{ minWidth: '150px' }}
-              className={`${
+              className={`mt-4 sm:mt-0 ${
                 buttonText === originalButtonText
                   ? 'bg-blue-500 hover:bg-blue-700'
                   : 'bg-green-500 hover:bg-green-700'
@@ -269,12 +268,7 @@ function ProductForm({
               {buttonText}
             </button>
           </div>
-          <p
-            className="text-red-500 mt-2"
-            style={{ minHeight: '1.5em', marginTop: '30px' }}
-          >
-            {errorMessage}
-          </p>
+          <p className="text-red-500 mt-2 min-h-[1.5em]">{errorMessage}</p>
         </div>
       </form>
     </div>
