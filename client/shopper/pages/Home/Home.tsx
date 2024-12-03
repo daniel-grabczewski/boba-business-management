@@ -22,17 +22,24 @@ const Home = () => {
 
   return (
     <div className="bg-home-rose min-w-screen relative">
-      <div className="relative h-[100vh] overflow-y-auto">
+      <div className="relative h-[100vh] overflow-y-auto overflow-x-hidden">
         {/* Background Images */}
-        <div
-          className="absolute bottom-0 left-0 w-full h-[30vh] bg-no-repeat"
-          style={{ backgroundImage: `url(${backgroundImage1})` }}
-        />
+        <div className="absolute bottom-0 left-0 w-full bg-no-repeat"
+          style={{
+            width: window.innerWidth > 768 ? '50vw' : '80vh',
+            height: window.innerWidth > 768 ? '40vh' : '30vh',
+            backgroundImage: `url(${backgroundImage1})`,
+            backgroundSize: 'contain',
+            backgroundPosition: 'bottom left',
+            backgroundRepeat: 'no-repeat',
+          }}
+          >  
+          </div>
         <div
           className="absolute top-0 right-0 bg-no-repeat"
           style={{
-            width: window.innerWidth > 768 ? '50vw' : '80vw',
-            height: window.innerWidth > 768 ? '40vh' : '50vh',
+            width: window.innerWidth > 768 ? '45vw' : '60vw',
+            height: window.innerWidth > 768 ? '30vh' : '30vh',
             backgroundImage: `url(${backgroundImage2})`,
             backgroundSize: 'contain',
             backgroundPosition: 'top right',
@@ -43,14 +50,14 @@ const Home = () => {
         {/* Main Content */}
         <div className="relative max-w-screen-lg mx-auto p-10 w-full flex items-center justify-center h-full">
           <div
-            className="flex flex-col sm:flex-row items-center justify-center w-full"
+            className="flex flex-col sm:flex-row items-center justify-center w-full" style={{marginTop : '-10vh'}}
           >
             {/* Boba Image */}
-            <div className="hidden sm:flex col items-center justify-center">
+            <div className="hidden sm:flex col items-center justify-center" style={{marginTop : '-3vh'}}>
               <img
                 src={homePageTeaImage}
                 alt="Boba Buddies Drink"
-                className="w-[70%] sm:w-[70%] md:w-[80%] h-auto"
+                className="w-[70%] sm:w-[70%] md:w-[60%] h-auto"
               />
             </div>
 
@@ -59,9 +66,9 @@ const Home = () => {
               <img
                 src={homePageTitleImage}
                 alt="Boba Buddies Logo"
-                className="w-3/4 xs:w-1/2 sm:w-2/3 md:w-full h-auto"
+                className="w-3/4 xs:w-1/2 sm:w-2/3 md:w-3/4 h-auto"
               />
-              <p className="text-lg w-full md:text-xl lg:text-2xl text-left">
+              <p className="text-lg w-full md:text-lg lg:text-xl text-left">
                 Dive into our colorful world of delicious flavors, hand-shaken to
                 perfection. Join the fun, and become a boba buddy today!
               </p>
