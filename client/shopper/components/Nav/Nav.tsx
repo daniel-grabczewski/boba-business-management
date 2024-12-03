@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faHeart } from '@fortawesome/free-regular-svg-icons'
@@ -17,6 +17,7 @@ const Nav = () => {
   const [responsiveView, setResponsiveView] = useState(false)
   const [isSmallScreen, setIsSmallScreen] = useState(false)
   const [scale, setScale] = useState(1)
+  const menuRef = useRef<HTMLDivElement>(null) // Reference to the mobile menu
 
   useEffect(() => {
     setIsShopperView(!location.pathname.startsWith(`${baseURL}/admin`))
@@ -46,7 +47,7 @@ const Nav = () => {
       const width = window.innerWidth
 
       setResponsiveView(width < 1300)
-      setIsSmallScreen(width <= 380)
+      setIsSmallScreen(width <= 492)
     }
 
     updateScale()
@@ -60,8 +61,24 @@ const Nav = () => {
     }
   }, [])
 
+  // Prevent body scroll when menu is open
+  useEffect(() => {
+    if (menuOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+  }, [menuOpen])
+
+  // Close the menu when location changes (e.g., when back/forward buttons are used)
+  useEffect(() => {
+    if (menuOpen) {
+      setMenuOpen(false)
+    }
+  }, [location])
+
   return (
-    <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative">
+    <nav className="flex justify-between items-center h-20 w-full bg-nav-grey px-4 md:px-8 relative z-50">
       {/* Logo & Toggle */}
       <div className="flex items-center">
         <NavToggleSwitch
@@ -74,12 +91,12 @@ const Nav = () => {
         />
         {!isSmallScreen && (
           <div
-            className="ml-4"
             style={{
               height: `${30 * scale}px`,
               width: `${3 * scale}px`,
               backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
               borderRadius: `${5 * scale}px`,
+              marginLeft: '32px',
             }}
           ></div>
         )}
@@ -96,51 +113,68 @@ const Nav = () => {
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
           </button>
 
-          {/* Mobile Menu */}
+          {/* Mobile Menu and Overlay */}
           {menuOpen && responsiveView && (
-            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/')}
+            <>
+              {/* Overlay */}
+              <div
+                className="fixed left-0 right-0 bottom-0 top-20 bg-black bg-opacity-50 z-40"
+                onClick={() => setMenuOpen(false)}
+              ></div>
+
+              {/* Mobile Menu */}
+              <div
+                ref={menuRef}
+                className="fixed top-20 right-0 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50 px-16"
+                style={{
+                  width: 'max-content',
+                  borderRadius: '10px',
+                  marginTop: '-10px',
+                }}
               >
-                Home
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/shop')}
-              >
-                Shop
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/cart')}
-              >
-                Cart{' '}
-                {amountInCart > 0 && (
-                  <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
-                    {amountInCart}
-                  </span>
-                )}
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/contact')}
-              >
-                Contact
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/profile')}
-              >
-                Profile
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/wishlist')}
-              >
-                Wishlist
-              </button>
-            </div>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/')}
+                >
+                  Home
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/shop')}
+                >
+                  Shop
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl relative"
+                  onClick={() => goTo('/cart')}
+                >
+                  Cart{' '}
+                  {amountInCart > 0 && (
+                    <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
+                      {amountInCart}
+                    </span>
+                  )}
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/contact')}
+                >
+                  Contact
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/profile')}
+                >
+                  Profile
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/wishlist')}
+                >
+                  Wishlist
+                </button>
+              </div>
+            </>
           )}
 
           {/* Desktop Menu */}
@@ -160,7 +194,7 @@ const Nav = () => {
             >
               Cart{' '}
               {amountInCart > 0 && (
-                <span className="absolute top-0 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
+                <span className="absolute -top-2 -right-4 bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
                   {amountInCart}
                 </span>
               )}
@@ -216,46 +250,63 @@ const Nav = () => {
             <FontAwesomeIcon icon={menuOpen ? faTimes : faBars} />
           </button>
 
-          {/* Mobile Menu (Admin View) */}
+          {/* Mobile Menu and Overlay (Admin View) */}
           {menuOpen && responsiveView && (
-            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin')}
+            <>
+              {/* Overlay */}
+              <div
+                className="fixed left-0 right-0 bottom-0 top-20 bg-black bg-opacity-50 z-40"
+                onClick={() => setMenuOpen(false)}
+              ></div>
+
+              {/* Mobile Menu */}
+              <div
+                ref={menuRef}
+                className="fixed top-20 right-0 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50 px-8"
+                style={{
+                  width: 'max-content',
+                  borderRadius: '10px',
+                  marginTop: '-10px',
+                }}
               >
-                Dashboard
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin/inbox')}
-              >
-                Inbox
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin/orders')}
-              >
-                Orders
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin/reviews')}
-              >
-                Reviews
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin/products-summary')}
-              >
-                Products
-              </button>
-              <button
-                className="hover:text-purple-700"
-                onClick={() => goTo('/admin/add-product')}
-              >
-                Add Product
-              </button>
-            </div>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin')}
+                >
+                  Dashboard
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin/inbox')}
+                >
+                  Inbox
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin/orders')}
+                >
+                  Orders
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin/reviews')}
+                >
+                  Reviews
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin/products-summary')}
+                >
+                  Products
+                </button>
+                <button
+                  className="hover:text-purple-700 text-xl"
+                  onClick={() => goTo('/admin/add-product')}
+                >
+                  Add Product
+                </button>
+              </div>
+            </>
           )}
 
           {/* Desktop Menu (Admin View) */}
