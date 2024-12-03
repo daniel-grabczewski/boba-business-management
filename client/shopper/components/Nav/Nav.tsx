@@ -46,7 +46,7 @@ const Nav = () => {
       const width = window.innerWidth
 
       setResponsiveView(width < 1300)
-      setIsSmallScreen(width <= 380)
+      setIsSmallScreen(width <= 492)
     }
 
     updateScale()
@@ -74,12 +74,12 @@ const Nav = () => {
         />
         {!isSmallScreen && (
           <div
-            className="ml-4"
             style={{
               height: `${30 * scale}px`,
               width: `${3 * scale}px`,
               backgroundColor: isShopperView ? '#5b59fd' : '#ffa835',
               borderRadius: `${5 * scale}px`,
+              marginLeft : '32px'
             }}
           ></div>
         )}
