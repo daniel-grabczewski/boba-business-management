@@ -76,7 +76,7 @@ function Contact() {
   }, [alertMessage])
 
   return (
-    <div className="mx-auto max-w-2xl  flex flex-col my-10">
+    <div className="mx-auto max-w-2xl  flex flex-col my-10 px-8">
       <div className="text-4xl text-center font-bold mb-6">Contact Us</div>
       <form className="space-y-4" onSubmit={handleSubmit}>
         <div>
@@ -105,6 +105,7 @@ function Contact() {
                 ? 'border-red-500 focus:ring-red-500'
                 : 'focus:ring-black'
             }`}
+            style={{maxHeight : '400px', minHeight : '100px'}}
             name="description"
             onChange={handleMessageChange}
             value={newEmail.description}
