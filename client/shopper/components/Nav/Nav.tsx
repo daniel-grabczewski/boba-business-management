@@ -98,44 +98,44 @@ const Nav = () => {
 
           {/* Mobile Menu */}
           {menuOpen && responsiveView && (
-            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
+            <div className="absolute top-20 right-0 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50 px-16" style={{width : 'maxContent', borderRadius : '10px', marginTop : '-10px'}}>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/')}
               >
                 Home
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/shop')}
               >
                 Shop
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/cart')}
               >
                 Cart{' '}
                 {amountInCart > 0 && (
-                  <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2 ml-2">
+                  <span className="bg-red-500 text-white text-xs rounded-full py-0.5 px-2">
                     {amountInCart}
                   </span>
                 )}
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/contact')}
               >
                 Contact
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/profile')}
               >
                 Profile
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/wishlist')}
               >
                 Wishlist
@@ -218,39 +218,39 @@ const Nav = () => {
 
           {/* Mobile Menu (Admin View) */}
           {menuOpen && responsiveView && (
-            <div className="absolute top-20 right-0 w-1/3 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50">
+            <div className="absolute top-20 right-0 bg-nav-grey text-white flex flex-col items-center space-y-4 py-4 z-50 px-8" style={{width : 'maxContent', borderRadius : '10px', marginTop : '-10px'}}>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin')}
               >
                 Dashboard
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin/inbox')}
               >
                 Inbox
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin/orders')}
               >
                 Orders
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin/reviews')}
               >
                 Reviews
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin/products-summary')}
               >
                 Products
               </button>
               <button
-                className="hover:text-purple-700"
+                className="hover:text-purple-700 text-xl"
                 onClick={() => goTo('/admin/add-product')}
               >
                 Add Product
