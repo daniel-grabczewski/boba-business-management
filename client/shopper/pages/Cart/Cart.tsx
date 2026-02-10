@@ -173,11 +173,17 @@ const Cart = () => {
                             }}
                             className="text-red-500 font-semibold"
                           >
-                            {item.availableStock === 0
+                            {/* NEW LOGIC START */}
+                            {item.availableStock < 0
+                              ? `Item out of stock (Please remove ${Math.abs(
+                                  item.availableStock
+                                )})`
+                              : item.availableStock === 0
                               ? 'All available stock in your cart'
                               : item.availableStock <= lowStockThreshold
                               ? `${item.availableStock} left in stock`
                               : ''}
+                            {/* NEW LOGIC END */}
                           </p>
                         </div>
 
