@@ -25,7 +25,6 @@ const Cart = () => {
   const cartItemsWithStock = useMemo(() => {
     return (data || []).map((item) => ({
       ...item,
-      // We keep the negative value here so we can detect the error state later
       availableStock: getAvailableStockByProductId(item.productId),
     }))
   }, [data])
@@ -118,14 +117,29 @@ const Cart = () => {
               <div className="space-y-4">
                 {cartItemsWithStock &&
                   cartItemsWithStock.map((item) => {
-                    // Check if this specific item has an issue
-                    const isStockError = item.availableStock < 0
+                    // Real Stock = What you have + (Global - What you have) = Global Stock
+                    const realStock = item.quantity + item.availableStock
+
+                    // If the shop has 0 (or less), the item is dead.
+                    const isTotallyDead = realStock <= 0
+
+                    // If not dead, but availableStock is negative, it's just a shortage (e.g. have 5, stock 2)
+                    const isShortage = !isTotallyDead && item.availableStock < 0
+
+                    // Determine what to display
+                    const displayQuantity = isTotallyDead ? 0 : item.quantity
+                    const displayPrice = isTotallyDead
+                      ? 0
+                      : item.price * item.quantity
+
+                    // Combine error states for styling
+                    const isError = isTotallyDead || isShortage
 
                     return (
                       <div
                         key={item.productId}
                         className={`flex items-center justify-between mb-4 border p-4 pr-10 rounded-md shadow-sm bg-white ${
-                          isStockError ? 'border-red-500 bg-red-50' : ''
+                          isError ? 'border-red-500 bg-red-50' : ''
                         }`}
                       >
                         <div
@@ -150,9 +164,8 @@ const Cart = () => {
                             {formatCurrency(item.price)}
                           </p>
                           <div className="flex items-center mt-1 sm:mt-2 select-none">
-                            {/* DECREASE BUTTON */}
                             <button
-                              disabled={isStockError} // Disable if stock error
+                              disabled={isError}
                               onClick={() => {
                                 if (item.quantity > 1) {
                                   reduceQuantityMutation.mutate({
@@ -163,7 +176,7 @@ const Cart = () => {
                                 }
                               }}
                               className={`px-2 py-1 text-sm rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 focus:outline-none cursor-pointer ${
-                                isStockError
+                                isError
                                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                   : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
                               }`}
@@ -171,28 +184,26 @@ const Cart = () => {
                               -
                             </button>
 
+                            {/* HERE IS THE QUANTITY LOCK */}
                             <p className="px-2 text-sm sm:text-base">
-                              {item.quantity}
+                              {displayQuantity}
                             </p>
 
-                            {/* INCREASE BUTTON */}
                             <button
-                              disabled={isStockError} // Disable if stock error
+                              disabled={isError}
                               onClick={() => {
                                 increaseQuantityMutation.mutate({
                                   productId: item.productId,
                                 })
                               }}
                               className={`px-2 py-1 text-sm rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 focus:outline-none cursor-pointer ${
-                                isStockError
+                                isError
                                   ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                                   : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
                               }`}
                             >
                               +
                             </button>
-
-                            {/* STOCK MESSAGE */}
                             <p
                               style={{
                                 fontSize: '12px',
@@ -201,8 +212,13 @@ const Cart = () => {
                               }}
                               className="text-red-500 font-semibold"
                             >
-                              {isStockError
-                                ? `Item out of stock (Please remove ${item.quantity})`
+                              {/* NEW LOGIC: If totally dead, simple message. Else, calculate removal amount */}
+                              {isTotallyDead
+                                ? 'Item out of stock'
+                                : isShortage
+                                ? `Item shortage (Please remove ${Math.abs(
+                                    item.availableStock
+                                  )})`
                                 : item.availableStock === 0
                                 ? 'All available stock in your cart'
                                 : item.availableStock <= lowStockThreshold
@@ -220,14 +236,14 @@ const Cart = () => {
                             Remove
                           </button>
                         </div>
+                        {/* HERE IS THE PRICE LOCK */}
                         <p className="font-bold mt-4 sm:mt-0 text-sm sm:text-base mr-9">
-                          {formatCurrency(item.price * item.quantity)}
+                          {formatCurrency(displayPrice)}
                         </p>
                       </div>
                     )
                   })}
               </div>
-              {/* Clear Cart Button */}
               <div className="flex justify-start mt-6">
                 <button
                   onClick={() => deleteCartItemsMutation.mutate()}
@@ -238,20 +254,26 @@ const Cart = () => {
               </div>
             </div>
 
-            {/* Checkout section */}
             <div className="w-full lg:w-1/3 lg:relative lg:top-0 lg:right-0 lg:h-auto lg:flex lg:flex-col lg:justify-start">
               <div className="fixed lg:relative bottom-0 left-0 w-full lg:w-auto flex justify-center lg:justify-end bg-white lg:bg-transparent shadow-md lg:shadow-none p-4 lg:p-0 z-10">
                 <div className="p-6 rounded-md bg-gray-100 text-gray-800 shadow-md lg:shadow-none w-full lg:w-80">
-                  {data && (
+                  {cartItemsWithStock && (
                     <div className="flex justify-between mb-4">
                       <p className="font-bold">Total: </p>
                       <p>
                         $
-                        {data
-                          .reduce(
-                            (total, item) => total + item.price * item.quantity,
-                            0
-                          )
+                        {cartItemsWithStock
+                          .reduce((total, item) => {
+                            // Check stock again for the Total calculation
+                            const realStock =
+                              item.quantity + item.availableStock
+                            const isTotallyDead = realStock <= 0
+
+                            // If it's dead, add 0. If it's alive (even with shortage), add the price.
+                            if (isTotallyDead) return total
+
+                            return total + item.price * item.quantity
+                          }, 0)
                           .toFixed(2)}
                       </p>
                     </div>
