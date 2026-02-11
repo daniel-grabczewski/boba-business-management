@@ -25,6 +25,7 @@ const Cart = () => {
   const cartItemsWithStock = useMemo(() => {
     return (data || []).map((item) => ({
       ...item,
+      // We keep the negative value here so we can detect the error state later
       availableStock: getAvailableStockByProductId(item.productId),
     }))
   }, [data])
@@ -95,6 +96,11 @@ const Cart = () => {
     maxHeight: `${window.innerHeight - 200}px`,
   }
 
+  // Calculate if any item has negative stock to disable checkout
+  const hasStockIssues = (cartItemsWithStock || []).some(
+    (item) => item.availableStock < 0
+  )
+
   return (
     <>
       <LoadError status={status} />
@@ -111,98 +117,117 @@ const Cart = () => {
             >
               <div className="space-y-4">
                 {cartItemsWithStock &&
-                  cartItemsWithStock.map((item) => (
-                    <div
-                      key={item.productId}
-                      className="flex items-center justify-between mb-4 border p-4 pr-10 rounded-md shadow-sm bg-white"
-                    >
+                  cartItemsWithStock.map((item) => {
+                    // Check if this specific item has an issue
+                    const isStockError = item.availableStock < 0
+
+                    return (
                       <div
-                        className="flex-shrink-0 w-1/3 sm:w-1/4 cursor-pointer"
-                        onClick={() => goTo(`/shop/${item.productId}`)}
+                        key={item.productId}
+                        className={`flex items-center justify-between mb-4 border p-4 pr-10 rounded-md shadow-sm bg-white ${
+                          isStockError ? 'border-red-500 bg-red-50' : ''
+                        }`}
                       >
-                        <img
-                          src={item.image}
-                          alt={item.name}
-                          className="w-full h-20 sm:h-28 object-contain"
-                          style={{ marginLeft: '-1em' }}
-                        />
-                      </div>
-                      <div className="flex-1 px-2 sm:px-4">
-                        <h3
-                          className="font-bold text-sm sm:text-lg cursor-pointer mb-1 sm:mb-2"
+                        <div
+                          className="flex-shrink-0 w-1/3 sm:w-1/4 cursor-pointer"
                           onClick={() => goTo(`/shop/${item.productId}`)}
                         >
-                          {item.name}
-                        </h3>
-                        <p className="text-gray-600 mb-1 sm:mb-2 text-sm sm:text-base">
-                          {formatCurrency(item.price)}
-                        </p>
-                        <div className="flex items-center mt-1 sm:mt-2 select-none">
-                          <button
-                            onClick={() => {
-                              if (item.quantity > 1) {
-                                reduceQuantityMutation.mutate({
+                          <img
+                            src={item.image}
+                            alt={item.name}
+                            className="w-full h-20 sm:h-28 object-contain"
+                            style={{ marginLeft: '-1em' }}
+                          />
+                        </div>
+                        <div className="flex-1 px-2 sm:px-4">
+                          <h3
+                            className="font-bold text-sm sm:text-lg cursor-pointer mb-1 sm:mb-2"
+                            onClick={() => goTo(`/shop/${item.productId}`)}
+                          >
+                            {item.name}
+                          </h3>
+                          <p className="text-gray-600 mb-1 sm:mb-2 text-sm sm:text-base">
+                            {formatCurrency(item.price)}
+                          </p>
+                          <div className="flex items-center mt-1 sm:mt-2 select-none">
+                            {/* DECREASE BUTTON */}
+                            <button
+                              disabled={isStockError} // Disable if stock error
+                              onClick={() => {
+                                if (item.quantity > 1) {
+                                  reduceQuantityMutation.mutate({
+                                    productId: item.productId,
+                                  })
+                                } else {
+                                  deleteProductMutation.mutate(item.productId)
+                                }
+                              }}
+                              className={`px-2 py-1 text-sm rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 focus:outline-none cursor-pointer ${
+                                isStockError
+                                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                  : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
+                              }`}
+                            >
+                              -
+                            </button>
+
+                            <p className="px-2 text-sm sm:text-base">
+                              {item.quantity}
+                            </p>
+
+                            {/* INCREASE BUTTON */}
+                            <button
+                              disabled={isStockError} // Disable if stock error
+                              onClick={() => {
+                                increaseQuantityMutation.mutate({
                                   productId: item.productId,
                                 })
-                              } else {
-                                deleteProductMutation.mutate(item.productId)
-                              }
-                            }}
-                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
-                          >
-                            -
-                          </button>
-                          <p className="px-2 text-sm sm:text-base">
-                            {item.quantity}
-                          </p>
-                          <button
-                            onClick={() => {
-                              increaseQuantityMutation.mutate({
-                                productId: item.productId,
-                              })
-                            }}
-                            className="px-2 py-1 text-sm bg-gray-300 text-gray-600 rounded-full  min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 hover:bg-gray-400 focus:outline-none cursor-pointer"
-                          >
-                            +
-                          </button>
-                          <p
-                            style={{
-                              fontSize: '12px',
-                              marginLeft: '8px',
-                              marginBottom: '2px',
-                            }}
-                            className="text-red-500 font-semibold"
-                          >
-                            {/* NEW LOGIC START */}
-                            {item.availableStock < 0
-                              ? `Item out of stock (Please remove ${Math.abs(
-                                  item.availableStock
-                                )})`
-                              : item.availableStock === 0
-                              ? 'All available stock in your cart'
-                              : item.availableStock <= lowStockThreshold
-                              ? `${item.availableStock} left in stock`
-                              : ''}
-                            {/* NEW LOGIC END */}
-                          </p>
-                        </div>
+                              }}
+                              className={`px-2 py-1 text-sm rounded-full min-h-8 max-h-9 min-w-6 max-w-6 transition-all duration-300 focus:outline-none cursor-pointer ${
+                                isStockError
+                                  ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
+                                  : 'bg-gray-300 text-gray-600 hover:bg-gray-400'
+                              }`}
+                            >
+                              +
+                            </button>
 
-                        <button
-                          onClick={() =>
-                            deleteProductMutation.mutate(item.productId)
-                          }
-                          className="mt-2 sm:mt-3 px-2 py-1 text-xs sm:text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 select-none"
-                        >
-                          Remove
-                        </button>
+                            {/* STOCK MESSAGE */}
+                            <p
+                              style={{
+                                fontSize: '12px',
+                                marginLeft: '8px',
+                                marginBottom: '2px',
+                              }}
+                              className="text-red-500 font-semibold"
+                            >
+                              {isStockError
+                                ? `Item out of stock (Please remove ${item.quantity})`
+                                : item.availableStock === 0
+                                ? 'All available stock in your cart'
+                                : item.availableStock <= lowStockThreshold
+                                ? `${item.availableStock} left in stock`
+                                : ''}
+                            </p>
+                          </div>
+
+                          <button
+                            onClick={() =>
+                              deleteProductMutation.mutate(item.productId)
+                            }
+                            className="mt-2 sm:mt-3 px-2 py-1 text-xs sm:text-sm bg-red-500 text-white rounded-md transition-all duration-300 hover:bg-red-600 focus:outline-none focus:ring focus:ring-red-300 select-none"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                        <p className="font-bold mt-4 sm:mt-0 text-sm sm:text-base mr-9">
+                          {formatCurrency(item.price * item.quantity)}
+                        </p>
                       </div>
-                      <p className="font-bold mt-4 sm:mt-0 text-sm sm:text-base mr-9">
-                        {formatCurrency(item.price * item.quantity)}
-                      </p>
-                    </div>
-                  ))}
+                    )
+                  })}
               </div>
-              {/* Clear Cart Button at the bottom of the product list */}
+              {/* Clear Cart Button */}
               <div className="flex justify-start mt-6">
                 <button
                   onClick={() => deleteCartItemsMutation.mutate()}
@@ -237,9 +262,14 @@ const Cart = () => {
                   </div>
                   <button
                     onClick={() => goTo('/checkout')}
-                    className="mt-auto py-2 bg-blue-500 text-white font-bold rounded-md transition-all duration-300 hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 w-full"
+                    disabled={hasStockIssues}
+                    className={`mt-auto py-2 font-bold rounded-md transition-all duration-300 focus:outline-none focus:ring w-full ${
+                      hasStockIssues
+                        ? 'bg-gray-400 cursor-not-allowed text-gray-200'
+                        : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-300'
+                    }`}
                   >
-                    Checkout
+                    {hasStockIssues ? 'Fix Stock Issues' : 'Checkout'}
                   </button>
                 </div>
               </div>
