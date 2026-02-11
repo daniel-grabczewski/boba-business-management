@@ -14,7 +14,8 @@
   "dev:server": "nodemon --watch server/",
   "dev:css": "tailwindcss -i ./client/styles/input.css -o ./public/output.css --watch",
   "build": "npm run build:client",
-  "build:client": "vite build",
+  "build:css": "tailwindcss -i ./client/styles/input.css -o ./public/output.css --minify",
+  "build:client": "npm run build:css && vite build",
   "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
   "format": "prettier -w '**/*.{js,jsx,ts,tsx}'"
 },
